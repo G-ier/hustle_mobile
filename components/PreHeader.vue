@@ -1,0 +1,109 @@
+<template>
+  <div class="main-nav">
+        <div class="overall">
+            <div class="leftside">
+                <span class="qs mr-5 lang">Lang: </span>
+                <v-menu
+                        bottom
+                        left
+                        light
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                            dark
+                            icon
+                            v-bind="attrs"
+                            v-on="on"
+                            width="0"
+                            height="0"
+                            class="nofx px-2 qs"
+                        >
+                            <img :src="langLogo" alt="english version" width="18" height="18">
+                            <v-icon size="12" color="white" class="pr-2">mdi-chevron-down</v-icon>
+                        </v-btn>
+                        </template>
+
+                        <v-list>
+                        <v-list-item
+                            v-for="(item, i) in items"
+                            :key="i"
+                            @click="() => {
+                                langLogo = item.flag;
+                            }"
+                        >
+                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                        </v-list-item>
+                        </v-list>
+                    </v-menu>
+
+            </div>
+            <div class="rightside">
+                <div class="rightside-mini">
+                    <v-btn icon height="0" width="0">
+                        <v-icon size="23" color="white">
+                            mdi-star-circle-outline
+                        </v-icon>
+                    </v-btn>
+                </div>
+            </div>
+        </div>
+  </div>
+
+</template>
+
+<script>
+import uklogo from '../assets/img/united-kingdom.png';
+import allogo from '../assets/img/albania.png';
+export default {
+    data(){
+        return{
+            items: [
+                { title: 'English', flag: uklogo},
+                { title: 'Shqip', flag: allogo},
+            ],
+            langLogo: uklogo,
+        }
+    }
+}
+</script>
+
+<style>
+.main-nav{
+    width: 100vw;
+    height: 22px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: white;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+.overall{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 90%;
+}
+.leftside{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 45vw;
+}
+.rightside{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 45vw;
+}
+.rightside-mini{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+}
+.lang{
+    margin-bottom: 2
+    1px;
+}
+</style>

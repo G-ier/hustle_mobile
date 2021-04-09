@@ -1,0 +1,198 @@
+/* Fonts */
+@font-face {
+    font-family: 'bl';
+    src: url(../assets/fonts/BalooTamma2-Regular.ttf);
+}
+@font-face {
+    font-family: 'blb';
+    src: url(../assets/fonts/BalooTamma2-Bold.ttf);
+}
+@font-face {
+    font-family: 'blm';
+    src: url(../assets/fonts/BalooTamma2-Medium.ttf);
+}
+@font-face {
+    font-family: 'fr';
+    src: url(../assets/fonts/Futura-Round.ttf);
+}
+@font-face {
+    font-family: 'frb';
+    src: url(../assets/fonts/Futura-Round-Bold.ttf);
+}
+@font-face {
+    font-family: 'qs';
+    src: url(fonts/quicksand.woff2);
+}
+@font-face {
+    font-family: 'sf';
+    src: url(../assets/fonts/SIFONN_PRO.otf);
+}
+.s13{
+    font-size: 13px;
+}
+.s14{
+    font-size: 14px;
+}
+.s15{
+    font-size: 15px;
+}
+.s16{
+    font-size: 16px;
+}
+.s17{
+    font-size: 17px;
+}
+.s18{
+    font-size: 18px;
+}
+.s19{
+    font-size: 19px;
+}
+.s20{
+    font-size: 20px;
+}
+.s22{
+    font-size: 22px;
+}
+.s25{
+    font-size: 25px;
+}
+.s30{
+    font-size: 30px;
+}
+.bl{
+    font-family: 'bl';
+}
+.blb{
+    font-family: 'blb';
+}
+.blm{
+    font-family: 'blm';
+}
+.fr{
+    font-family: 'fr';
+}
+.frb{
+    font-family: 'frb';
+}
+.qs{
+    font-family: 'qs';
+}
+.sf{
+    font-family: 'sf';
+}
+/* Scrollbar */
+  /* width */
+  ::-webkit-scrollbar {
+    width: 13px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f7f7f7;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(150, 150, 150);
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(139, 139, 139);
+  } 
+
+
+/* Colors */
+.white{
+    color: white;
+}
+.black{
+    color: black;
+}
+
+/* Buttons */ 
+.btn-c-o{
+    outline: none;
+    text-decoration: none;
+}
+.nofx{
+    outline: none;
+    text-decoration: none;
+    border: none;
+}
+a{
+    margin: 0;
+    padding: 0;
+}
+
+/* Colors */
+.bg-white{
+    background-color: white;
+}
+.bg-secondary{
+    background-color: #363f4e;
+}
+/* Animations */
+.page-enter-active, .page-leave-active {
+transition: opacity .5s;
+}
+.page-enter, .page-leave-to {
+opacity: 0;
+}
+.bounce-enter-active {
+animation: bounce-in .8s;
+}
+.bounce-leave-active {
+animation: bounce-out .5s;
+}
+@keyframes bounce-in {
+0% { transform: scale(0);opacity: 0  }
+100% { transform: scale(1); opacity: 1; }
+}
+@keyframes bounce-out {
+0% { transform: scale(1); opacity: 1; }
+100% { transform: scale(0); opacity: 0; }
+}
+@keyframes search-appear{
+0% { opacity: 0; width: 90%;}
+100% { opacity: 1; width: 100%;}
+}
+@keyframes search-unshow{
+0% { opacity: 1; }
+50% { opacity: 0.5}
+100% { opacity: 0}
+}
+@keyframes header-intro {
+0% { opacity: 0;}
+100% {opacity: 1;}    
+}
+@keyframes info-sc {
+0% {opacity: 0;}
+100% {opacity: 1;}
+}
+@keyframes info-outro {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+    }
+@keyframes searchShow{
+0% {width: 0%;}
+100% {width: 250px;}    
+}
+@keyframes searchShowM{
+0% {width: 0%;}
+100% {width: 100vw;}    
+} 
+@keyframes changer{
+0% {opacity: 0;}
+100% {opacity: 1;}    
+} 
+@keyframes menuIntro{
+0% {opacity: 0;}
+100% {opacity: 1;}    
+} 
+@keyframes menuOutro{
+0% {opacity: 1;}
+90% {opacity: 0;}
+100% {display: none;}    
+}     
