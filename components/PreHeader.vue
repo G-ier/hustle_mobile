@@ -39,7 +39,7 @@
             </div>
             <div class="rightside">
                 <div class="rightside-mini">
-                    <v-btn icon height="0" width="0">
+                    <v-btn icon height="23" width="23">
                         <v-icon size="23" color="white">
                             mdi-star-circle-outline
                         </v-icon>
@@ -99,11 +99,50 @@ export default {
 .rightside-mini{
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; 
     width: 10%;
 }
 .lang{
     margin-bottom: 2
     1px;
+}
+@media screen and (min-width: 850px) {
+    .main-nav{
+        width: 100vw;
+        height: 22px;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: white;
+        display: flex;
+        justify-content: center;
+        padding-bottom: 10px;
+    }
+    .overall{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 750px;
+    }
+    .leftside{
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        width: 45vw;
+    }
+    .rightside{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        width: 45vw;
+    }
+    .rightside-mini{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center; 
+    }
+    .lang{
+        margin-bottom: 2
+        1px;
+    }
 }
 </style>

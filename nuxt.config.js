@@ -31,7 +31,8 @@ export default {
   plugins: [
     '~/plugins/firebase.js',
     '~/plugins/countdown.js',
-    '~/plugins/vue-agile'
+    '~/plugins/vue-agile',
+    { src: '~/plugins/vue-stripe.client.js'},
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -42,6 +43,7 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@aceforth/nuxt-optimized-images',
+    '@nuxtjs/dotenv'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -52,9 +54,11 @@ export default {
     '@nuxt/content',
     '@nuxtjs/sitemap',
     '@nuxtjs/auth',
-    'js-cookie'
+    'js-cookie',
   ],
-  
+  env: {
+    STRIPE_PK: process.env.STRIPE_PK,
+  },
   /* devDependencies */
   devDependencies: [
     '@nuxtjs/robots',
@@ -85,7 +89,7 @@ export default {
       dark: true,
       themes: {
         dark: {
-          primary: "#a10517",
+          primary: "#bf081d",
           accent: colors.grey.darken3,
           secondary: '#363f4e',
           lightgray: "#d1d1d1",

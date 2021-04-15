@@ -180,15 +180,18 @@ export const actions = {
             });
             
             console.log("made it here aswell")
-            currCart.push({
-                prodEmri: jsonCart.emri,
-                prodSeller: jsonCart.seller,
-                prodPrice: jsonCart.price,
-                prodTimes: jsonCart.times
-            });
+            if(currCart.length <= 10){
+                currCart.push({
+                    name: jsonCart.emri,
+                    amount: jsonCart.price,
+                    quantity: jsonCart.times,
+                    description: "Item from " + jsonCart.seller,
+                    currency: "all"
+                });
+            }
             
             
-            Cookie.set('cartToken', currCart);
+            Cookies.set("cart_hustle", JSON.stringify(currCart));
 
             commit('SET_CART', currCart);
             
@@ -203,15 +206,25 @@ export const actions = {
             console.log(currCart);
 
             currCart.forEach((cartItem) => {
-                if(cartItem.prodEmri == newCart.cartEmri){
-                    cartItem.prodTimes += newCart.cartTimes;
+                if(cartItem.name == newCart.cartEmri){
+                    cartItem.quantity += newCart.cartTimes;
 
-                    Cookie.set('cartToken', currCart);
-                    console.log("made it");
+                    if(cartItem.quantity > -1){
+                        if(cartItem.quantity == 0){
+                            Cookies.set('cart_hustle', currCart.filter(doc => {
+                                return doc.name != cartItem.name && doc.amount != cartItem.amount;
+                            }));
+                            commit('SET_CART', currCart.filter(doc => {
+                                return doc.name != cartItem.name && doc.amount != cartItem.amount;
+                            }));
+                            throw "exit";
+                        } else {
+                            Cookies.set('cart_hustle', currCart);
+                            commit('SET_CART', currCart);
+                            throw "exit";
+                        }                    
+                    }
 
-                    commit('SET_CART', currCart);
-
-                    throw "exit";
                 }
             });
             

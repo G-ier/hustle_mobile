@@ -99,6 +99,17 @@
             </v-expansion-panels>
         </div>
       </div>
+      <div class="double-down mb-4">
+          <div class="desc-row">
+            <div class="review-write" v-if="aval == true">
+                <v-textarea outlined color="secondary" dense clearable v-model="reviewText" label="Write your review" light full-width :error-messages="stuffErrors" @change="$v.review.$touch()"></v-textarea>
+                <v-btn class="rounded-lg qs white--text" color="primary" @click="send">Send</v-btn>
+            </div>
+            <div class="review-write" v-else>
+                <p class="qs primary--text">Log in to comment</p>
+            </div>
+        </div>
+      </div>
       <v-snackbar
         v-model="snack"
         timeout="3000"
@@ -117,6 +128,24 @@
             </v-btn>
         </template>
         </v-snackbar>
+        <v-snackbar
+        v-model="snack3"
+        timeout="3000"
+        color="primary"
+        >
+        Not right.
+
+        <template v-slot:action="{ attrs }">
+            <v-btn
+            color="white"
+            text
+            v-bind="attrs"
+            @click="snack3 = false"
+            >
+            Close
+            </v-btn>
+        </template>
+        </v-snackbar>
   </div>
 </template>
 
@@ -124,8 +153,11 @@
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import Cookies from 'js-cookie'
+import {validationMixin} from 'vuelidate'
+import {minLength} from 'vuelidate/lib/validators'
 export default {
     name: "product",
+    mixins: [validationMixin],
     async asyncData({params}){
         const data = await firebase.firestore().collection('elektronike').doc(params.slug).get();
         const dataParsed = data.data();
@@ -147,10 +179,26 @@ export default {
         return{
             rating: 4,
             snack: false,
+            snack3: false,
             slug: this.$route.params.slug,
             carousel: 0,
             main: 5,
+            reviewText: "",
+            aval: this.$store.state.users.user == null ? false : true
         }
+    },
+    validations: {
+        review: {
+            minLength: minLength(40)
+        }
+    },
+    computed: {
+        stuffErrors () {
+            const errors = []
+            if (!this.$v.review.$dirty) return errors
+            !this.$v.review.minLength && errors.push('Review too short')
+            return errors
+        },
     },
     methods: {
         addToCart: async function (){
@@ -161,8 +209,8 @@ export default {
                 var real = {
                     emri: this.product.details.name,
                     price: this.product.details.price,
-                    seller: this.product.details.seller,
                     times: 1,
+                    desc: "Item from " + this.product.details.seller,
                     currentCart: []
                 }
 
@@ -174,8 +222,8 @@ export default {
                 var real = {
                     emri: this.product.details.name,
                     price: this.product.details.price,
-                    seller: this.product.details.seller,
                     times: 1,
+                    desc: "Item from " + this.product.details.seller,
                     currentCart: carty
                 }
 
@@ -194,6 +242,16 @@ export default {
 
 
             this.snack = true;
+        },
+        send: async function (){
+
+            if(this.reviewText.length >= 40){
+                await firebase.firestore().collection('reviews').doc(this.$store.state.users.user.email).set({
+                    text: this.reviewText
+                })
+            } else {
+                this.snack3 = true;
+            }
         }
     }
 }
@@ -293,6 +351,15 @@ export default {
     align-items: center;
     width: 100%;
     margin-bottom: 15px;
+}
+.review-write{
+    min-height: 40px;
+    padding: 10px 0px 10px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
 }
 @media only screen and (min-width: 850px){
     .qualifier{

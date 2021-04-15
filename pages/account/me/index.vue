@@ -274,7 +274,7 @@ export default {
     background-position-y: center;
     background-position-x: center;
     width: 100%;
-    min-height: 81vh;
+    min-height: 79vh;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -396,5 +396,35 @@ export default {
   padding: 10px;
   border-radius: 10px;
   border-width: 0px;
+}
+@media screen and (min-width:850px) {
+    .logout-row-1{
+        width: 750px;
+        padding: 5px 5vw 0 5vw;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    .admin-starter{
+        width: 750px;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #363f4e;
+        margin-bottom: 15px;
+    }
+    .admin-starter-1{
+        width: 750px;
+        min-height: 32vh;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        background-color: #363f4e;
+        margin-bottom: 15px;
+        padding: 0px 0 20px 0;
+    }
 }
 </style>

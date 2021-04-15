@@ -91,4 +91,25 @@ export default {
     justify-content: center;
     align-items: flex-start;
 }
+@media screen and (min-width:850px) {
+    .sets{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 70%;
+        padding: 15px 0 8px 0;
+    }
+    .lineM{
+        height: 1px;
+        width: 70%;
+        background-color: #a10517;
+        margin-bottom: 15px;
+    }
+    .double-down{
+        width: 70%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
 </style>

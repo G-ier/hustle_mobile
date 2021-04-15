@@ -15,19 +15,11 @@
             class="primary--text"
             >
             <v-list-item>
-                <v-list-item-title class="primary--text">Foo</v-list-item-title>
+                <v-row justify="center"><v-list-item-title><v-btn text color="primary" class="qs rounded-lg white--text" @click="filterPrice">Ascending price</v-btn></v-list-item-title></v-row>
             </v-list-item>
 
             <v-list-item>
-                <v-list-item-title class="primary--text">Bar</v-list-item-title>
-            </v-list-item>
-
-            <v-list-item>
-                <v-list-item-title class="primary--text">Fizz</v-list-item-title>
-            </v-list-item>
-
-            <v-list-item>
-                <v-list-item-title class="primary--text">Buzz</v-list-item-title>
+                <v-row justify="center"><v-list-item-title><v-btn text color="primary" class="qs rounded-lg white--text" @click="filterPrice">Ascending price</v-btn></v-list-item-title></v-row>
             </v-list-item>
             </v-list-item-group>
         </v-list>
@@ -47,20 +39,13 @@
             v-model="group1"
             >
             <v-list-item>
-                <v-list-item-title>Foo</v-list-item-title>
+                <v-row justify="center"><v-list-item-title><v-btn text color="white" class="qs rounded-lg white--text" @click="filterPrice">Ascending price</v-btn></v-list-item-title></v-row>
             </v-list-item>
 
             <v-list-item>
-                <v-list-item-title>Bar</v-list-item-title>
+                <v-row justify="center"><v-list-item-title><v-btn text color="white" class="qs rounded-lg white--text" @click="filterPriceDes">Descending price</v-btn></v-list-item-title></v-row>
             </v-list-item>
 
-            <v-list-item>
-                <v-list-item-title>Fizz</v-list-item-title>
-            </v-list-item>
-
-            <v-list-item>
-                <v-list-item-title>Buzz</v-list-item-title>
-            </v-list-item>
             </v-list-item-group>
         </v-list>
         </v-navigation-drawer>
@@ -84,7 +69,7 @@
                                 <h4 class="sell-title">{{prod.details.name}}</h4>
                                 <p class="qs sell-price">{{prod.details.price}}$</p>
                                 <div class="func-row">
-                                    <v-btn color="primary" class="rounded-md" small @click="addToCart(prod.details.name, prod.details.seller, prod.details.price, 1)">Add to cart</v-btn>
+                                    <v-btn color="primary" class="rounded-md" small @click="addToCart(prod.details.name, prod.details.seller, prod.details.price, 1, prod.details.desc)">Add to cart</v-btn>
                                     <v-btn icon color="secondary" class="rounded-xl" small @click="snackbar2 = true"><v-icon color="secondary" size="23">mdi-heart-outline</v-icon></v-btn>
                                 </div>
                             </div>
@@ -168,8 +153,8 @@ export default {
         }
     },
     methods: {
-        addToCart: async function(emri, seller, price, times){
-            var currentCartJSON = Cookies.get("cartToken");
+        addToCart: async function(emri, seller, price, times, desc){
+            var currentCartJSON = Cookies.get("cart_hustle");
             
             if(typeof currentCartJSON === 'undefined'){
                 currentCart = [];
@@ -194,6 +179,7 @@ export default {
                 seller: seller,
                 price: price,
                 times: times,
+                desc: desc,
                 currentCart: currentCart
             });
             console.log(currentCart);
@@ -202,6 +188,16 @@ export default {
         },
         sendToProduct: function (slug){
             this.$router.push({name: 'kategorite-elektronike-tv-dhe-video-slug', params: {slug: slug}});
+        },
+        filterPrice: function(){
+            this.prods.sort((doc1, doc2) => {
+                return doc1.details.price - doc2.details.price
+            })
+        },
+        filterPriceDes: function(){
+            this.prods.sort((doc1, doc2) => {
+                return doc2.details.price - doc1.details.price
+            })
         }
     }
 }
@@ -300,12 +296,12 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 90%;
+        width: 75%;
         padding: 15px 0 8px 0;
     }
     .lineM{
         height: 1px;
-        width: 90%;
+        width: 75%;
         background-color: #a10517;
         margin-bottom: 15px;
     }
@@ -314,7 +310,7 @@ export default {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 70%;
+        width: 830px;
     }
     .market-inner{
         width: 100%;

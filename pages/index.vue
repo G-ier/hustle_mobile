@@ -48,10 +48,10 @@
       </div>
     </div>
     <client-only placeholder="Carousel loading..." class="client-90">
-      <agile ref="carousel" @after-change="getCurrSlide($event)" :autoplay="true" :autoplaySpeed="speed">
+      <agile ref="carousel" @after-change="getCurrSlide($event)" class="mos-i-qr">
         <div class="deals-body" v-for="n in 10" :key="n">
           <div class="deals-image">
-            <v-img :aspect-ratio="16/9" :src="seni"></v-img>
+            <v-img :aspect-ratio="16/9" max-width="500" :src="seni"></v-img>
           </div>
           <div class="deals-desc">
             <h4 class="qs d-t">25798445 JBL Headphones</h4>
@@ -77,15 +77,16 @@
       </agile>
     </client-only>
 
-    <div class="dealsod1">
-      <div class="deals-header-2">
-        <div class="deals-header-1">
-          <h3 class="qs font-weight-regular pb-1" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">Kategorite </span>me te mira</h3>
-        </div>
-        <div class="line1">
-          <div class="smooth line100"></div>
-        </div>
+    <div class="deals-header-2">
+      <div class="deals-header-3">
+        <h3 class="qs font-weight-regular pb-1" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">Kategorite </span>me te mira</h3>
       </div>
+      <div class="line1-3">
+        <div class="smooth line100"></div>
+      </div>
+    </div>
+
+    <div class="dealsod1">
       <div class="squaremain">
         <div class="squarecentral">
           <div class="joint">
@@ -118,6 +119,15 @@
           <div class="joint-2">
             <h2 class="qs sq-mini">Produkte</h2>
             <h2 class="qs sq-title secondary--text">Kozmetike</h2>
+          </div>
+          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/elektronike/kompjuterike" color="white">Vizito tani</v-btn>
+        </div>
+      </div>
+      <div class="squarelikkle-4">
+        <div class="squareside-2">
+          <div class="joint-3">
+            <h2 class="qs sq-mini">Produkte</h2>
+            <h2 class="qs sq-title secondary--text">Clothing brands</h2>
           </div>
           <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/elektronike/kompjuterike" color="white">Vizito tani</v-btn>
         </div>
@@ -180,11 +190,12 @@ export default {
   },
   head(){
       return{
-        titleTemplate: "Klinika Fertility",
+        title: "Homepage",
         meta: [
           {
+            hid: 'description',
             name: 'description',
-            content: 'Klinika me perparuar shqiptare'
+            content: 'Marketi me i perhapur'
           }
         ]
       }
@@ -264,6 +275,20 @@ export default {
   margin-top: 1.3rem;
 }
 .squarelikkle-3{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: 20vh;
+  border-radius: 25px;
+  background-image: url("../assets/img/cos.jpg");
+  background-position-y: center;
+  background-size: cover;
+  overflow: hidden;
+  margin-top: 1.3rem;
+}
+.squarelikkle-4{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -412,16 +437,23 @@ export default {
   align-items: space-around;
 }
 .deals-header-2{
-  width: 90%;
+  width: 100%;
   height: 5vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: space-around;
+  align-items: center;
+  margin-bottom: 5vh;
 }
 .deals-header-1{
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+.deals-header-3{
+  width: 90%;
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
 }
 .packting{
@@ -431,6 +463,11 @@ export default {
 }
 .line1{
   width: 100%;
+  height: 1px;
+  background-color: #8a919c;
+}
+.line1-3{
+  width: 90%;
   height: 1px;
   background-color: #8a919c;
 }
@@ -518,172 +555,11 @@ export default {
   width: 100%;
   background-color: white;
 }
-.cta{
-  width: 100%;
-  height: 93vh;
-  background-color: white;
-  display: grid;
-  grid-template-columns: 50% 50%;
-}
-.cta-1{
+.phone{
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-position-x: center;
-  background-position-y: center;
-  background-size: cover;
-  transition: 0.5s;
-  overflow: hidden;
 }
-.cta-2{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-.cta-3{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;  
-}
-.cta-4{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-.cta-name{
-  text-decoration: none;
-  font-family: 'qs';
-  font-size: 17px;
-  color: white;
-  outline: none;
-  background-color: rgba(17, 17, 17, 0.479);
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: 0.5s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.cta-link-1:hover{
-  background-size: 120%;
-}
-.cta-link-2:hover{
-  background-size: 120%;
-}
-.cta-link-3:hover{
-  background-size: 120%;
-}
-.cta-link-4:hover{
-  background-size: 120%;
-}
-.inside{
-  color: white;
-  padding: 10px 15px 10px 15px;
-  background-color: rgba(32, 89, 155, 0.88);
-  border-radius: 5px;
-}
-.inside-2{
-  color: white;
-  padding: 10px 15px 10px 15px;
-  background-color: rgba(30, 101, 184, 0.88);
-  border-radius: 5px;
-}
-.inside-3{
-  color: white;
-  padding: 10px 15px 10px 15px;
-  background-color: rgba(30, 101, 184, 0.88);
-  border-radius: 5px;
-}
-.inside-4{
-  color: white;
-  padding: 10px 15px 10px 15px;
-  background-color: rgba(30, 101, 184, 0.88);
-  border-radius: 5px;
-}
-.cta-link-1{
-  background-image: url(../assets/img/reserve.png);
-  background-color: white;
-  background-position-x: center;
-  background-position-y: center;
-  background-size: 100%;
-}
-.cta-link-2{
-  background-image: url(../assets/img/services.png);
-  background-color: white;
-  background-position-x: center;
-  background-position-y: center;
-  background-size: 100%;
-}
-.cta-link-3{
-  background-image: url(../assets/img/mjeket.png);
-  background-color: white;
-  background-size: 100%;
-  background-position-x: center;
-}
-.cta-link-4{
-  background-image: url(../assets/img/covid.png);
-  background-color: white;
-  background-size: 100%;
-  background-position-x: center;
-  background-position-y: center;
-}
-.info-medical{
-  width: 100%;
-  height: 90vh;
-  background-color: white;
-}
-.carousely{
-  height: 100%;
-}
-.c-item{
-  background-image: url(../assets/img/warning.png);
-  background-size: cover;
-  background-position-x: center;
-  background-position-y: center;
-  transition: 0.5s;
-}
-.c-item-2{
-  background-image: url('https://images.pexels.com/photos/3662910/pexels-photo-3662910.jpeg?cs=srgb&dl=pexels-katie-e-3662910.jpg&fm=jpg');
-  background-size: cover;
-  background-position-x: center;
-  transition: 0.5s;
-}
-.c-item-3{
-  background-image: url('https://images.pexels.com/photos/4483327/pexels-photo-4483327.jpeg?cs=srgb&dl=pexels-anna-shvets-4483327.jpg&fm=jpg');
-  background-size: cover;
-  background-position-x: center;
-  transition: 0.5s;
-}
-.c-controller{
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.c-title{
-  font-family: 'qs';
-  font-size: 25px;
-  margin-bottom: 15px;
-  color: rgb(202, 8, 73);
-}
-.colorDiv{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  background-color: #1e65b8;
-  padding: 15px;
+.comp{
+  display: none;
 }
 .underside{
   width: 100%;
@@ -791,382 +667,454 @@ export default {
   height: 300px;
   width: 300px;
 }
-@media only screen and (max-width: 650px) {
-  .cta{
-    height: 92vh;
-  }
-  .cta-link-1{
-    background-image: url(../assets/img/reserve.png);
-    background-color: white;
-    background-position-x: center;
-    background-position-y: center;
-    background-size: cover;
-  }
-  .cta-link-2{
-    background-image: url(../assets/img/services.png);
-    background-color: white;
-    background-position-x: center;
-    background-position-y: center;
-    background-size: cover;
-  }
-  .cta-link-3{
-    background-image: url(../assets/img/mjeket.png);
-    background-color: white;
-    background-size: cover;
-    background-position-x: center;
-  }
-  .cta-link-4{
-    background-image: url(../assets/img/covid2.png);
-    background-color: white;
-    background-size: cover;
-    background-position-x: left;
-    background-position-y: center;
-  }
-  .info-medical{
-    height: 180vh;
-  }
-  .c-item{
-    background-image: url(../assets/img/warning.png);
-    background-size: cover;
-    background-position-x: center;
-  }
-  .c-title{
-    font-family: 'qs';
-    font-size: 22px;
-    margin-bottom: 15px;
-    color: rgb(202, 8, 73);
-  }
-  .con-title{
-    color: white;
-    font-family: 'qs';
-    font-size: 24px;
-    text-align: center;
-    margin-bottom: 25px;
-  }
-  .con-controller{
-    width: 100%;
-    display: grid;
-    justify-content: space-evenly;
-    grid-template-columns: 100%;
-  }
-  .colorDiv{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    background-color: rgba(241, 241, 241, 0.76);
-    padding: 15px;
-  }
-  .underside{
-    width: 100%;
-    height: 30vh;
-    display: grid;
-    grid-template-columns: 100%;
-  }
-  .wrapper{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-  .blog{
-    height: 80vh;
-    background-image: url(../assets/img/blog3.png);
-    background-size: cover;
-    background-position-x: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-  .b-holder{
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-  .textside{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: flex-start;
-    width: 100%;
-  }
-  .image{
-    display: none;
-  }
+@media only screen and (min-width: 850px){
+.sq-title{
+  margin-bottom: 25px;
 }
-@media only screen and (min-width: 650px) {
-      .cta{
-    height: 92vh;
-  }
-  .cta-link-1{
-    background-image: url(../assets/img/reserve.png);
-    background-color: white;
-    background-position-x: center;
-    background-position-y: center;
-    background-size: cover;
-  }
-  .cta-link-2{
-    background-image: url(../assets/img/services.png);
-    background-color: white;
-    background-position-x: center;
-    background-position-y: center;
-    background-size: cover;
-  }
-  .cta-link-3{
-    background-image: url(../assets/img/mjeket.png);
-    background-color: white;
-    background-size: cover;
-    background-position-x: center;
-  }
-  .cta-link-4{
-    background-image: url(../assets/img/covid2.png);
-    background-color: white;
-    background-size: cover;
-    background-position-x: left;
-    background-position-y: center;
-  }
-  .info-medical{
-    height: 180vh;
-  }
-  .c-item{
-    background-image: url(../assets/img/warning.png);
-    background-size: cover;
-    background-position-x: center;
-  }
-  .c-title{
-    font-family: 'qs';
-    font-size: 22px;
-    margin-bottom: 15px;
-    color: rgb(202, 8, 73);
-  }
-  .con-title{
-    color: white;
-    font-family: 'qs';
-    font-size: 24px;
-    text-align: center;
-    margin-bottom: 25px;
-  }
-  .con-controller{
-    width: 100%;
-    display: grid;
-    justify-content: space-evenly;
-    grid-template-columns: 100%;
-  }
-  .colorDiv{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    background-color: rgba(241, 241, 241, 0.76);
-    padding: 15px;
-  }
-  .underside{
-    width: 100%;
-    display: grid;
-    grid-template-columns: 100%;
-  }
-  .wrapper{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-  .blog{
-    height: 80vh;
-    background-image: url(../assets/img/blog3.png);
-    background-size: cover;
-    background-position-x: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-  .b-holder{
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-  .textside{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: flex-start;
-    width: 100%;
-  }
-  .image{
-    display: none;
-  }
-  }
-  @media only screen and (min-width: 1000px) {
-    .cta{
-      height: 93vh;
-    }
-    .c-controller{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .cta-link-1{
-    background-image: url(../assets/img/reserve.png);
-    background-color: white;
-    background-position-x: center;
-    background-position-y: center;
-    background-size: 100%;
-  }
-  .cta-link-2{
-    background-image: url(../assets/img/services.png);
-    background-color: white;
-    background-position-x: center;
-    background-position-y: center;
-    background-size: 100%;
-  }
-  .cta-link-3{
-    background-image: url(../assets/img/mjeket.png);
-    background-color: white;
-    background-size: 100%;
-    background-position-x: center;
-  }
-  .cta-link-4{
-    background-image: url(../assets/img/covid.png);
-    background-color: white;
-    background-size: 100%;
-    background-position-x: center;
-    background-position-y: center;
-  }
-  .c-title{
-    font-family: 'qs';
-    font-size: 25px;
-    margin-bottom: 15px;
-    color: rgb(202, 8, 73);
-  }
-  .colorDiv{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    background-color: rgba(241, 241, 241, 0.76);
-    padding: 15px;
-  }
-  .info-medical{
-    height: 90vh;
-  }
-  .underside{
-    width: 100%;
-    display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
-    height: 30vh;
-  }
-  .u-card{
-    display: flex;
-    height: 33vh;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #1e65b8;
-  }
-  .u-title{
-    color: white;
-    font-size: 25px;
-    text-align: center;
-    margin-bottom: 15px;
-  }
-  .u-desc{
-    color: white;
-    font-size: 16px;
-    text-align: center;
-    margin-bottom: 25px;
-  }
-  .contact{
-    width: 100%;
-    min-height: 60vh;
-    background-color: #1e65b8;
-    background-size: cover;
-    transition: 0.5s;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 30px 0 30px 0;
-    
-  }
-  .con-title{
-    color: white;
-    font-family: 'qs';
-    font-size: 24px;
-    text-align: center;
-  }
-  .con-controller{
-    width: 80%;
-    display: grid;
-    justify-content: center;
-    grid-template-columns: 33% 33% 33%;
-  }
-  .wrapper{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .blog{
-    height: 80vh;
-    background-image: url(../assets/img/blog.png);
-    background-size: cover;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-  .b-holder{
-    width: 70%;
-    height: 50%;
-    display: flex;
-    justify-content: flex-start;
-  }
-  .textside{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: flex-start;
-    width: 100%;
-  }
-  .holderito{
-    width: 50%;
-  }
-  .b-t{
-    font-size: 18px;
-    color: white;
-    margin-bottom: 15px;
-  }
-  .b-t-u{
-    font-family: 'qs';
-    font-size: 16px;
-    color: white;
-    margin-bottom: 25px;
-  }
-  .b-btn{
-    outline: none;
-    color: rgb(192, 3, 75);
-    background-color: white;
-    border-radius: 10px;
-    font-family: 'qs';
-  }
-  .imageside{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .image{
-    height: 300px;
-    width: 300px;
-  }
+.sq-mini{
+  position: relative;
+  top: 10px;
+  font-size: 14px;
+  color: white;
+}
+.squaremain{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 650px;
+  height: 27vh;
+  border-radius: 25px;
+  background-image: url("../assets/img/electronics.jpg");
+  background-position-y: center;
+  background-size: cover;
+  overflow: hidden;
+  margin-top: 1.3rem;
+  grid-area: topth;
+}
+.squarelikkle{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 320px;
+  height: 20vh;
+  border-radius: 25px;
+  background-image: url("../assets/img/2152.jpg");
+  background-size: cover;
+  overflow: hidden;
+  margin-top: 1.3rem;
+  grid-area: first;
+}
+.squarelikkle-2{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 320px;
+  height: 20vh;
+  border-radius: 25px;
+  background-image: url("../assets/img/cos.jpg");
+  background-size: cover;
+  overflow: hidden;
+  margin-top: 1.3rem;
+  grid-area: second;
+}
+.squarelikkle-3{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 320px;
+  height: 20vh;
+  border-radius: 25px;
+  background-image: url("../assets/img/cos.jpg");
+  background-position-y: center;
+  background-size: cover;
+  overflow: hidden;
+  margin-top: 1.3rem;
+  grid-area: third;
+}
+.squarelikkle-4{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 320px;
+  height: 20vh;
+  border-radius: 25px;
+  background-image: url("../assets/img/cos.jpg");
+  background-position-y: center;
+  background-size: cover;
+  overflow: hidden;
+  margin-top: 1.3rem;
+  grid-area: fourth;
+}
+.squarecentral{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  height: 90%;
+}
+.squareside{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 90%;
+  height: 100%;
+}
+.squareside-2{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  width: 90%;
+  height: 90%;
+}
+.joint{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 40;
+}
+.joint-2{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: 40px;
+}
+.joint-3{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  width: 100%;
+  height: 40px;
+}
+.smooth{
+  transition: 0.5s;
+}
+.client-90{
+  width: 750px;
+  display: flex;
+  justify-content: center;
+}
+.mos-i-qr{
+  width: 750px;
+  min-height: 500px;
+  margin: 10px 0 10px 0;
+}
+.custom-timer{
+  border: 1px solid #bf081d;
+  border-radius: 3px;
+  padding: 3px 6px 3px 6px;
+}
+.timer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.deals-body{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 750px;
+  height: 500px;
+}
+.deals-image{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 750px;
+}
+.deals-desc{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 70%;
+}
+.d-t{
+  font-weight: 400;
+  font-size: 18px;
+  color: #363f4e;
+}
+.d-p{
+  font-weight: 400;
+  font-size: 17px;
+  color: #363f4e;
+}
+.v-rating--readonly button {
+  padding-left: 0;
+}
+.d-p span{
+  font-weight: 400;
+  font-size: 13px;
+  color: #808794;
+}
+.dealsod{
+  width: 70vw;
+  height: 5vh;
+  padding: 40px 0 15px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.dealsod1{
+  margin-top: 30px;
+  width: 60vw;
+  padding: 0px 0 15px 0;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-areas: 
+  'topth topth'
+  'first second'
+  'third fourth';
+}
+.deals-header{
+  width: 90%;
+  height: 5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-around;
+}
+.deals-header-2{
+  width: 63vw;
+  height: 5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-around;
+  margin-bottom: 20px;
+}
+.deals-header-1{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.packting{
+  display: flex;
+  justify-content: center;
+  width: 15%;
+}
+.line1{
+  width: 100%;
+  height: 1px;
+  background-color: #8a919c;
+}
+.line10{
+  width: 10%;
+  height: 1px;
+  background-color: #a10517;
+}
+.line20{
+  width: 20%;
+  height: 1px;
+  background-color: #a10517;
+}
+.line30{
+  width: 30%;
+  height: 1px;
+  background-color: #a10517;
+}
+.line40{
+  width: 40%;
+  height: 1px;
+  background-color: #a10517;
+}
+.line50{
+  width: 50%;
+  height: 1px;
+  background-color: #a10517;
+}
+.line60{
+  width: 60%;
+  height: 1px;
+  background-color: #a10517;
+}
+.line70{
+  width: 70%;
+  height: 1px;
+  background-color: #a10517;
+}
+.line80{
+  width: 80%;
+  height: 1px;
+  background-color: #a10517;
+}
+.line90{
+  width: 90%;
+  height: 1px;
+  background-color: #a10517;
+}
+.line100{
+  width: 100%;
+  height: 1px;
+  background-color: #a10517;
+}
+.line1::before{
+  width: 35%;
+  height: 1px;
+  background-color: #363f4e;
+}
+.mini-links{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #bf081d;
+  height: 25px;
+  width: 100vw;
+  
+}
+.mini-actual-links{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #363f4e;
+  height: 25px;
+  width: 70%;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+.mini-link{
+  padding: 3px 20px 3px 0px;
+
+}
+.al-ting{
+  width: 90%;
+  display: flex;
+  justify-content: center;
+}
+.homepage{
+  width: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.phone{
+  display: none;
+}
+.comp{
+  display: flex;
+}
+.underside{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+}
+.u-card{
+  display: flex;
+  height: 33vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #1e65b8;
+}
+.u-title{
+  color: white;
+  font-size: 25px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+.u-desc{
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 25px;
+}
+.contact{
+  width: 100%;
+  min-height: 60vh;
+  background-color: #363f4e;
+  background-size: cover;
+  transition: 0.5s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 30px 0 30px 0;
+  
+}
+.con-title{
+  color: white;
+  font-family: 'qs';
+  font-size: 24px;
+  text-align: center;
+}
+.con-controller{
+  width: 80%;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 33% 33% 33%;
+}
+.wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.blog{
+  height: 80vh;
+  background-image: url(../assets/img/blog.png);
+  background-size: cover;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.b-holder{
+  width: 70%;
+  height: 50%;
+  display: flex;
+  justify-content: flex-start;
+}
+.textside{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  width: 50%;
+}
+.holderito{
+  width: 70%;
+}
+.b-t{
+  font-size: 18px;
+  color: white;
+  margin-bottom: 15px;
+}
+.b-t-u{
+  font-family: 'qs';
+  font-size: 16px;
+  color: white;
+  margin-bottom: 25px;
+}
+.b-btn{
+  outline: none;
+  color: rgb(192, 3, 75);
+  background-color: white;
+  border-radius: 10px;
+  font-family: 'qs';
+}
+.imageside{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.image{
+  height: 300px;
+  width: 300px;
+}
 }
 </style>

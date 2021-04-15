@@ -45,16 +45,19 @@
                 <v-list
                 three-line
                 subheader
+                class="white"
                 >
-                <v-subheader>Edit details</v-subheader>
+                <v-subheader class="secondary--text">Edit details</v-subheader>
                 <v-list-item>
-                    <v-list-item-content>
+                    <v-list-item-content class="hiddeneye">
                     <v-text-field
                         v-model="detailsToEdit.details.name"
                         label="New Name"
                         outlined
                         clearable
                         dense
+                        light
+                        color="secondary"
                     ></v-text-field>
                     <v-text-field
                         v-model="detailsToEdit.details.price"
@@ -62,6 +65,8 @@
                         outlined
                         clearable
                         dense
+                        light
+                        color="secondary"
                     ></v-text-field>
                     <v-textarea
                         clearable
@@ -70,6 +75,7 @@
                         :value="detailsToEdit.details.desc"
                         color="white"
                         outlined
+                        light
                     ></v-textarea>
                     </v-list-item-content>
                 </v-list-item>
@@ -78,8 +84,9 @@
                 <v-list
                 three-line
                 subheader
+                class="white"
                 >
-                <v-subheader>More details</v-subheader>
+                <v-subheader class="secondary--text">More details</v-subheader>
                 <v-list-item>
                     <v-list-item-content>
                     <div class="fab-holder" v-for="item in detailsToEdit.details.details" :key="item">
@@ -89,7 +96,8 @@
                             outlined
                             clearable
                             dense
-                            
+                            light
+                            color="secondary"
                         ></v-text-field>
                     </div>
                     </v-list-item-content>
@@ -440,6 +448,13 @@ export default {
         color: rgb(48, 48, 48);
         padding: 0;
         margin: 0 0 10px 0;
+    }
+    .hiddeneye{
+        display: flex;
+        width: 750px;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
     }
 }    
 </style>

@@ -8,7 +8,7 @@ export const actions = {
 
         const parsed = cookieparser.parse(req.headers.cookie);
         const accessTokenCookie = parsed.access_token;
-        const cartTokenCookie = parsed.cartToken;
+        const cartTokenCookie = parsed.cart_hustle;
         const roleToken = parsed.role_token;
 
         if(!accessTokenCookie && !cartTokenCookie) {
