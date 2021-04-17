@@ -180,7 +180,7 @@ export default {
         const data = await firebase.firestore().collection('elektronike').doc(params.slug).get();
         const dataParsed = data.data();
 
-        const data2 = await firebase.firestore().collection('users').doc("ergi1000").get();
+        const data2 = await firebase.firestore().collection('users').doc(dataParsed.owner).get();
         const dataParsed2 = data2.data();
 
         const reviews = await firebase.firestore().collection('reviews').where("post", "==", params.slug).get();

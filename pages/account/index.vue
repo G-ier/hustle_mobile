@@ -116,7 +116,7 @@ export default {
             if(this.$store.state.users.role == "admin"){
                 console.log(this.$store.state.users.role);
                 location.href = "/account/drejtuesi";
-            } else if (this.$store.state.users.role == "jobber" || this.$store.state.users.role == "seller") {
+            } else if (this.$store.state.users.role == "buyer" || this.$store.state.users.role == "seller") {
                 location.href = "/account/me";
             } else {
                 this.dialog = true;

@@ -76,6 +76,8 @@ export const actions = {
                 email: account.email,
                 username: toFilter[0],
                 role: account.role.toLowerCase(),
+                displaName: toFilter[0],
+                photo: null
             })
 
             //Get token from firebase
@@ -182,7 +184,7 @@ export const actions = {
             console.log("made it here aswell")
             if(currCart.length <= 10){
                 currCart.push({
-                    name: jsonCart.emri,
+                    name: jsonCart.emri + " | " + jsonCart.seller,
                     amount: jsonCart.price,
                     quantity: jsonCart.times,
                     description: "Item from " + jsonCart.seller,
@@ -228,6 +230,13 @@ export const actions = {
                 }
             });
             
+        } catch(e){
+            console.log(e);
+        }
+    },
+    removeCart({commit}){
+        try{
+            commit('SET_CART', []);
         } catch(e){
             console.log(e);
         }

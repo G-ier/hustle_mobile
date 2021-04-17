@@ -174,9 +174,11 @@ export default {
         const data = await firebase.firestore().collection('users').doc(route.query.name).get();
         const dataF = data.data();
 
+        var fotoErsatz = dataF.photo ? dataF.photo : null;
+
         return{
             nameOfS: dataF.username,
-            photo: dataF.photo
+            photo: fotoErsatz
         }
     },
     data(){

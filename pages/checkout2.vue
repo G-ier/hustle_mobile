@@ -1,5 +1,5 @@
 <template>
-  <div class="aplikimi-container-cu">
+  <div class="aplikimi-container-cu-1">
     <div class="ch-t">
         <h1 class="qs checkoutTitle">Checkout</h1>
     </div>
@@ -20,18 +20,14 @@
           <div class="paypal-divi mt-3">
               <v-btn large class="qs white--text rounded-lg" color="stripe2">PAYPAL</v-btn>
           </div>
+          <div class="or-paypal mt-5 py-2" v-if="user">
+              <p class="qs white--text">------------or------------</p>
+          </div>
+          <div class="paypal-divi mt-3" v-if="user">
+              <v-btn large class="qs white--text rounded-lg" color="stripe2" @click="inhandp = true">In hand</v-btn>
+          </div>
         </div>
     </v-sheet> 
-    <v-dialog v-model="dialog" max-width="240">
-          <v-card color="blue darken-2">
-              <v-card-title class="qs headline">Few more steps!</v-card-title>
-              <v-card-text class="qs">Account creation is successful. Please verify your email by clicking the link provided to you. In the meantime, please head to the login page.</v-card-text>
-              <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn class="qs" @click="redir" text >To Login</v-btn>
-              </v-card-actions>
-          </v-card>
-      </v-dialog>
       <stripe-checkout
       ref="checkoutRef"
       :pk="pk"
@@ -45,12 +41,55 @@
         <button @click="checkout">Shut up and take my money!</button>
       </template>
     </stripe-checkout>
+    <v-dialog
+        transition="dialog-top-transition"
+        max-width="600"
+        v-model="inhandp"
+        >
+            <v-card color="secondary">
+            <v-toolbar
+                color="secondary"
+                dark
+            >Make payment to hand.</v-toolbar>
+            <v-card-text>
+                <v-text-field label="Enter address" outlined v-model="note" dense color="white" class="mt-10" clearable :error-messages="noteErrors" required @input="$v.note.$touch()"></v-text-field>
+                <v-text-field label="Enter cellphone number" outlined v-model="num" dense color="white" class="mt-10" clearable :error-messages="numberErrors" required @input="$v.num.$touch()"></v-text-field>
+            </v-card-text>
+            <v-card-actions class="justify-end">
+                <v-btn
+                text
+                @click="inhand"
+                :loading = "loading2"
+                >Send</v-btn>
+            </v-card-actions>
+            </v-card>
+    </v-dialog>
+    <v-dialog
+        transition="dialog-top-transition"
+        max-width="300"
+        v-model="successToHand"
+        >
+            <v-card color="secondary">
+            <v-card-title>
+                Success!
+            </v-card-title>
+            <v-card-actions class="justify-end">
+                <v-btn
+                text
+                @click="successToHand = false"
+                >Close</v-btn>
+            </v-card-actions>
+            </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import {validationMixin} from 'vuelidate'
-import {required, email} from 'vuelidate/lib/validators'
+import {required, email, numeric} from 'vuelidate/lib/validators'
+import * as firebase from 'firebase/app'
+import 'firebase/firestore';
+import Cookies from 'js-cookie';
 export default {
   mixins: [validationMixin],
   head(){
@@ -70,9 +109,14 @@ export default {
   data () {
     return {
       pk: process.env.STRIPE_PK,
+      user: this.$store.state.users.user,
+      inhandp: false,
+      note: "",
+      email: this.$store.state.users.user.email.split("@"),
       sessionId: "",
       isStripeLoaded: false,
       mode: "payment",  
+      toSell: this.$store.state.users.cart,
       items: [
         
       ],
@@ -84,7 +128,12 @@ export default {
           password: '',
       },
       loading: false,
+      loading2: false,
       dialog: false,
+      successToHand: false,
+      num: null,
+      clean: false,
+      submitStatus: null
     };
   },
    methods: {
@@ -95,6 +144,48 @@ export default {
         console.log(result);
       });
     },
+    inhand: function(){
+        this.$v.num.$touch();
+        this.$v.num.$touch();
+
+        if (this.$v.num.$invalid || this.$v.note.$invalid) {
+            this.submitStatus = 'ERROR'
+            return;
+        } else {
+            console.log("gucci");
+        }
+
+        this.inhandp = true;
+        this.loading2 = true;
+        this.toSell.forEach(fell => {
+            var false5 = fell.name.split("|");
+            var false4 = false5[1];
+            console.log(false4);
+            firebase.firestore().collection('orders').doc(Math.random().toString(36).substring(2,7)).set({
+                from: this.email[0],
+                fulfilled: false,
+                onto: false4,
+                address: this.note,
+                number: this.num,
+                orders: [
+                    {
+                        item: fell.name,
+                        paid: false,
+                        price: fell.amount * fell.quantity,
+                        type: "tohand"
+                    }
+                ]
+            })
+        });
+
+        this.loading2 = false;
+        this.inhandp = false;
+        this.successToHand = true;
+        
+        this.$store.dispatch("users/removeCart");
+        Cookies.remove("cart_hustle");
+
+    }
   },
   created(){
       this.$axios.post('https://us-central1-fertility-1e091.cloudfunctions.net/checkoutStripe', {
@@ -116,6 +207,13 @@ export default {
           password: {
               required,
           }
+      },
+      note: {
+          required
+      },
+      num: {
+          numeric,
+          required
       }
   },
   computed: {
@@ -124,6 +222,19 @@ export default {
           if (!this.$v.account.email.$dirty) return errors
           !this.$v.account.email.email && errors.push('Must be valid e-mail')
           !this.$v.account.email.required && errors.push('E-mail is required')
+          return errors
+      },
+      noteErrors () {
+          const errors = []
+          if (!this.$v.note.$dirty) return errors
+          !this.$v.note.required && errors.push('Address is required')
+          return errors
+      },
+      numberErrors () {
+          const errors = []
+          if (!this.$v.num.$dirty) return errors
+          !this.$v.num.required && errors.push('Number is required')
+          !this.$v.num.numeric && errors.push('Numbers only!')
           return errors
       },
   },
@@ -135,7 +246,7 @@ export default {
     color:  white;
 }
 
-.aplikimi-container-cu{
+.aplikimi-container-cu-1{
     background-image: url('../assets/img/checkout.png');
     background-size: cover;
     background-position-y: center;

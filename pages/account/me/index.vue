@@ -5,7 +5,7 @@
           <v-btn class="qs white--text rounded-lg" @click="logout" color="primary">Logout</v-btn>
       </div>
       
-      <div class="admin-starter">
+      <div class="admin-starter" v-if="role == 'seller'">
           <div class="container-stuff">
               <h1 class="starter-title qs">Orders</h1>
                 <div class="starter-row">
@@ -15,7 +15,7 @@
           </div>
       </div>
 
-      <div class="admin-starter">
+      <div class="admin-starter" v-if="role == 'seller'">
           <div class="container-stuff">
               <h1 class="starter-title qs">Payments</h1>
                 <div class="starter-row">
@@ -25,7 +25,7 @@
           </div>
       </div>
 
-      <div class="admin-starter-1">
+      <div class="admin-starter-1" v-if="role == 'seller'">
           <div class="container-stuff-1">
               <h1 class="starter-title-1 qs">Items</h1>
               <div class="starter-row-1">
@@ -46,6 +46,47 @@
               </div>
           </div>
       </div>
+
+      <div class="admin-starter" v-if="role == 'buyer'">
+          <div class="container-stuff">
+              <h1 class="starter-title qs">Your purchases</h1>
+                <div class="starter-row">
+                    <v-btn class="qs white--text" small text nuxt @click="boughting = true">All purchases</v-btn>
+                </div>
+          </div>
+      </div>
+
+      <v-dialog
+        v-model="boughting"
+        scrollable
+        max-width="300px"
+        
+        >
+        <v-card color="secondary"> 
+            <v-card-title>All purchases</v-card-title>
+            <v-divider></v-divider>
+            <v-card-text style="height: 300px;">
+            <v-list color="secondary">
+                <v-list-item v-for="pur in bought" :key="pur.id">
+                    <v-list-item-content v-for="ting in pur.orders" :key="ting.id">
+                        <v-list-item-title>{{ting.item}}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+            <v-btn
+                color="white"
+                class="qs"
+                text
+                @click="boughting = false"
+            >
+                Close
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+        </v-dialog>
 
         <v-dialog
             v-model="editP"
@@ -140,6 +181,18 @@ import 'firebase/firestore'
 import 'firebase/storage'
 import Cookie from 'js-cookie';
 export default {
+    async asyncData({store}){
+        var full = store.state.users.user.email.split("@");
+        var realting = full[0];
+        console.log(realting);
+
+        const data = await firebase.firestore().collection('orders').where("from", "==", realting).get();
+        const data2 = data.docs.map(doc => doc.data());
+
+        return{
+            bought: data2.length > 0 ? data2 : []
+        }
+    },
     data(){
         return{
             username: this.$store.state.users.user.email.split('@'),
@@ -156,6 +209,8 @@ export default {
             isUploadingImage: false,
             isDeletingImage: false,
             url: null,
+            role: this.$store.state.users.role,
+            boughting: false
         }
     },
     head(){
