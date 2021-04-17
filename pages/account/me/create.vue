@@ -72,7 +72,7 @@
                         clearable
                         clear-icon="mdi-close-circle"
                         label="New description"
-                        :value="detailsToEdit.details.desc"
+                        v-model="detailsToEdit.details.desc"
                         color="white"
                         outlined
                         light
@@ -227,6 +227,7 @@ export default {
                         ""
                     ]
                 },
+                owner: "",
                 spot: ""
             };
             this.spot = null;
@@ -248,6 +249,7 @@ export default {
                     sellerPhoto: this.photo,
                     details: this.detailsToEdit.details.details
                 },
+                owner: this.nameOfS,
                 spot: this.detailsToEdit.details.name
             });
 
@@ -262,6 +264,7 @@ export default {
                         ""
                     ]
                 },
+                owner: "",
                 spot: ""
             };
             this.spot = null;

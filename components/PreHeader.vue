@@ -39,7 +39,7 @@
             </div>
             <div class="rightside">
                 <div class="rightside-mini">
-                    <v-btn icon height="23" width="23">
+                    <v-btn icon height="23" width="23" nuxt to="/favorites">
                         <v-icon size="23" color="white">
                             mdi-star-circle-outline
                         </v-icon>

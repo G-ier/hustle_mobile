@@ -930,7 +930,7 @@ export default {
   align-items: center;
 }
 .menu-btn{
-  display: none;
+  display: block;
 }
 .link-holder{
   display: block;
@@ -938,8 +938,11 @@ export default {
 .search-btn{
   display: none;
 }
-.spacer-2{
+.spacer-1{
   display: block;
+}
+.spacer-2{
+  display: none;
 }
 @media only screen and (min-width: 850px){
   .spacer-1{

@@ -33,7 +33,7 @@
                   <p class="price-prod">{{product.details.price}} <span class="mini-span">ALL</span></p>
                   <div class="rowting">
                       <v-btn class="white--text rounded-md width-70" color="primary" @click="addToCart">Add to Cart</v-btn>
-                      <v-btn class="white--text" color="primary" icon @click="addToCart"><v-icon size="34" color="secondary">mdi-heart-outline</v-icon></v-btn>
+                      <v-btn class="white--text" color="primary" icon @click="favs(product)"><v-icon size="34" color="secondary">mdi-heart-outline</v-icon></v-btn>
                   </div>
               </div>
           </div>
@@ -146,6 +146,24 @@
             </v-btn>
         </template>
         </v-snackbar>
+        <v-snackbar
+        v-model="fav"
+        timeout="3000"
+        color="primary"
+        >
+        Added to favorites.
+
+        <template v-slot:action="{ attrs }">
+            <v-btn
+            color="white"
+            text
+            v-bind="attrs"
+            @click="fav = false"
+            >
+            Close
+            </v-btn>
+        </template>
+        </v-snackbar>
   </div>
 </template>
 
@@ -162,7 +180,7 @@ export default {
         const data = await firebase.firestore().collection('elektronike').doc(params.slug).get();
         const dataParsed = data.data();
 
-        const data2 = await firebase.firestore().collection('users').doc(dataParsed.owner).get();
+        const data2 = await firebase.firestore().collection('users').doc("ergi1000").get();
         const dataParsed2 = data2.data();
 
         const reviews = await firebase.firestore().collection('reviews').where("post", "==", params.slug).get();
@@ -180,6 +198,7 @@ export default {
             rating: 4,
             snack: false,
             snack3: false,
+            fav: false,
             slug: this.$route.params.slug,
             carousel: 0,
             main: 5,
@@ -223,7 +242,7 @@ export default {
                     emri: this.product.details.name,
                     price: this.product.details.price,
                     times: 1,
-                    desc: "Item from " + this.product.details.seller,
+                    desc: "Item from " + this.product.owner,
                     currentCart: carty
                 }
 
@@ -252,6 +271,28 @@ export default {
             } else {
                 this.snack3 = true;
             }
+        },
+        favs: function(product){
+            if(process.browser){
+                var favs = localStorage.getItem("products");
+                console.log(favs);
+            }
+
+            if(!favs){
+                favs = [];
+            } else {
+                var pavs = JSON.parse(favs);
+                pavs.forEach((fav) => {
+                    if(product.details.name == fav.details.name && product.details.price == fav.details.price){
+                        this.fav = true;
+                        throw "exit";
+                    }
+                });
+            }
+            
+            favs.push(product);
+            localStorage.setItem("products", JSON.stringify(favs));
+            this.fav = true;
         }
     }
 }

@@ -1,30 +1,6 @@
 <template>
     <div class="shop">
         <v-navigation-drawer
-        v-model="drawer"
-        absolute
-        color="white"
-        temporary
-        >
-        <v-list
-            nav
-            dense
-        >
-            <v-list-item-group
-            v-model="group"
-            class="primary--text"
-            >
-            <v-list-item>
-                <v-row justify="center"><v-list-item-title><v-btn text color="primary" class="qs rounded-lg white--text" @click="filterPrice">Ascending price</v-btn></v-list-item-title></v-row>
-            </v-list-item>
-
-            <v-list-item>
-                <v-row justify="center"><v-list-item-title><v-btn text color="primary" class="qs rounded-lg white--text" @click="filterPrice">Ascending price</v-btn></v-list-item-title></v-row>
-            </v-list-item>
-            </v-list-item-group>
-        </v-list>
-        </v-navigation-drawer>
-        <v-navigation-drawer
         v-model="drawer2"
         absolute
         bottom
@@ -50,16 +26,14 @@
         </v-list>
         </v-navigation-drawer>
         <div class="sets">
-            <v-btn icon @click="drawer = !drawer">
-                <v-icon color="secondary">mdi-card-text-outline</v-icon>
-            </v-btn>
-            <h2 class="classy secondary--text">TV & Video</h2>
+            
+            <h2 class="classy secondary--text">Oferta te nxehta!</h2>
             <v-btn icon @click="drawer2 = !drawer2">
                 <v-icon color="secondary">mdi-filter</v-icon>
             </v-btn>
         </div>
         <div class="lineM"></div>
-        <div class="market mb-3">
+        <div class="market">
             <div class="market-inner">
                 <div class="sell-container" v-for="prod in prods" :key="prod.name">
                     <div class="sellable">
@@ -70,7 +44,7 @@
                                 <p class="qs sell-price">{{prod.details.price}}$</p>
                                 <div class="func-row">
                                     <v-btn color="primary" class="rounded-md" small @click="addToCart(prod.details.name, prod.owner, prod.details.price, 1, prod.details.desc)">Add to cart</v-btn>
-                                    <v-btn icon color="secondary" class="rounded-xl" small @click="favorite(prod)"><v-icon color="secondary" size="23">mdi-heart-outline</v-icon></v-btn>
+                                    <v-btn icon color="secondary" class="rounded-xl" small @click="snackbar2 = true"><v-icon color="secondary" size="23">mdi-heart-outline</v-icon></v-btn>
                                 </div>
                             </div>
                         </div>
@@ -114,24 +88,6 @@
             </v-btn>
         </template>
         </v-snackbar>
-        <v-snackbar
-        v-model="itemFaved"
-        timeout="3000"
-        color="secondary"
-        >
-        Item already in favourites.
-
-        <template v-slot:action="{ attrs }">
-            <v-btn
-            color="white"
-            text
-            v-bind="attrs"
-            @click="itemFaved = false"
-            >
-            Close
-            </v-btn>
-        </template>
-        </v-snackbar>
     </div>
 </template>
 
@@ -164,10 +120,7 @@ export default {
         return{
             snackbar: false,
             snackbar2: false,
-            itemFaved: false,
-            drawer: false,
             drawer2: false, 
-            group: false,
             group1: false,
         }
     },
@@ -217,26 +170,6 @@ export default {
             this.prods.sort((doc1, doc2) => {
                 return doc2.details.price - doc1.details.price
             })
-        },
-        favorite: function(product){
-            if(process.browser){
-                var favs = localStorage.getItem("products");
-            }
-
-            if(!favs){
-                favs = [];
-            } else {
-                var pavs = JSON.parse(favs);
-                pavs.forEach((fav) => {
-                    if(product.details.name == fav.details.name && product.details.price == fav.details.price){
-                        this.itemFaved = true;
-                        throw "exit";
-                    }
-                });
-            }
-            
-            favs.push(product);
-            localStorage.setItem("products", favs);
         }
     }
 }

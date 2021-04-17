@@ -16,17 +16,15 @@
       <div class="c1">
         <div class="center-spaz-1">
           <div class="content-block">
-          <h4 class="cb-title">Sherbimet</h4>
+          <h4 class="cb-title">Useful links</h4>
           <ul class="cb-links">
-            <li class="cb-link"><nuxt-link to="/sherbimet" class="qs btn-c-o"><span class="linkus">Sherbimet tona</span></nuxt-link></li>
-            <li class="cb-link"><nuxt-link to="/paketat" class="qs btn-c-o"><span class="linkus">Paketat tona</span></nuxt-link></li>
-            <li class="cb-link"><nuxt-link to="/rezervo" class="qs btn-c-o"><span class="linkus">Rezervoni online</span></nuxt-link></li>
+            <li class="cb-link"><nuxt-link to="/account/me" class="qs btn-c-o"><span class="linkus">Llogaria juaj</span></nuxt-link></li>
+            <li class="cb-link"><nuxt-link to="/account/register" class="qs btn-c-o"><span class="linkus">Rregjistrimi</span></nuxt-link></li>
           </ul>
         </div>
         <div class="content-block">
           <h4 class="cb-title">Rreth nesh</h4>
           <ul class="cb-links">
-            <li class="cb-link"><nuxt-link to="/mjeket" class="qs btn-c-o"><span class="linkus">Mjeket tane</span></nuxt-link></li>
             <li class="cb-link"><nuxt-link to="/rreth-nesh" class="qs btn-c-o"><span class="linkus">Rreth nesh</span></nuxt-link></li>
           </ul>
         </div>
