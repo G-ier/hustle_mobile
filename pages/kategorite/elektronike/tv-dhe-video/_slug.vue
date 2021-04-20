@@ -275,11 +275,10 @@ export default {
         favs: function(product){
             if(process.browser){
                 var favs = localStorage.getItem("products");
-                console.log(favs);
             }
 
             if(!favs){
-                favs = [];
+                pavs = [];
             } else {
                 var pavs = JSON.parse(favs);
                 pavs.forEach((fav) => {
@@ -290,8 +289,8 @@ export default {
                 });
             }
             
-            favs.push(product);
-            localStorage.setItem("products", JSON.stringify(favs));
+            pavs.push(product);
+            localStorage.setItem("products", JSON.stringify(pavs));
             this.fav = true;
         }
     }

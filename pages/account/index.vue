@@ -1,6 +1,6 @@
 <template>
-  <div class="aplikimi-container-cu">
-      <v-sheet elevation="15" class="mx-auto py-4 custom-stepper" color="stripe2">
+  <div class="aplikimi-container-cu-1">
+      <v-sheet elevation="15" class="mx-auto py-4 custom-stepper" color="secondary">
           <h1 class="big-header-white text-center v-fsm mb-7">Log in</h1>
           <div class="form-body pb-2">
             <v-form class="pb-7">  
@@ -11,8 +11,8 @@
                 </div>
             </v-form>
             <div class="button-side">
-                <v-btn rounded color="stripe1" class="qs third--text btn-c v-fsm" nuxt to="/account/register">Register</v-btn>
-                <v-btn rounded color="stripe1" class="btn-c v-fsm" @click="login"><span class="qs white--text" v-if = "loading == false">Log In</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
+                <v-btn rounded color="white" class="qs secondary--text btn-c v-fsm" nuxt to="/account/register">Register</v-btn>
+                <v-btn rounded color="white" class="btn-c v-fsm" @click="login"><span class="qs secondary--text" v-if = "loading == false">Log In</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
             </div>
           </div>
       </v-sheet>
@@ -28,16 +28,16 @@
         </v-dialog> 
       <v-dialog
         transition="dialog-top-transition"
-        max-width="600"
+        max-width="500"
         v-model="forgotten"
       >
-          <v-card>
+          <v-card color="secondary">
             <v-toolbar
-              color="blue darken-5"
+              color="secondary"
               dark
             >Write the email you want the password reset confirmation to be sent to.</v-toolbar>
             <v-card-text>
-                <v-text-field label="Enter email" outlined v-model="Fmail" dense class="mt-10" clearable></v-text-field>
+                <v-text-field label="Enter email" outlined v-model="Fmail" color="white" dense class="mt-10" clearable></v-text-field>
             </v-card-text>
             <v-card-actions class="justify-end">
               <v-btn
@@ -153,13 +153,12 @@ export default {
     color:  white;
 }
 
-.aplikimi-container-cu{
-    background-image: url("../../assets/img/reserve.png");
+.aplikimi-container-cu-1{
     background-size: cover;
     background-position-y: center;
     background-position-x: center;
     width: 100%;
-    min-height: 71vh;
+    min-height: 81vh;
     background-color: white;
     display: flex;
     flex-direction: column;

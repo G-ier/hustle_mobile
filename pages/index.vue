@@ -33,14 +33,28 @@
       <div class="burst2">
         <div class="burst3">
           <div class="main-foto">
-            
+            <v-img src="https://firebasestorage.googleapis.com/v0/b/fertility-1e091.appspot.com/o/images%2F0001-37245426_20210419_215256_0000.png?alt=media&token=9267fb27-8645-4657-851b-3b792818fb94" class="robshja">
+              <div class="kari">
+                <p class="qs secondary--text">Subheader</p>
+                <h1 class="bushtri">Skrrrrrrrrrr</h1>
+                <h4 class="qs buta">Fendi flexy</h4>
+                <v-btn class="rounded-lg white--text" color="primary" nuxt to="/kategorite/elektronike/tv-dhe-audio">Vizito tani</v-btn>
+              </div>
+            </v-img>
           </div>
           <div class="likkle-div">
-            <div class="likkle-1">
-              
+            <div class="likkle-1" :style="{'background-image': 'url(https://firebasestorage.googleapis.com/v0/b/fertility-1e091.appspot.com/o/images%2F20210419_231556_0000.png?alt=media&token=1b434775-d50a-4423-b257-6410b768f16b)'}">
+                <div class="kari-2" >
+                  <h1 class="bushtri-1">Skrrrrrrrrrr</h1>
+                  <h4 class="qs buta-1 mb-4">Fendi flexy</h4>
+                  <v-btn class="rounded-lg white--text" color="primary" nuxt to="/">Vizito tani</v-btn>
+                </div>
             </div>
-            <div class="likkle-2">
-              
+            <div class="likkle-2" :style="{'background-image': 'url(https://firebasestorage.googleapis.com/v0/b/fertility-1e091.appspot.com/o/images%2F0001-41382858_20210419_232108_0000.png?alt=media&token=ddc3888f-50a4-4cce-ad2e-df6ce4067456)'}">
+                <div class="kari-3">
+                  <h1 class="bushtri-1 white--text">Skrrrrrrrrrr</h1>
+                  <v-btn class="rounded-lg primary--text" color="white" nuxt to="/ofertat">Vizito tani</v-btn>
+                </div>
             </div>
           </div>
         </div>
@@ -148,16 +162,16 @@
       <div class="side-side">
         <div class="side-pord">
           <div class="header-pord">
-            <v-btn class="qs" icon width="20" height="20" @click="gotoprev">
+            <v-btn class="qs" icon width="20" height="20" @click="gotoprev1">
               <v-icon color="white" size="15">mdi-arrow-left-drop-circle</v-icon>
             </v-btn>
             <p class="qs pa-0 ma-0">Oferta te nxehta</p>
-            <v-btn class="qs" icon width="20" height="20" @click="gotonext">
+            <v-btn class="qs" icon width="20" height="20" @click="gotonext1">
               <v-icon color="white" size="15">mdi-arrow-right-drop-circle</v-icon>
             </v-btn>
           </div>
           <client-only placeholder="Carousel loading..." class="client-80">
-            <agile ref="carousel" @after-change="getCurrSlide($event)" class="mos-i-qr-2">
+            <agile ref="carousels" @after-change="getCurrSlides($event)" class="mos-i-qr-2">
               <div class="deals-body-2" v-for="n in 10" :key="n">
                 <div class="deals-image-2">
                   <v-img :aspect-ratio="16/9" max-width="500" :src="seni"></v-img>
@@ -205,7 +219,7 @@
       </div>
     </div>
 
-    <div class="stingy mt-2 mb-3">
+    <div class="stingy mt-2 mb-3" :style="{'background-image': 'url(https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)'}">
       <h1 class="qs">Reklame</h1>
       <v-btn color="white" class="primary--text rounded-lg">Vizito tani</v-btn>
     </div> 
@@ -275,25 +289,25 @@
       <div class="side-side-2">
         <div class="side-pord" style="border: none">
           <div class="reklamat">
-            <div class="reklama">
+            <div class="reklama-1" :style="{'background-image': 'url(https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)'}">
               <h2 class="qs">Reklame</h2>
               <div class="mini-row">
                 <v-btn class="primary--text rounded" x-small color="white">Vizito tani</v-btn>
               </div>
             </div>
-            <div class="reklama">
+            <div class="reklama-1" :style="{'background-image': 'url(https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)'}">
               <h2 class="qs">Reklame</h2>
               <div class="mini-row">
                 <v-btn class="primary--text rounded" x-small color="white">Vizito tani</v-btn>
               </div>
             </div>
-            <div class="reklama">
+            <div class="reklama-1" :style="{'background-image': 'url(https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)'}">
               <h2 class="qs">Reklame</h2>
               <div class="mini-row">
                 <v-btn class="primary--text rounded" x-small color="white">Vizito tani</v-btn>
               </div>
             </div>
-            <div class="reklama">
+            <div class="reklama-1" :style="{'background-image': 'url(https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)'}">
               <h2 class="qs">Reklame</h2>
               <div class="mini-row">
                 <v-btn class="primary--text rounded" x-small color="white">Vizito tani</v-btn>
@@ -304,7 +318,7 @@
       </div>
     </div>
 
-    <div class="stingy mt-2 mb-3">
+    <div class="stingy mt-2 mb-3" :style="{'background-image': 'url(https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)'}">
       <h1 class="qs">Reklame</h1>
       <v-btn color="white" class="primary--text rounded-lg">Vizito tani</v-btn>
     </div> 
@@ -606,6 +620,21 @@ export default {
       getCurrSlide: function(event){
         this.objCount = event.currentSlide + 1;
       },
+      gotonext1: function(){
+        this.$refs.carousels.goToNext();
+        if(this.objCount != 10){
+          this.objCount++;
+        }
+      },
+      gotoprev1: function(){
+        this.$refs.carousels.goToPrev();
+        if(this.objCount != 1){
+          this.objCount--;
+        }
+      },
+      getCurrSlides: function(event){
+        this.objCount = event.currentSlide + 1;
+      },
       href: function (){
         this.$router.push({name: 'account-me'});
       }
@@ -632,7 +661,7 @@ export default {
   width: 90%;
   height: 27vh;
   border-radius: 25px;
-  background-image: url("../assets/img/electronics.jpg");
+  background-image: url("https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
   background-position-y: center;
   background-size: cover;
   overflow: hidden;
@@ -1081,7 +1110,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 90%;
 }
 .fucked-image{
   width: 80px;
@@ -1100,6 +1129,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  height: 100%;
 }  
 .reklama{
   width: 100%;
@@ -1111,6 +1141,18 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+}
+.reklama-1{
+  width: 100%;
+  height: 130px;
+  padding: 5px;
+  background-color: #bf081d;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  background-size: cover;
 }
 .mini-row{
   display: flex;
@@ -1125,6 +1167,7 @@ export default {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  background-size: cover;
 }
 .products-main{
   width: 100%;
@@ -1151,6 +1194,9 @@ export default {
 }
 .product-main-image{
   width: 100%;
+  height: 180px;
+}
+.product-main-image-2{
   height: 180px;
 }
 .product-main-desc{
@@ -1218,8 +1264,35 @@ export default {
   border-radius: 10px;
   overflow: hidden;
   height: 400px;
+}
+.robshja{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
   background-size: cover;
-  background-image: url("../assets/img/main.png");
+}
+.kari{
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0 0 0 35px;
+}
+.bushtri{
+  font-family: 'qs';
+  font-size: 40px;
+  color: #363f4e;
+}
+.buta{
+  color: #bf081d;
+  margin-bottom: 35px;
 }
 .likkle-div{
   height: 400px;
@@ -1231,14 +1304,37 @@ export default {
   height: 270px;
   border-radius: 10px;
   background-size: cover;
-  background-image: url("../assets/img/side1.png");
+}
+.kari-2{
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.bushtri-1{
+  font-family: 'qs';
+  font-size: 30px;
+  color: #363f4e;
+}
+.buta-1{
+  font-size: 20px;
+  color: #363f4e;
 }
 .likkle-2{
   height: 120px;
   border-radius: 10px;
   background-size: cover;
-  background-position-y: bottom;
-  background-image: url("../assets/img/side2.png");
+}
+.kari-3{
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 30px;
 }
 .burst4{
   display: flex;
@@ -1276,6 +1372,7 @@ export default {
   align-items: center;
   border-radius: 3px;
   border: 1px solid #bf081d;
+  height: 100%;
 }
 .header-pord{
   background-color: #bf081d;
@@ -1305,7 +1402,7 @@ export default {
   width: 650px;
   height: 27vh;
   border-radius: 25px;
-  background-image: url("../assets/img/electronics.jpg");
+  background-image: url("https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
   background-position-y: center;
   background-size: cover;
   overflow: hidden;
@@ -1486,7 +1583,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 245px;
+  width: 240px;
 }
 .deals-desc{
   display: flex;
@@ -1756,6 +1853,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 5px 0 5px;
 }
 .blog{
   height: 80vh;
@@ -1864,6 +1962,7 @@ export default {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  background-size: cover;
 }
 .products-main{
   width: 100%;
@@ -1962,8 +2061,33 @@ export default {
   overflow: hidden;
   height: 400px;
   background-size: cover;
-  background-position-y: center;
-  background-image: url("../assets/img/main.png");
+}
+.robshja{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.kari{
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  padding: 0 0 0 50px;
+}
+.bushtri{
+  font-family: 'qs';
+  font-size: 40px;
+  color: #363f4e;
+}
+.buta{
+  color: #bf081d;
+  margin-bottom: 35px;
 }
 .likkle-div{
   height: 400px;
@@ -1975,17 +2099,37 @@ export default {
   height: 270px;
   border-radius: 10px;
   background-size: cover;
-  background-position-y: top;
-  background-image: url("../assets/img/side1.png");
-
+}
+.kari-2{
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.bushtri-1{
+  font-family: 'qs';
+  font-size: 30px;
+  color: #363f4e;
+}
+.buta-1{
+  font-size: 20px;
+  color: #363f4e;
 }
 .likkle-2{
   height: 120px;
   border-radius: 10px;
   background-size: cover;
-  background-position-y: top;
-  background-image: url("../assets/img/side2.png");
-
+}
+.kari-3{
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 30px;
 }
 .burst4{
   display: flex;
@@ -2023,6 +2167,7 @@ export default {
   align-items: center;
   border-radius: 3px;
   border: 1px solid #bf081d;
+  height: 100%;
 }
 .header-pord{
   background-color: #bf081d;
@@ -2052,7 +2197,7 @@ export default {
   width: 950px;
   height: 27vh;
   border-radius: 25px;
-  background-image: url("../assets/img/electronics.jpg");
+  background-image: url("https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
   background-position-y: center;
   background-size: cover;
   overflow: hidden;

@@ -122,6 +122,7 @@ export default {
         justify-content: space-around;
         align-items: center;
         width: 750px;
+        margin-top: 7px;
     }
     .leftside{
         display: flex;

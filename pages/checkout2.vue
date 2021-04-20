@@ -24,7 +24,13 @@
               <p class="qs white--text">------------or------------</p>
           </div>
           <div class="paypal-divi mt-3" v-if="user">
-              <v-btn large class="qs white--text rounded-lg" color="stripe2" @click="inhandp = true">In hand</v-btn>
+              <v-btn large class="qs white--text rounded-lg" color="stripe2" @click="inhandp = true">Pay with cash</v-btn>
+          </div>
+          <div class="or-paypal mt-5 py-2" v-if="!user">
+              <p class="qs white--text">------------or------------</p>
+          </div>
+          <div class="paypal-divi mt-3" v-if="!user">
+              <v-btn large class="qs white--text rounded-lg" color="stripe2" disabled>Log in to pay cash</v-btn>
           </div>
         </div>
     </v-sheet> 
@@ -112,7 +118,7 @@ export default {
       user: this.$store.state.users.user,
       inhandp: false,
       note: "",
-      email: this.$store.state.users.user.email.split("@"),
+      email: this.$store.state.users.user ? this.$store.state.users.user.email.split("@") : "undefined",
       sessionId: "",
       isStripeLoaded: false,
       mode: "payment",  

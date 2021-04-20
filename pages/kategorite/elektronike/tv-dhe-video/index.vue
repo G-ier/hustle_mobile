@@ -224,7 +224,7 @@ export default {
             }
 
             if(!favs){
-                favs = [];
+                pavs = [];
             } else {
                 var pavs = JSON.parse(favs);
                 pavs.forEach((fav) => {
@@ -235,8 +235,9 @@ export default {
                 });
             }
             
-            favs.push(product);
-            localStorage.setItem("products", favs);
+            pavs.push(product);
+            localStorage.setItem("products", JSON.stringify(pavs));
+            this.itemFaved = true;
         }
     }
 }

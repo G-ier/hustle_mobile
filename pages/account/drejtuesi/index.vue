@@ -200,7 +200,7 @@ export default {
     align-items: center;
     padding: 15px 15px 15px 15px;
     margin-bottom: 10px;
-    overflow: scroll;
+    overflow: hidden;
 }
 .simple-tile{
     display: flex;
@@ -241,6 +241,50 @@ export default {
     }
     .form-holder-4{
         width: 70vw;
+    }
+}
+
+@media only screen and (min-width: 850px){
+    .simple-listing{
+        background-color: white;
+        border-radius: 20px;
+        width: 40%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 15px 0px 15px;
+        margin-bottom: 10px;
+        overflow: hidden;
+    }
+    .logout-row{
+        width: 800px;
+        padding: 5px 5vw 0 5vw;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    .admin-starter{
+        width: 800px;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #363f4e;
+        margin-bottom: 15px;
+    }
+    .admin-followup{
+        width: 800px;
+        height: 300px;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgb(161,5,23);
+        background: linear-gradient(148deg, rgba(161,5,23,1) 39%, rgba(221,131,141,1) 100%);
+        margin-bottom: 15px;
     }
 }
 </style>

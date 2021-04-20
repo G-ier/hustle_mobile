@@ -1,6 +1,6 @@
 <template>
-  <div class="aplikimi-container-cu">
-      <v-sheet elevation="12" class="mx-auto py-4 custom-stepper" color="stripe2">
+  <div class="aplikimi-container-cu-1">
+      <v-sheet elevation="12" class="mx-auto py-4 custom-stepper rounded-lg" color="secondary">
           <h1 class="big-header-white text-center v-fsm mb-7">Register Now</h1>
           <div class="form-body pb-2">
             <v-form class="pb-7">  
@@ -11,8 +11,8 @@
                 </div>
             </v-form>
             <div class="button-side">
-                <v-btn rounded color="stripe1" class="third--text qs btn-c v-fsm" to="/account" @click="back">Login</v-btn>
-                <v-btn rounded color="stripe1" class="btn-c v-fsm" @click="register"><span class="qs white--text" v-if = "loading == false">Register</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
+                <v-btn rounded color="white" class="secondary--text qs btn-c v-fsm" to="/account/me" @click="back">Login</v-btn>
+                <v-btn rounded color="white" class="secondary--text btn-c v-fsm" @click="register"><span class="qs secondary--text" v-if = "loading == false">Register</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
             </div>
           </div>
       </v-sheet> 
@@ -82,7 +82,7 @@ export default {
     },
     head(){
         return{
-            title: "Log in | Platforma X",
+            title: "Register",
             meta: [
                 {
                     hid: "description",
@@ -104,13 +104,12 @@ export default {
     color:  white;
 }
 
-.aplikimi-container-cu{
-    background-image: url("../../assets/img/reserve.png");
+.aplikimi-container-cu-1{
     background-size: cover;
     background-position-y: center;
     background-position-x: center;
     width: 100%;
-    min-height: 71vh;
+    min-height: 81vh;
     background-color: white;
     display: flex;
     flex-direction: column;

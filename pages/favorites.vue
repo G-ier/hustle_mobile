@@ -1,30 +1,5 @@
 <template>
     <div class="shop">
-        <v-navigation-drawer
-        v-model="drawer2"
-        absolute
-        bottom
-        temporary
-        color="secondary"
-        >
-        <v-list
-            nav
-            dense
-        >
-            <v-list-item-group
-            v-model="group1"
-            >
-            <v-list-item>
-                <v-row justify="center"><v-list-item-title><v-btn text color="white" class="qs rounded-lg white--text" @click="filterPrice">Ascending price</v-btn></v-list-item-title></v-row>
-            </v-list-item>
-
-            <v-list-item>
-                <v-row justify="center"><v-list-item-title><v-btn text color="white" class="qs rounded-lg white--text" @click="filterPriceDes">Descending price</v-btn></v-list-item-title></v-row>
-            </v-list-item>
-
-            </v-list-item-group>
-        </v-list>
-        </v-navigation-drawer>
         <div class="sets">
             
             <h2 class="classy secondary--text">Te preferuarat</h2>
@@ -33,7 +8,7 @@
             </v-btn>
         </div>
         <div class="lineM"></div>
-        <div class="market" v-if="!empty">
+        <div class="market mb-3" v-if="empty == false">
             <div class="market-inner">
                 <div class="sell-container" v-for="prod in favs" :key="prod.name">
                     <div class="sellable">
@@ -44,7 +19,7 @@
                                 <p class="qs sell-price">{{prod.details.price}}$</p>
                                 <div class="func-row">
                                     <v-btn color="primary" class="rounded-md" small @click="addToCart(prod.details.name, prod.owner, prod.details.price, 1, prod.details.desc)">Add to cart</v-btn>
-                                    <v-btn icon color="secondary" class="rounded-xl" small @click="snackbar2 = true"><v-icon color="secondary" size="23">mdi-heart-outline</v-icon></v-btn>
+                                    <v-btn icon color="secondary" class="rounded-xl" small @click="unfave(prod)"><v-icon color="secondary" size="23">mdi-heart</v-icon></v-btn>
                                 </div>
                             </div>
                         </div>
@@ -74,18 +49,18 @@
         </template>
         </v-snackbar>
         <v-snackbar
-        v-model="snackbar2"
+        v-model="unfav"
         timeout="3000"
         color="secondary"
         >
-        Item added to favourites.
+        Item removed from favourites.
 
         <template v-slot:action="{ attrs }">
             <v-btn
             color="white"
             text
             v-bind="attrs"
-            @click="snackbar2 = false"
+            @click="unfav = false"
             >
             Close
             </v-btn>
@@ -98,8 +73,10 @@
 import Cookies from 'js-cookie';
 export default {
     asyncData(){
+        console.log("gigi")
         if(process.browser){
             var favs = localStorage.getItem("products");
+            console.log(favs)
         }
         if(!favs){
             favs = [];
@@ -113,6 +90,20 @@ export default {
                 favs: pavs,
                 empty: false
             }
+        }
+    },
+    created(){
+        if(process.browser){
+            var fave = localStorage.getItem("products");
+        }
+        if(!fave){
+            fave = [];
+            this.favs = fave;
+            this.empty = true;
+        } else {
+            var pave = JSON.parse(fave);
+            this.favs = pave;
+            this.empty = false;
         }
     },
     head(){
@@ -133,6 +124,7 @@ export default {
             snackbar2: false,
             drawer2: false, 
             group1: false,
+            unfav: false
         }
     },
     methods: {
@@ -168,6 +160,29 @@ export default {
             console.log(currentCart);
 
             this.snackbar = true;
+        },
+        unfave: function(prod){
+            if(process.browser){
+                var favs = localStorage.getItem("products");
+            }
+
+            if(!favs){
+                pavs = [];
+            } else {
+                var pavs = JSON.parse(favs);
+            }
+            
+            const newPav = pavs.filter((item) => {
+                return item.details.name != prod.details.name && item.details.price != prod.details.price;
+            });
+            localStorage.setItem("products", JSON.stringify(newPav));
+            this.favs = this.favs.filter((flam) => {
+                return flam.details.name != prod.details.name && flam.details.price != prod.details.price;
+            });
+            if(this.favs.length == 0){
+                this.empty = true;
+            }
+            this.unfav = true;
         },
         sendToProduct: function (slug){
             this.$router.push({name: 'kategorite-elektronike-tv-dhe-video-slug', params: {slug: slug}});
@@ -275,12 +290,12 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 75%;
+        width: 830px;
         padding: 15px 0 8px 0;
     }
     .lineM{
         height: 1px;
-        width: 75%;
+        width: 830px;
         background-color: #a10517;
         margin-bottom: 15px;
     }
