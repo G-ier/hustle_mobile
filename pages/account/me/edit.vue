@@ -29,9 +29,10 @@
             fullscreen
             hide-overlay
             transition="dialog-bottom-transition"
+            class="r"
             >
             
-            <v-card>
+            <v-card color="white">
                 <v-toolbar
                 dark
                 color="primary"
@@ -205,6 +206,9 @@ export default {
 </script>
 
 <style>
+.r{
+    z-index: 999999998989898787979867987;
+}
 .edit{
     display: flex;
     flex-direction: column;

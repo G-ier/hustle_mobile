@@ -9,7 +9,7 @@
               <h1 class="starter-title qs">Porosite e paderguara</h1>
                 <div class="starter-row">
                     <v-btn text small color="white" class="white--text qs" nuxt to="/account/drejtuesi/">Bank details</v-btn>
-                    <v-btn class="qs white--text" small text nuxt to="/account/drejtuesi/deals">All payments</v-btn>
+                    <v-btn class="qs white--text" small text nuxt to="/account/drejtuesi/deals">All orders</v-btn>
                 </div>
           </div>
       </div>

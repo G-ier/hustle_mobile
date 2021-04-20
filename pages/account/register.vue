@@ -26,8 +26,8 @@
                             <div class="form-holder-1 pb-1">
                                 <v-text-field label="Emri" outlined class="white--text fully" color="white" v-model="account.emri" :error-messages="emriErrors" required @input="$v.account.emri.$touch()"></v-text-field>
                                 <v-text-field label="Email" outlined class="white--text fully" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
-                                <v-text-field label="Rruga" outlined  class="white--text fully" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
                                 <v-select :items="items" label="Qyteti" class="fully white--text" color="white" dark outlined v-model="account.qyteti" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-select>
+                                <v-text-field label="Rruga" outlined  class="white--text fully" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
                                 <v-text-field label="Numri" outlined class="white--text fully" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
                                 <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully" v-model="account.password"></v-text-field>
                             </div>
@@ -44,8 +44,8 @@
                             <div class="form-holder-1 pb-1">
                                 <v-text-field label="Emri" outlined class="white--text fully" color="white" v-model="account.emri" :error-messages="emriErrors" required @input="$v.account.emri.$touch()"></v-text-field>
                                 <v-text-field label="Email" outlined class="white--text fully" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
-                                <v-text-field label="Adresa" outlined class="white--text fully" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
                                 <v-select :items="items" color="white" class="fully white--text" label="Qyteti" dark outlined v-model="account.qyteti" :error-messages="adresaErrors" required @input="$v.account.qyteti.$touch()"></v-select>
+                                <v-text-field label="Adresa" outlined class="white--text fully" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
                                 <v-text-field label="Numri" outlined class="white--text fully" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
                                 <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully" v-model="account.password"></v-text-field>
                             </div>
@@ -328,6 +328,10 @@ export default {
     margin-top: 40px;
     width: 20vw;
     animation: changer 0.4s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .form-holder-2{
     display: none;
@@ -377,6 +381,11 @@ export default {
     }
     .form-holder-4{
         width: 70vw;
+    }
+}
+@media screen and (min-width: 850px) {
+    .fully{
+        width: 220px;
     }
 }
 </style>

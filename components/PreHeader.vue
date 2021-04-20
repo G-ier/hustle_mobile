@@ -7,6 +7,7 @@
                         bottom
                         left
                         light
+                        class="index-upper-2"
                     >
                         <template v-slot:activator="{ on, attrs }">
                         <v-btn
@@ -16,14 +17,14 @@
                             v-on="on"
                             width="0"
                             height="0"
-                            class="nofx px-2 qs"
+                            class="nofx px-2 btn-c-o qs"
                         >
                             <img :src="langLogo" alt="english version" width="18" height="18">
                             <v-icon size="12" color="white" class="pr-2">mdi-chevron-down</v-icon>
                         </v-btn>
                         </template>
 
-                        <v-list>
+                        <v-list >
                         <v-list-item
                             v-for="(item, i) in items"
                             :key="i"
@@ -106,6 +107,9 @@ export default {
     margin-bottom: 2
     1px;
 }
+.index-upper-2{
+    z-index: 999999999999999999999;
+}
 @media screen and (min-width: 850px) {
     .main-nav{
         width: 100vw;
@@ -122,7 +126,6 @@ export default {
         justify-content: space-around;
         align-items: center;
         width: 750px;
-        margin-top: 7px;
     }
     .leftside{
         display: flex;
@@ -146,4 +149,5 @@ export default {
         1px;
     }
 }
+
 </style>

@@ -1,6 +1,8 @@
 <template>
   <v-app dark class="bg-white">
-    <Header />
+    <div class="index-upper">
+      <Header />
+    </div>
     <v-main>
       <v-layout>
         <nuxt />
@@ -49,5 +51,8 @@ export default {
 <style>
 .fluid-layout{
   width: 100%;
+}
+.index-upper{
+  z-index: 99999999999;
 }
 </style>

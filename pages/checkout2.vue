@@ -1,22 +1,10 @@
 <template>
   <div class="aplikimi-container-cu-1">
-    <div class="ch-t">
-        <h1 class="qs checkoutTitle">Pagesa</h1>
-    </div>
     <v-sheet elevation="12" class="mx-auto py-4 custom-stepper" color="stripe1">
         <div class="form-body pb-2">
-          <v-form class="pb-1">  
-              <div class="form-holder-1 pb-1">
-                  <v-text-field label="Your Email" outlined class="white--text" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
-                  <v-text-field label="Your Password" type="password" color="white" outlined class="white--text" v-model="account.password"></v-text-field>
-              </div>
-          </v-form>
-          <div class="button-side">
-              <v-btn rounded color="white" class="btn-c v-fsm" @click="checkout"><span class="qs stripe2--text" v-if = "loading == false">Paguaj me karte</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
-          </div>
-          <div class="or-paypal mt-5 py-2">
-              <p class="qs white--text">------------or------------</p>
-          </div>
+          <div class="ch-t">
+            <h1 class="qs checkoutTitle white--text">Pagesa</h1>
+        </div>
           <div class="paypal-divi mt-3" id="paypal-button-container">
               
           </div>
@@ -24,7 +12,7 @@
               <p class="qs white--text">------------or------------</p>
           </div>
           <div class="paypal-divi mt-3" v-if="user">
-              <v-btn large class="qs white--text rounded-lg" color="stripe2" @click="inhandp = true">Paguaj ne dore</v-btn>
+              <v-btn large class="qs white--text rounded-lg" color="stripe2" @click="startUp">Paguaj ne dore</v-btn>
           </div>
           <div class="or-paypal mt-5 py-2" v-if="!user">
               <p class="qs white--text">------------or------------</p>
@@ -34,39 +22,28 @@
           </div>
         </div>
     </v-sheet> 
-      <stripe-checkout
-      ref="checkoutRef"
-      :pk="pk"
-      :items="items"
-      :sessionId="sessionId"
-      :successUrl="successUrl"
-      :cancelUrl="cancelUrl"
-      :mode="mode"
-    >
-      <template slot="checkout-button">
-        <button @click="checkout">Shut up and take my money!</button>
-      </template>
-    </stripe-checkout>
     <v-dialog
         transition="dialog-top-transition"
-        max-width="600"
+        max-width="300"
         v-model="inhandp"
         >
-            <v-card color="secondary">
+            <v-card color="white">
             <v-toolbar
                 color="secondary"
                 dark
-            >Make payment to hand.</v-toolbar>
+            >Kryej pagesen ne dore.</v-toolbar>
             <v-card-text>
-                <v-text-field label="Enter address" outlined v-model="note" dense color="white" class="mt-10" clearable :error-messages="noteErrors" required @input="$v.note.$touch()"></v-text-field>
-                <v-text-field label="Enter cellphone number" outlined v-model="num" dense color="white" class="mt-10" clearable :error-messages="numberErrors" required @input="$v.num.$touch()"></v-text-field>
+                <v-text-field label="Numri i telefonit" outlined v-model="num" :value="num" light dense color="secondary" class="mt-10" clearable :error-messages="numberErrors" required @input="$v.num.$touch()"></v-text-field>
+                <v-select :items="itemsy" color="secondary" class="fully secondary--text" label="Qyteti" light outlined v-model="qyteti" :error-messages="qytetiErrors" required @input="$v.qyteti.$touch()"></v-select>
+                <v-text-field label="Adresa" outlined v-model="note" dense light color="secondary" class="mt-10" clearable :error-messages="noteErrors" required @input="$v.note.$touch()"></v-text-field>
             </v-card-text>
             <v-card-actions class="justify-end">
                 <v-btn
                 text
                 @click="inhand"
                 :loading = "loading2"
-                >Send</v-btn>
+                color="secondary"
+                >Finalizo</v-btn>
             </v-card-actions>
             </v-card>
     </v-dialog>
@@ -103,13 +80,6 @@ export default {
       title: "Checkout",
       script: [
         {
-          hid: 'stripe',
-          src: 'https://js.stripe.com/v3/',
-          defer: true,
-          // Changed after script load
-          callback: () => { this.isStripeLoaded = true } 
-        },
-        {
             hid: 'paypal',
             src: "https://www.paypal.com/sdk/js?client-id=AfiEGhDW75HGoJvK8PdWKV-BsunzhkTJWi5sCIjW9bU0J9D4ypIvxm6nenlEBVf2-0u7SQa-H9XhRxpd",
             defer: true,
@@ -119,10 +89,104 @@ export default {
     }
   },
   mounted(){
-      paypal.Buttons().render('#paypal-button-container');
+      paypal.Buttons({
+        createOrder: function(data, actions) {
+            // This function sets up the details of the transaction, including the amount and line item details.
+            return actions.order.create({
+            purchase_units: [{
+                amount: {
+                    value: '0.01'
+                }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            // This function captures the funds from the transaction.
+            return actions.order.capture().then(function(details) {
+                // This function shows a transaction success message to your buyer.
+                alert('Transaction completed by ' + details.payer.name.given_name);
+            });
+        }
+      }).render('#paypal-button-container');
   },
   data () {
     return {
+        itemsy: [
+            "Bajram Curri",
+            "Bajzë",
+            "Ballsh",
+            "Berat",
+            "Bilisht",
+            "Bulqizë",
+            "Burrel",
+            "Cërrik",
+            "Çorovodë",
+            "Delvinë",
+            "Divjakë",
+            "Durrës",
+            "Elbasan",
+            "Ersekë",
+            "Fier",
+            "Fierzë",
+            "Finiq",
+            "Fushë-Arrëz",
+            "Fushë-Krujë",
+            "Gjirokastër",
+            "Gramsh",
+            "Himarë",
+            "Kamëz",
+            "Kavajë",
+            "Këlcyrë",
+            "Klos",
+            "Konispol",
+            "Koplik",
+            "Korçë",
+            "Krastë",
+            "Krrabë",
+            "Krujë",
+            "Krumë",
+            "Kuçovë",
+            "Kukës",
+            "Kurbnesh",
+            "Laç",
+            "Leskovik",
+            "Lezhë",
+            "Libohovë",
+            "Librazhd",
+            "Lushnjë",
+            "Maliq",
+            "Mamurras",
+            "Manëz",
+            "Memaliaj",
+            "Milot",
+            "Orikum",
+            "Patos",
+            "Peqin",
+            "Përmet",
+            "Peshkopi",
+            "Pogradec",
+            "Poliçan",
+            "Prrenjas",
+            "Pukë",
+            "Reps",
+            "Roskovec",
+            "Rrëshen",
+            "Rrogozhinë",
+            "Rubik",
+            "Sarandë",
+            "Selenicë",
+            "Shëngjin",
+            "Shijak",
+            "Shkodër",
+            "Sukth",
+            "Tepelenë",
+            "Tirana",
+            "Ulëz",
+            "Ura Vajgurore",
+            "Vau i Dejës",
+            "Vlorë",
+            "Vorë"
+        ],
       pk: process.env.STRIPE_PK,
       user: this.$store.state.users.user,
       inhandp: false,
@@ -147,7 +211,8 @@ export default {
       loading2: false,
       dialog: false,
       successToHand: false,
-      num: null,
+      num: "",
+      qyteti: "",
       clean: false,
       submitStatus: null
     };
@@ -160,7 +225,18 @@ export default {
         console.log(result);
       });
     },
-    inhand: function(){
+    startUp: async function(){
+        const dddddd = await firebase.firestore().collection('users').doc(this.email[0]).get();
+        const d = dddddd.data();
+
+        this.note = d.location;
+        this.num = d.numri;
+        this.qyteti = d.qyteti;
+
+        this.inhandp = true;
+    },
+    inhand: async function(){
+
         this.$v.num.$touch();
         this.$v.num.$touch();
 
@@ -182,12 +258,14 @@ export default {
                 fulfilled: false,
                 onto: false4,
                 address: this.note,
+                qyteti: this.qyteti,
                 number: this.num,
                 orders: [
                     {
                         item: fell.name,
                         paid: false,
                         price: fell.amount * fell.quantity,
+                        quantity: fell.quantity,
                         type: "tohand"
                     }
                 ]
@@ -227,6 +305,9 @@ export default {
       note: {
           required
       },
+      qyteti: {
+          required
+      },
       num: {
           numeric,
           required
@@ -237,22 +318,28 @@ export default {
           const errors = []
           if (!this.$v.account.email.$dirty) return errors
           !this.$v.account.email.email && errors.push('Must be valid e-mail')
-          !this.$v.account.email.required && errors.push('E-mail is required')
+          !this.$v.account.email.required && errors.push('Email eshte i detyrueshem')
           return errors
       },
       noteErrors () {
           const errors = []
           if (!this.$v.note.$dirty) return errors
-          !this.$v.note.required && errors.push('Address is required')
+          !this.$v.note.required && errors.push('Adresa eshte i detyrueshem')
           return errors
       },
       numberErrors () {
           const errors = []
           if (!this.$v.num.$dirty) return errors
-          !this.$v.num.required && errors.push('Number is required')
+          !this.$v.num.required && errors.push('Numri eshte i detyrueshem')
           !this.$v.num.numeric && errors.push('Numbers only!')
           return errors
       },
+      qytetiErrors () {
+          const errors = []
+          if (!this.$v.qyteti.$dirty) return errors
+          !this.$v.qyteti.required && errors.push('Qyteti eshte i detyrueshem')
+          return errors
+      }
   },
 };
 </script>
@@ -263,8 +350,6 @@ export default {
 }
 
 .aplikimi-container-cu-1{
-    background-image: url('../assets/img/checkout.png');
-    background-size: cover;
     background-position-y: center;
     background-position-x: center;
     width: 100%;
@@ -284,7 +369,6 @@ export default {
     width: 80vw;
 }
 .checkoutTitle{
-    color: white;
 }
 .custom-stepper{
     width: 30vw;

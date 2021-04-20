@@ -16,9 +16,10 @@
             fullscreen
             hide-overlay
             transition="dialog-bottom-transition"
+            class="r"
             >
             
-            <v-card>
+            <v-card color="white">
                 <v-toolbar
                 dark
                 color="primary"
@@ -73,7 +74,7 @@
                         clear-icon="mdi-close-circle"
                         label="New description"
                         v-model="detailsToEdit.details.desc"
-                        color="white"
+                        color="secondary"
                         outlined
                         light
                     ></v-textarea>
@@ -279,6 +280,9 @@ export default {
 </script>
 
 <style>
+.r{
+    z-index: 999999998989898787979867987;
+}
 .edit{
     display: flex;
     flex-direction: column;

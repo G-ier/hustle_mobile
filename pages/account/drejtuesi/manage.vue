@@ -32,6 +32,7 @@
             fullscreen
             hide-overlay
             transition="dialog-bottom-transition"
+            class="uuuuuuuuup"
             >
             
             <v-card>
@@ -67,6 +68,7 @@
                     <v-list-item-content>
                         <div class="show-details">
                             <p class="qs ">Name: {{dotdName}}</p>
+                            <p class="qs ">Name: {{dotdMarke}}</p>
                         </div>
                     </v-list-item-content>
                 </v-list-item>
@@ -158,8 +160,8 @@ export default {
     methods: {
         edit: function (prod, spot){
             this.index = prod.index;
-            this.dotdName = prod.details.name;
-            this.dotdMarke = prod.details.marke;
+            this.dotdName = prod.name;
+            this.dotdMarke = prod.marke;
             this.spot = spot;
 
             this.dialog = true;
@@ -193,6 +195,9 @@ export default {
     justify-content: flex-start;
     width: 70%;
 
+}
+.uuuuuuuuup{
+    z-index: 9999999999999999999999999999999;
 }
 .edit{
     display: flex;
