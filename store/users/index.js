@@ -74,10 +74,13 @@ export const actions = {
             await firebase.auth().createUserWithEmailAndPassword(account.email, account.password);
             await firebase.firestore().collection('users').doc(toFilter[0]).set({
                 email: account.email,
-                username: toFilter[0],
+                username: account.emri,
                 role: account.role.toLowerCase(),
                 displaName: toFilter[0],
-                photo: null
+                photo: null,
+                location: account.adresa,
+                qyteti: account.qyteti,
+                numri: account.numri
             })
 
             //Get token from firebase
@@ -103,7 +106,6 @@ export const actions = {
             throw error;
         }
     },
-
     async search({commit}, kerkimi){
         try{
             commit("SET_REDIRECT", null);

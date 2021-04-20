@@ -1,20 +1,62 @@
 <template>
-  <div class="aplikimi-container-cu-1">
+  <div class="aplikimi-container-cu-2">
       <v-sheet elevation="12" class="mx-auto py-4 custom-stepper rounded-lg" color="secondary">
           <h1 class="big-header-white text-center v-fsm mb-7">Register Now</h1>
-          <div class="form-body pb-2">
-            <v-form class="pb-7">  
-                <div class="form-holder-1 pb-1">
-                    <v-text-field label="Your Email" outlined class="white--text" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
-                    <v-text-field label="Your Password" type="password" color="white" outlined class="white--text" v-model="account.password"></v-text-field>
-                    <v-select :items = "items" v-model="account.role" label="Choose your role" dense outlined></v-select>
-                </div>
-            </v-form>
-            <div class="button-side">
-                <v-btn rounded color="white" class="secondary--text qs btn-c v-fsm" to="/account/me" @click="back">Login</v-btn>
-                <v-btn rounded color="white" class="secondary--text btn-c v-fsm" @click="register"><span class="qs secondary--text" v-if = "loading == false">Register</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
-            </div>
-          </div>
+          <v-tabs
+            v-model="tab"
+            background-color="secondary"
+            centered
+            dark
+            
+            >
+            <v-tabs-slider></v-tabs-slider>
+
+            <v-tab href="#tab-1" @click="setRoleToSeller">
+                Behu shites
+            </v-tab>
+
+            <v-tab href="#tab-2" @click="setRoleToBuyer">
+                Behu bleres
+            </v-tab>
+            </v-tabs>
+            <v-tabs-items v-model="tab">
+                <v-tab-item value="tab-1" class="secondary">
+                    <div class="form-body pb-2">
+                        <v-form class="pb-7">  
+                            <div class="form-holder-1 pb-1">
+                                <v-text-field label="Emri" outlined class="white--text fully" color="white" v-model="account.emri" :error-messages="emriErrors" required @input="$v.account.emri.$touch()"></v-text-field>
+                                <v-text-field label="Email" outlined class="white--text fully" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
+                                <v-text-field label="Rruga" outlined  class="white--text fully" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
+                                <v-select :items="items" label="Qyteti" class="fully white--text" color="white" dark outlined v-model="account.qyteti" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-select>
+                                <v-text-field label="Numri" outlined class="white--text fully" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
+                                <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully" v-model="account.password"></v-text-field>
+                            </div>
+                        </v-form>
+                        <div class="button-side">
+                            <v-btn rounded color="white" class="secondary--text qs btn-c v-fsm" to="/account/me" @click="back">Login</v-btn>
+                            <v-btn rounded color="white" class="secondary--text btn-c v-fsm" @click="register"><span class="qs secondary--text" v-if = "loading == false">Register</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
+                        </div>
+                    </div>
+                </v-tab-item>
+                <v-tab-item value="tab-2" class="secondary">
+                    <div class="form-body pb-2">
+                        <v-form class="pb-7">  
+                            <div class="form-holder-1 pb-1">
+                                <v-text-field label="Emri" outlined class="white--text fully" color="white" v-model="account.emri" :error-messages="emriErrors" required @input="$v.account.emri.$touch()"></v-text-field>
+                                <v-text-field label="Email" outlined class="white--text fully" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
+                                <v-text-field label="Adresa" outlined class="white--text fully" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
+                                <v-select :items="items" color="white" class="fully white--text" label="Qyteti" dark outlined v-model="account.qyteti" :error-messages="adresaErrors" required @input="$v.account.qyteti.$touch()"></v-select>
+                                <v-text-field label="Numri" outlined class="white--text fully" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
+                                <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully" v-model="account.password"></v-text-field>
+                            </div>
+                        </v-form>
+                        <div class="button-side">
+                            <v-btn rounded color="white" class="secondary--text qs btn-c v-fsm" to="/account/me" @click="back">Login</v-btn>
+                            <v-btn rounded color="white" class="secondary--text btn-c v-fsm" @click="register"><span class="qs secondary--text" v-if = "loading == false">Register</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
+                        </div>
+                    </div>
+                </v-tab-item>
+            </v-tabs-items>
       </v-sheet> 
       <v-dialog v-model="dialog" max-width="240">
             <v-card color="secondary">
@@ -31,31 +73,126 @@
 
 <script>
 import {validationMixin} from 'vuelidate'
-import {required, email} from 'vuelidate/lib/validators'
+import {required, numeric, email} from 'vuelidate/lib/validators'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 export default {
     mixins: [validationMixin],
     data(){
         return{
-            items: ["Buyer", "Seller"],
+            items: [
+                "Bajram Curri",
+                "Bajzë",
+                "Ballsh",
+                "Berat",
+                "Bilisht",
+                "Bulqizë",
+                "Burrel",
+                "Cërrik",
+                "Çorovodë",
+                "Delvinë",
+                "Divjakë",
+                "Durrës",
+                "Elbasan",
+                "Ersekë",
+                "Fier",
+                "Fierzë",
+                "Finiq",
+                "Fushë-Arrëz",
+                "Fushë-Krujë",
+                "Gjirokastër",
+                "Gramsh",
+                "Himarë",
+                "Kamëz",
+                "Kavajë",
+                "Këlcyrë",
+                "Klos",
+                "Konispol",
+                "Koplik",
+                "Korçë",
+                "Krastë",
+                "Krrabë",
+                "Krujë",
+                "Krumë",
+                "Kuçovë",
+                "Kukës",
+                "Kurbnesh",
+                "Laç",
+                "Leskovik",
+                "Lezhë",
+                "Libohovë",
+                "Librazhd",
+                "Lushnjë",
+                "Maliq",
+                "Mamurras",
+                "Manëz",
+                "Memaliaj",
+                "Milot",
+                "Orikum",
+                "Patos",
+                "Peqin",
+                "Përmet",
+                "Peshkopi",
+                "Pogradec",
+                "Poliçan",
+                "Prrenjas",
+                "Pukë",
+                "Reps",
+                "Roskovec",
+                "Rrëshen",
+                "Rrogozhinë",
+                "Rubik",
+                "Sarandë",
+                "Selenicë",
+                "Shëngjin",
+                "Shijak",
+                "Shkodër",
+                "Sukth",
+                "Tepelenë",
+                "Tirana",
+                "Ulëz",
+                "Ura Vajgurore",
+                "Vau i Dejës",
+                "Vlorë",
+                "Vorë"
+            ],
             account: {
                 email: '',
                 password: '',
                 role: '',
+                adresa: "",
+                qyteti: "",
+                numri: null,
             },
             error: 'None',
             loading: false,
             dialog: false,
+            tab: null,
         }
     },
     validations: {
         account: {
+            emri: {
+                required,
+            },
             email: {
                 required,
                 email
             },
             password: {
+                required,
+            },
+            adresa: {
+                required,
+            },
+            qyteti: {
+                required,
+            },
+            numri: {
+                required,
+                numeric
+            },
+            role: {
                 required,
             }
         }
@@ -65,7 +202,38 @@ export default {
             const errors = []
             if (!this.$v.account.email.$dirty) return errors
             !this.$v.account.email.email && errors.push('Must be valid e-mail')
-            !this.$v.account.email.required && errors.push('E-mail is required')
+            !this.$v.account.email.required && errors.push('E-mail eshte i detyrueshem')
+            return errors
+        },
+        emriErrors () {
+            const errors = []
+            if (!this.$v.account.emri.$dirty) return errors
+            !this.$v.account.emri.required && errors.push('Emri eshte i detyrueshem')
+            return errors
+        },
+        adresaErrors () {
+            const errors = []
+            if (!this.$v.account.adresa.$dirty) return errors
+            !this.$v.account.adresa.required && errors.push('Adresa eshte i detyrueshem')
+            return errors
+        },
+        qytetiErrors () {
+            const errors = []
+            if (!this.$v.account.qyteti.$dirty) return errors
+            !this.$v.account.qyteti.required && errors.push('Qyteti eshte i detyrueshem')
+            return errors
+        },
+        numErrors () {
+            const errors = []
+            if (!this.$v.account.numri.$dirty) return errors
+            !this.$v.account.numri.required && errors.push('Numri eshte i detyrueshem')
+            !this.$v.account.numri.numeric && errors.push('Vetem numra pranohen')
+            return errors
+        },
+        roleErrors () {
+            const errors = []
+            if (!this.$v.account.adresa.$dirty) return errors
+            !this.$v.account.adresa.required && errors.push('Field is required')
             return errors
         },
     },
@@ -73,11 +241,27 @@ export default {
         register: async function(){
             this.loading = true;
             this.$v.account.email.$touch();
+            this.$v.account.adresa.$touch();
+            this.$v.account.emri.$touch();
+            this.$v.account.qyteti.$touch();
+            this.$v.account.numri.$touch();
+            if (this.$v.account.email.$invalid || this.$v.account.adresa.$invalid || this.$v.account.emri.$invalid || this.$v.account.qyteti.$invalid || this.$v.account.numri.$invalid) {
+                return;
+            } else {
+                console.log("gucci");
+            }
             await this.$store.dispatch("users/register", this.account);
             this.dialog = true;
+            this.loading = false;
         },
         redir: function (){
             location.href="/account";
+        },
+        setRoleToSeller: function (){
+            this.account.role = "seller";
+        },
+        setRoleToBuyer: function (){
+            this.account.role = "buyer";
         }
     },
     head(){
@@ -103,8 +287,10 @@ export default {
 .v-text-field input{
     color:  white;
 }
-
-.aplikimi-container-cu-1{
+.fully{
+    width: 220px;
+}
+.aplikimi-container-cu-2{
     background-size: cover;
     background-position-y: center;
     background-position-x: center;
@@ -115,11 +301,12 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 15px 0 15px 0;
     
 }
 .custom-stepper{
     background-color: white;
-    width: 30vw;
+    width: 600px;
 }
 .stepper-header{
     width: 80%;

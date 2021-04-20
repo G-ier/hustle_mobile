@@ -4,7 +4,7 @@ export default function ({store, route, redirect}) {
     const blocked = /^\/account\/me\/?$/;
     // const blockedC = /^\/creator\/*$/;
     const blockedAdmin = /^\/account\/drejtuesi\/?$/;
-    const afterAdminLogin = /^\/account\/drejtuesi\/users\/?|\/account\/drejtuesi\/deals\/?$/;
+    const afterAdminLogin = /^\/account\/drejtuesi\/users\/?|\/account\/drejtuesi\/manage\/?|\/account\/drejtuesi\/?|\/account\/drejtuesi\/deals\/?$/;
     const blockedAfterLogIn = /^\/account\/?|\/account\/register\/?$/;
     const blockedAfterLogIn2 = /^\/account\/register\/?$/;
     // const blockedAfterLogInC = /^\/creator\/login$/;

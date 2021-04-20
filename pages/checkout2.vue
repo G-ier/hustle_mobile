@@ -1,7 +1,7 @@
 <template>
   <div class="aplikimi-container-cu-1">
     <div class="ch-t">
-        <h1 class="qs checkoutTitle">Checkout</h1>
+        <h1 class="qs checkoutTitle">Pagesa</h1>
     </div>
     <v-sheet elevation="12" class="mx-auto py-4 custom-stepper" color="stripe1">
         <div class="form-body pb-2">
@@ -12,25 +12,25 @@
               </div>
           </v-form>
           <div class="button-side">
-              <v-btn rounded color="white" class="btn-c v-fsm" @click="checkout"><span class="qs stripe2--text" v-if = "loading == false">Pay</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
+              <v-btn rounded color="white" class="btn-c v-fsm" @click="checkout"><span class="qs stripe2--text" v-if = "loading == false">Paguaj me karte</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
           </div>
           <div class="or-paypal mt-5 py-2">
               <p class="qs white--text">------------or------------</p>
           </div>
-          <div class="paypal-divi mt-3">
-              <v-btn large class="qs white--text rounded-lg" color="stripe2">PAYPAL</v-btn>
+          <div class="paypal-divi mt-3" id="paypal-button-container">
+              
           </div>
           <div class="or-paypal mt-5 py-2" v-if="user">
               <p class="qs white--text">------------or------------</p>
           </div>
           <div class="paypal-divi mt-3" v-if="user">
-              <v-btn large class="qs white--text rounded-lg" color="stripe2" @click="inhandp = true">Pay with cash</v-btn>
+              <v-btn large class="qs white--text rounded-lg" color="stripe2" @click="inhandp = true">Paguaj ne dore</v-btn>
           </div>
           <div class="or-paypal mt-5 py-2" v-if="!user">
               <p class="qs white--text">------------or------------</p>
           </div>
           <div class="paypal-divi mt-3" v-if="!user">
-              <v-btn large class="qs white--text rounded-lg" color="stripe2" disabled>Log in to pay cash</v-btn>
+              <v-btn large class="qs white--text rounded-lg" color="stripe2" disabled>Logohu per te paguar ne dore</v-btn>
           </div>
         </div>
     </v-sheet> 
@@ -108,9 +108,18 @@ export default {
           defer: true,
           // Changed after script load
           callback: () => { this.isStripeLoaded = true } 
+        },
+        {
+            hid: 'paypal',
+            src: "https://www.paypal.com/sdk/js?client-id=AfiEGhDW75HGoJvK8PdWKV-BsunzhkTJWi5sCIjW9bU0J9D4ypIvxm6nenlEBVf2-0u7SQa-H9XhRxpd",
+            defer: true,
+            callback: () => {this.isPaypalLoaded = true}
         }
       ]
     }
+  },
+  mounted(){
+      paypal.Buttons().render('#paypal-button-container');
   },
   data () {
     return {
@@ -121,6 +130,7 @@ export default {
       email: this.$store.state.users.user ? this.$store.state.users.user.email.split("@") : "undefined",
       sessionId: "",
       isStripeLoaded: false,
+      isPaypalLoaded: false,
       mode: "payment",  
       toSell: this.$store.state.users.cart,
       items: [
