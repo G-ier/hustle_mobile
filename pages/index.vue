@@ -219,9 +219,9 @@
       </div>
     </div>
 
-    <div class="stingy mt-2 mb-3" :style="{'background-image': 'url(https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)'}">
-      <h1 class="qs">Reklame</h1>
-      <v-btn color="white" class="primary--text rounded-lg">Vizito tani</v-btn>
+    <div class="stingy mt-2 mb-3" :style="{'background-image': `url(${basic.ad1.photo})`}">
+      <h1 class="qs">{{basic.ad1.name}}</h1>
+      <v-btn color="white" class="primary--text rounded-lg" :to="basic.ad1.link">Vizito tani</v-btn>
     </div> 
 
     <div class="main-body">
@@ -318,9 +318,9 @@
       </div>
     </div>
 
-    <div class="stingy mt-2 mb-3" :style="{'background-image': 'url(https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)'}">
-      <h1 class="qs">Reklame</h1>
-      <v-btn color="white" class="primary--text rounded-lg">Vizito tani</v-btn>
+    <div class="stingy mt-2 mb-3" :style="{'background-image': `url(${basic.ad2.photo})`}">
+      <h1 class="qs">{{basic.ad2.name}}</h1>
+      <v-btn color="white" class="primary--text rounded-lg" :to="basic.ad2.link">Vizito tani</v-btn>
     </div> 
 
     <div class="main-body">
@@ -560,7 +560,8 @@
 
 <script>
 import seni from '../assets/img/heads.jpg';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 import Carousel from '../components/Carousel';
 export default {
   components: {
@@ -573,10 +574,15 @@ export default {
 
     const data2 = await firebase.firestore().collection('elektronike').get();
     const datas = data2.docs.map(doc => doc.data());
-    console.log(datas)
+    
+    const fata = await firebase.firestore().collection('basic').get();
+    const fata2 = fata.docs.map(doc => doc.data());
+
     return {
       statedTime: diff,
-      prodis: datas
+      prodis: datas,
+      basic: fata2[5],
+      dotd: fata2[0]
     }
   },
   data(){
