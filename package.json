@@ -9,6 +9,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@fcannizzaro/react-use-cookie-watcher": "^1.0.1",
     "@firebase/firestore": "^2.2.0",
     "@nuxt/content": "^1.11.1",
     "@nuxt/http": "^0.6.4",
@@ -37,6 +38,7 @@
     "vue-awesome-countdown": "^1.1.4",
     "vue-i18n": "^8.24.1",
     "vue-meta": "^2.3.0",
+    "vue-paypal-checkout": "^3.2.0",
     "vue-slick-carousel": "^1.0.6",
     "vue-stripe-checkout": "^3.5.15",
     "vue-tiny-slider": "^0.1.39",

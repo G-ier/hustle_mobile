@@ -26,5 +26,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: white;
+    width: 100vw;
+    min-height: 71vh;
 }
 </style>

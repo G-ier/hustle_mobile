@@ -33,6 +33,7 @@ export default {
     '~/plugins/countdown.js',
     '~/plugins/vue-agile',
     { src: '~/plugins/vue-stripe.client.js'},
+    { src: '~/plugins/paypal.js', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
