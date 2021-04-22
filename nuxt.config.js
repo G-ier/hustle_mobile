@@ -15,6 +15,11 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script: [
+      {
+        src: "https://www.paypal.com/sdk/js?client-id=AfiEGhDW75HGoJvK8PdWKV-BsunzhkTJWi5sCIjW9bU0J9D4ypIvxm6nenlEBVf2-0u7SQa-H9XhRxpd&currency=USD"
+      }
     ]
   },
 

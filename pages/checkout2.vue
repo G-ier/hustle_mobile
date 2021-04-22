@@ -9,7 +9,7 @@
               
           </div>
           <div class="paypal-divi display-on mt-3" v-if="dun == false">
-              <v-btn class="rounded-lg secondary--text" color="white" @click="dunn">Konfirmo te dhenat dhe paguaj</v-btn>
+              <v-btn class="rounded-lg qs secondary--text" color="white" @click="dunn">Paguaj online</v-btn>
           </div>
           <div class="or-paypal mt-5 py-2" v-if="user">
               <p class="qs white--text">------------or------------</p>
@@ -29,11 +29,13 @@
         transition="dialog-top-transition"
         max-width="300"
         v-model="inhandp"
+        style="z-index: 9898989898987987987987897;"
         >
             <v-card color="white">
             <v-toolbar
                 color="secondary"
                 dark
+                class="qs s20"
             >Kryej pagesen ne dore.</v-toolbar>
             <v-card-text>
                 <v-text-field label="Numri i telefonit" outlined v-model="num" :value="num" light dense color="secondary" class="mt-10" clearable :error-messages="numberErrors" required @input="$v.num.$touch()"></v-text-field>
@@ -54,13 +56,15 @@
         transition="dialog-top-transition"
         max-width="300"
         v-model="numryTab"
+        style="z-index: 9898989898987987987987897;"
         >
             <v-card color="secondary">
             <v-card-title>
-                <v-text-field label="Emri i marresit" outlined v-model="emr" dark dense color="white" class="mt-10" clearable :error-messages="emrErrors" required @input="$v.emr.$touch()"></v-text-field>
-                <v-text-field label="Numri i telefonit" outlined v-model="namber" dark dense color="white" class="mt-10" clearable :error-messages="namberErrors" required @input="$v.namber.$touch()"></v-text-field>
-                <v-text-field label="Adresa" outlined v-model="rrug" dark dense color="white" class="mt-10" clearable :error-messages="rrugErrors" required @input="$v.rrug.$touch()"></v-text-field>
-                <v-text-field label="Qyteti" outlined v-model="qyt" dark dense color="white" class="mt-10" clearable :error-messages="qytErrors" required @input="$v.qyt.$touch()"></v-text-field>            
+                <h3 class="qs white--text mb-4">Konfirmo te dhenat</h3>
+                <v-text-field label="Emri i marresit" outlined v-model="emr" dark dense color="white" class="mt-1" clearable :error-messages="emrErrors" required @input="$v.emr.$touch()"></v-text-field>
+                <v-text-field label="Numri i telefonit" outlined v-model="namber" dark dense color="white" class="mt-1" clearable :error-messages="namberErrors" required @input="$v.namber.$touch()"></v-text-field>
+                <v-text-field label="Adresa" outlined v-model="rrug" dark dense color="white" class="mt-1" clearable :error-messages="rrugErrors" required @input="$v.rrug.$touch()"></v-text-field>
+                <v-text-field label="Qyteti" outlined v-model="qyt" dark dense color="white" class="mt-1" clearable :error-messages="qytErrors" required @input="$v.qyt.$touch()"></v-text-field>            
             </v-card-title>
             <v-card-actions class="justify-end">
                 <v-btn
@@ -96,6 +100,7 @@ import {required, email, numeric} from 'vuelidate/lib/validators'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore';
 import Cookies from 'js-cookie';
+import Cookie from 'js-cookie';
 
 export default {
   mixins: [validationMixin],
@@ -105,7 +110,7 @@ export default {
       script: [
         {
             hid: 'paypal',
-            src: "https://www.paypal.com/sdk/js?client-id=AfiEGhDW75HGoJvK8PdWKV-BsunzhkTJWi5sCIjW9bU0J9D4ypIvxm6nenlEBVf2-0u7SQa-H9XhRxpd",
+            src: "https://www.paypal.com/sdk/js?client-id=ARPCksi8G1iUcJY2fJeJkzPvKF0EmJiCVa4GzfbfJPKvucvg7ezxhXa88tMkK-GzmgYaCyCaw8O6p0kX&currency=USD",
             defer: true,
             callback: () => {this.isPaypalLoaded = true}
         }
@@ -114,11 +119,8 @@ export default {
   },
   data () {
     return {
-        paypal: {
-            sandbox: "AfiEGhDW75HGoJvK8PdWKV-BsunzhkTJWi5sCIjW9bU0J9D4ypIvxm6nenlEBVf2-0u7SQa-H9XhRxpd"
-        },
-        dun: false,
-        itemsy: [
+      dun: false,
+      itemsy: [
             "Bajram Curri",
             "Bajzë",
             "Ballsh",
@@ -193,7 +195,7 @@ export default {
             "Vau i Dejës",
             "Vlorë",
             "Vorë"
-        ],
+      ],
       pk: process.env.STRIPE_PK,
       user: this.$store.state.users.user,
       inhandp: false,
@@ -232,44 +234,9 @@ export default {
       emr: ""
     };
   },
-  watch: {
-      cookies: function(val){
-        if(val){
-            return location.href = "/success";
-        } else {
-            return;
-        }
-      }
-  },
    methods: {
     dunn: function(){
         this.numryTab = true;
-
-        this.toSell.forEach(fell => {
-            var false5 = fell.name.split("|");
-            var false4 = false5[1];
-            console.log(false4);
-            firebase.firestore().collection('orders').doc(Math.random().toString(36).substring(2,7)).set({
-                from: this.email[0],
-                fulfilled: false,
-                onto: false4,
-                address:this.rrug,
-                qyteti: this.qyt,
-                number: this.namber,
-                orders: [
-                    {
-                        item: fell.name,
-                        paid: true,
-                        price: fell.amount * fell.quantity,
-                        quantity: fell.quantity,
-                        type: "online-payment"
-                    }
-                ]
-            })
-        });
-
-        this.$store.dispatch("users/removeCart");
-        Cookies.remove("cart_hustle");
     },
     checkout () {
       this.$refs.checkoutRef.redirectToCheckout({
@@ -297,6 +264,16 @@ export default {
         if (this.$v.namber.$invalid || this.$v.rrug.$invalid || this.$v.qyt.$invalid || this.$v.emr.$invalid ) {
             return;
         } else {
+
+            const dora = {
+                "numri": this.namber,
+                "adresa": this.rrug,
+                "qyt": this.qyt,
+                "emri": this.emr
+            }
+
+            Cookie.set("payment_identity", JSON.stringify(dora));
+
             this.numryTab = false;
             this.completedP = true;
             this.dun = true;
@@ -383,17 +360,6 @@ export default {
 
     }
   },
-  //created(){
-    //  this.$axios.post('https://us-central1-fertility-1e091.cloudfunctions.net/checkoutStripe', {
-      //  items: this.lineItems
-      //}).then((response) => {
-        //this.sessionId = response.data.id;
-        //console.log(response.data);
-      //}).catch(error => {
-        //console.log(error);
-      //});
-
-  //},
   validations: {
       account: {
           email: {
@@ -495,26 +461,20 @@ export default {
   mounted(){
       paypal.Buttons({
         createOrder: function(data, actions) {
-            // This function sets up the details of the transaction, including the amount and line item details.
-            return actions.order.create({
+          return actions.order.create({
             purchase_units: [{
-                amount: {
-                    value: '0.01'
-                }
-                }]
-            });
+              amount: {
+                value: '0.01'
+              }
+            }]
+          });
         },
-        onApprove: async function(data, actions) {
-            // This function captures the funds from the transaction.
-            return actions.order.capture().then(function(details) {
-                // This function shows a transaction success message to your buyer.
-                //alert('Transaction completed by ' + details.payer.name.given_name);
-                
-                Cookies.set("paypal_return",JSON.stringify(details));
-
-                location.href = "/success";
-                
-            });
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            //alert('Transaction completed by ' + details.payer.name.given_name);
+            Cookie.set("paypal_return", details.payer);
+            location.href = "/success";
+          });
         }
       }).render('#paypal-button-container');
   }
