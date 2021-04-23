@@ -5,6 +5,7 @@ import 'firebase/firestore';
 export const state = () => ({
     search: 'bosh',
     red: null,
+    reloaded: 0
 })
 
 export const mutations = {
@@ -13,6 +14,9 @@ export const mutations = {
     },
     SET_REDIRECT: (state, red) => {
         state.red = red;
+    },
+    SET_TIMES: (state, times) => {
+        state.reloaded = times;
     },
 }
 
@@ -35,5 +39,9 @@ export const actions = {
         } catch(e){
             console.log(e);
         }
+    },
+    upOne({commit}, currentTime){
+
+        commit("SET_TIMES", currentTime+1);
     }
 }

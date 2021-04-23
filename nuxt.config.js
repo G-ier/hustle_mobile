@@ -18,7 +18,7 @@ export default {
     ],
     script: [
       {
-        src: "https://www.paypal.com/sdk/js?client-id=AfiEGhDW75HGoJvK8PdWKV-BsunzhkTJWi5sCIjW9bU0J9D4ypIvxm6nenlEBVf2-0u7SQa-H9XhRxpd&currency=USD"
+        src: "https://www.paypal.com/sdk/js?client-id=ARPCksi8G1iUcJY2fJeJkzPvKF0EmJiCVa4GzfbfJPKvucvg7ezxhXa88tMkK-GzmgYaCyCaw8O6p0kX&currency=USD",
       }
     ]
   },
