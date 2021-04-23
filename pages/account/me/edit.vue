@@ -10,7 +10,7 @@
             <div class="market-inner">
                 <div class="sell-container" v-for="prod in prods" :key="prod.name">
                     <div class="sellable">
-                        <v-img :aspect-ratio="1/1" class="market-img secondary-bg" src="https://images.pexels.com/photos/335257/pexels-photo-335257.jpeg?cs=srgb&dl=pexels-eprism-studio-335257.jpg&fm=jpg" @click="sendToProduct(prod.spot)"></v-img>
+                        <v-img :aspect-ratio="1/1" class="market-img secondary-bg" :src="prod.details.photo" @click="sendToProduct(prod.spot)"></v-img>
                         <div class="safety">
                             <div class="sellable-desc">
                                 <h4 class="sell-title">{{prod.details.name}}</h4>
@@ -32,7 +32,7 @@
             class="r"
             >
             
-            <v-card color="white">
+            <v-card>
                 <v-toolbar
                 dark
                 color="primary"
@@ -50,7 +50,7 @@
                     <v-btn
                     dark
                     text
-                    @click="save"
+                    @click="upload"
                     >
                     Save
                     </v-btn>
@@ -79,7 +79,7 @@
                 >
                 <v-subheader>Edit details</v-subheader>
                 <v-list-item>
-                    <v-list-item-content>
+                    <v-list-item-content class="show-details">
                     <v-text-field
                         v-model="detailsToEdit.name"
                         label="New Name"
@@ -111,8 +111,32 @@
                             dense
                         ></v-text-field>
                     </div>
+                    <div class="vert">
+                        <p class="qs">Fotot</p>
+                        <input
+                            ref="imageFile"
+                            placeholder="Profile photo"
+                            accept="image/png, image/jpeg"
+                            class="inputFileR"
+                            type="file"
+                            name="file" 
+                            @change.prevent="uploadImageFile($event.target.files)"
+                        >
+                    </div>
+                    <div class="vert" v-for="post in toShow" :key="post.id">
+                        <input
+                            ref="imageFile"
+                            placeholder="Profile photo"
+                            accept="image/png, image/jpeg"
+                            class="inputFileR"
+                            type="file"
+                            name="file" 
+                            @change.prevent="uploadImageFile1($event.target.files)"
+                        >
+                    </div>
                     </v-list-item-content>
                 </v-list-item>
+                
                 </v-list>
             </v-card>   
         </v-dialog>
@@ -148,6 +172,7 @@
 <script>
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
+import 'firebase/storage'
 export default {
     async asyncData({route}){
         const dataE = await firebase.firestore().collection('elektronike').where("details.seller", "==", route.query.name).get();
@@ -166,7 +191,11 @@ export default {
             widgets: false,
             detailsToEdit: {},
             spot: null,
-            dialog2: false
+            dialog2: false,
+            selectedMeta: null,
+            selectedFile: null,
+            prodphoto: "",
+            toShow: []
 
         }
     },
@@ -174,6 +203,7 @@ export default {
         edit: function (prod, spot){
             this.detailsToEdit = prod;
             this.spot = spot;
+            this.toShow = prod.details.photos;
 
             this.dialog = true;
         },
@@ -197,6 +227,118 @@ export default {
 
             this.detailsToEdit = {};
             this.spot = null;
+
+            this.dialog = false;
+            this.dialog2 = true;
+        },
+        uploadImageFile (files) {
+            if (!files.length) {
+                return
+            }
+            const filey = files[0]
+
+            if (!filey.type.match('image.*')) {
+                alert('Please upload an image.')
+                return
+            }
+
+            const metadata = {
+                contentType: filey.type
+            }
+            
+            this.selectedMeta = metadata;
+
+            this.selectedFile = filey;
+
+            
+        },
+        uploadImageFile1 (files) {
+            if (!files.length) {
+                return
+            }
+            const filey = files[0]
+
+            if (!filey.type.match('image.*')) {
+                alert('Please upload an image.')
+                return
+            }
+
+            const metadata = {
+                contentType: filey.type
+            }
+            
+            this.selectedMeta = metadata;
+
+            this.selectedFile = filey;
+
+            const file = this.selectedFile;
+            const metadata1 = this.selectedMeta;
+            const storage = firebase.storage()
+            const imageRef = storage.ref(`images/${file.name}`)
+
+            const uploadTask = imageRef.put(file, metadata1).then((snapshot) => {
+                // Once the image is uploaded, obtain the download URL, which
+                // is the publicly accessible URL of the image.
+                return snapshot.ref.getDownloadURL().then((url) => {
+                return url
+                })
+            }).catch((error) => {
+                console.error('Error uploading image', error)
+            })
+
+            // When the upload ends, set the value of the blog image URL
+            // and signal that uploading is done.
+            uploadTask.then( (url) => {
+                this.postings.push({
+                    src: url,
+                    emri: file.name
+                });
+            })
+            
+            
+
+            
+        },
+        upload: async function(){
+
+            // Create a reference to the destination where we're uploading
+            // the file.
+            const file = this.selectedFile;
+            const metadata = this.selectedMeta;
+            const storage = firebase.storage()
+            const imageRef = storage.ref(`images/${file.name}`)
+
+            const uploadTask = imageRef.put(file, metadata).then((snapshot) => {
+                // Once the image is uploaded, obtain the download URL, which
+                // is the publicly accessible URL of the image.
+                return snapshot.ref.getDownloadURL().then((url) => {
+                console.log(url)
+                return url
+                })
+            }).catch((error) => {
+                console.error('Error uploading image', error)
+            })
+
+            // When the upload ends, set the value of the blog image URL
+            // and signal that uploading is done.
+            uploadTask.then(async (url) => {
+                await firebase.firestore().collection('elektronike').doc(this.spot).update({
+                    details: {
+                        name: this.detailsToEdit.name,
+                        price: this.detailsToEdit.price,
+                        desc: this.detailsToEdit.desc,
+                        details: this.detailsToEdit.details,
+                        seller: this.detailsToEdit.seller,
+                        sellerPhoto: this.detailsToEdit.sellerPhoto,
+                        photo: url,
+                        kategoria: this.detailsToEdit.kategoria
+                    }
+                });
+            })
+            
+            
+
+            this.prodphoto = null;
 
             this.dialog = false;
             this.dialog2 = true;
@@ -309,12 +451,12 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 90%;
+        width: 800px;
         padding: 15px 0 8px 0;
     }
     .lineM{
         height: 1px;
-        width: 90%;
+        width: 800px;
         background-color: #a10517;
         margin-bottom: 15px;
     }
@@ -323,7 +465,7 @@ export default {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 70%;
+        width: 800px;
     }
     .market-inner{
         width: 100%;
@@ -383,6 +525,9 @@ export default {
         color: rgb(48, 48, 48);
         padding: 0;
         margin: 0 0 10px 0;
+    }
+    .show-details{
+        width: 600px;
     }
 }    
 </style>

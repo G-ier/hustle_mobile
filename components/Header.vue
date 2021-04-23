@@ -60,7 +60,7 @@
                 <v-list-item-title class="v-fsm">Telefon & Aksesore</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item to="/kategorite/elektronike/lojra" router exact active-class="white--text">
+          <v-list-item to="/kategorite/elektronike/video-lojra" router exact active-class="white--text">
             <v-list-item-action>
                 <v-icon>mdi-information-variant</v-icon>
             </v-list-item-action>
@@ -113,28 +113,12 @@
                 <v-list-item-title class="v-fsm">Projektor</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item to="/kategorite/kancelari/lojra" router exact active-class="white--text">
-            <v-list-item-action>
-                <v-icon>mdi-information-variant</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-                <v-list-item-title class="v-fsm">Video-Lojra</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item to="/kategorite/kancelari/makina" router exact active-class="white--text">
-            <v-list-item-action>
-                <v-icon>mdi-information-variant</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-                <v-list-item-title class="v-fsm">Elektronike Makinash</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
         </v-list-group>
         <v-list-group sub-group color="white">
           <template v-slot:activator>
-              <v-list-item-title class="v-fsm">Elektronike</v-list-item-title>
+              <v-list-item-title class="v-fsm">Libra</v-list-item-title>
           </template>
-          <v-list-item to="/kategorite/libra/" router exact active-class="white--text">
+          <v-list-item to="/kategorite/libra/libra/" router exact active-class="white--text">
             <v-list-item-action>
                 <v-icon>mdi-information-variant</v-icon>
             </v-list-item-action>
@@ -184,7 +168,7 @@
           <template v-slot:activator>
               <v-list-item-title class="v-fsm">Kozmetike</v-list-item-title>
           </template>
-          <v-list-item to="/kategorite/kozmetike/" router exact active-class="white--text">
+          <v-list-item to="/kategorite/kozmetike/kozmetike/" router exact active-class="white--text">
             <v-list-item-action>
                 <v-icon>mdi-information-variant</v-icon>
             </v-list-item-action>
@@ -271,7 +255,7 @@
                 <v-list-item-title class="v-fsm">Kuzhina</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item to="/kategorite/moblije/dyshek" router exact active-class="white--text">
+          <v-list-item to="/kategorite/mobilje/dyshek" router exact active-class="white--text">
             <v-list-item-action>
                 <v-icon>mdi-information-variant</v-icon>
             </v-list-item-action>

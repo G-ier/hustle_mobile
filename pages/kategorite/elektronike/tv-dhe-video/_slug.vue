@@ -4,18 +4,12 @@
           <div class="n">
               <div class="image-prod">
                   <v-carousel v-model="carousel" height="400" class="make-small" show-arrows-on-hover next-icon="mdi-arrow-right-thin-circle-outline" prev-icon="mdi-arrow-left-thin-circle-outline" hide-delimiter-background delimiter-icon="mdi-circle-medium">
-                      <v-carousel-item class="center">
+                      <v-carousel-item class="center" v-for="riti in product.details.photos" :key="riti.id">
                           <div class="qualifier">
                               <div class="qualifier-2">
-                                <v-img :aspect-ratio="15/16" class="lightgray" src="https://images.pexels.com/photos/1600128/pexels-photo-1600128.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></v-img>
+                                <v-img :aspect-ratio="15/16" class="lightgray" :src="riti.src"></v-img>
                             </div>
                           </div>
-                      </v-carousel-item>
-                      <v-carousel-item>
-                          <v-img :aspect-ratio="15/16" src="https://images.pexels.com/photos/333984/pexels-photo-333984.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></v-img>
-                      </v-carousel-item>
-                      <v-carousel-item>
-                          <v-img :aspect-ratio="15/16" src="https://images.pexels.com/photos/333984/pexels-photo-333984.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></v-img>
                       </v-carousel-item>
                   </v-carousel>
               </div>

@@ -31,7 +31,7 @@
                 >
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
-                <v-toolbar-title>Edit your product</v-toolbar-title>
+                <v-toolbar-title>Perpuno produktin</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
                     <v-btn
@@ -48,12 +48,12 @@
                 subheader
                 class="white"
                 >
-                <v-subheader class="secondary--text">Edit details</v-subheader>
+                <v-subheader class="secondary--text">Perpuno detajet</v-subheader>
                 <v-list-item>
                     <v-list-item-content class="hiddeneye">
                     <v-text-field
-                        v-model="detailsToEdit.details.name"
-                        label="New Name"
+                        v-model="namey"
+                        label="Emri"
                         outlined
                         clearable
                         dense
@@ -61,8 +61,8 @@
                         color="secondary"
                     ></v-text-field>
                     <v-text-field
-                        v-model="detailsToEdit.details.price"
-                        label="New Price"
+                        v-model="pricey"
+                        label="Cmimi"
                         outlined
                         clearable
                         dense
@@ -72,12 +72,60 @@
                     <v-textarea
                         clearable
                         clear-icon="mdi-close-circle"
-                        label="New description"
-                        v-model="detailsToEdit.details.desc"
+                        label="Pershkrimi"
+                        v-model="descy"
                         color="secondary"
                         outlined
                         light
                     ></v-textarea>
+                    <v-select
+                        v-model="kategorita"
+                        :items="kateg"
+                        label="Kategoria"
+                        dense
+                        outlined
+                        light
+                        color="secondary"
+                    ></v-select>
+                    <div class="vert">
+                        <p class="qs secondary--text">Fotot</p>
+                        <input
+                            ref="imageFile"
+                            placeholder="Profile photo"
+                            accept="image/png, image/jpeg"
+                            class="inputFileR"
+                            type="file"
+                            name="file" 
+                            @change.prevent="uploadImageFile($event.target.files)"
+                        >
+                    </div>
+                    <div class="vert" v-for="show in toShow" :key="show.id">
+                        <input
+                            ref="imageFile"
+                            placeholder="Profile photo"
+                            accept="image/png, image/jpeg"
+                            class="inputFileR"
+                            type="file"
+                            name="file" 
+                            @change.prevent="uploadImageFile1($event.target.files)"
+                        >
+                    </div>
+                    <v-row justify="center full-width mt-6">
+                        <v-fab-transition>
+                            <v-btn
+                                fab
+                                small
+                                dark
+                                bottom
+                                left
+                                class="v-btn--example"
+                                color="secondary"
+                                @click="newphoto"
+                            >
+                                <v-icon>mdi-plus</v-icon>
+                            </v-btn>
+                        </v-fab-transition>
+                    </v-row>
                     </v-list-item-content>
                 </v-list-item>
                 </v-list>
@@ -87,7 +135,7 @@
                 subheader
                 class="white"
                 >
-                <v-subheader class="secondary--text">More details</v-subheader>
+                <v-subheader class="secondary--text">Detajet</v-subheader>
                 <v-list-item>
                     <v-list-item-content>
                     <div class="fab-holder" v-for="item in detailsToEdit.details.details" :key="item">
@@ -170,6 +218,7 @@
 <script>
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
+import 'firebase/storage'
 export default {
     async asyncData({route}){
         const data = await firebase.firestore().collection('users').doc(route.query.name).get();
@@ -186,6 +235,7 @@ export default {
         return{
             dialog: false,
             notifications: false,
+            kategorita: "",
             sound: true,
             widgets: false,
             detailsToEdit: {
@@ -208,6 +258,51 @@ export default {
             hidden: false,
             tabs: null,
             totalD: 1,
+            kateg: [
+                "Elektronike",
+                "TV & Vidjo",
+                "Audjo Shtepish",
+                "Kamera, Foto & Vidjo",
+                "Telefon & Aksesore",
+                "Vidjo Lojra",
+                "Elektronike Makine",
+                "Kancelari",
+                "Produkte Zyrash",
+                "Produkte Shkollore",
+                "Printer",
+                "Projektore",
+                "Libra",
+                "Kompjutra & Teknologji",
+                "Kompjutra, Tableta",
+                "Monitor",
+                "Pjese Kompjuterash",
+                "Aksesore",
+                "Kozmetike",
+                "Lodra & Femije",
+                "Lodra",
+                "Bebe",
+                "Sporti",
+                "Palester & Fitness",
+                "Gjueti & Peshkim",
+                "Rroba Atletike",
+                "Golf",
+                "Mobilje & Kopshti",
+                "Moblije Shtepie",
+                "Kuzhina",
+                "Dyshek & Banje",
+                "Kopesht & Outdoor",
+                "Produkte Kafshesh",
+                "Vegla Pune",
+                "Rroba & Fashion",
+
+            ],
+            prodPhoto: "",
+            namey: "",
+            pricey: "",
+            descy: "",
+            detailsy: "",
+            postings: [],
+            toShow: []
 
         }
     },
@@ -242,38 +337,128 @@ export default {
 
             this.detailsToEdit.details.push("");
         },
+        newphoto: function(){
+
+            this.toShow.push("item");
+        },
+        uploadImageFile (files) {
+            if (!files.length) {
+                return
+            }
+            const filey = files[0]
+
+            if (!filey.type.match('image.*')) {
+                alert('Please upload an image.')
+                return
+            }
+
+            const metadata = {
+                contentType: filey.type
+            }
+            
+            this.selectedMeta = metadata;
+
+            this.selectedFile = filey;
+
+            const file = this.selectedFile;
+            const metadata1 = this.selectedMeta;
+            const storage = firebase.storage()
+            const imageRef = storage.ref(`images/${file.name}`)
+
+            const uploadTask = imageRef.put(file, metadata1).then((snapshot) => {
+                // Once the image is uploaded, obtain the download URL, which
+                // is the publicly accessible URL of the image.
+                return snapshot.ref.getDownloadURL().then((url) => {
+                return url
+                })
+            }).catch((error) => {
+                console.error('Error uploading image', error)
+            })
+
+            // When the upload ends, set the value of the blog image URL
+            // and signal that uploading is done.
+            uploadTask.then( (url) => {
+                this.postings.push({
+                    src: url,
+                    emri: file.name
+                });
+            })
+            
+        },
+        uploadImageFile1 (files) {
+            if (!files.length) {
+                return
+            }
+            const filey = files[0]
+
+            if (!filey.type.match('image.*')) {
+                alert('Please upload an image.')
+                return
+            }
+
+            const metadata = {
+                contentType: filey.type
+            }
+            
+            this.selectedMeta = metadata;
+
+            this.selectedFile = filey;
+
+            const file = this.selectedFile;
+            const metadata1 = this.selectedMeta;
+            const storage = firebase.storage()
+            const imageRef = storage.ref(`images/${file.name}`)
+
+            const uploadTask = imageRef.put(file, metadata1).then((snapshot) => {
+                // Once the image is uploaded, obtain the download URL, which
+                // is the publicly accessible URL of the image.
+                return snapshot.ref.getDownloadURL().then((url) => {
+                return url
+                })
+            }).catch((error) => {
+                console.error('Error uploading image', error)
+            })
+
+            // When the upload ends, set the value of the blog image URL
+            // and signal that uploading is done.
+            uploadTask.then( (url) => {
+                this.postings.push({
+                    src: url,
+                    emri: file.name
+                });
+            })
+            
+        },
         upload: async function(){
-            await firebase.firestore().collection('elektronike').doc(this.detailsToEdit.details.name).set({
+
+            // When the upload ends, set the value of the blog image URL
+            // and signal that uploading is done.
+            
+            await firebase.firestore().collection('elektronike').doc(this.namey).set({
                 details: {
-                    name: this.detailsToEdit.details.name,
-                    price: this.detailsToEdit.details.price,
-                    desc: this.detailsToEdit.details.desc,
+                    name: this.namey,
+                    price: this.pricey,
+                    desc: this.descy,
                     seller: this.nameOfS,
                     sellerPhoto: this.photo,
-                    details: this.detailsToEdit.details.details
+                    details: this.detailsy,
+                    kategoria: this.kategorita,
+                    photos: this.postings
                 },
                 owner: this.nameOfS,
-                spot: this.detailsToEdit.details.name
+                spot: this.namey
             });
-
-            this.detailsToEdit = {
-                details: {
-                    name: "",
-                    price: "",
-                    desc: "",
-                    seller: "",
-                    sellerPhoto: "",
-                    details: [
-                        ""
-                    ]
-                },
-                owner: "",
-                spot: ""
-            };
+            
+            
+            
+            this.postings = [];
+            this.toShow = [];
             this.spot = null;
 
             this.dialog = false;
             this.dialog2 = true;
+
+            this.prodPhoto = null;
         }
     }
 }
@@ -282,6 +467,11 @@ export default {
 <style>
 .r{
     z-index: 999999998989898787979867987;
+}
+.inputFileR{
+    color: black;
+    border-radius: 5px;
+    background-color: gray;
 }
 .edit{
     display: flex;

@@ -63,7 +63,7 @@
             <div class="market-inner">
                 <div class="sell-container" v-for="prod in prods" :key="prod.name">
                     <div class="sellable">
-                        <v-img :aspect-ratio="1/1" class="market-img secondary-bg" src="https://images.pexels.com/photos/335257/pexels-photo-335257.jpeg?cs=srgb&dl=pexels-eprism-studio-335257.jpg&fm=jpg" @click="sendToProduct(prod.spot)"></v-img>
+                        <v-img :aspect-ratio="1/1" class="market-img secondary-bg" :src="prod.details.photos[0]" @click="sendToProduct(prod.spot)"></v-img>
                         <div class="safety">
                             <div class="sellable-desc">
                                 <h4 class="sell-title">{{prod.details.name}}</h4>
@@ -141,7 +141,7 @@ import 'firebase/firestore';
 import Cookies from 'js-cookie';
 export default {
     async asyncData(){
-        const pageData = await firebase.firestore().collection('elektronike').get();
+        const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "TV & Vidjo").get();
         const page = pageData.docs.map(doc => doc.data());
 
         return {
