@@ -112,7 +112,7 @@ export const actions = {
             const docu = await firebase.firestore().collection('search').doc('everythang').get();
             const docData = docu.data();
             docData.terms.forEach((term) => {
-                if(term.emri == kerkimi){
+                if(term.emri == kerkimi.toLowerCase()){
                     console.log("kerkimi: " + kerkimi)
                     commit("SET_SEARCH", term.emri);
                     commit("SET_REDIRECT", term.cilesia);
@@ -130,19 +130,19 @@ export const actions = {
 
     async change({commit}, kerkimi){
         try{
-            commit("SET_REDIRECT", null);
-            const docu = await firebase.firestore().collection('search').doc('everythang').get();
-            const docData = docu.data();
-            docData.terms.forEach((term) => {
-                var emrat = [];
-                var reds = [];
-                var result = [];
-                var venis = [];
+            commit("SET_RESULT", null);
+            const docu = await firebase.firestore().collection('search').get();
+            const docData = docu.docs.map(doc => doc.data());
+            var emrat = [];
+            var reds = [];
+            var result = [];
+            var venis = [];
+            docData.forEach((term) => {
                 if(term.emri.includes(kerkimi.toLowerCase())){
                     console.log("kerkimi: " + kerkimi)
                     emrat.push(term.emri);
                     reds.push(term.cilesia);
-                    venis.push(term.veni);
+                    venis.push(term.kat);
                 } else {
                     console.log('Shihni shenimet e fabrikes.');
                 }
@@ -156,15 +156,14 @@ export const actions = {
                     });
                     console.log("Push success!");
                 }
-
-                if(reds.length != 0){
-                    commit("SET_RESULT", result);
-                    console.log("Done full commit.");
-                } else {
-                    console.log("Done null commit.");
-                }
             });
-
+            
+            if(reds.length != 0){
+                commit("SET_RESULT", result);
+                console.log("Done full commit.");
+            } else {
+                console.log("Done null commit.");
+            }
             
         } catch(e){
             console.log(e);

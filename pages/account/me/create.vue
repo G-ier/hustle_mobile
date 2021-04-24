@@ -110,7 +110,7 @@
                             @change.prevent="uploadImageFile1($event.target.files)"
                         >
                     </div>
-                    <v-row justify="center full-width mt-6">
+                    <v-row justify="center full-width mt-6 custom-right">
                         <v-fab-transition>
                             <v-btn
                                 fab
@@ -123,6 +123,20 @@
                                 @click="newphoto"
                             >
                                 <v-icon>mdi-plus</v-icon>
+                            </v-btn>
+                        </v-fab-transition>
+                        <v-fab-transition>
+                            <v-btn
+                                fab
+                                small
+                                dark
+                                bottom
+                                left
+                                class="v-btn--example ml-4"
+                                color="secondary"
+                                @click="remphoto"
+                            >
+                                <v-icon>mdi-minus</v-icon>
                             </v-btn>
                         </v-fab-transition>
                     </v-row>
@@ -259,42 +273,34 @@ export default {
             tabs: null,
             totalD: 1,
             kateg: [
-                "Elektronike",
                 "TV & Vidjo",
                 "Audjo Shtepish",
                 "Kamera, Foto & Vidjo",
                 "Telefon & Aksesore",
                 "Vidjo Lojra",
                 "Elektronike Makine",
-                "Kancelari",
                 "Produkte Zyrash",
                 "Produkte Shkollore",
                 "Printer",
                 "Projektore",
                 "Libra",
-                "Kompjutra & Teknologji",
                 "Kompjutra, Tableta",
                 "Monitor",
                 "Pjese Kompjuterash",
                 "Aksesore",
                 "Kozmetike",
-                "Lodra & Femije",
                 "Lodra",
                 "Bebe",
-                "Sporti",
                 "Palester & Fitness",
                 "Gjueti & Peshkim",
                 "Rroba Atletike",
                 "Golf",
-                "Mobilje & Kopshti",
                 "Moblije Shtepie",
                 "Kuzhina",
                 "Dyshek & Banje",
                 "Kopesht & Outdoor",
                 "Produkte Kafshesh",
                 "Vegla Pune",
-                "Rroba & Fashion",
-
             ],
             prodPhoto: "",
             namey: "",
@@ -302,7 +308,8 @@ export default {
             descy: "",
             detailsy: "",
             postings: [],
-            toShow: []
+            toShow: [],
+            kategoritaPrefix: ""
 
         }
     },
@@ -340,6 +347,10 @@ export default {
         newphoto: function(){
 
             this.toShow.push("item");
+        },
+        remphoto: function(){
+
+            this.toShow.pop("item");
         },
         uploadImageFile (files) {
             if (!files.length) {
@@ -433,7 +444,43 @@ export default {
 
             // When the upload ends, set the value of the blog image URL
             // and signal that uploading is done.
-            
+
+            switch(this.kategorita) {
+                case "TV & Vidjo" || "Audjo Shtepish" || "Kamera, Foto & Vidjo" || "Telefon & Aksesore" || "Vidjo Lojra" || "Elektronike Makine":
+                    this.kategoritaPrefix = "/elektronike/";
+                    break;
+                case "Produkte Zyrash" || "Produkte Shkollore" || "Printer" || "Projektore":
+                    this.kategoritaPrefix = "/kancelari/";
+                    break;
+                case "Libra":
+                    this.kategoritaPrefix = "/libra/";
+                    break;
+                case "Kompjutra, Tableta" || "Monitor" || "Pjese Kompjuterash"|| "Aksesore":
+                    this.kategoritaPrefix = "/computers/";
+                    break;
+                case "Kozmetike":
+                    this.kategoritaPrefix = "/kozmetike/";
+                    break;
+                case "Lodra" || "Bebe":
+                    this.kategoritaPrefix = "/lodra/";
+                    break;
+                case "Kozmetike":
+                    this.kategoritaPrefix = "/kozmetike/";
+                    break;
+                case "Lodra" || "Bebe":
+                    this.kategoritaPrefix = "/lodra/";  
+                    break;
+                case "Palester & Fitness" || "Gjueti & Peshkim" || "Rroba Atletike" || "Golf":
+                    this.kategoritaPrefix = "/sport/";
+                    break;
+                case "Moblije Shtepie" || "Kuzhina" || "Dyshek & Banje" || "Kopesht & Outdoor" || "Produkte Kafshesh" || "Vegla Pune":
+                    this.kategoritaPrefix = "/mobilje/";  
+                    break;
+                case "Femra" || "Meshkuj":
+                    this.kategoritaPrefix = "/fashion/";  
+                    break;                    
+            } 
+
             await firebase.firestore().collection('elektronike').doc(this.namey).set({
                 details: {
                     name: this.namey,
@@ -448,7 +495,105 @@ export default {
                 owner: this.nameOfS,
                 spot: this.namey
             });
-            
+
+            switch(this.kategorita) {
+                case "TV & Vidjo":
+                    this.kategorita = "tv-dhe-video";
+                    break;
+                case "Audjo Shtepish":
+                    this.kategorita = "audio-shtepiake";
+                    break;
+                case "Kamera, Foto & Vidjo":
+                    this.kategorita = "kamera";
+                    break;
+                case "Telefon & Aksesore":
+                    this.kategorita = "makina";
+                    break;
+                case "Vidjo Lojra":
+                    this.kategorita = "video-lojra";
+                    break;
+                case "Elektronike Makine":
+                    this.kategorita = "makina";
+                    break;                    
+                case "Produkte Zyrash":
+                    this.kategorita = "zyra";
+                    break;
+                case "Produkte Shkollore":
+                    this.kategorita = "shkollore";
+                    break;
+                case "Printer":
+                    this.kategorita = "printer";
+                    break;
+                case "Projektore":
+                    this.kategorita = "projektor";
+                    break;              
+                case "Libra":
+                    this.kategorita = "libra";
+                    break;
+                case "Kompjutra, Tableta":
+                    this.kategorita = "computers";
+                    break;
+                case "Monitor":
+                    this.kategorita = "monitor";
+                    break;
+                case "Pjese Kompjuterash":
+                    this.kategorita = "pjese";
+                    break;
+                case "Aksesore":
+                    this.kategorita = "aksesore";
+                    break;            
+                case "Kozmetike":
+                    this.kategorita = "kozmetike";
+                    break;
+                case "Lodra":
+                    this.kategorita = "lodra";
+                    break;
+                case "Bebe":
+                    this.kategorita = "bebe";
+                    break;    
+                case "Palester & Fitness":
+                    this.kategorita = "palester";
+                    break;
+                case "Gjueti & Peshkim":
+                    this.kategorita = "gjueti";
+                    break;
+                case "Rroba Atletike":
+                    this.kategorita = "atletike";
+                    break;
+                case "Golf":
+                    this.kategorita = "golf";
+                    break;            
+                case "Moblije Shtepie":
+                    this.kategorita = "shtepiake";  
+                    break;
+                case "Kuzhina":
+                    this.kategorita = "kuzhina";  
+                    break;
+                case "Dyshek & Banje":
+                    this.kategorita = "dyshek";  
+                    break;
+                case "Kopesht & Outdoor":
+                    this.kategorita = "outdoor";  
+                    break;
+                case "Produkte Kafshesh":
+                    this.kategorita = "kafshesh";  
+                    break;
+                case "Vegla Pune":
+                    this.kategorita = "vegla";  
+                    break;                    
+                case "Femra":
+                    this.kategorita = "femra";  
+                    break;   
+                case "Meshkuj":
+                    this.kategoritaPrefix = "meshkuj";  
+                    break;                        
+            }
+
+            await firebase.firestore().collection('search').doc(this.namey).set({
+                cilesia: "/kategorite" + this.kategoritaPrefix + this.kategorita,
+                emri: this.namey,
+                kat: this.kategorita
+            });
             
             
             this.postings = [];
@@ -653,7 +798,10 @@ export default {
         width: 750px;
         flex-direction: column;
         justify-content: flex-start;
-        align-items: center;
+        align-items: flex-start;
+    }
+    .custom-right{
+        margin-left: 15px;
     }
 }    
 </style>

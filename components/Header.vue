@@ -389,9 +389,17 @@
               <button class="btn-c-o qs searchy-btn" @click="searchGo"><v-icon color="white">mdi-magnify</v-icon></button>
             </div>
             <div class="results" v-if="answer == true">
-              <div class="listings">
+              <div class="listings" v-if="sToShow != null">
                 <div class="tile" v-for="ting in sToShow.slice(0, 4)" :key="ting.emri">
-                  <p class="qs search-p-result" @click="sendTo(ting.veni)">{{ting.emri}}</p>
+                  <a class="qs search-p-result btn-c-o" :src="ting.cilesia">{{ting.emri}}</a>
+                </div>
+                <div class="dontchange" style="display: flex; justify-content: center; align-items: center;">
+                  <v-btn small class="white--text rounded-lg" color="secondary" @click="sendToMore">More</v-btn>
+                </div>
+              </div>
+              <div class="listings" v-else>
+                <div class="tile">
+                  <p class="qs btn-c-o secondary--text">No result.</p>
                 </div>
                 <div class="dontchange" style="display: flex; justify-content: center; align-items: center;">
                   <v-btn small class="white--text rounded-lg" color="secondary" @click="sendToMore">More</v-btn>
@@ -575,7 +583,7 @@ export default {
         console.log(JSON.parse(cartToJSONIFY));
       },
       sendTo: function(veni){
-        this.$router.push({name: veni});
+        this.$router.push({path: veni});
       }
     },
     computed: {
@@ -979,6 +987,10 @@ export default {
   }
   .search-p-result{
     cursor: pointer;
+    width: 100%;
+  }
+  .search-p-result:hover{
+    background-color: white;
   }
   .listings{
     display: flex;
