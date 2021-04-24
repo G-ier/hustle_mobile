@@ -4,10 +4,10 @@
           <div class="n">
               <div class="image-prod">
                   <v-carousel v-model="carousel" height="400" class="make-small" show-arrows-on-hover next-icon="mdi-arrow-right-thin-circle-outline" prev-icon="mdi-arrow-left-thin-circle-outline" hide-delimiter-background delimiter-icon="mdi-circle-medium">
-                      <v-carousel-item class="center">
+                      <v-carousel-item class="center" v-for="riti in product.details.photos" :key="riti.id">
                           <div class="qualifier">
                               <div class="qualifier-2">
-                                <v-img :aspect-ratio="15/16" class="lightgray" src="https://images.pexels.com/photos/1600128/pexels-photo-1600128.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></v-img>
+                                <v-img :aspect-ratio="15/16" class="lightgray" :src="riti.src"></v-img>
                             </div>
                           </div>
                       </v-carousel-item>
@@ -51,7 +51,10 @@
                     <v-expansion-panel-header class="qs">Details</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <div class="details-prod">
-                            <p class="qs" v-for="yesu in product.details.details" :key="yesu">{{yesu}}</p>
+                            <p class="qs" v-if="product.details.masa">Masa: {{product.details.masa}}</p>
+                            <p class="qs" v-if="product.details.sizey">Dimensionet: {{product.details.sizey}}</p>
+                            <p class="qs" v-if="product.details.pesha">Pesha: {{product.details.pesha}}</p>
+                            <p class="qs" v-if="product.details.ngjyra">Ngjyra: {{product.details.ngjyra}}</p>
                         </div>
                     </v-expansion-panel-content>
                 </v-expansion-panel>

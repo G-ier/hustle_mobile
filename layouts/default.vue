@@ -3,11 +3,13 @@
     <div class="index-upper">
       <Header />
     </div>
-    <v-main>
-      <v-layout>
-        <nuxt />
-      </v-layout>
-    </v-main>
+    <div id="wholeBody">
+      <v-main>
+        <v-layout>
+          <nuxt />
+        </v-layout>
+      </v-main>
+    </div>
     <Footer />
   </v-app>
 </template>

@@ -51,7 +51,10 @@
                     <v-expansion-panel-header class="qs">Details</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <div class="details-prod">
-                            <p class="qs" v-for="yesu in product.details.details" :key="yesu">{{yesu}}</p>
+                            <p class="qs" v-if="product.details.masa">Masa: {{product.details.masa}}</p>
+                            <p class="qs" v-if="product.details.sizey">Dimensionet: {{product.details.sizey}}</p>
+                            <p class="qs" v-if="product.details.pesha">Pesha: {{product.details.pesha}}</p>
+                            <p class="qs" v-if="product.details.ngjyra">Ngjyra: {{product.details.ngjyra}}</p>
                         </div>
                     </v-expansion-panel-content>
                 </v-expansion-panel>

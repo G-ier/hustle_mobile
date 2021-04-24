@@ -63,7 +63,7 @@
             <div class="market-inner">
                 <div class="sell-container" v-for="prod in prods" :key="prod.name">
                     <div class="sellable">
-                        <v-img :aspect-ratio="1/1" class="market-img secondary-bg" :src="prod.details.photo" @click="sendToProduct(prod.spot)"></v-img>
+                        <v-img :aspect-ratio="1/1" class="market-img secondary-bg" :src="prod.details.photos[0].src" @click="sendToProduct(prod.details.kategorita, prod.spot)"></v-img>
                         <div class="safety">
                             <div class="sellable-desc">
                                 <h4 class="sell-title">{{prod.details.name}}</h4>
@@ -141,7 +141,7 @@ import 'firebase/firestore';
 import Cookies from 'js-cookie';
 export default {
     async asyncData(){
-        const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Meshkuj").get();
+        const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Rroba meshkujsh").get();
         const page = pageData.docs.map(doc => doc.data());
 
         return {
@@ -205,8 +205,8 @@ export default {
 
             this.snackbar = true;
         },
-        sendToProduct: function (slug){
-            this.$router.push({name: 'kategorite-elektronike-tv-dhe-video-slug', params: {slug: slug}});
+        sendToProduct: function (slug1, slug2){
+            this.$router.push({path: "/kategorite" + slug1 + "/" + slug2});
         },
         filterPrice: function(){
             this.prods.sort((doc1, doc2) => {

@@ -7,14 +7,15 @@
       
       <div class="admin-starter" v-if="role == 'seller'">
           <div class="container-stuff">
-              <h1 class="starter-title qs">Orders</h1>
+              <h1 class="starter-title qs">Porosite</h1>
                 <div class="starter-row">
-                    <v-btn text small color="white" class="white--text qs" nuxt @click="toFulfilled">Fulfilled orders</v-btn>
-                    <v-btn class="qs white--text" small text nuxt @click="toOrders">All orders</v-btn>
+                    <v-btn text small color="white" class="white--text qs" nuxt @click="toFulfilled">Te permbushura</v-btn>
+                    <v-btn class="qs white--text" small text nuxt @click="toOrders">Cdo porosi</v-btn>
                 </div>
           </div>
       </div>
 
+      <!--  
       <div class="admin-starter" v-if="role == 'seller'">
           <div class="container-stuff">
               <h1 class="starter-title qs">Payments</h1>
@@ -24,19 +25,14 @@
                 </div>
           </div>
       </div>
-
+        -->
       <div class="admin-starter-1" v-if="role == 'seller'">
           <div class="container-stuff-1">
-              <h1 class="starter-title-1 qs">Items</h1>
+              <h1 class="starter-title-1 qs">Produktet tuaja</h1>
               <div class="starter-row-1">
                 <div class="simple-listing">
                     <div class="simple-tile">
-                        <p class="qs secondary--text simple-m ma-0 pa-0">10 <span class="qs side-m">Items</span>  </p>
-                    </div>
-                </div>
-                <div class="simple-listing">
-                    <div class="simple-tile">
-                        <p class="qs secondary--text simple-m ma-0 pa-0">10 <span class="qs side-m">Ads</span>  </p>
+                        <p class="qs secondary--text simple-m ma-0 pa-0">{{prods.length}} <span class="qs side-m">Produkt</span>  </p>
                     </div>
                 </div>
               </div>
@@ -49,9 +45,9 @@
 
       <div class="admin-starter" v-if="role == 'buyer'">
           <div class="container-stuff">
-              <h1 class="starter-title qs">Your purchases</h1>
+              <h1 class="starter-title qs">Pagesat tuaja</h1>
                 <div class="starter-row">
-                    <v-btn class="qs white--text" small text nuxt @click="boughting = true">All purchases</v-btn>
+                    <v-btn class="qs white--text" small text nuxt @click="boughting = true">Cdo pagese</v-btn>
                 </div>
           </div>
       </div>
@@ -63,7 +59,7 @@
         
         >
         <v-card color="secondary"> 
-            <v-card-title>All purchases</v-card-title>
+            <v-card-title>Cdo blerje</v-card-title>
             <v-divider></v-divider>
             <v-card-text style="height: 300px;">
             <v-list color="secondary">
@@ -82,7 +78,7 @@
                 text
                 @click="boughting = false"
             >
-                Close
+                Mbyll
             </v-btn>
             </v-card-actions>
         </v-card>
@@ -93,6 +89,7 @@
             fullscreen
             hide-overlay
             transition="dialog-bottom-transition"
+            class="r"
             >
             
             <v-card>
@@ -107,7 +104,7 @@
                 >
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
-                <v-toolbar-title>Edit your details</v-toolbar-title>
+                <v-toolbar-title>Perpuno detajet</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
                     <v-btn
@@ -115,7 +112,7 @@
                     text
                     @click="realSend"  
                     >
-                    Save
+                    Ruaj
                     </v-btn>
                 </v-toolbar-items>
                 </v-toolbar>
@@ -123,12 +120,12 @@
                 three-line
                 subheader
                 >
-                <v-subheader>Product details</v-subheader>
+                <v-subheader>Detajet tuaja</v-subheader>
                 <v-list-item>
                     <v-list-item-content>
                         <div class="vert">
                             <v-text-field v-model="emri" class="w-100" placeholder="New name" outlined dense color="white" dark clearable></v-text-field>
-                            <p class="qs">New profile photo - under 1Mb</p>
+                            <p class="qs">Fotoja e profilit</p>
                             <input
                                 ref="imageFile"
                                 placeholder="Profile photo"
@@ -151,11 +148,11 @@
         >
         <v-card color="secondary">
             <v-card-title class="headline qs">
-            Edit success!
+            Sukses!
             </v-card-title>
 
             <v-card-text class="qs">
-            Update successful. A reload may be needed to refresh the data.
+            Perpunimi ishte i sukseshem. Nje rifreskim i browser mund te jete i nevojshem per te shfaqur te dhenat.
             </v-card-text>
 
             <v-card-actions>
@@ -166,7 +163,7 @@
                 text
                 @click="dialogE = false"
             >
-                Close
+                Mbyll
             </v-btn>
             </v-card-actions>
         </v-card>
@@ -189,8 +186,12 @@ export default {
         const data = await firebase.firestore().collection('orders').where("from", "==", realting).get();
         const data2 = data.docs.map(doc => doc.data());
 
+        const data3 = await firebase.firestore().collection('elektronike').where("owner", "==", realting).get();
+        const data4 = data3.docs.map(doc => doc.data());
+
         return{
-            bought: data2.length > 0 ? data2 : []
+            bought: data2.length > 0 ? data2 : [],
+            prods: data4
         }
     },
     data(){
@@ -324,6 +325,9 @@ export default {
 </script>
 
 <style>
+.r{
+    z-index: 999999998989898787979867987;
+}
 .admin-base-1{
     background-size: cover;
     background-position-y: center;
@@ -453,6 +457,9 @@ export default {
   border-width: 0px;
 }
 @media screen and (min-width:850px) {
+    .r{
+        z-index: 999999998989898787979867987;
+    }
     .logout-row-1{
         width: 750px;
         padding: 5px 5vw 0 5vw;

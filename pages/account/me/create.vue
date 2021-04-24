@@ -59,6 +59,9 @@
                         dense
                         light
                         color="secondary"
+                        :error-messages="nameyyErrors" 
+                        required 
+                        @input="$v.namey.$touch()"
                     ></v-text-field>
                     <v-text-field
                         v-model="pricey"
@@ -68,6 +71,9 @@
                         dense
                         light
                         color="secondary"
+                        :error-messages="priceyErrors" 
+                        required 
+                        @input="$v.pricey.$touch()"
                     ></v-text-field>
                     <v-textarea
                         clearable
@@ -86,16 +92,20 @@
                         outlined
                         light
                         color="secondary"
+                        :error-messages="katErrors" 
+                        required 
+                        @input="$v.kategorita.$touch()"
                     ></v-select>
                     <div class="vert">
-                        <p class="qs secondary--text">Fotot</p>
+                        <p class="qs secondary--text">Fotot - e para e detyrueshme</p>
                         <input
                             ref="imageFile"
-                            placeholder="Profile photo"
+                            placeholder="Required photo"
                             accept="image/png, image/jpeg"
                             class="inputFileR"
                             type="file"
-                            name="file" 
+                            name="file"
+                            id="imazh"
                             @change.prevent="uploadImageFile($event.target.files)"
                         >
                     </div>
@@ -149,12 +159,67 @@
                 subheader
                 class="white"
                 >
-                <v-subheader class="secondary--text">Detajet</v-subheader>
+                <v-subheader class="secondary--text">Detajet - opsionale</v-subheader>
                 <v-list-item>
                     <v-list-item-content>
-                    <div class="fab-holder" v-for="item in detailsToEdit.details.details" :key="item">
+                    <div class="fab-holder">
+                        <v-select
+                            v-model="masa"
+                            :items = masat
+                            placeholder="Masa"
+                            outlined
+                            clearable
+                            dense
+                            light
+                            color="secondary"
+                        ></v-select>
                         <v-text-field
-                            v-model="detailsToEdit.details.details[detailsToEdit.details.details.indexOf(item)]"
+                            v-model="sizey"
+                            label="Dimensionet(psh.: 40x60cm)"
+                            outlined
+                            clearable
+                            dense
+                            light
+                            color="secondary"
+                        ></v-text-field>
+                        <v-text-field
+                            v-model="pesha"
+                            label="Pesha(psh.: 20)"
+                            outlined
+                            clearable
+                            dense
+                            light
+                            color="secondary"
+                        ></v-text-field>
+                        <v-select
+                            v-model="ngjyra"
+                            placeholder="Ngjyra"
+                            :items="ngjyrat"
+                            chips
+                            :item-color="itemColor"
+                            outlined
+                            clearable
+                            dense
+                            light
+                            color="secondary"
+                        ></v-select>
+                    </div>
+                    </v-list-item-content>
+                </v-list-item>
+                </v-list>
+                <v-divider></v-divider>
+                <!--
+                <v-list
+                three-line
+                subheader
+                class="white"
+                >
+                <v-subheader class="secondary--text">Detajet Ekstra (Opsionale)</v-subheader>
+                <v-list-item>
+                    <v-list-item-content>
+                    <div class="fab-holder" v-for="item in toDet" :key="item">
+                        <v-text-field
+                            v-model="toDet[toDet.indexOf(item)].detail"
                             label="New Detail"
                             outlined
                             clearable
@@ -184,7 +249,34 @@
                     </v-row>
                 </v-list-item>
                 </v-list>
-            </v-card>   
+                -->
+            </v-card> 
+                   <v-dialog
+                    v-model="photoProb"
+                    max-width="240"
+                    >
+                    <v-card color="primary">
+                        <v-card-title class="headline qs">
+                        Problem.
+                        </v-card-title>
+
+                        <v-card-text class="qs">
+                            Imazhi i pare eshte i detyrueshem.
+                        </v-card-text>
+
+                        <v-card-actions>
+                        <v-spacer></v-spacer>
+
+                        <v-btn
+                            color="white"
+                            text
+                            @click="photoProb = false"
+                        >
+                            Close
+                        </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                    </v-dialog>
         </v-dialog>
         <v-dialog
         v-model="dialog2"
@@ -233,7 +325,10 @@
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/storage'
+import {validationMixin} from 'vuelidate'
+import {required, minLength, numeric} from 'vuelidate/lib/validators'
 export default {
+    mixins: [validationMixin],
     async asyncData({route}){
         const data = await firebase.firestore().collection('users').doc(route.query.name).get();
         const dataF = data.data();
@@ -247,7 +342,25 @@ export default {
     },
     data(){
         return{
+            masat: [
+                "XS",
+                "S",
+                "M",
+                "L",
+                "XL",
+                "2XL",
+                "3XL"
+            ],
+            ngjyrat: [
+                "E bardhe",
+                "Jeshile",
+                "E kuqe",
+                "Blu",
+                "E verdhe",
+            ],
+            dimensionet : [],
             dialog: false,
+            photoProb: false,
             notifications: false,
             kategorita: "",
             sound: true,
@@ -301,6 +414,8 @@ export default {
                 "Kopesht & Outdoor",
                 "Produkte Kafshesh",
                 "Vegla Pune",
+                "Rroba femrash",
+                "Rroba meshkujsh"
             ],
             prodPhoto: "",
             namey: "",
@@ -309,8 +424,52 @@ export default {
             detailsy: "",
             postings: [],
             toShow: [],
-            kategoritaPrefix: ""
+            kategoritaPrefix: "",
+            toDet: [
+                {
+                    detail: ""
+                }
+            ],
+            pesha: null,
+            masa: "",
+            sizey: "",
+            ngjyra: ""
 
+        }
+    },
+    validations: {
+        namey: {
+            required,
+            minLength: minLength(6)
+        },
+        pricey: {
+            numeric,
+            required
+        },
+        kategorita: {
+            required
+        }
+    },
+    computed: {
+        nameyyErrors(){
+            const errors = []
+            if (!this.$v.namey.$dirty) return errors
+            !this.$v.namey.required && errors.push('Emri eshte i detyrueshem')
+            !this.$v.namey.minLength && errors.push('Gjatesia minimale eshte 6 shkronja')
+            return errors
+        },
+        priceyErrors(){
+            const errors = []
+            if (!this.$v.pricey.$dirty) return errors
+            !this.$v.pricey.required && errors.push('Cmimi eshte i detyrueshem')
+            !this.$v.pricey.numeric && errors.push('Vetem numra')
+            return errors
+        },
+        katErrors(){
+            const errors = []
+            if (!this.$v.kategorita.$dirty) return errors
+            !this.$v.kategorita.required && errors.push('Kategoria eshte i detyrueshem')
+            return errors
         }
     },
     methods: {
@@ -321,28 +480,28 @@ export default {
             this.dialog = true;
         },
         close: function(){
-            this.detailsToEdit = {
-                details: {
-                    name: "",
-                    price: "",
-                    desc: "",
-                    seller: "",
-                    sellerPhoto: "",
-                    details: [
-                        ""
-                    ]
-                },
-                owner: "",
-                spot: ""
-            };
+            this.namey = "";
+            this.pricey = "";
+            this.detailsy = "";
+            this.kategorita = "";
+            this.postings = [];
+            this.toShow = [];
+            this.descy = "";
+            this.selectedFile = null;
+            this.selectedMeta = null;
+            this.prodPhoto = "";
             this.spot = null;
+            document.getElementById("imazh").value = "";
 
             this.dialog = false;
+            return;
         },
         newline: function(){
-            this.totalD += 1;
+            
 
-            this.detailsToEdit.details.push("");
+            this.toDet.push({
+                detail: ""
+            });
         },
         newphoto: function(){
 
@@ -441,60 +600,125 @@ export default {
             
         },
         upload: async function(){
+            
+            this.$v.namey.$touch();
+            this.$v.pricey.$touch();
+            this.$v.kategorita.$touch();
+            const mainPhoto = document.getElementById("imazh");
+
+
+            if(this.$v.namey.$invalid || this.$v.pricey.$invalid || this.$v.kategorita.$invalid){
+                return;
+            } else {
+                console.log("hack me fam");
+            }
+            
+            if(mainPhoto.value == ""){
+                this.photoProb = true;
+                
+                return;
+            }
 
             // When the upload ends, set the value of the blog image URL
             // and signal that uploading is done.
 
             switch(this.kategorita) {
-                case "TV & Vidjo" || "Audjo Shtepish" || "Kamera, Foto & Vidjo" || "Telefon & Aksesore" || "Vidjo Lojra" || "Elektronike Makine":
+                case "TV & Vidjo":
                     this.kategoritaPrefix = "/elektronike/";
                     break;
-                case "Produkte Zyrash" || "Produkte Shkollore" || "Printer" || "Projektore":
+                case "Audjo Shtepish":
+                    this.kategoritaPrefix = "/elektronike/";
+                    break;
+                case "Kamera, Foto & Vidjo":
+                    this.kategoritaPrefix = "/elektronike/";
+                    break;
+                case "Telefon & Aksesore":
+                    this.kategoritaPrefix = "/elektronike/";
+                    break;
+                case "Vidjo Lojra":
+                    this.kategoritaPrefix = "/elektronike/";
+                    break;
+                case "Elektronike Makine":
+                    this.kategoritaPrefix = "/elektronike/";
+                    break;                        
+                case "Produkte Zyrash":
                     this.kategoritaPrefix = "/kancelari/";
                     break;
+                case "Produkte Shkollore":
+                    this.kategoritaPrefix = "/kancelari/";
+                    break;
+                case "Printer":
+                    this.kategoritaPrefix = "/kancelari/";
+                    break;
+                case "Projektore":
+                    this.kategoritaPrefix = "/kancelari/";
+                    break;            
                 case "Libra":
                     this.kategoritaPrefix = "/libra/";
                     break;
-                case "Kompjutra, Tableta" || "Monitor" || "Pjese Kompjuterash"|| "Aksesore":
+                case "Kompjutra, Tableta":
                     this.kategoritaPrefix = "/computers/";
                     break;
+                case "Monitor":
+                    this.kategoritaPrefix = "/computers/";
+                    break;
+                case "Pjese Kompjuterash":
+                    this.kategoritaPrefix = "/computers/";
+                    break;
+                case "Aksesore":
+                    this.kategoritaPrefix = "/computers/";
+                    break;            
                 case "Kozmetike":
                     this.kategoritaPrefix = "/kozmetike/";
                     break;
-                case "Lodra" || "Bebe":
+                case "Lodra":
                     this.kategoritaPrefix = "/lodra/";
                     break;
+                case "Bebe":
+                    this.kategoritaPrefix = "/lodra/";
+                    break;    
                 case "Kozmetike":
                     this.kategoritaPrefix = "/kozmetike/";
                     break;
-                case "Lodra" || "Bebe":
-                    this.kategoritaPrefix = "/lodra/";  
-                    break;
-                case "Palester & Fitness" || "Gjueti & Peshkim" || "Rroba Atletike" || "Golf":
+                case "Palester & Fitness":
                     this.kategoritaPrefix = "/sport/";
                     break;
-                case "Moblije Shtepie" || "Kuzhina" || "Dyshek & Banje" || "Kopesht & Outdoor" || "Produkte Kafshesh" || "Vegla Pune":
+                case "Gjueti & Peshkim":
+                    this.kategoritaPrefix = "/sport/";
+                    break;
+                case "Rroba Atletike":
+                    this.kategoritaPrefix = "/sport/";
+                    break;
+                case "Golf":
+                    this.kategoritaPrefix = "/sport/";
+                    break;            
+                case "Moblije Shtepie":
                     this.kategoritaPrefix = "/mobilje/";  
                     break;
-                case "Femra" || "Meshkuj":
-                    this.kategoritaPrefix = "/fashion/";  
+                case "Kuzhina":
+                    this.kategoritaPrefix = "/mobilje/";  
+                    break;
+                case "Dyshek & Banje":
+                    this.kategoritaPrefix = "/mobilje/";  
+                    break;
+                case "Kopesht & Outdoor":
+                    this.kategoritaPrefix = "/mobilje/";  
+                    break;
+                case "Produkte Kafshesh":
+                    this.kategoritaPrefix = "/mobilje/";  
+                    break;
+                case "Vegla Pune":
+                    this.kategoritaPrefix = "/mobilje/";  
                     break;                    
+                case "Rroba femrash":
+                    this.kategoritaPrefix = "/fashion/";  
+                    break; 
+                case "Rroba meshkujsh":
+                    this.kategoritaPrefix = "/fashion/";  
+                    break;                           
             } 
 
-            await firebase.firestore().collection('elektronike').doc(this.namey).set({
-                details: {
-                    name: this.namey,
-                    price: this.pricey,
-                    desc: this.descy,
-                    seller: this.nameOfS,
-                    sellerPhoto: this.photo,
-                    details: this.detailsy,
-                    kategoria: this.kategorita,
-                    photos: this.postings
-                },
-                owner: this.nameOfS,
-                spot: this.namey
-            });
+            const kat = this.kategorita;
 
             switch(this.kategorita) {
                 case "TV & Vidjo":
@@ -507,7 +731,7 @@ export default {
                     this.kategorita = "kamera";
                     break;
                 case "Telefon & Aksesore":
-                    this.kategorita = "makina";
+                    this.kategorita = "aksesore";
                     break;
                 case "Vidjo Lojra":
                     this.kategorita = "video-lojra";
@@ -581,13 +805,34 @@ export default {
                 case "Vegla Pune":
                     this.kategorita = "vegla";  
                     break;                    
-                case "Femra":
+                case "Rroba femrash":
                     this.kategorita = "femra";  
                     break;   
-                case "Meshkuj":
+                case "Rroba meshkujsh":
                     this.kategoritaPrefix = "meshkuj";  
                     break;                        
             }
+
+
+            await firebase.firestore().collection('elektronike').doc(this.namey).set({
+                details: {
+                    name: this.namey,
+                    price: this.pricey,
+                    desc: this.descy,
+                    seller: this.nameOfS,
+                    sellerPhoto: this.photo,
+                    details: this.toDet,
+                    kategoria: kat,
+                    kategorita: this.kategoritaPrefix + this.kategorita,
+                    photos: this.postings,
+                    pesha: this.pesha != null ? this.pesha : null,
+                    sizey: this.sizey != "" ? this.sizey : null,
+                    masa: this.masa != "" ? this.masa : null,
+                    ngjyra: this.ngjyra != "" ? this.ngjyra : null
+                },
+                owner: this.nameOfS,
+                spot: this.namey
+            });
 
             await firebase.firestore().collection('search').doc(this.namey).set({
                 cilesia: "/kategorite" + this.kategoritaPrefix + this.kategorita,
@@ -598,6 +843,14 @@ export default {
             
             this.postings = [];
             this.toShow = [];
+            this.toDet = [];
+            this.namey = "";
+            this.pricey = "";
+            this.detailsy = "";
+            this.kategorita = "";
+            this.postings = [];
+            this.toShow = [];
+            this.descy = "";
             this.spot = null;
 
             this.dialog = false;
@@ -612,6 +865,9 @@ export default {
 <style>
 .r{
     z-index: 999999998989898787979867987;
+}
+.visibleshit{
+    z-index: 9999999989898987879798679873423242;
 }
 .inputFileR{
     color: black;

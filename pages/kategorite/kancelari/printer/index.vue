@@ -53,7 +53,7 @@
             <v-btn icon @click="drawer = !drawer">
                 <v-icon color="secondary">mdi-card-text-outline</v-icon>
             </v-btn>
-            <h2 class="classy secondary--text">Printera</h2>
+            <h2 class="classy secondary--text">Printer</h2>
             <v-btn icon @click="drawer2 = !drawer2">
                 <v-icon color="secondary">mdi-filter</v-icon>
             </v-btn>
@@ -63,7 +63,7 @@
             <div class="market-inner">
                 <div class="sell-container" v-for="prod in prods" :key="prod.name">
                     <div class="sellable">
-                        <v-img :aspect-ratio="1/1" class="market-img secondary-bg" :src="prod.details.photo" @click="sendToProduct(prod.spot)"></v-img>
+                        <v-img :aspect-ratio="1/1" class="market-img secondary-bg" :src="prod.details.photos[0].src" @click="sendToProduct(prod.details.kategorita, prod.spot)"></v-img>
                         <div class="safety">
                             <div class="sellable-desc">
                                 <h4 class="sell-title">{{prod.details.name}}</h4>
@@ -205,8 +205,8 @@ export default {
 
             this.snackbar = true;
         },
-        sendToProduct: function (slug){
-            this.$router.push({name: 'kategorite-elektronike-tv-dhe-video-slug', params: {slug: slug}});
+        sendToProduct: function (slug1, slug2){
+            this.$router.push({path: "/kategorite" + slug1 + "/" + slug2});
         },
         filterPrice: function(){
             this.prods.sort((doc1, doc2) => {

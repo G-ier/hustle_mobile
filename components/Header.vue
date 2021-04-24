@@ -384,14 +384,14 @@
           <div class="good-row">
             <div class="searchy">
               <div class="qs custom-searchy">
-                <v-text-field placeholder="Kerko per produkte" class="custom-text-field" color="black" v-model="searchQ" clearable solo dense light rounded height="38" @click:clear="() => {answer = false; searchQ = '';}" @input="changeType" @blur="()=>{answer = false; searchQ = '';}"></v-text-field>
+                <v-text-field placeholder="Kerko per produkte" class="custom-text-field" color="black" v-model="searchQ" clearable solo dense light rounded height="38" @click:clear="() => {answer = false; searchQ = '';}" @input="changeType" @blur="antiBlur"></v-text-field>
               </div>
               <button class="btn-c-o qs searchy-btn" @click="searchGo"><v-icon color="white">mdi-magnify</v-icon></button>
             </div>
-            <div class="results" v-if="answer == true">
+            <div class="results" v-if="answer == true" ref="karuci" @mouseenter="itsover = true" @mouseleave="itsover = false" @mouseout="mouseOut">
               <div class="listings" v-if="sToShow != null">
-                <div class="tile" v-for="ting in sToShow.slice(0, 4)" :key="ting.emri">
-                  <a class="qs search-p-result btn-c-o" :src="ting.cilesia">{{ting.emri}}</a>
+                <div class="tile" v-for="ting in sToShow.slice(0, 4)" :key="ting.id">
+                  <v-btn class="qs secondary--text btn-c-o" text nuxt :to="ting.red" @click="itsover = false; answer = false">{{ting.emri}}</v-btn>
                 </div>
                 <div class="dontchange" style="display: flex; justify-content: center; align-items: center;">
                   <v-btn small class="white--text rounded-lg" color="secondary" @click="sendToMore">More</v-btn>
@@ -516,6 +516,7 @@ export default {
             sToShow: [],
             cart: this.$store.state.users.cart,
             cartD: false,
+            itsover: false
         }
     },
     methods: {
@@ -584,6 +585,21 @@ export default {
       },
       sendTo: function(veni){
         this.$router.push({path: veni});
+      },
+      antiBlur: function (){
+        if(this.itsover == true){
+          console.log("itsover" + this.itsover);
+        } else {
+          this.answer = false;
+          this.searchQ = "";
+        }
+      },
+      mouseOut: function (){
+        const wholeBody = document.getElementById("wholeBody");
+        wholeBody.addEventListener("click", () => {
+          this.answer = false;
+          this.itsover = false;
+        });
       }
     },
     computed: {
