@@ -141,7 +141,7 @@ import 'firebase/firestore';
 import Cookies from 'js-cookie';
 export default {
     async asyncData(){
-        const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Telefon & Aksesore").get();
+        const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Aksesore").get();
         const page = pageData.docs.map(doc => doc.data());
 
         return {

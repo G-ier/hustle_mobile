@@ -88,20 +88,19 @@ export default {
           console.log(false4);
           firebase.firestore().collection('orders').doc(Math.random().toString(36).substring(2,7)).set({
               from: cookieD.name.given_name,
+              payee_email: this.$store.state.users.user.email,
               fulfilled: false,
               onto: false4,
               address: cookieI.adresa,
               qyteti: cookieI.qyt,
               number: cookieI.numri,
-              orders: [
-                  {
-                      item: fell.name,
-                      paid: true,
-                      price: fell.amount * fell.quantity,
-                      quantity: fell.quantity,
-                      type: "online-payment"
-                  }
-              ]
+              orders: {
+                item: false5[0],
+                paid: true,
+                price: fell.amount * fell.quantity,
+                quantity: fell.quantity,
+                type: "online-payment"
+              }
           })
       });
 

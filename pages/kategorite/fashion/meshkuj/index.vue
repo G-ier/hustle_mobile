@@ -53,7 +53,7 @@
             <v-btn icon @click="drawer = !drawer">
                 <v-icon color="secondary">mdi-card-text-outline</v-icon>
             </v-btn>
-            <h2 class="classy secondary--text">Rroba femrash</h2>
+            <h2 class="classy secondary--text">Rroba meshkujsh</h2>
             <v-btn icon @click="drawer2 = !drawer2">
                 <v-icon color="secondary">mdi-filter</v-icon>
             </v-btn>

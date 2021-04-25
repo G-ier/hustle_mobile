@@ -2,7 +2,7 @@
   <div class="edit">
       <div class="sets">
             
-            <h2 class="classy secondary--text">Create new products</h2>
+            <h2 class="classy secondary--text">Krijo produkte te reja</h2>
             
         </div>
         <div class="lineM"></div>
@@ -14,12 +14,12 @@
         <v-dialog
             v-model="dialog"
             fullscreen
-            hide-overlay
+            style="z-index: 34235456;"
             transition="dialog-bottom-transition"
             class="r"
             >
             
-            <v-card color="white">
+            <v-card >
                 <v-toolbar
                 dark
                 color="primary"
@@ -46,7 +46,7 @@
                 <v-list
                 three-line
                 subheader
-                class="white"
+                
                 >
                 <v-subheader class="secondary--text">Perpuno detajet</v-subheader>
                 <v-list-item>
@@ -102,7 +102,7 @@
                             ref="imageFile"
                             placeholder="Required photo"
                             accept="image/png, image/jpeg"
-                            class="inputFileR"
+                            class="inputFileR ml-1"
                             type="file"
                             name="file"
                             id="imazh"
@@ -114,7 +114,7 @@
                             ref="imageFile"
                             placeholder="Profile photo"
                             accept="image/png, image/jpeg"
-                            class="inputFileR"
+                            class="inputFileR ml-1"
                             type="file"
                             name="file" 
                             @change.prevent="uploadImageFile1($event.target.files)"
@@ -157,11 +157,10 @@
                 <v-list
                 three-line
                 subheader
-                class="white"
                 >
                 <v-subheader class="secondary--text">Detajet - opsionale</v-subheader>
                 <v-list-item>
-                    <v-list-item-content>
+                    <v-list-item-content >
                     <div class="fab-holder">
                         <v-select
                             v-model="masa"
@@ -170,8 +169,10 @@
                             outlined
                             clearable
                             dense
-                            light
+                            dark
                             color="secondary"
+                            class="pc-small"
+                            item-color="white"
                         ></v-select>
                         <v-text-field
                             v-model="sizey"
@@ -179,30 +180,46 @@
                             outlined
                             clearable
                             dense
-                            light
+                            dark
                             color="secondary"
+                            class="pc-small"
                         ></v-text-field>
                         <v-text-field
                             v-model="pesha"
-                            label="Pesha(psh.: 20)"
+                            label="Pesha(psh.: 200g)"
                             outlined
                             clearable
                             dense
-                            light
+                            dark
                             color="secondary"
+                            class="pc-small"
                         ></v-text-field>
                         <v-select
                             v-model="ngjyra"
                             placeholder="Ngjyra"
                             :items="ngjyrat"
                             chips
-                            :item-color="itemColor"
+                            item-color="white"
                             outlined
                             clearable
                             dense
-                            light
+                            dark
                             color="secondary"
-                        ></v-select>
+                            class="pc-small"
+                        >
+                            <template #selection="{ item }">
+                                <v-chip color="#f2f2f2" text-color="#f2f2f2" v-if="item == 'E bardhe'">-|</v-chip>
+                                <p class="qs pa-0 ma-0 secondary--text" v-if="item == 'E bardhe'">E bardhe</p>
+                                <v-chip color="primary" text-color="primary" v-if="item == 'E kuqe'">-|</v-chip>
+                                <p class="qs pa-0 ma-0 secondary--text" v-if="item == 'E kuqe'">E kuqe</p>
+                                <v-chip color="blue darken-4" text-color="blue darken-4" v-if="item == 'Blu'">-|</v-chip>
+                                <p class="qs pa-0 ma-0 secondary--text" v-if="item == 'Blu'">Blu</p>
+                                <v-chip color="yellow darken-3" text-color="yellow darken-3" v-if="item == 'E verdhe'">-|</v-chip>
+                                <p class="qs pa-0 ma-0 secondary--text" v-if="item == 'E verdhe'">E verdhe</p>
+                                <v-chip color="green darken-2" text-color="green darken-2" v-if="item == 'Jeshile'">-|</v-chip>
+                                <p class="qs pa-0 ma-0 secondary--text" v-if="item == 'Jeshile'">Jeshile</p>
+                            </template>
+                        </v-select>
                     </div>
                     </v-list-item-content>
                 </v-list-item>
@@ -251,32 +268,32 @@
                 </v-list>
                 -->
             </v-card> 
-                   <v-dialog
-                    v-model="photoProb"
-                    max-width="240"
-                    >
-                    <v-card color="primary">
-                        <v-card-title class="headline qs">
-                        Problem.
-                        </v-card-title>
+        <v-dialog
+        v-model="photoProb"
+        max-width="240"
+        >
+        <v-card color="primary">
+            <v-card-title class="headline qs">
+            Problem.
+            </v-card-title>
 
-                        <v-card-text class="qs">
-                            Imazhi i pare eshte i detyrueshem.
-                        </v-card-text>
+            <v-card-text class="qs">
+                Imazhi i pare eshte i detyrueshem.
+            </v-card-text>
 
-                        <v-card-actions>
-                        <v-spacer></v-spacer>
+            <v-card-actions>
+            <v-spacer></v-spacer>
 
-                        <v-btn
-                            color="white"
-                            text
-                            @click="photoProb = false"
-                        >
-                            Close
-                        </v-btn>
-                        </v-card-actions>
-                    </v-card>
-                    </v-dialog>
+            <v-btn
+                color="white"
+                text
+                @click="photoProb = false"
+            >
+                Close
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+        </v-dialog>
         </v-dialog>
         <v-dialog
         v-model="dialog2"
@@ -866,13 +883,26 @@ export default {
 .r{
     z-index: 999999998989898787979867987;
 }
+.border-chip{
+    border: 1px solid black;
+}
 .visibleshit{
     z-index: 9999999989898987879798679873423242;
 }
-.inputFileR{
-    color: black;
-    border-radius: 5px;
-    background-color: gray;
+.inputFileR::-webkit-file-upload-button {
+    visibility: hidden;
+}
+.inputFileR::before {
+    content: "Zgjidh foto";
+    display: inline-block;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 10pt;
 }
 .edit{
     display: flex;
@@ -970,12 +1000,36 @@ export default {
     color: rgb(214, 214, 214);
 }
 @media only screen and (min-width: 850px){
+    .pc-small{
+        width: 400px;
+    }
     .sets{
         display: flex;
         justify-content: space-between;
         align-items: center;
         width: 90%;
         padding: 15px 0 8px 0;
+    }
+    .inputFileR::-webkit-file-upload-button {
+        visibility: hidden;
+    }
+    .inputFileR{
+        background-color: gray;
+        border-radius: 5px;
+    }
+    .inputFileR::before {
+        content: "Zgjidh foto";
+        display: inline-block;
+        border-radius: 3px;
+        padding: 5px 8px;
+        outline: none;
+        white-space: nowrap;
+        -webkit-user-select: none;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 15px;
+        color: white;
+        border: 1px solid gray;
     }
     .lineM{
         height: 1px;

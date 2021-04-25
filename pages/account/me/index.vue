@@ -87,7 +87,7 @@
         <v-dialog
             v-model="editP"
             fullscreen
-            hide-overlay
+            style="z-index: 34235456;"
             transition="dialog-bottom-transition"
             class="r"
             >
@@ -328,6 +328,22 @@ export default {
 .r{
     z-index: 999999998989898787979867987;
 }
+.inputFile::-webkit-file-upload-button {
+    visibility: hidden;
+}
+.inputFile::before {
+    content: "Zgjidh foto";
+    display: inline-block;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    
+    font-weight: 700;
+    font-size: 10pt;
+}
 .admin-base-1{
     background-size: cover;
     background-position-y: center;
@@ -460,6 +476,22 @@ export default {
     .r{
         z-index: 999999998989898787979867987;
     }
+    .inputFile::-webkit-file-upload-button {
+        visibility: hidden;
+    }
+    .inputFile::before {
+        content: "Zgjidh foto";
+        display: inline-block;
+        border-radius: 3px;
+        padding: 5px 8px;
+        outline: none;
+        white-space: nowrap;
+        -webkit-user-select: none;
+        cursor: pointer;
+        
+        font-weight: 700;
+        font-size: 10pt;
+    }
     .logout-row-1{
         width: 750px;
         padding: 5px 5vw 0 5vw;
@@ -479,14 +511,22 @@ export default {
     }
     .admin-starter-1{
         width: 750px;
-        min-height: 32vh;
+        max-height: 230px;
         border-radius: 20px;
         display: flex;
         justify-content: center;
         align-items: flex-start;
         background-color: #363f4e;
         margin-bottom: 15px;
-        padding: 0px 0 20px 0;
+        padding: 0px 0 0 0;
+    }
+    .container-stuff-1{
+        width: 85%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 25px 0 0px 0;
     }
 }
 </style>

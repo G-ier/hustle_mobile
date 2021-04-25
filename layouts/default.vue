@@ -1,6 +1,6 @@
 <template>
   <v-app dark class="bg-white">
-    <div class="index-upper">
+    <div>
       <Header />
     </div>
     <div id="wholeBody">
@@ -54,7 +54,5 @@ export default {
 .fluid-layout{
   width: 100%;
 }
-.index-upper{
-  z-index: 99999999999;
-}
+
 </style>

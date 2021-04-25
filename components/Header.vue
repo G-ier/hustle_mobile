@@ -449,7 +449,7 @@
       </v-list>
       <template v-slot:append v-if="checkoutAval">
         <div class="pa-2">
-          <v-btn block color="white" class="qs red--text text--darken-4" nuxt to="/checkout2">
+          <v-btn block color="white" class="qs red--text text--darken-4" nuxt to="/checkout">
             Checkout
           </v-btn>
          </div>

@@ -7,7 +7,7 @@
             <h2 class="classy secondary--text">Deals of the day</h2>  
         </div>
         <div class="lineM"></div>
-        <div class="market">
+        <div class="market mb-9">
             <div class="market-inner">
                 <div class="sell-container" v-for="prod in dotd" :key="prod.id">
                     <div class="sellable">
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="sets">  
-            <h2 class="classy secondary--text">Main ads</h2>  
+            <h2 class="classy secondary--text">Reklamat kryesore</h2>  
         </div>
         <div class="lineM"></div>
         <div class="market">
@@ -45,10 +45,76 @@
                 </div>
             </div>
         </div>
+        <div class="sets">  
+            <h2 class="classy secondary--text">Reklamat ne krahe</h2>  
+        </div>
+        <div class="lineM"></div>
+        <div class="market">
+            <div class="market-inner">
+                <div class="sell-container-2" v-for="side in sides" :key="side.id">
+                    <div class="sellable-2">
+                        <div class="safety">
+                            <div class="sellable-desc-2">
+                                <h4 class="sell-title">{{side.name}}</h4>
+                                <div class="func-row-2">
+                                    <v-btn color="secondary" class="rounded-md" small @click="editSide(side)">Perpuno</v-btn>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sets">  
+            <h2 class="classy secondary--text">Paneli kryesor</h2>  
+        </div>
+        <div class="lineM"></div>
+        <div class="market">
+            <div class="market-inner">
+                <div class="sell-container-2">
+                    <div class="sellable-2">
+                        <div class="safety">
+                            <div class="sellable-desc-2">
+                                <h4 class="sell-title">Fotoja kryesore</h4>
+                                <div class="func-row-2">
+                                    <v-btn color="secondary" class="rounded-md" small @click="editMain(main)">Perpuno</v-btn>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="sell-container-2">
+                    <div class="sellable-2">
+                        <div class="safety">
+                            <div class="sellable-desc-2">
+                                <h4 class="sell-title">Fotoja ne krahe lart</h4>
+                                <div class="func-row-2">
+                                    <v-btn color="secondary" class="rounded-md" small @click="editDouble1(side1)">Perpuno</v-btn>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="sell-container-2">
+                    <div class="sellable-2">
+                        <div class="safety">
+                            <div class="sellable-desc-2">
+                                <h4 class="sell-title">Fotoja ne krahe poshte</h4>
+                                <div class="func-row-2">
+                                    <v-btn color="secondary" class="rounded-md" small @click="editDouble2(side2)">Perpuno</v-btn>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <v-dialog
             v-model="dialog"
             fullscreen
-            hide-overlay
+            style="z-index: 34235456;"
             transition="dialog-bottom-transition"
             class="uuuuuuuuup"
             >
@@ -105,6 +171,7 @@
                         outlined
                         clearable
                         dense
+                        class="mr-5"
                     ></v-text-field>
                     <v-text-field
                         v-model="dotdMarke"
@@ -121,9 +188,9 @@
         <v-dialog
             v-model="dialogA"
             fullscreen
-            hide-overlay
+            
             transition="dialog-bottom-transition"
-            class="uuuuuuuuup"
+            style="z-index: 34235456;"
             >
             
             <v-card>
@@ -182,7 +249,379 @@
                     ></v-text-field>
                     <v-text-field
                         v-model="adlink"
-                        label="Linku per klientit"
+                        label="Linku per klientin"
+                        outlined
+                        color="white"
+                        clearable
+                        dense
+                    ></v-text-field>
+                    <input
+                        ref="imageFile"
+                        placeholder="Profile photo"
+                        accept="image/png, image/jpeg"
+                        class="inputFile"
+                        type="file"
+                        name="file" 
+                        @change.prevent="uploadImageFile($event.target.files)"
+                    >
+                    </v-list-item-content>
+                </v-list-item>
+                </v-list>
+            </v-card>   
+        </v-dialog>
+        <v-dialog
+            v-model="dialogAs"
+            fullscreen
+            
+            transition="dialog-bottom-transition"
+            style="z-index: 34235456;"
+            >
+            
+            <v-card>
+                <v-toolbar
+                dark
+                color="primary"
+                >
+                <v-btn
+                    icon
+                    dark
+                    @click="close2"
+                >
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-toolbar-title>Perpuno te dhenat</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                    <v-btn
+                    dark
+                    text
+                    @click="update"
+                    >
+                    Save
+                    </v-btn>
+                </v-toolbar-items>
+                </v-toolbar>
+                <v-list
+                three-line
+                subheader
+                >
+                <v-subheader>Te dhenat e reklames</v-subheader>
+                <v-list-item>
+                    <v-list-item-content>
+                        <div class="show-details">
+                            <p class="qs ">Emri: {{adname}}</p>
+                            <p class="qs ">Linku: {{adlink}}</p>
+                        </div>
+                    </v-list-item-content>
+                </v-list-item>
+                </v-list>
+                <v-divider></v-divider>
+                <v-list
+                three-line
+                subheader
+                >
+                <v-subheader>Perpuno te dhenat</v-subheader>
+                <v-list-item>
+                    <v-list-item-content class="oat-1">
+                    <v-text-field
+                        v-model="adname"
+                        label="Emri"
+                        outlined
+                        color="white"
+                        clearable
+                        dense
+                    ></v-text-field>
+                    <v-text-field
+                        v-model="adlink"
+                        label="Linku per klientin"
+                        outlined
+                        color="white"
+                        clearable
+                        dense
+                    ></v-text-field>
+                    <input
+                        ref="imageFile"
+                        placeholder="Profile photo"
+                        accept="image/png, image/jpeg"
+                        class="inputFile"
+                        type="file"
+                        name="file" 
+                        @change.prevent="uploadImageFile($event.target.files)"
+                    >
+                    </v-list-item-content>
+                </v-list-item>
+                </v-list>
+            </v-card>   
+        </v-dialog>
+        <v-dialog
+            v-model="dialogA2"
+            fullscreen
+            
+            transition="dialog-bottom-transition"
+            style="z-index: 34235456;"
+            >
+            
+            <v-card>
+                <v-toolbar
+                dark
+                color="primary"
+                >
+                <v-btn
+                    icon
+                    dark
+                    @click="close3"
+                >
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-toolbar-title>Perpuno te dhenat</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                    <v-btn
+                    dark
+                    text
+                    @click="updata"
+                    >
+                    Ruaj
+                    </v-btn>
+                </v-toolbar-items>
+                </v-toolbar>
+                <v-list
+                three-line
+                subheader
+                >
+                <v-subheader>Te dhenat e reklames</v-subheader>
+                <v-list-item>
+                    <v-list-item-content>
+                        <div class="show-details">
+                            <p class="qs ">Subheader: {{infos.subheader}}</p>
+                            <p class="qs ">Header: {{infos.header}}</p>
+                            <p class="qs ">Subtext: {{infos.subtext}}</p>
+                            <p class="qs ">Linku: {{infos.link}}</p>
+                        </div>
+                    </v-list-item-content>
+                </v-list-item>
+                </v-list>
+                <v-divider></v-divider>
+                <v-list
+                three-line
+                subheader
+                >
+                <v-subheader>Perpuno te dhenat</v-subheader>
+                <v-list-item>
+                    <v-list-item-content class="oat-1">
+                    <v-text-field
+                        v-model="infos.subheader"
+                        label="Subheader"
+                        outlined
+                        color="white"
+                        clearable
+                        dense
+                    ></v-text-field>
+                    <v-text-field
+                        v-model="infos.header"
+                        label="Header"
+                        outlined
+                        color="white"
+                        clearable
+                        dense
+                    ></v-text-field>
+                    <v-text-field
+                        v-model="infos.subtext"
+                        label="Subtext"
+                        outlined
+                        color="white"
+                        clearable
+                        dense
+                    ></v-text-field>
+                    <v-text-field
+                        v-model="infos.link"
+                        label="Linku per klientin"
+                        outlined
+                        color="white"
+                        clearable
+                        dense
+                    ></v-text-field>
+                    <input
+                        ref="imageFile"
+                        placeholder="Profile photo"
+                        accept="image/png, image/jpeg"
+                        class="inputFile"
+                        type="file"
+                        name="file" 
+                        @change.prevent="uploadImageFile($event.target.files)"
+                    >
+                    </v-list-item-content>
+                </v-list-item>
+                </v-list>
+            </v-card>   
+        </v-dialog>
+        <v-dialog
+            v-model="dialogA3"
+            fullscreen
+            
+            transition="dialog-bottom-transition"
+            style="z-index: 34235456;"
+            >
+            
+            <v-card>
+                <v-toolbar
+                dark
+                color="primary"
+                >
+                <v-btn
+                    icon
+                    dark
+                    @click="close4"
+                >
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-toolbar-title>Perpuno te dhenat</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                    <v-btn
+                    dark
+                    text
+                    @click="updatei"
+                    >
+                    Ruaj
+                    </v-btn>
+                </v-toolbar-items>
+                </v-toolbar>
+                <v-list
+                three-line
+                subheader
+                >
+                <v-subheader>Te dhenat e reklames</v-subheader>
+                <v-list-item>
+                    <v-list-item-content>
+                        <div class="show-details">
+                            <p class="qs ">Subheader: {{infos.subheader}}</p>
+                            <p class="qs ">Header: {{infos.header}}</p>
+                            <p class="qs ">Linku: {{infos.link}}</p>
+                        </div>
+                    </v-list-item-content>
+                </v-list-item>
+                </v-list>
+                <v-divider></v-divider>
+                <v-list
+                three-line
+                subheader
+                >
+                <v-subheader>Perpuno te dhenat</v-subheader>
+                <v-list-item>
+                    <v-list-item-content class="oat-1">
+                    <v-text-field
+                        v-model="infos1.subheader"
+                        label="Subheader"
+                        outlined
+                        color="white"
+                        clearable
+                        dense
+                    ></v-text-field>
+                    <v-text-field
+                        v-model="infos1.header"
+                        label="Header"
+                        outlined
+                        color="white"
+                        clearable
+                        dense
+                    ></v-text-field>
+                    <v-text-field
+                        v-model="infos1.link"
+                        label="Linku per klientin"
+                        outlined
+                        color="white"
+                        clearable
+                        dense
+                    ></v-text-field>
+                    <input
+                        ref="imageFile"
+                        placeholder="Profile photo"
+                        accept="image/png, image/jpeg"
+                        class="inputFile"
+                        type="file"
+                        name="file" 
+                        @change.prevent="uploadImageFile($event.target.files)"
+                    >
+                    </v-list-item-content>
+                </v-list-item>
+                </v-list>
+            </v-card>   
+        </v-dialog>
+        <v-dialog
+            v-model="dialogA4"
+            fullscreen
+            
+            transition="dialog-bottom-transition"
+            style="z-index: 34235456;"
+            >
+            
+            <v-card>
+                <v-toolbar
+                dark
+                color="primary"
+                >
+                <v-btn
+                    icon
+                    dark
+                    @click="close4"
+                >
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-toolbar-title>Perpuno te dhenat</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                    <v-btn
+                    dark
+                    text
+                    @click="updatei2"
+                    >
+                    Ruaj
+                    </v-btn>
+                </v-toolbar-items>
+                </v-toolbar>
+                <v-list
+                three-line
+                subheader
+                >
+                <v-subheader>Te dhenat e reklames</v-subheader>
+                <v-list-item>
+                    <v-list-item-content>
+                        <div class="show-details">
+                            <p class="qs ">Subheader: {{infos.subheader}}</p>
+                            <p class="qs ">Header: {{infos.header}}</p>
+                            <p class="qs ">Linku: {{infos.link}}</p>
+                        </div>
+                    </v-list-item-content>
+                </v-list-item>
+                </v-list>
+                <v-divider></v-divider>
+                <v-list
+                three-line
+                subheader
+                >
+                <v-subheader>Perpuno te dhenat</v-subheader>
+                <v-list-item>
+                    <v-list-item-content class="oat-1">
+                    <v-text-field
+                        v-model="infos2.subheader"
+                        label="Subheader"
+                        outlined
+                        color="white"
+                        clearable
+                        dense
+                    ></v-text-field>
+                    <v-text-field
+                        v-model="infos2.header"
+                        label="Header"
+                        outlined
+                        color="white"
+                        clearable
+                        dense
+                    ></v-text-field>
+                    <v-text-field
+                        v-model="infos2.link"
+                        label="Linku per klientin"
                         outlined
                         color="white"
                         clearable
@@ -221,7 +660,7 @@
             <v-btn
                 color="white"
                 text
-                @click="dialog2 = false"
+                @click="dialog2 = false; dialogAs = false; dialogA2 = false; dialogA3 = false; dialogA4 = false"
             >
                 Close
             </v-btn>
@@ -240,16 +679,26 @@ export default {
         const dataE = await firebase.firestore().collection('basic').get();
         const dataFiltered = dataE.docs.map(doc => doc.data());
 
+
+
         const dotd = dataFiltered[0].ads
         return{
             dotd: dotd,
-            ads: dataFiltered[5]
+            ads: dataFiltered[5],
+            sides: dataFiltered[4],
+            main: dataFiltered[1],
+            side1: dataFiltered[2],
+            side2: dataFiltered[3]
         }
     },
     data(){
         return{
             dialog: false,
             dialogA: false,
+            dialogA2: false,
+            dialogA3: false,
+            dialogA4: false,
+            dialogAs: false,
             notifications: false,
             sound: true,
             widgets: false,
@@ -263,7 +712,26 @@ export default {
             spot: null,
             dialog2: false,
             selectedFile: null,
-            selectedMeta: null
+            selectedMeta: null,
+            infos: {
+                header: "",
+                link: "",
+                subheader: "",
+                subtext: ""
+            },
+            infos1: {
+                header: "",
+                link: "",
+                subheader: "",
+                subtext: ""
+            },
+            infos2: {
+                header: "",
+                link: "",
+                subheader: "",
+                subtext: ""
+            }
+
         }
     },
     methods: {
@@ -281,6 +749,61 @@ export default {
             this.adlink = ad.link;
 
             this.dialogA = true;
+        },
+        editSide: function (ad){
+            this.adindex = ad.index;
+            this.adname = ad.name;
+            this.adlink = ad.link;
+
+            this.dialogAs = true;
+        },
+        editMain: function (ad){
+            this.infos.header = ad.header;
+            this.infos.link = ad.link;
+            this.infos.subheader = ad.subheader;
+            this.infos.subtext = ad.subtext;
+
+            this.dialogA2 = true;
+        },
+        editDouble1: function (ad){
+            this.infos.header = ad.infos.header;
+            this.infos.link = ad.infos.link;
+            this.infos.subheader = ad.infos.subheader;
+            this.infos.subtext = ad.infos.subtext;
+
+            this.dialogA3 = true;
+        },
+        editDouble2: function (ad){
+            this.infos.header = ad.infos.header;
+            this.infos.link = ad.infos.link;
+            this.infos.subheader = ad.infos.subheader;
+            this.infos.subtext = ad.infos.subtext;
+
+            this.dialogA4 = true;
+        },
+        close4: function(){
+            this.infos.header = "";
+            this.infos.link = "";
+            this.infos.subheader = "";
+            this.infos.subtext = "";
+
+            this.dialogA3 = false;
+            this.dialogA4 = false;
+        },
+        close3: function(){
+            this.infos.header = "";
+            this.infos.link = "";
+            this.infos.subheader = "";
+            this.infos.subtext = "";
+
+            this.dialogA2 = false;
+        },
+        close2: function(){
+            this.adname = "";
+            this.adlink = "";
+            this.adphoto = "";
+
+            this.dialogAs = false;
         },
         close1: function(){
             this.adname = "";
@@ -352,33 +875,212 @@ export default {
 
             // When the upload ends, set the value of the blog image URL
             // and signal that uploading is done.
-            uploadTask.then((url) => {
-                this.adphoto = url;
+            uploadTask.then(async(url) => {
+                if(this.adindex == 1){
+                    await firebase.firestore().collection('basic').doc('stingy').update({
+                        "ad1": {
+                            "name" : this.adname,
+                            "link": this.adlink,
+                            "photo": url
+                        }
+                    });
+                } else {
+                    await firebase.firestore().collection('basic').doc('stingy').update({
+                        "ad2": {
+                            "name" : this.adname,
+                            "link": this.adlink,
+                            "photo": url
+                        }
+                    });
+                }
             })
 
-            if(this.adindex == 1){
-                await firebase.firestore().collection('basic').doc('stingy').update({
-                    "ad1": {
-                        "name" : this.adname,
-                        "link": this.adlink,
-                        "photo": this.adphoto
-                    }
-                });
-            } else {
-                await firebase.firestore().collection('basic').doc('stingy').update({
-                    "ad2": {
-                        "name" : this.adname,
-                        "link": this.adlink,
-                        "photo": this.adphoto
-                    }
-                });
-            }
+            
 
             this.adname = "";
             this.adphoto = "";
             this.adlink = "";
 
             this.dialogA = false;
+            this.dialog2 = true;
+        },
+        update: async function(){
+
+            // Create a reference to the destination where we're uploading
+            // the file.
+            const file = this.selectedFile;
+            const metadata = this.selectedMeta;
+            const storage = firebase.storage()
+            const imageRef = storage.ref(`images/${file.name}`)
+
+            const uploadTask = imageRef.put(file, metadata).then((snapshot) => {
+                // Once the image is uploaded, obtain the download URL, which
+                // is the publicly accessible URL of the image.
+                return snapshot.ref.getDownloadURL().then((url) => {
+                return url
+                })
+            }).catch((error) => {
+                console.error('Error uploading image', error)
+            })
+
+            // When the upload ends, set the value of the blog image URL
+            // and signal that uploading is done.
+            uploadTask.then(async (url) => {
+                if(this.adindex == 1){
+                await firebase.firestore().collection('basic').doc('stangy').update({
+                    "ad1": {
+                        "name" : this.adname,
+                        "link": this.adlink,
+                        "photo": url
+                    }
+                });
+            } else if(this.adindex == 2) {
+                await firebase.firestore().collection('basic').doc('stangy').update({
+                    "ad2": {
+                        "name" : this.adname,
+                        "link": this.adlink,
+                        "photo": url
+                    }
+                });
+            } else if(this.adindex == 3) {
+                await firebase.firestore().collection('basic').doc('stangy').update({
+                    "ad3": {
+                        "name" : this.adname,
+                        "link": this.adlink,
+                        "photo": url
+                    }
+                });
+            } else {
+                await firebase.firestore().collection('basic').doc('stangy').update({
+                    "ad4": {
+                        "name" : this.adname,
+                        "link": this.adlink,
+                        "photo": url
+                    }
+                });
+            }
+            })
+
+            this.adname = "";
+            this.adphoto = "";
+            this.adlink = "";
+
+            this.dialogAs = false;
+            this.dialog2 = true;
+        },
+        updata: async function(){
+
+            // Create a reference to the destination where we're uploading
+            // the file.
+            const file = this.selectedFile;
+            const metadata = this.selectedMeta;
+            const storage = firebase.storage()
+            const imageRef = storage.ref(`images/${file.name}`)
+
+            const uploadTask = imageRef.put(file, metadata).then((snapshot) => {
+                // Once the image is uploaded, obtain the download URL, which
+                // is the publicly accessible URL of the image.
+                return snapshot.ref.getDownloadURL().then((url) => {
+                return url
+                })
+            }).catch((error) => {
+                console.error('Error uploading image', error)
+            })
+
+            // When the upload ends, set the value of the blog image URL
+            // and signal that uploading is done.
+            
+            uploadTask.then( async (url) => {
+                await firebase.firestore().collection('basic').doc('main').set({
+                    infos: {
+                        "subheader" : this.infos.subheader,
+                        "header": this.infos.header,
+                        "subtext": this.infos.subheader,
+                        "link": this.infos.link
+                    },
+                    "photo": url
+                });
+
+            })
+
+            
+            
+
+            this.dialogA2 = false;
+            this.dialog2 = true;
+        },
+        updatei: async function(){
+
+            // Create a reference to the destination where we're uploading
+            // the file.
+            const file = this.selectedFile;
+            const metadata = this.selectedMeta;
+            const storage = firebase.storage()
+            const imageRef = storage.ref(`images/${file.name}`)
+
+            const uploadTask = imageRef.put(file, metadata).then((snapshot) => {
+                // Once the image is uploaded, obtain the download URL, which
+                // is the publicly accessible URL of the image.
+                return snapshot.ref.getDownloadURL().then((url) => {
+                return url
+                })
+            }).catch((error) => {
+                console.error('Error uploading image', error)
+            })
+
+            // When the upload ends, set the value of the blog image URL
+            // and signal that uploading is done.
+            uploadTask.then(async (url) => {
+                await firebase.firestore().collection('basic').doc('side-1').update({
+                    "infos": {
+                        "subheader" : this.infos1.subheader,
+                        "header": this.infos1.header,
+                        "link": this.infos1.link
+                    },
+                    "photo": url
+                });
+
+            })
+
+
+            this.dialogA3 = false;
+            this.dialog2 = true;
+        },
+        updatei2: async function(){
+
+            // Create a reference to the destination where we're uploading
+            // the file.
+            const file = this.selectedFile;
+            const metadata = this.selectedMeta;
+            const storage = firebase.storage()
+            const imageRef = storage.ref(`images/${file.name}`)
+
+            const uploadTask = imageRef.put(file, metadata).then((snapshot) => {
+                // Once the image is uploaded, obtain the download URL, which
+                // is the publicly accessible URL of the image.
+                return snapshot.ref.getDownloadURL().then((url) => {
+                return url
+                })
+            }).catch((error) => {
+                console.error('Error uploading image', error)
+            })
+
+            // When the upload ends, set the value of the blog image URL
+            // and signal that uploading is done.
+            uploadTask.then(async (url) => {
+                await firebase.firestore().collection('basic').doc('side-2').update({
+                    "infos": {
+                        "subheader" : this.infos2.subheader,
+                        "header": this.infos2.header,
+                        "link": this.infos2.link
+                    },
+                    "photo": url
+                });
+
+            })
+
+
+            this.dialogA4 = false;
             this.dialog2 = true;
         }
     }
@@ -392,10 +1094,25 @@ export default {
     justify-content: center;
     align-items: flex-start;
 }
+.inputFile::-webkit-file-upload-button {
+    visibility: hidden;
+}
+.inputFile::before {
+    content: "Zgjidh foto";
+    display: inline-block;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    
+    font-weight: 700;
+    font-size: 10pt;
+}
 .logout-row-1{
     justify-content: flex-start;
     width: 70%;
-
 }
 .uuuuuuuuup{
     z-index: 9999999999999999999999999999999;
@@ -447,7 +1164,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    height: 270px;
+    height: 150px;
 }
 .sell-link{
     width: 100%;
@@ -534,6 +1251,36 @@ export default {
         justify-content: center;
         align-items: flex-start;
     }
+    .inputFile::-webkit-file-upload-button {
+        visibility: hidden;
+    }
+    .inputFile::before {
+        content: "Zgjidh foto";
+        display: inline-block;
+        border-radius: 3px;
+        padding: 5px 8px;
+        outline: none;
+        white-space: nowrap;
+        -webkit-user-select: none;
+        cursor: pointer;
+        
+        font-weight: 700;
+        font-size: 10pt;
+    }
+    .logout-row-1{
+        justify-content: flex-start;
+        width: 70%;
+    }
+    .edit{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100vw;
+        min-height: 81vh;
+        padding: 15px 0 15px 0;
+        background-color: white;
+    }
     .sets{
         display: flex;
         justify-content: space-between;
@@ -572,7 +1319,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: flex-start;
-        height: 270px;
+        height: 150px;
     }
     .sell-link{
         width: 100%;

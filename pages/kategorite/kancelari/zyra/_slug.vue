@@ -34,6 +34,19 @@
       </div>
       <div class="double-down mb-4">
           <div class="desc-row">
+            <div class="details-prod">
+                <h3 class="qs secondary--text mb-4">Shitesi</h3>
+                <div class="row-center">
+                    <v-avatar size="40" color="primary">
+                        <img v-if="seller.photo == ''" :src="seller.photo" alt="seller photo">
+                    </v-avatar>
+                    <p class="qs ma-0 pa-0 ml-4 secondary--text">{{seller.displaName}}</p>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="double-down mb-4">
+          <div class="desc-row">
             <v-expansion-panels accordion light>
                 <v-expansion-panel>
                     <v-expansion-panel-header class="qs">Description</v-expansion-panel-header>
@@ -66,31 +79,26 @@
             <v-expansion-panels accordion light>
                 <v-expansion-panel>
                     <v-expansion-panel-header class="qs">Reviews</v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                        <div class="details-prod mb-3" v-for="review in reviews" :key="review">
-                            <p class="qs">From: {{review.author}}</p>
-                            <v-rating small v-model="main" color="yellow" background-color="yellow lighten-3"></v-rating>
-                            <p class="qs">{{review.text}}</p>
-                        </div>
-                    </v-expansion-panel-content>
-                </v-expansion-panel>
-            </v-expansion-panels>
-        </div>
-      </div>
-      <div class="double-down mb-4">
-          <div class="desc-row">
-            <v-expansion-panels accordion light>
-                <v-expansion-panel>
-                    <v-expansion-panel-header class="qs">Seller</v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                        <div class="details-prod">
-                            <div class="row-center">
-                                <v-avatar size="50">
-                                    <img :src="seller.photo" alt="seller photo">
-                                </v-avatar>
+                    <v-expansion-panel-content class="contain">
+                        <div class="details-prod mb-3" v-if="posted">
+                            <div class="jair-2">
+                                <p class="qs ma-0 pa-0 mr-4">{{fakeAuthor}}</p>
+                                <v-rating x-small :value="fakeRating" color="primary" readonly half-increments background-color="primary"></v-rating>
                             </div>
-                            <p class="qs">Seller: {{seller.displayName}}</p>
+                            <p class="qs contain">{{fakeReview}}</p>
                         </div>
+                        <div class="details-prod mb-3" v-for="review in reviews" :key="review">
+                            <div class="jair-2">
+                                <p class="qs ma-0 pa-0 mr-4">{{review.author}}</p>
+                                <v-rating x-small :value="review.rating" color="primary" readonly half-increments background-color="primary"></v-rating>
+                            </div>
+                            <p class="qs contain">{{review.text}}</p>
+                        </div>
+                        <v-row justify="center">
+                            <v-btn text color="secondary" small @click="plus5">
+                                Trego me shume
+                            </v-btn>
+                        </v-row>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
@@ -99,7 +107,22 @@
       <div class="double-down mb-4">
           <div class="desc-row">
             <div class="review-write" v-if="aval == true">
-                <v-textarea outlined color="secondary" dense clearable v-model="reviewText" label="Write your review" light full-width :error-messages="stuffErrors" @change="$v.review.$touch()"></v-textarea>
+                <h3 class="qs secondary--text mb-5">Jep review-n tende</h3>
+                <v-rating
+                empty-icon="mdi-star-outline"
+                full-icon="mdi-star"
+                half-icon="mdi-star-half-full"
+                half-increments
+                hover
+                length="5"
+                color="secondary"
+                v-model="reviewRating"
+                required
+                @input="checkErrors"
+                class="mb-3"
+                ></v-rating>
+                <p class="qs primary--text" v-if="error2Yje">Vleresimi minimal eshte 0.5 yje</p>
+                <v-textarea outlined color="secondary" dense clearable v-model="reviewText" label="Write your review" light full-width :error-messages="stuffErrors" @input="$v.reviewText.$touch()"></v-textarea>
                 <v-btn class="rounded-lg qs white--text" color="primary" @click="send">Send</v-btn>
             </div>
             <div class="review-write" v-else>
@@ -130,8 +153,7 @@
         timeout="3000"
         color="primary"
         >
-        Not right.
-
+        Review unallowed.
         <template v-slot:action="{ attrs }">
             <v-btn
             color="white"
@@ -161,6 +183,32 @@
             </v-btn>
         </template>
         </v-snackbar>
+        <v-dialog
+        v-model="alreadyPosted"
+        max-width="240"
+        >
+        <v-card color="primary">
+            <v-card-title class="headline qs">
+            Problem.
+            </v-card-title>
+
+            <v-card-text class="qs">
+            Review-ja mund te jepet vetem 1 here.
+            </v-card-text>
+
+            <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn
+                color="white"
+                text
+                @click="alreadyPosted = false"
+            >
+                Close
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+        </v-dialog>
   </div>
 </template>
 
@@ -169,7 +217,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import Cookies from 'js-cookie'
 import {validationMixin} from 'vuelidate'
-import {minLength} from 'vuelidate/lib/validators'
+import {minLength, required} from 'vuelidate/lib/validators'
 export default {
     name: "product",
     mixins: [validationMixin],
@@ -180,7 +228,7 @@ export default {
         const data2 = await firebase.firestore().collection('users').doc(dataParsed.owner).get();
         const dataParsed2 = data2.data();
 
-        const reviews = await firebase.firestore().collection('reviews').where("post", "==", params.slug).get();
+        const reviews = await firebase.firestore().collection('reviews').where("post", "==", params.slug).limit(5).get();
         const reviewsParsed = reviews.docs.map(doc => doc.data());
         console.log(params.slug)
 
@@ -193,6 +241,7 @@ export default {
     data(){
         return{
             rating: 4,
+            reviewRating: 0,
             snack: false,
             snack3: false,
             fav: false,
@@ -200,21 +249,27 @@ export default {
             carousel: 0,
             main: 5,
             reviewText: "",
-            aval: this.$store.state.users.user == null ? false : true
+            aval: this.$store.state.users.user == null ? false : true,
+            error2Yje: false,
+            alreadyPosted: false,
+            posted: false,
+            fakeReview: "",
+            fakeRating: 0,
+            fakeAuthor: ""
         }
     },
     validations: {
-        review: {
-            minLength: minLength(40)
+        reviewText: {
+            minLength: minLength(1)
         }
     },
     computed: {
         stuffErrors () {
             const errors = []
-            if (!this.$v.review.$dirty) return errors
-            !this.$v.review.minLength && errors.push('Review too short')
+            if (!this.$v.reviewText.$dirty) return errors
+            !this.$v.reviewText.minLength && errors.push('Review too short')
             return errors
-        },
+        }
     },
     methods: {
         addToCart: async function (){
@@ -259,15 +314,59 @@ export default {
 
             this.snack = true;
         },
-        send: async function (){
+        send: async function ({params}){
+            try{
+                
+                this.$v.reviewText.$touch();
 
-            if(this.reviewText.length >= 40){
-                await firebase.firestore().collection('reviews').doc(this.$store.state.users.user.email).set({
-                    text: this.reviewText
-                })
-            } else {
+                if(this.$v.reviewText.$invalid){
+
+                    console.log("fasdfasdfasf")
+                    return;
+                }
+                if(this.reviewRating == 0){
+                    console.log("staging")
+                    this.error2Yje = true;
+                    return;
+                }
+                const firerev = await firebase.firestore().collection('reviews').doc(this.$store.state.users.user.email).get();
+                const rev = firerev.data();
+                const fireuser = await firebase.firestore().collection('users').where("email", "==", this.$store.state.users.user.email).get();
+                const user = fireuser.docs.map(doc => doc.data());
+                const firedata = await firebase.firestore().collection('orders').where("payee_email", "==", this.$store.state.users.user.email).where("orders.item", "==", this.product.details.name).get();
+                const firedate = firedata.docs.map(doc => doc.data());
+                if(rev){
+                    console.log("already")
+                    this.alreadyPosted = true;
+                    return;
+                }
+
+                if(firedate[0].payee_email == this.$store.state.users.user.email){
+                    await firebase.firestore().collection('reviews').doc(this.$store.state.users.user.email).set({
+                        text: this.reviewText,
+                        rating: this.reviewRating,
+                        post: this.$route.params.slug,
+                        author: user[0].displaName
+                    })
+                } else{
+                    this.snack3 = true;
+                }
+
+                this.fakeReview = this.reviewText;
+                this.fakeRating = this.reviewRating;
+                this.fakeAuthor = user[0].displaName;
+                this.posted = true;
+
+                this.reviewText = "";
+                this.error2Yje = false;
+                this.reviewRating = 0;
+
+            } catch(e){
+                console.log(e);
                 this.snack3 = true;
+                return;
             }
+            
         },
         favs: function(product){
             if(process.browser){
@@ -289,12 +388,29 @@ export default {
             pavs.push(product);
             localStorage.setItem("products", JSON.stringify(pavs));
             this.fav = true;
+        },
+        checkErrors: function(){
+            if(this.reviewRating <= 0.5){
+                this.error2Yje = true;
+            }
         }
     }
 }
 </script>
 
 <style>
+.jair-2{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 90%;
+}
+.contain{
+    word-break: break-all;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .shiiiit{
     width: 100vw;
     min-height: 81vh;
@@ -330,7 +446,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    width: 85%;
+    width: 90%;
 }
 .shithole{
     display: flex;
@@ -381,10 +497,11 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    width: 100%;
 }
 .row-center{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
     margin-bottom: 15px;
@@ -507,7 +624,7 @@ export default {
     }
     .row-center{
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         width: 100%;
         margin-bottom: 15px;

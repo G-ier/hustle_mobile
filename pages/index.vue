@@ -33,27 +33,27 @@
       <div class="burst2">
         <div class="burst3">
           <div class="main-foto">
-            <v-img src="https://firebasestorage.googleapis.com/v0/b/fertility-1e091.appspot.com/o/images%2F0001-37245426_20210419_215256_0000.png?alt=media&token=9267fb27-8645-4657-851b-3b792818fb94" class="robshja">
+            <v-img :src="main.photo" class="robshja">
               <div class="kari">
-                <p class="qs secondary--text">Subheader</p>
-                <h1 class="bushtri">Skrrrrrrrrrr</h1>
-                <h4 class="qs buta">Fendi flexy</h4>
-                <v-btn class="rounded-lg white--text" color="primary" nuxt to="/kategorite/elektronike/tv-dhe-audio">Vizito tani</v-btn>
+                <p class="qs secondary--text">{{main.infos.subheader}}</p>
+                <h1 class="bushtri">{{main.infos.header}}</h1>
+                <h4 class="qs buta">{{main.infos.subtext}}</h4>
+                <v-btn class="rounded-lg white--text" color="primary" nuxt :to="main.infos.link">Vizito tani</v-btn>
               </div>
             </v-img>
           </div>
           <div class="likkle-div">
-            <div class="likkle-1" :style="{'background-image': 'url(https://firebasestorage.googleapis.com/v0/b/fertility-1e091.appspot.com/o/images%2F20210419_231556_0000.png?alt=media&token=1b434775-d50a-4423-b257-6410b768f16b)'}">
+            <div class="likkle-1" :style="{'background-image': `url(${side1.photo})`}">
                 <div class="kari-2" >
-                  <h1 class="bushtri-1">Skrrrrrrrrrr</h1>
-                  <h4 class="qs buta-1 mb-4">Fendi flexy</h4>
-                  <v-btn class="rounded-lg white--text" color="primary" nuxt to="/">Vizito tani</v-btn>
+                  <h1 class="bushtri-1">{{side1.infos.header}}</h1>
+                  <h4 class="qs buta-1 mb-4">{{side1.infos.subheader}}</h4>
+                  <v-btn class="rounded-lg white--text" color="primary" nuxt :to="side1.infos.link">Vizito tani</v-btn>
                 </div>
             </div>
-            <div class="likkle-2" :style="{'background-image': 'url(https://firebasestorage.googleapis.com/v0/b/fertility-1e091.appspot.com/o/images%2F0001-41382858_20210419_232108_0000.png?alt=media&token=ddc3888f-50a4-4cce-ad2e-df6ce4067456)'}">
+            <div class="likkle-2" :style="{'background-image': `url(${side2.photo})`}">
                 <div class="kari-3">
-                  <h1 class="bushtri-1 white--text">Skrrrrrrrrrr</h1>
-                  <v-btn class="rounded-lg primary--text" color="white" nuxt to="/ofertat">Vizito tani</v-btn>
+                  <h1 class="bushtri-1 white--text">{{side2.infos.header}}</h1>
+                  <v-btn class="rounded-lg primary--text" color="white" nuxt :to="side2.infos.link">Vizito tani</v-btn>
                 </div>
             </div>
           </div>
@@ -582,6 +582,11 @@ export default {
       statedTime: diff,
       prodis: datas,
       basic: fata2[5],
+      main: fata2[1],
+      side1: fata2[2],
+      side2: fata2[3],
+      stingy: fata2[5],
+      stangy: fata2[4],
       dotd: fata2[0]
     }
   },
