@@ -183,6 +183,7 @@ export default {
     align-items: center;
     width: 100vw;
     min-height: 81vh;
+    padding: 15px 0 25px 0;
     background-color: white;
 }
 .sets{

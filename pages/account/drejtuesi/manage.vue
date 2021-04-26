@@ -995,7 +995,7 @@ export default {
                     infos: {
                         "subheader" : this.infos.subheader,
                         "header": this.infos.header,
-                        "subtext": this.infos.subheader,
+                        "subtext": this.infos.subtext,
                         "link": this.infos.link
                     },
                     "photo": url
