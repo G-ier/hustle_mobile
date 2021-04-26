@@ -183,18 +183,19 @@ export const actions = {
             });
             
             console.log("made it here aswell")
-            if(currCart.length <= 10){
+            if(currCart.length < 10){
                 currCart.push({
-                    name: jsonCart.emri + " | " + jsonCart.seller,
+                    name: jsonCart.emri + " | ",
                     amount: jsonCart.price,
                     quantity: jsonCart.times,
                     description: "Item from " + jsonCart.seller,
+                    photo: jsonCart.photo,
                     currency: "all"
                 });
             }
             
             
-            Cookies.set("cart_hustle", JSON.stringify(currCart));
+            Cookie.set("cart_hustle", JSON.stringify(currCart));
 
             commit('SET_CART', currCart);
             
@@ -222,7 +223,7 @@ export const actions = {
                             }));
                             throw "exit";
                         } else {
-                            Cookies.set('cart_hustle', currCart);
+                            Cookie.set('cart_hustle', currCart);
                             commit('SET_CART', currCart);
                             throw "exit";
                         }                    

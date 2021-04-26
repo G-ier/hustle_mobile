@@ -83,7 +83,7 @@ export default {
       this.identity = cookieI;
 
       this.toSell.forEach(fell => {
-          var false5 = fell.name.split("|");
+          var false5 = fell.name.split(" |");
           var false4 = false5[1];
           console.log(false4);
           firebase.firestore().collection('orders').doc(Math.random().toString(36).substring(2,7)).set({

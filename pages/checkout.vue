@@ -329,29 +329,31 @@ export default {
 
         this.inhandp = true;
         this.loading2 = true;
-        this.toSell.forEach(fell => {
-            var false5 = fell.name.split("|");
+        this.toSell.forEach(async (fell) => {
+            var false5 = fell.name.split(" |");
             var false4 = false5[1];
             console.log(false4);
-            firebase.firestore().collection('orders').doc(Math.random().toString(36).substring(2,7)).set({
+            await firebase.firestore().collection('orders').doc(Math.random().toString(36).substring(2,7)).set({
                 from: this.email[0],
                 fulfilled: false,
                 onto: false4,
                 address: this.note,
                 qyteti: this.qyteti,
                 number: this.num,
-                orders: [
-                    {
-                        item: fell.name,
-                        paid: false,
-                        price: fell.amount * fell.quantity,
-                        quantity: fell.quantity,
-                        type: "tohand"
-                    }
-                ]
+                orders: {
+                    item: false5[0],
+                    paid: false,
+                    price: fell.amount * fell.quantity,
+                    quantity: fell.quantity,
+                    type: "tohand"
+                },
+                payee_email: this.$store.state.users.user.email
             })
         });
 
+        
+
+        //Cookie.set("payment_identity", JSON.stringify(dora));
         this.loading2 = false;
         this.inhandp = false;
         this.successToHand = true;

@@ -26,7 +26,7 @@
                   ></v-rating>
                   <p class="price-prod">{{product.details.price}} <span class="mini-span">ALL</span></p>
                   <div class="rowting">
-                      <v-btn class="white--text rounded-md width-70" color="primary" @click="addToCart">Add to Cart</v-btn>
+                      <v-btn class="white--text rounded-md width-70" color="primary" @click="addToCart(product.details.name, product.details.seller, product.details.price, 1, product.details.desc, product.details.photos[0].src)">Add to Cart</v-btn>
                       <v-btn class="white--text" color="primary" icon @click="favs(product)"><v-icon size="34" color="secondary">mdi-heart-outline</v-icon></v-btn>
                   </div>
               </div>
@@ -95,7 +95,7 @@
                             <p class="qs contain">{{review.text}}</p>
                         </div>
                         <v-row justify="center">
-                            <v-btn text color="secondary" small @click="plus5">
+                            <v-btn text color="secondary" small @click="()=>{}">
                                 Trego me shume
                             </v-btn>
                         </v-row>
@@ -272,9 +272,9 @@ export default {
         }
     },
     methods: {
-        addToCart: async function (){
+        addToCart2: async function (){
             
-            var cookie = Cookies.get("cartToken");
+            var cookie = Cookie.get("cartToken");
 
             if(!cookie){
                 var real = {
@@ -298,19 +298,53 @@ export default {
                     currentCart: carty
                 }
 
-                carty.forEach(element => {
+                carty.forEach(async element => {
                     if(element.prodEmri == this.$store.state.users.cart){
-                        this.$store.dispatch("users/updateCart", {
+                        await this.$store.dispatch("users/updateCart", {
                             cartEmri: this.product.details.name,
                             cartTimes: 1,
                             currentCart: real
                         })
                     } else {
-                        this.$store.dispatch("users/addToCart", real);
+                        await this.$store.dispatch("users/addToCart", real);
                     }
                 });
             }
 
+
+            this.snack = true;
+        },
+        addToCart: async function(emri, seller, price, times, desc, photo){
+            var currentCartJSON = Cookies.get("cart_hustle");
+            
+            if(typeof currentCartJSON === 'undefined'){
+                currentCart = [];
+            } else {
+                var currentCart = JSON.parse(currentCartJSON);
+            }
+
+            const cartNewDetails = {
+                cartEmri: emri,
+                cartTimes: times,
+                currentCart: currentCart
+            }
+            currentCart.forEach((doc) => {
+                if(doc.prodEmri == emri){
+                    this.$store.dispatch("users/updateCart", cartNewDetails);
+                    return;
+                }
+            })
+
+            await this.$store.dispatch("users/addToCart", {
+                emri: emri,
+                seller: seller,
+                price: price,
+                times: times,
+                desc: desc,
+                photo: photo,
+                currentCart: currentCart
+            });
+            console.log(currentCart);
 
             this.snack = true;
         },
@@ -333,9 +367,10 @@ export default {
                 const rev = firerev.data();
                 const fireuser = await firebase.firestore().collection('users').where("email", "==", this.$store.state.users.user.email).get();
                 const user = fireuser.docs.map(doc => doc.data());
-                const firedata = await firebase.firestore().collection('orders').where("payee_email", "==", this.$store.state.users.user.email).where("orders.item", "==", this.product.details.name).get();
+                const firedata = await firebase.firestore().collection('orders').where("payee_email", "==", this.$store.state.users.user.email).where("orders.item", "==", this.product.spot).get();
                 const firedate = firedata.docs.map(doc => doc.data());
-                if(rev){
+                
+                if(rev && rev.post == this.product.spot){
                     console.log("already")
                     this.alreadyPosted = true;
                     return;
@@ -348,9 +383,32 @@ export default {
                         post: this.$route.params.slug,
                         author: user[0].displaName
                     })
+                    
+
+
+                    await firebase.firestore().collection('elektronike').doc(this.product.spot).update({
+                        details: {
+                            name: this.product.details.name,
+                            price: this.product.details.price,
+                            desc: this.product.details.desc,
+                            seller: this.product.details.seller,
+                            sellerPhoto: this.product.details.sellerPhoto,
+                            details: this.product.details.details,
+                            kategoria: this.product.details.kategoria,
+                            kategorita: this.product.details.kategorita,
+                            photos: this.product.details.photos,
+                            pesha: this.product.details.pesha,
+                            sizey: this.product.details.sizey,
+                            masa: this.product.details.masa,
+                            ngjyra: this.product.details.ngjyra,
+                            likes: this.product.details.likes + this.reviewRating,
+                            likers: this.product.details.likers + 1
+                        } 
+                    })
                 } else{
                     this.snack3 = true;
                 }
+
 
                 this.fakeReview = this.reviewText;
                 this.fakeRating = this.reviewRating;

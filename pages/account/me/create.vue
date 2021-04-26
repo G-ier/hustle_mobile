@@ -48,7 +48,7 @@
                 subheader
                 
                 >
-                <v-subheader class="secondary--text">Perpuno detajet</v-subheader>
+                <v-subheader class="white--text">Perpuno detajet</v-subheader>
                 <v-list-item>
                     <v-list-item-content class="hiddeneye">
                     <v-text-field
@@ -57,8 +57,8 @@
                         outlined
                         clearable
                         dense
-                        light
-                        color="secondary"
+                        dark
+                        color="white"
                         :error-messages="nameyyErrors" 
                         required 
                         @input="$v.namey.$touch()"
@@ -69,8 +69,8 @@
                         outlined
                         clearable
                         dense
-                        light
-                        color="secondary"
+                        dark
+                        color="white"
                         :error-messages="priceyErrors" 
                         required 
                         @input="$v.pricey.$touch()"
@@ -80,9 +80,9 @@
                         clear-icon="mdi-close-circle"
                         label="Pershkrimi"
                         v-model="descy"
-                        color="secondary"
+                        color="white"
                         outlined
-                        light
+                        dark
                     ></v-textarea>
                     <v-select
                         v-model="kategorita"
@@ -90,14 +90,14 @@
                         label="Kategoria"
                         dense
                         outlined
-                        light
-                        color="secondary"
+                        dark
+                        color="white"
                         :error-messages="katErrors" 
                         required 
                         @input="$v.kategorita.$touch()"
                     ></v-select>
                     <div class="vert">
-                        <p class="qs secondary--text">Fotot - e para e detyrueshme</p>
+                        <p class="qs white--text">Fotot - e para e detyrueshme</p>
                         <input
                             ref="imageFile"
                             placeholder="Required photo"
@@ -158,7 +158,7 @@
                 three-line
                 subheader
                 >
-                <v-subheader class="secondary--text">Detajet - opsionale</v-subheader>
+                <v-subheader class="white--text">Detajet - opsionale</v-subheader>
                 <v-list-item>
                     <v-list-item-content >
                     <div class="fab-holder">
@@ -170,7 +170,7 @@
                             clearable
                             dense
                             dark
-                            color="secondary"
+                            color="white"
                             class="pc-small"
                             item-color="white"
                         ></v-select>
@@ -181,7 +181,7 @@
                             clearable
                             dense
                             dark
-                            color="secondary"
+                            color="white"
                             class="pc-small"
                         ></v-text-field>
                         <v-text-field
@@ -191,7 +191,7 @@
                             clearable
                             dense
                             dark
-                            color="secondary"
+                            color="white"
                             class="pc-small"
                         ></v-text-field>
                         <v-select
@@ -204,20 +204,20 @@
                             clearable
                             dense
                             dark
-                            color="secondary"
+                            color="white"
                             class="pc-small"
                         >
                             <template #selection="{ item }">
                                 <v-chip color="#f2f2f2" text-color="#f2f2f2" v-if="item == 'E bardhe'">-|</v-chip>
-                                <p class="qs pa-0 ma-0 secondary--text" v-if="item == 'E bardhe'">E bardhe</p>
+                                <p class="qs white--text pa-0 ma-0 secondary--text" v-if="item == 'E bardhe'">E bardhe</p>
                                 <v-chip color="primary" text-color="primary" v-if="item == 'E kuqe'">-|</v-chip>
-                                <p class="qs pa-0 ma-0 secondary--text" v-if="item == 'E kuqe'">E kuqe</p>
+                                <p class="qs pa-0 white--text ma-0 secondary--text" v-if="item == 'E kuqe'">E kuqe</p>
                                 <v-chip color="blue darken-4" text-color="blue darken-4" v-if="item == 'Blu'">-|</v-chip>
-                                <p class="qs pa-0 ma-0 secondary--text" v-if="item == 'Blu'">Blu</p>
+                                <p class="qs pa-0 white--text ma-0 secondary--text" v-if="item == 'Blu'">Blu</p>
                                 <v-chip color="yellow darken-3" text-color="yellow darken-3" v-if="item == 'E verdhe'">-|</v-chip>
-                                <p class="qs pa-0 ma-0 secondary--text" v-if="item == 'E verdhe'">E verdhe</p>
+                                <p class="qs pa-0 white--text ma-0 secondary--text" v-if="item == 'E verdhe'">E verdhe</p>
                                 <v-chip color="green darken-2" text-color="green darken-2" v-if="item == 'Jeshile'">-|</v-chip>
-                                <p class="qs pa-0 ma-0 secondary--text" v-if="item == 'Jeshile'">Jeshile</p>
+                                <p class="qs pa-0 white--text ma-0 secondary--text" v-if="item == 'Jeshile'">Jeshile</p>
                             </template>
                         </v-select>
                     </div>
@@ -845,7 +845,9 @@ export default {
                     pesha: this.pesha != null ? this.pesha : null,
                     sizey: this.sizey != "" ? this.sizey : null,
                     masa: this.masa != "" ? this.masa : null,
-                    ngjyra: this.ngjyra != "" ? this.ngjyra : null
+                    ngjyra: this.ngjyra != "" ? this.ngjyra : null,
+                    likes: 0,
+                    likers: 0
                 },
                 owner: this.nameOfS,
                 spot: this.namey

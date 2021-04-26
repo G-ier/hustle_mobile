@@ -420,8 +420,8 @@
       <template v-slot:prepend>
         <v-list-item two-line>
           <v-list-item-content>
-            <v-list-item-title>Cart</v-list-item-title>
-            <v-list-item-subtitle>Maximum of 10 items</v-list-item-subtitle>
+            <v-list-item-title>Shporta</v-list-item-title>
+            <v-list-item-subtitle>Max.10</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </template>
@@ -431,17 +431,23 @@
       >
           <v-list-item v-for="cartItem in cart" :key="cartItem.prodEmri">
             <v-row justify="start" align="center" style="transition: 0.3s">
-              <v-col cols="8" align-self="center">
-                <v-list-item-title class="qs pb-1"><span class="qs s14">{{cartItem.name}}: {{cartItem.quantity}}</span></v-list-item-title>
+              <v-col cols="2" align-self="center">
+                <v-avatar rounded color="secondary" size="30">
+                  <v-img :src="cartItem.photo"></v-img>
+                </v-avatar>
+              </v-col>
+              <v-col cols="6" align-self="center">
+                <v-list-item-title class="qs pb-0"><span class="qs s14">{{cartItem.name}}</span></v-list-item-title>
               </v-col>
               <v-col cols="2">
-                <v-btn icon width="25" height="25" @click="updateCart(cartItem.name, -1)">
-                  <v-icon color="white" size="20">mdi-minus</v-icon>
-                </v-btn>
+                <v-list-item-title class="qs pb-0"><span class="qs s14">{{cartItem.quantity}}</span></v-list-item-title>
               </v-col>
               <v-col cols="2">
                 <v-btn icon width="25" height="25" @click="updateCart(cartItem.name, 1)">
                   <v-icon color="white" size="20">mdi-plus</v-icon>
+                </v-btn>
+                <v-btn icon width="25" height="25" @click="updateCart(cartItem.name, -1)">
+                  <v-icon color="white" size="20">mdi-minus</v-icon>
                 </v-btn>
               </v-col>
             </v-row>
@@ -449,6 +455,7 @@
       </v-list>
       <template v-slot:append v-if="checkoutAval">
         <div class="pa-2">
+          <p class="qs">Totali: {{sumOfAll}} ALL</p>
           <v-btn block color="white" class="qs red--text text--darken-4" nuxt to="/checkout">
             Checkout
           </v-btn>
@@ -611,6 +618,13 @@ export default {
         } else {
           return true;
         }
+      },
+      sumOfAll(){
+        var total = 0;
+        this.cart.forEach(element => {
+          total += (parseInt(element.amount)*parseInt(element.quantity));
+        });
+        return total;
       }
     },
     mounted(){

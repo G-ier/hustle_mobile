@@ -4,7 +4,8 @@
         v-model="drawer"
         absolute
         color="white"
-        
+        temporary
+        :height="height"
         >
             <div class="drawer-container">
             <div class="sidebar sidebar-side">
@@ -347,13 +348,14 @@
                         >  
                             <template v-slot:activator="{ on, attrs }">
                                 <div class="rendit">
-                                    <p class="qs secondary--text ma-0 pa-0 mr-2">Rendit me: </p>
+                                    <p class="qs secondary--text ma-0 pa-0 mr-2">Rendesi: </p>
                                     <v-btn
                                         class="white qs btn-c-o secondary--text"
                                         color="white"
                                         dark
                                         v-bind="attrs"
                                         v-on="on"
+                                        small
                                         >
                                         {{renditja}} <span class="white--text">---</span> <v-icon size="15" color="secondary--text">mdi-arrow-down-drop-circle</v-icon>
                                     </v-btn>
@@ -365,13 +367,13 @@
                             </template>
                             <v-list>
                                 <v-list-item>
-                                    <v-list-item-title class="qs secondary--text" style="cursor: pointer;" @click="()=>{renditja = 'Lowest price'}">Lowest price</v-list-item-title>
+                                    <v-list-item-title class="qs secondary--text" style="cursor: pointer;" @click="()=>{filterPrice(); renditja = 'Cmimit: Lire - Shtrenjt'}">Cmimi: Lire - Shtrenjt</v-list-item-title>
                                 </v-list-item>
                                 <v-list-item>
-                                    <v-list-item-title class="qs secondary--text" style="cursor: pointer;" @click="()=>{renditja = 'Highest price'}">Highest price</v-list-item-title>
+                                    <v-list-item-title class="qs secondary--text" style="cursor: pointer;" @click="()=>{filterPriceDes(); renditja = 'Cmimi: Shtrenjt - Lire'}">Cmimi: Shtrenjt - Lire</v-list-item-title>
                                 </v-list-item>
                                 <v-list-item>
-                                    <v-list-item-title class="qs secondary--text" style="cursor: pointer;" @click="()=>{renditja = 'Highest rating'}">Highest rating</v-list-item-title>
+                                    <v-list-item-title class="qs secondary--text" style="cursor: pointer;" @click="()=>{filterReviews();renditja = 'Sipas vleresimit'}">Sipas vleresimit</v-list-item-title>
                                 </v-list-item>
                             </v-list>
                         </v-menu>
@@ -379,10 +381,10 @@
                    <div class="marketplace-item">
                        <div class="marketplace-vendor" v-for="prod in prods" :key="prod.id">
                            <div class="fullscreen-img">
-                               <v-img :aspect-ratio="1/1" src="https://banner2.cleanpng.com/20180525/exi/kisspng-xbox-one-controller-microsoft-xbox-one-wireless-co-5b078d818d1ac9.139208551527221633578.jpg"></v-img>
+                               <v-img :aspect-ratio="1/1" :src="prod.details.photos[0].src" @click="sendToProduct(prod.details.kategorita, prod.spot)"></v-img>
                            </div>
                            <div class="fullscreen-ting">
-                               <p class="qs secondary--text">XB10 Portable Wireless Speaker ttttttttttttttttttttttttttttttttt</p>
+                               <p class="qs secondary--text s20">{{prod.details.name}}</p>
                                <v-rating
                                     empty-icon="mdi-star-outline"
                                     full-icon="mdi-star"
@@ -392,10 +394,11 @@
                                     size="25"
                                     half-increments
                                     readonly
-                                    value="3"
+                                    :value="prod.details.likes/prod.details.likers"
                                     class="mb-3"
+                                    small
                                 ></v-rating>
-                                <p class="qs primary--text">399 ALL</p>
+                                <p class="qs primary--text">{{prod.details.price}} ALL</p>
                            </div>
                        </div>
                    </div>
@@ -465,7 +468,7 @@ import 'firebase/firestore';
 import Cookies from 'js-cookie';
 export default {
     async asyncData(){
-        const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Aksesore").get();
+        const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Aksesore").limit(5).get();
         const page = pageData.docs.map(doc => doc.data());
 
         return {
@@ -556,6 +559,11 @@ export default {
                 return doc2.details.price - doc1.details.price
             })
         },
+        filterReviews: function(){
+            this.prods.sort((doc1, doc2) => {
+                return doc2.details.likes - doc1.details.likes
+            })
+        },
         favorite: function(product){
             if(process.browser){
                 var favs = localStorage.getItem("products");
@@ -578,6 +586,7 @@ export default {
             this.itemFaved = true;
         }
     }
+    
 }
 </script>
 
@@ -626,6 +635,7 @@ export default {
 }
 .sidebar-side{
     display: flex;
+    overflow: scroll;
 }
 .sidebar-links{
     border: 1px solid #f2f2f2;
@@ -748,14 +758,15 @@ export default {
     overflow: hidden;
 }
 .drawer-container{
+    position: absolute;
+    top: 0vh;
     width: 95%;
-    margin-top: 10vh;
     height: 81vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    overflow: scroll;
+    overflow: hidden;
 }
 @media only screen and (min-width: 900px){
     .grid-buttons{
