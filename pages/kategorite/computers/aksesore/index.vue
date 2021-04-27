@@ -145,7 +145,7 @@
                             <v-col class="px-4">
                                 <v-range-slider
                                     v-model="range1"
-                                    :max="3000000"
+                                    :max="30000"
                                     :min="0"
                                     hide-details
                                     class="align-center"
@@ -200,7 +200,11 @@
                    </div>
                </div>
                <div class="sidebar-links">
-                   <h4 class="qs secondary--text ma-0 pa-0 mb-5">Rendit Nga</h4>
+                   <v-col class="my-4">
+                        <v-btn small class="white--text mb-4" color="secondary" @click="applyPrice">Apliko filtrin</v-btn>
+                        <v-btn small class="white--text mb-4" color="secondary" @click="resetFilter">Reset</v-btn>
+                        <p class="qs secondary--text">Zgjidh filtrat dhe aplikoji</p>
+                    </v-col>
                    <div class="sidebar-valuator">
                        <p class="qs s15 secondary--text">Masat</p>
                         <div class="repeatable">
@@ -211,6 +215,7 @@
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
+                                    @click="checkBox1"
                                 ></v-checkbox>
                                 <v-checkbox
                                     v-model="checkbox2"
@@ -219,6 +224,7 @@
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
+                                    @click="checkBox2"
                                 ></v-checkbox>
                                 <v-checkbox
                                     v-model="checkbox3"
@@ -227,6 +233,7 @@
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
+                                    @click="checkBox3"
                                 ></v-checkbox>
                                 <v-checkbox
                                     v-model="checkbox4"
@@ -235,6 +242,7 @@
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
+                                    @click="checkBox4"
                                 ></v-checkbox>
                                 <v-checkbox
                                     v-model="checkbox5"
@@ -243,6 +251,7 @@
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
+                                    @click="checkBox5"
                                 ></v-checkbox>
                                 <v-checkbox
                                     v-model="checkbox6"
@@ -251,6 +260,7 @@
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
+                                    @click="checkBox6"
                                 ></v-checkbox>
                                 <v-checkbox
                                     v-model="checkbox7"
@@ -259,6 +269,7 @@
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
+                                    @click="checkBox7"
                                 ></v-checkbox>
                         </div>
                    </div>
@@ -271,7 +282,7 @@
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
-                                    :value="jeshile"
+                                    :value="white"
                                     @click="whiteColor"
                                 >
                                     <template v-slot:label>
@@ -287,7 +298,7 @@
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
-                                    :value="jeshile"
+                                    :value="yellow"
                                     @click="yellowColor"
                                 >
                                     <template v-slot:label>
@@ -303,7 +314,7 @@
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
-                                    :value="jeshile"
+                                    :value="red"
                                     @click="redColor"
                                 >
                                     <template v-slot:label>
@@ -319,7 +330,7 @@
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
-                                    :value="jeshile"
+                                    :value="blue"
                                     @click="blueColor"
                                 >
                                     <template v-slot:label>
@@ -336,7 +347,7 @@
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
                                     :value="jeshile"
-                                    @click="()=>{greenColor()}"
+                                    @click="greenColor1"
                                 >
                                     <template v-slot:label>
                                         <div style="background-color: #119e22;">
@@ -351,7 +362,7 @@
                         <v-col class="px-4">
                             <v-range-slider
                                 v-model="range"
-                                :max="3000000"
+                                :max="30000"
                                 :min="0"
                                 hide-details
                                 class="align-center"
@@ -361,7 +372,6 @@
                             >
                             </v-range-slider>
                             <p class="qs secondary--text">Min: {{range[0]}} | Max: {{range[1]}}</p>
-                            <v-btn small class="secondary--text" color="white" @click="applyPrice">Apliko filtrin</v-btn>
                         </v-col>
                    </div>
                </div>
@@ -500,7 +510,7 @@
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import Cookies from 'js-cookie';
-import func from 'vue-editor-bridge';
+import { parse } from '~/node_modules/cookieparser/js/cookieparser';
 export default {
     async asyncData(){
         const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Aksesore").limit(5).get();
@@ -523,8 +533,8 @@ export default {
     },
     data(){
         return{
-            range: [100, 3000000],
-            range1: [100, 3000000],
+            range: [100, 30000],
+            range1: [100, 30000],
             snackbar: false,
             snackbar2: false,
             itemFaved: false,
@@ -549,7 +559,15 @@ export default {
             bR: [],
             bW: [],
             bY: [],
-            bB: []
+            bB: [],
+            saved: [],
+            isSaved: false,
+            sizes: [],
+            newProds: [],
+            newSaved: [],
+            isSized: false,
+            chooseFilters: false,
+            prodsCopy: []
         }
     },
     methods: {
@@ -606,8 +624,30 @@ export default {
         },
         applyPrice: function(){
             
+            if(this.isSaved == false){
+                this.isSaved = true;
+                this.prodsCopy = this.prods;
+                if(this.checkbox1 == true || this.checkbox2 == true || this.checkbox3 == true || this.checkbox4 == true || this.checkbox5 == true || this.checkbox6 == true || this.checkbox7 == true){
+                    
+                    this.prods = this.newProds;
+                    this.newProds = [];
+                } else {
+                    this.chooseFilters = true;
+                }
+            } else {
+                if(this.checkbox1 == true){
+                    this.prods = this.newProds;
+                    this.newProds = [];
+                } else {
+                    this.chooseFilters = true;
+                }
+            }
+            
         },
-        greenColor: function(){
+        resetFilter(){
+            this.prods = this.prodsCopy;
+        },
+        greenColor1: function(){
             this.blue = false;
             this.red = false;
             this.yellow = false;
@@ -634,11 +674,11 @@ export default {
         yellowColor: function(){
             this.blue = false;
             this.red = false;
-            this.green = false;
+            this.jeshile = false;
             this.white = false;
             if(this.yellow == true){
                 this.bY = [];
-                const jari = this.prods.filter((ele)=>{
+                const jari1 = this.prods.filter((ele)=>{
                     return ele.details.ngjyra == "E verdhe";
                 })
                 this.prods.forEach((ele) => {
@@ -647,7 +687,7 @@ export default {
                         this.bY.push(ele);
                     } 
                 });
-                this.prods = jari;
+                this.prods = jari1;
             } else {
                 console.log("added");
                 this.bY.forEach((item)=>{
@@ -656,13 +696,13 @@ export default {
             }
         },
         blueColor: function(){
-            this.green = false;
+            this.jeshile = false;
             this.red = false;
             this.yellow = false;
             this.white = false;
             if(this.blue == true){
                 this.bB = [];
-                const jari = this.prods.filter((ele)=>{
+                const jari2 = this.prods.filter((ele)=>{
                     return ele.details.ngjyra == "Blu";
                 })
                 this.prods.forEach((ele) => {
@@ -671,7 +711,7 @@ export default {
                         this.bB.push(ele);
                     } 
                 });
-                this.prods = jari;
+                this.prods = jari2;
             } else {
                 console.log("added");
                 this.bB.forEach((item)=>{
@@ -683,10 +723,10 @@ export default {
             this.blue = false;
             this.red = false;
             this.yellow = false;
-            this.green = false;
+            this.jeshile = false;
             if(this.white == true){
                 this.bW = [];
-                const jari = this.prods.filter((ele)=>{
+                const jari3 = this.prods.filter((ele)=>{
                     return ele.details.ngjyra == "White";
                 })
                 this.prods.forEach((ele) => {
@@ -695,7 +735,7 @@ export default {
                         this.bW.push(ele);
                     } 
                 });
-                this.prods = jari;
+                this.prods = jari3;
             } else {
                 console.log("added");
                 this.bW.forEach((item)=>{
@@ -705,12 +745,12 @@ export default {
         },
         redColor: function(){
             this.blue = false;
-            this.green = false;
+            this.jeshile = false;
             this.yellow = false;
             this.white = false;
             if(this.red == true){
                 this.bR = [];
-                const jari = this.prods.filter((ele)=>{
+                const jari4 = this.prods.filter((ele)=>{
                     return ele.details.ngjyra == "E kuqe";
                 })
                 this.prods.forEach((ele) => {
@@ -719,12 +759,237 @@ export default {
                         this.bR.push(ele);
                     } 
                 });
-                this.prods = jari;
+                this.prods = jari4;
             } else {
                 console.log("added");
                 this.bR.forEach((item)=>{
                     this.prods.push(item);
                 });
+            }
+        },
+        checkBox1: function(){
+            console.log(this.checkbox1);
+            try{
+
+                if(this.checkbox1 == true){
+                    const newArray1 = this.prods.filter((doc)=>{
+                        return doc.details.masa == "XS";
+                    });
+                    const newArray2 = this.saved.filter((doc)=>{
+                        return doc.details.masa == "XS";
+                    });
+                    
+                    //Lista me elemente nga prods dhe saved
+                    const superlist = newArray1.concat(newArray2);
+
+                    const newProds = this.newProds.concat(superlist);
+
+                    this.newProds = newProds;
+
+                } else {
+                    
+                    const newProds = this.newProds.filter((doc)=>{
+                        return doc.details.masa != "XS";
+                    });
+
+                    this.newProds = newProds;
+                }
+                
+            } catch(e){
+                console.log(e);
+            }
+        },
+        checkBox2: function(){
+            console.log(this.checkbox1);
+            try{
+
+                if(this.checkbox2 == true){
+                    const newArray1 = this.prods.filter((doc)=>{
+                        return doc.details.masa == "S";
+                    });
+                    const newArray2 = this.saved.filter((doc)=>{
+                        return doc.details.masa == "S";
+                    });
+                    
+                    //Lista me elemente nga prods dhe saved
+                    const superlist = newArray1.concat(newArray2);
+                    console.log(superlist)
+
+                    const newProds = this.newProds.concat(superlist);
+
+                    this.newProds = newProds;
+
+                } else {
+                    
+                    const newProds = this.newProds.filter((doc)=>{
+                        return doc.details.masa != "S";
+                    });
+
+                    this.newProds = newProds;
+                }
+                
+            } catch(e){
+                console.log(e);
+            }
+        },
+        checkBox3: function(){
+            console.log(this.checkbox1);
+            try{
+
+                if(this.checkbox3 == true){
+                    const newArray1 = this.prods.filter((doc)=>{
+                        return doc.details.masa == "M";
+                    });
+                    const newArray2 = this.saved.filter((doc)=>{
+                        return doc.details.masa == "M";
+                    });
+                    
+                    //Lista me elemente nga prods dhe saved
+                    const superlist = newArray1.concat(newArray2);
+
+                    const newProds = this.newProds.concat(superlist);
+
+                    this.newProds = newProds;
+
+                } else {
+                    
+                    const newProds = this.newProds.filter((doc)=>{
+                        return doc.details.masa != "M";
+                    });
+
+                    this.newProds = newProds;
+                }
+                
+            } catch(e){
+                console.log(e);
+            }
+        },
+        checkBox4: function(){
+            console.log(this.checkbox1);
+            try{
+
+                if(this.checkbox4 == true){
+                    const newArray1 = this.prods.filter((doc)=>{
+                        return doc.details.masa == "L";
+                    });
+                    const newArray2 = this.saved.filter((doc)=>{
+                        return doc.details.masa == "L";
+                    });
+                    
+                    //Lista me elemente nga prods dhe saved
+                    const superlist = newArray1.concat(newArray2);
+
+                    const newProds = this.newProds.concat(superlist);
+
+                    this.newProds = newProds;
+
+                } else {
+                    
+                    const newProds = this.newProds.filter((doc)=>{
+                        return doc.details.masa != "L";
+                    });
+
+                    this.newProds = newProds;
+                }
+                
+            } catch(e){
+                console.log(e);
+            }
+        },
+        checkBox5: function(){
+            console.log(this.checkbox1);
+            try{
+
+                if(this.checkbox5 == true){
+                    const newArray1 = this.prods.filter((doc)=>{
+                        return doc.details.masa == "XL";
+                    });
+                    const newArray2 = this.saved.filter((doc)=>{
+                        return doc.details.masa == "XL";
+                    });
+                    
+                    //Lista me elemente nga prods dhe saved
+                    const superlist = newArray1.concat(newArray2);
+
+                    const newProds = this.newProds.concat(superlist);
+
+                    this.newProds = newProds;
+
+                } else {
+                    
+                    const newProds = this.newProds.filter((doc)=>{
+                        return doc.details.masa != "XL";
+                    });
+
+                    this.newProds = newProds;
+                }
+                
+            } catch(e){
+                console.log(e);
+            }
+        },
+        checkBox6: function(){
+            console.log(this.checkbox1);
+            try{
+
+                if(this.checkbox6 == true){
+                    const newArray1 = this.prods.filter((doc)=>{
+                        return doc.details.masa == "2XL";
+                    });
+                    const newArray2 = this.saved.filter((doc)=>{
+                        return doc.details.masa == "2XL";
+                    });
+                    
+                    //Lista me elemente nga prods dhe saved
+                    const superlist = newArray1.concat(newArray2);
+
+                    const newProds = this.newProds.concat(superlist);
+
+                    this.newProds = newProds;
+
+                } else {
+                    
+                    const newProds = this.newProds.filter((doc)=>{
+                        return doc.details.masa != "2XL";
+                    });
+
+                    this.newProds = newProds;
+                }
+                
+            } catch(e){
+                console.log(e);
+            }
+        },
+        checkBox7: function(){
+            console.log(this.checkbox1);
+            try{
+
+                if(this.checkbox7 == true){
+                    const newArray1 = this.prods.filter((doc)=>{
+                        return doc.details.masa == "3XL";
+                    });
+                    const newArray2 = this.saved.filter((doc)=>{
+                        return doc.details.masa == "3XL";
+                    });
+                    
+                    //Lista me elemente nga prods dhe saved
+                    const superlist = newArray1.concat(newArray2);
+
+                    const newProds = this.newProds.concat(superlist);
+
+                    this.newProds = newProds;
+
+                } else {
+                    
+                    const newProds = this.newProds.filter((doc)=>{
+                        return doc.details.masa != "3XL";
+                    });
+
+                    this.newProds = newProds;
+                }
+                
+            } catch(e){
+                console.log(e);
             }
         },
         favorite: function(product){
