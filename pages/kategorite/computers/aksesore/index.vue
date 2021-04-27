@@ -5,7 +5,6 @@
         absolute
         color="white"
         temporary
-        :height="height"
         >
             <div class="drawer-container">
             <div class="sidebar sidebar-side">
@@ -145,7 +144,7 @@
                         <p class="qs s15 secondary--text">Cmimi</p>
                             <v-col class="px-4">
                                 <v-range-slider
-                                    v-model="range"
+                                    v-model="range1"
                                     :max="3000000"
                                     :min="0"
                                     hide-details
@@ -155,10 +154,10 @@
                                     thumb-color="secondary"
                                 >
                                     <template v-slot:prepend>
-                                    <p class="qs secondary--text ma-0 pa-0">{{range[0]}}</p>
+                                    <p class="qs secondary--text ma-0 pa-0">{{range1[0]}}</p>
                                     </template>
                                     <template v-slot:append>
-                                    <p class="qs secondary--text ma-0 pa-0">{{range[1]}}</p>
+                                    <p class="qs secondary--text ma-0 pa-0">{{range1[1]}}</p>
                                     </template>
                                 </v-range-slider>
                             </v-col>
@@ -269,11 +268,18 @@
                                 <v-checkbox
                                     v-model="white"
                                     light
-                                    label="E bardhe"
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
-                                ></v-checkbox>
+                                    :value="jeshile"
+                                    @click="whiteColor"
+                                >
+                                    <template v-slot:label>
+                                        <div style="border: 1px solid #a1a1a1; backgroun-color: white;">
+                                            <v-avatar size="20" rounded color="white"></v-avatar>
+                                        </div>
+                                    </template>
+                                </v-checkbox>
                                 <v-checkbox
                                     v-model="yellow"
                                     light
@@ -281,7 +287,15 @@
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
-                                ></v-checkbox>
+                                    :value="jeshile"
+                                    @click="yellowColor"
+                                >
+                                    <template v-slot:label>
+                                        <div style="background-color: #e8d820;">
+                                            <v-avatar size="20" rounded color="#e8d820"></v-avatar>
+                                        </div>
+                                    </template>
+                                </v-checkbox>
                                 <v-checkbox
                                     v-model="red"
                                     light
@@ -289,7 +303,15 @@
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
-                                ></v-checkbox>
+                                    :value="jeshile"
+                                    @click="redColor"
+                                >
+                                    <template v-slot:label>
+                                        <div style="background-color: #d61114;">
+                                            <v-avatar size="20" rounded color="#d61114"></v-avatar>
+                                        </div>
+                                    </template>
+                                </v-checkbox>
                                 <v-checkbox
                                     v-model="blue"
                                     light
@@ -297,7 +319,15 @@
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
-                                ></v-checkbox>
+                                    :value="jeshile"
+                                    @click="blueColor"
+                                >
+                                    <template v-slot:label>
+                                        <div style="background-color: #240ac9;">
+                                            <v-avatar size="20" rounded color="#240ac9"></v-avatar>
+                                        </div>
+                                    </template>
+                                </v-checkbox>
                                 <v-checkbox
                                     v-model="jeshile"
                                     light
@@ -305,7 +335,15 @@
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
-                                ></v-checkbox>
+                                    :value="jeshile"
+                                    @click="()=>{greenColor()}"
+                                >
+                                    <template v-slot:label>
+                                        <div style="background-color: #119e22;">
+                                            <v-avatar size="20" rounded color="#119e22"></v-avatar>
+                                        </div>
+                                    </template>
+                                </v-checkbox>
                         </div>
                    </div>
                    <div class="sidebar-valuator-2">
@@ -321,13 +359,9 @@
                                 track-fill-color="secondary"
                                 thumb-color="secondary"
                             >
-                                <template v-slot:prepend>
-                                <p class="qs secondary--text ma-0 pa-0">{{range[0]}}</p>
-                                </template>
-                                <template v-slot:append>
-                                <p class="qs secondary--text ma-0 pa-0">{{range[1]}}</p>
-                                </template>
                             </v-range-slider>
+                            <p class="qs secondary--text">Min: {{range[0]}} | Max: {{range[1]}}</p>
+                            <v-btn small class="secondary--text" color="white" @click="applyPrice">Apliko filtrin</v-btn>
                         </v-col>
                    </div>
                </div>
@@ -466,13 +500,13 @@
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import Cookies from 'js-cookie';
+import func from 'vue-editor-bridge';
 export default {
     async asyncData(){
         const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Aksesore").limit(5).get();
         const page = pageData.docs.map(doc => doc.data());
-
         return {
-            prods: page,
+            prods: page
         }
     },
     head(){
@@ -490,6 +524,7 @@ export default {
     data(){
         return{
             range: [100, 3000000],
+            range1: [100, 3000000],
             snackbar: false,
             snackbar2: false,
             itemFaved: false,
@@ -509,7 +544,12 @@ export default {
             jeshile: false,
             blue: false,
             red: false,
-            yellow: false
+            yellow: false,
+            bG: [],
+            bR: [],
+            bW: [],
+            bY: [],
+            bB: []
         }
     },
     methods: {
@@ -563,6 +603,129 @@ export default {
             this.prods.sort((doc1, doc2) => {
                 return doc2.details.likes - doc1.details.likes
             })
+        },
+        applyPrice: function(){
+            
+        },
+        greenColor: function(){
+            this.blue = false;
+            this.red = false;
+            this.yellow = false;
+            this.white = false;
+            if(this.jeshile == true){
+                this.bG = [];
+                const jari = this.prods.filter((ele)=>{
+                    return ele.details.ngjyra == "Jeshile";
+                })
+                this.prods.forEach((ele) => {
+                    if(ele.details.ngjyra != "Jeshile"){
+                        console.log("removed")
+                        this.bG.push(ele);
+                    } 
+                });
+                this.prods = jari;
+            } else {
+                console.log("added");
+                this.bG.forEach((item)=>{
+                    this.prods.push(item);
+                });
+            }
+        },
+        yellowColor: function(){
+            this.blue = false;
+            this.red = false;
+            this.green = false;
+            this.white = false;
+            if(this.yellow == true){
+                this.bY = [];
+                const jari = this.prods.filter((ele)=>{
+                    return ele.details.ngjyra == "E verdhe";
+                })
+                this.prods.forEach((ele) => {
+                    if(ele.details.ngjyra != "E verdhe"){
+                        console.log("removed")
+                        this.bY.push(ele);
+                    } 
+                });
+                this.prods = jari;
+            } else {
+                console.log("added");
+                this.bY.forEach((item)=>{
+                    this.prods.push(item);
+                });
+            }
+        },
+        blueColor: function(){
+            this.green = false;
+            this.red = false;
+            this.yellow = false;
+            this.white = false;
+            if(this.blue == true){
+                this.bB = [];
+                const jari = this.prods.filter((ele)=>{
+                    return ele.details.ngjyra == "Blu";
+                })
+                this.prods.forEach((ele) => {
+                    if(ele.details.ngjyra != "Blu"){
+                        console.log("removed")
+                        this.bB.push(ele);
+                    } 
+                });
+                this.prods = jari;
+            } else {
+                console.log("added");
+                this.bB.forEach((item)=>{
+                    this.prods.push(item);
+                });
+            }
+        },
+        whiteColor: function(){
+            this.blue = false;
+            this.red = false;
+            this.yellow = false;
+            this.green = false;
+            if(this.white == true){
+                this.bW = [];
+                const jari = this.prods.filter((ele)=>{
+                    return ele.details.ngjyra == "White";
+                })
+                this.prods.forEach((ele) => {
+                    if(ele.details.ngjyra != "White"){
+                        console.log("removed")
+                        this.bW.push(ele);
+                    } 
+                });
+                this.prods = jari;
+            } else {
+                console.log("added");
+                this.bW.forEach((item)=>{
+                    this.prods.push(item);
+                });
+            }
+        },
+        redColor: function(){
+            this.blue = false;
+            this.green = false;
+            this.yellow = false;
+            this.white = false;
+            if(this.red == true){
+                this.bR = [];
+                const jari = this.prods.filter((ele)=>{
+                    return ele.details.ngjyra == "E kuqe";
+                })
+                this.prods.forEach((ele) => {
+                    if(ele.details.ngjyra != "E kuqe"){
+                        console.log("removed")
+                        this.bR.push(ele);
+                    } 
+                });
+                this.prods = jari;
+            } else {
+                console.log("added");
+                this.bR.forEach((item)=>{
+                    this.prods.push(item);
+                });
+            }
         },
         favorite: function(product){
             if(process.browser){
@@ -631,11 +794,10 @@ export default {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    width: 100%;
+    width: 95%;
 }
 .sidebar-side{
     display: flex;
-    overflow: scroll;
 }
 .sidebar-links{
     border: 1px solid #f2f2f2;
@@ -760,13 +922,20 @@ export default {
 .drawer-container{
     position: absolute;
     top: 0vh;
-    width: 95%;
+    width: 100%;
     height: 81vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    overflow: hidden;
+    overflow: scroll;
+}
+.drawer-container {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.sidebar-side::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
 }
 @media only screen and (min-width: 900px){
     .grid-buttons{
