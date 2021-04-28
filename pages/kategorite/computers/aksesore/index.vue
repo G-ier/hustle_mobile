@@ -8,162 +8,200 @@
         >
             <div class="drawer-container">
             <div class="sidebar sidebar-side">
-                <div class="sidebar-links">
-                    <h4 class="qs secondary--text ma-0 pa-0">Elektronike</h4>
-                    <div class="sideline"></div>
-                    <div class="sidebar-link">
-                        <p class="qs secondary--text ma-0 pa-0">TV & Audio</p>
-                        <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
-                    </div>
-                    <div class="sidebar-link">
-                        <p class="qs secondary--text ma-0 pa-0">TV & Audio</p>
-                        <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
-                    </div>
-                    <div class="sidebar-link">
-                        <p class="qs secondary--text ma-0 pa-0">TV & Audio</p>
-                        <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
-                    </div>
-                    <div class="sidebar-link">
-                        <p class="qs secondary--text ma-0 pa-0">TV & Audio</p>
-                        <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
-                    </div>
-                    <div class="sidebar-link">
-                        <p class="qs secondary--text ma-0 pa-0">TV & Audio</p>
-                        <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
-                    </div>
-                </div>
-                <div class="sidebar-links mt-5">
-                    <h4 class="qs secondary--text ma-0 pa-0 mb-5">Rendit Nga</h4>
-                    <div class="sidebar-valuator">
-                        <p class="qs s15 secondary--text">Masat</p>
-                            <div class="repeatable">
-                                    <v-checkbox
-                                        v-model="checkbox1"
-                                        light
-                                        label="xs"
-                                        class="ma-0"
-                                        style="margin: 0 0 0 0;"
-                                        color="secondary"
-                                    ></v-checkbox>
-                                    <v-checkbox
-                                        v-model="checkbox2"
-                                        light
-                                        label="s"
-                                        class="ma-0"
-                                        style="margin: 0 0 0 0;"
-                                        color="secondary"
-                                    ></v-checkbox>
-                                    <v-checkbox
-                                        v-model="checkbox3"
-                                        light
-                                        label="m"
-                                        class="ma-0"
-                                        style="margin: 0 0 0 0;"
-                                        color="secondary"
-                                    ></v-checkbox>
-                                    <v-checkbox
-                                        v-model="checkbox4"
-                                        light
-                                        label="l"
-                                        class="ma-0"
-                                        style="margin: 0 0 0 0;"
-                                        color="secondary"
-                                    ></v-checkbox>
-                                    <v-checkbox
-                                        v-model="checkbox5"
-                                        light
-                                        label="xl"
-                                        class="ma-0"
-                                        style="margin: 0 0 0 0;"
-                                        color="secondary"
-                                    ></v-checkbox>
-                                    <v-checkbox
-                                        v-model="checkbox6"
-                                        light
-                                        label="xxl"
-                                        class="ma-0"
-                                        style="margin: 0 0 0 0;"
-                                        color="secondary"
-                                    ></v-checkbox>
-                                    <v-checkbox
-                                        v-model="checkbox7"
-                                        light
-                                        label="xxxl"
-                                        class="ma-0"
-                                        style="margin: 0 0 0 0;"
-                                        color="secondary"
-                                    ></v-checkbox>
-                            </div>
-                    </div>
-                    <div class="sidebar-valuator mt-4">
-                        <p class="qs s15 secondary--text">Ngjyrat</p>
-                            <div class="repeatable">
-                                    <v-checkbox
-                                        v-model="white"
-                                        light
-                                        label="E bardhe"
-                                        class="ma-0"
-                                        style="margin: 0 0 0 0;"
-                                        color="secondary"
-                                    ></v-checkbox>
-                                    <v-checkbox
-                                        v-model="yellow"
-                                        light
-                                        label="E verdhe"
-                                        class="ma-0"
-                                        style="margin: 0 0 0 0;"
-                                        color="secondary"
-                                    ></v-checkbox>
-                                    <v-checkbox
-                                        v-model="red"
-                                        light
-                                        label="E kuqe"
-                                        class="ma-0"
-                                        style="margin: 0 0 0 0;"
-                                        color="secondary"
-                                    ></v-checkbox>
-                                    <v-checkbox
-                                        v-model="blue"
-                                        light
-                                        label="Blu"
-                                        class="ma-0"
-                                        style="margin: 0 0 0 0;"
-                                        color="secondary"
-                                    ></v-checkbox>
-                                    <v-checkbox
-                                        v-model="jeshile"
-                                        light
-                                        label="Jeshile"
-                                        class="ma-0"
-                                        style="margin: 0 0 0 0;"
-                                        color="secondary"
-                                    ></v-checkbox>
-                            </div>
-                    </div>
-                    <div class="sidebar-valuator-2 mt-4">
-                        <p class="qs s15 secondary--text">Cmimi</p>
-                            <v-col class="px-4">
-                                <v-range-slider
-                                    v-model="range1"
-                                    :max="30000"
-                                    :min="0"
-                                    hide-details
-                                    class="align-center"
-                                    track-color="#f2f2f2"
-                                    track-fill-color="secondary"
-                                    thumb-color="secondary"
+               <div class="sidebar-links mb-4 mt-1">
+                   <h4 class="qs secondary--text ma-0 pa-0">Kompjutera dhe teknologji</h4>
+                   <div class="sideline"></div>
+                   <div class="sidebar-link">
+                       <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/kategorite/computers/computers">Kompjutera dhe tableta</nuxt-link>
+                       <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
+                   </div>
+                   <div class="sidebar-link">
+                       <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/kategorite/computers/monitor">Monitora</nuxt-link>
+                       <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
+                   </div>
+                   <div class="sidebar-link">
+                       <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/kategorite/computers/pjese">Pjese kompjuterike</nuxt-link>
+                       <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
+                   </div>
+               </div>
+               <div class="sidebar-links mb-4">
+                   <v-col class="my-4">
+                        <v-btn small class="white--text mb-4" color="secondary" @click="applyPrice">Apliko filtrin</v-btn>
+                        <v-btn small class="white--text mb-4" color="secondary" @click="resetFilter">Reset</v-btn>
+                        <p class="qs secondary--text">Zgjidh filtrat dhe aplikoji</p>
+                    </v-col>
+                   <div class="sidebar-valuator">
+                       <p class="qs s15 secondary--text">Masat</p>
+                        <div class="repeatable">
+                                <v-checkbox
+                                    v-model="checkbox1"
+                                    light
+                                    label="xs"
+                                    class="ma-0"
+                                    style="margin: 0 0 0 0;"
+                                    color="secondary"
+                                    @click="checkBox1"
+                                ></v-checkbox>
+                                <v-checkbox
+                                    v-model="checkbox2"
+                                    light
+                                    label="s"
+                                    class="ma-0"
+                                    style="margin: 0 0 0 0;"
+                                    color="secondary"
+                                    @click="checkBox2"
+                                ></v-checkbox>
+                                <v-checkbox
+                                    v-model="checkbox3"
+                                    light
+                                    label="m"
+                                    class="ma-0"
+                                    style="margin: 0 0 0 0;"
+                                    color="secondary"
+                                    @click="checkBox3"
+                                ></v-checkbox>
+                                <v-checkbox
+                                    v-model="checkbox4"
+                                    light
+                                    label="l"
+                                    class="ma-0"
+                                    style="margin: 0 0 0 0;"
+                                    color="secondary"
+                                    @click="checkBox4"
+                                ></v-checkbox>
+                                <v-checkbox
+                                    v-model="checkbox5"
+                                    light
+                                    label="xl"
+                                    class="ma-0"
+                                    style="margin: 0 0 0 0;"
+                                    color="secondary"
+                                    @click="checkBox5"
+                                ></v-checkbox>
+                                <v-checkbox
+                                    v-model="checkbox6"
+                                    light
+                                    label="xxl"
+                                    class="ma-0"
+                                    style="margin: 0 0 0 0;"
+                                    color="secondary"
+                                    @click="checkBox6"
+                                ></v-checkbox>
+                                <v-checkbox
+                                    v-model="checkbox7"
+                                    light
+                                    label="xxxl"
+                                    class="ma-0"
+                                    style="margin: 0 0 0 0;"
+                                    color="secondary"
+                                    @click="checkBox7"
+                                ></v-checkbox>
+                        </div>
+                   </div>
+                   <div class="sidebar-valuator">
+                       <p class="qs s15 secondary--text">Ngjyrat</p>
+                        <div class="repeatable">
+                                <v-checkbox
+                                    v-model="white"
+                                    light
+                                    class="ma-0"
+                                    style="margin: 0 0 0 0;"
+                                    color="secondary"
+                                    :value="white"
+                                    @click="whiteColor"
                                 >
-                                    <template v-slot:prepend>
-                                    <p class="qs secondary--text ma-0 pa-0">{{range1[0]}}</p>
+                                    <template v-slot:label>
+                                        <div style="border: 1px solid #a1a1a1; backgroun-color: white;">
+                                            <v-avatar size="20" rounded color="white"></v-avatar>
+                                        </div>
                                     </template>
-                                    <template v-slot:append>
-                                    <p class="qs secondary--text ma-0 pa-0">{{range1[1]}}</p>
+                                </v-checkbox>
+                                <v-checkbox
+                                    v-model="yellow"
+                                    light
+                                    label="E verdhe"
+                                    class="ma-0"
+                                    style="margin: 0 0 0 0;"
+                                    color="secondary"
+                                    :value="yellow"
+                                    @click="yellowColor"
+                                >
+                                    <template v-slot:label>
+                                        <div style="background-color: #e8d820;">
+                                            <v-avatar size="20" rounded color="#e8d820"></v-avatar>
+                                        </div>
                                     </template>
-                                </v-range-slider>
-                            </v-col>
-                    </div>
-                </div>
-            </div>
+                                </v-checkbox>
+                                <v-checkbox
+                                    v-model="red"
+                                    light
+                                    label="E kuqe"
+                                    class="ma-0"
+                                    style="margin: 0 0 0 0;"
+                                    color="secondary"
+                                    :value="red"
+                                    @click="redColor"
+                                >
+                                    <template v-slot:label>
+                                        <div style="background-color: #d61114;">
+                                            <v-avatar size="20" rounded color="#d61114"></v-avatar>
+                                        </div>
+                                    </template>
+                                </v-checkbox>
+                                <v-checkbox
+                                    v-model="blue"
+                                    light
+                                    label="Blu"
+                                    class="ma-0"
+                                    style="margin: 0 0 0 0;"
+                                    color="secondary"
+                                    :value="blue"
+                                    @click="blueColor"
+                                >
+                                    <template v-slot:label>
+                                        <div style="background-color: #240ac9;">
+                                            <v-avatar size="20" rounded color="#240ac9"></v-avatar>
+                                        </div>
+                                    </template>
+                                </v-checkbox>
+                                <v-checkbox
+                                    v-model="jeshile"
+                                    light
+                                    label="Jeshile"
+                                    class="ma-0"
+                                    style="margin: 0 0 0 0;"
+                                    color="secondary"
+                                    :value="jeshile"
+                                    @click="greenColor1"
+                                >
+                                    <template v-slot:label>
+                                        <div style="background-color: #119e22;">
+                                            <v-avatar size="20" rounded color="#119e22"></v-avatar>
+                                        </div>
+                                    </template>
+                                </v-checkbox>
+                        </div>
+                   </div>
+                   <div class="sidebar-valuator-2">
+                       <p class="qs s15 secondary--text">Cmimi</p>
+                        <v-col class="px-4">
+                            <v-range-slider
+                                v-model="range"
+                                :max="30000"
+                                :min="0"
+                                hide-details
+                                class="align-center"
+                                track-color="#f2f2f2"
+                                track-fill-color="secondary"
+                                thumb-color="secondary"
+                                @change="pricer"
+                            >
+                            </v-range-slider>
+                            <p class="qs secondary--text">Min: {{range[0]}} | Max: {{range[1]}}</p>
+                        </v-col>
+                   </div>
+               </div>
+           </div>
             </div>
         </v-navigation-drawer>
         
@@ -175,31 +213,23 @@
         </div>
         <div class="market-new mb-3">
            <div class="sidebar">
-               <div class="sidebar-links">
-                   <h4 class="qs secondary--text ma-0 pa-0">Elektronike</h4>
+               <div class="sidebar-links mb-4">
+                   <h4 class="qs secondary--text ma-0 pa-0">Kompjutera dhe teknologji</h4>
                    <div class="sideline"></div>
                    <div class="sidebar-link">
-                       <p class="qs secondary--text ma-0 pa-0">TV & Audio</p>
+                       <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/kategorite/computers/computers">Kompjutera dhe tableta</nuxt-link>
                        <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
                    </div>
                    <div class="sidebar-link">
-                       <p class="qs secondary--text ma-0 pa-0">TV & Audio</p>
+                       <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/kategorite/computers/monitor">Monitora</nuxt-link>
                        <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
                    </div>
                    <div class="sidebar-link">
-                       <p class="qs secondary--text ma-0 pa-0">TV & Audio</p>
-                       <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
-                   </div>
-                   <div class="sidebar-link">
-                       <p class="qs secondary--text ma-0 pa-0">TV & Audio</p>
-                       <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
-                   </div>
-                   <div class="sidebar-link">
-                       <p class="qs secondary--text ma-0 pa-0">TV & Audio</p>
+                       <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/kategorite/computers/pjese">Pjese kompjuterike</nuxt-link>
                        <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
                    </div>
                </div>
-               <div class="sidebar-links">
+               <div class="sidebar-links mb-4">
                    <v-col class="my-4">
                         <v-btn small class="white--text mb-4" color="secondary" @click="applyPrice">Apliko filtrin</v-btn>
                         <v-btn small class="white--text mb-4" color="secondary" @click="resetFilter">Reset</v-btn>
@@ -748,6 +778,9 @@ export default {
                 this.blue = false;
 
                 if(this.jeshile == true){
+                    if(this.firstTime == true){
+                        this.prodsCopy = this.prods;
+                    }
                     const needed = this.prods.filter((item)=>{
                         return item.details.ngjyra == "Jeshile";
                     });
@@ -756,11 +789,13 @@ export default {
 
                     newColorList = [...new Set([...this.colorList, ...needed])];
 
+                    console.log(JSON.stringify(newColorList));
+
                     this.colorList = newColorList;
 
                 } else {
-                    const needed = this.colorList.filter((item)=>{
-                        return item.details.ngjyra != "Jeshile";
+                    const needed = this.prodsCopy.filter((item)=>{
+                        return item.details.ngjyra != "Jeshile" || item.details.ngjyra == "Jeshile";
                     });
 
                     this.colorList = needed;
@@ -772,29 +807,33 @@ export default {
         },
         yellowColor: function(){
             try{
+                this.white = false;
+                this.red = false;
+                this.blue = false;
+                this.jeshile = false;
 
                 if(this.yellow == true){
-                    const newArray1 = this.prods.filter((doc)=>{
-                        return doc.details.ngjyra == "E verdhe";
+                    if(this.firstTime == true){
+                        this.prodsCopy = this.prods;
+                    }
+                    const needed = this.prods.filter((item)=>{
+                        return item.details.ngjyra == "E verdhe";
                     });
-                    const newArray2 = this.saved.filter((doc)=>{
-                        return doc.details.ngjyra == "E verdhe";
-                    });
-                    
-                    //Lista me elemente nga prods dhe saved
-                    const superlist = newArray1.concat(newArray2);
 
-                    const newProds = this.newProds.concat(superlist);
+                    var newColorList = this.colorList.concat(needed);
 
-                    this.newProds = newProds;
+                    newColorList = [...new Set([...this.colorList, ...needed])];
+
+                    console.log(JSON.stringify(newColorList));
+
+                    this.colorList = newColorList;
 
                 } else {
-                    
-                    const newProds = this.newProds.filter((doc)=>{
-                        return doc.details.ngjyra != "E verdhe";
+                    const needed = this.prodsCopy.filter((item)=>{
+                        return item.details.ngjyra != "E verdhe" || item.details.ngjyra == "E verdhe";
                     });
 
-                    this.newProds = newProds;
+                    this.colorList = needed;
                 }
                 
             } catch(e){
@@ -838,29 +877,33 @@ export default {
         },
         whiteColor: function(){
             try{
+                this.blue = false;
+                this.red = false;
+                this.yellow = false;
+                this.jeshile = false;
 
                 if(this.white == true){
-                    const newArray1 = this.prods.filter((doc)=>{
-                        return doc.details.ngjyra == "E bardhe";
+                    if(this.firstTime == true){
+                        this.prodsCopy = this.prods;
+                    }
+                    const needed = this.prods.filter((item)=>{
+                        return item.details.ngjyra == "E bardhe";
                     });
-                    const newArray2 = this.saved.filter((doc)=>{
-                        return doc.details.ngjyra == "E bardhe";
-                    });
-                    
-                    //Lista me elemente nga prods dhe saved
-                    const superlist = newArray1.concat(newArray2);
 
-                    const newProds = this.newProds.concat(superlist);
+                    var newColorList = this.colorList.concat(needed);
 
-                    this.newProds = newProds;
+                    newColorList = [...new Set([...this.colorList, ...needed])];
+
+                    console.log(JSON.stringify(newColorList));
+
+                    this.colorList = newColorList;
 
                 } else {
-                    
-                    const newProds = this.newProds.filter((doc)=>{
-                        return doc.details.ngjyra != "E bardhe";
+                    const needed = this.prodsCopy.filter((item)=>{
+                        return item.details.ngjyra != "E bardhe" || item.details.ngjyra == "E bardhe";
                     });
 
-                    this.newProds = newProds;
+                    this.colorList = needed;
                 }
                 
             } catch(e){
@@ -869,29 +912,33 @@ export default {
         },
         redColor: function(){
             try{
+                this.white = false;
+                this.blue = false;
+                this.yellow = false;
+                this.jeshile = false;
 
                 if(this.red == true){
-                    const newArray1 = this.prods.filter((doc)=>{
-                        return doc.details.ngjyra == "E kuqe";
+                    if(this.firstTime == true){
+                        this.prodsCopy = this.prods;
+                    }
+                    const needed = this.prods.filter((item)=>{
+                        return item.details.ngjyra == "E kuqe";
                     });
-                    const newArray2 = this.saved.filter((doc)=>{
-                        return doc.details.ngjyra == "E kuqe";
-                    });
-                    
-                    //Lista me elemente nga prods dhe saved
-                    const superlist = newArray1.concat(newArray2);
 
-                    const newProds = this.newProds.concat(superlist);
+                    var newColorList = this.colorList.concat(needed);
 
-                    this.newProds = newProds;
+                    newColorList = [...new Set([...this.colorList, ...needed])];
+
+                    console.log(JSON.stringify(newColorList));
+
+                    this.colorList = newColorList;
 
                 } else {
-                    
-                    const newProds = this.newProds.filter((doc)=>{
-                        return doc.details.ngjyra != "E kuqe";
+                    const needed = this.prodsCopy.filter((item)=>{
+                        return item.details.ngjyra != "E kuqe" || item.details.ngjyra == "E kuqe";
                     });
 
-                    this.newProds = newProds;
+                    this.colorList = needed;
                 }
                 
             } catch(e){
@@ -1112,12 +1159,17 @@ export default {
             try{
                 this.priceList = [];
 
+                console.log(JSON.stringify(this.priceList));
+
                 const needed = this.prods.filter((doc)=>{
                     return parseInt(doc.details.price) >= this.range[0] && parseInt(doc.details.price) <= this.range[1];
                 });
             
+                console.log(JSON.stringify(needed));
 
                 const newPriceList = this.priceList.concat(needed);
+
+                console.log(JSON.stringify(newPriceList));
 
                 this.priceList = newPriceList;
                 
