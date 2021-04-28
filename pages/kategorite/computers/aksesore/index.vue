@@ -369,6 +369,7 @@
                                 track-color="#f2f2f2"
                                 track-fill-color="secondary"
                                 thumb-color="secondary"
+                                @change="pricer"
                             >
                             </v-range-slider>
                             <p class="qs secondary--text">Min: {{range[0]}} | Max: {{range[1]}}</p>
@@ -422,7 +423,7 @@
                             </v-list>
                         </v-menu>
                    </div>
-                   <div class="marketplace-item">
+                   <div class="marketplace-item" v-if="prods.length > 0">
                        <div class="marketplace-vendor" v-for="prod in prods" :key="prod.id">
                            <div class="fullscreen-img">
                                <v-img :aspect-ratio="1/1" :src="prod.details.photos[0].src" @click="sendToProduct(prod.details.kategorita, prod.spot)"></v-img>
@@ -445,6 +446,11 @@
                                 <p class="qs primary--text">{{prod.details.price}} ALL</p>
                            </div>
                        </div>
+                   </div>
+                   <div class="marketplace-item" v-else>
+                       <v-row justify="center">
+                           <p class="qs secondary--text">Asnje produkt i lidhur me kerkimin.</p>
+                       </v-row>
                    </div>
                </div>
            </div>
@@ -555,11 +561,6 @@ export default {
             blue: false,
             red: false,
             yellow: false,
-            bG: [],
-            bR: [],
-            bW: [],
-            bY: [],
-            bB: [],
             saved: [],
             isSaved: false,
             sizes: [],
@@ -567,7 +568,12 @@ export default {
             newSaved: [],
             isSized: false,
             chooseFilters: false,
-            prodsCopy: []
+            prodsCopy: [],
+            firstTime: true,
+            colorList: [],
+            priceList: [],
+            masaList: [],
+            colorCopy: []
         }
     },
     methods: {
@@ -624,159 +630,155 @@ export default {
         },
         applyPrice: function(){
             
-            if(this.isSaved == false){
-                this.isSaved = true;
+            if(this.firstTime == true){
+                this.firstTime = false;
                 this.prodsCopy = this.prods;
-                if(this.checkbox1 == true || this.checkbox2 == true || this.checkbox3 == true || this.checkbox4 == true || this.checkbox5 == true || this.checkbox6 == true || this.checkbox7 == true){
-                    
-                    this.prods = this.newProds;
-                    this.newProds = [];
+                
+                var joint2 = []
+
+                var listsAlgo = [];
+                
+                if(this.masaList.length > 0){
+                    listsAlgo.push(this.masaList);
+                } 
+
+                if(this.colorList.length > 0){
+                    listsAlgo.push(this.colorList);
+                } 
+
+                if(this.priceList.length > 0){
+                    listsAlgo.push(this.priceList);
+                } 
+
+                console.log(listsAlgo.length);
+
+                if(listsAlgo.length == 0){
+                    alert("G zgjidh sakt");
+                } else if(listsAlgo.length == 1){
+                    joint2 = listsAlgo[0];
+                } else if(listsAlgo.length == 2){
+                    joint2 = listsAlgo[0].filter((doc)=>{
+                        return listsAlgo[1].includes(doc);
+                    });
                 } else {
-                    this.chooseFilters = true;
+                    const joint1 = listsAlgo[0].filter((doc)=>{
+                        return listsAlgo[1].includes(doc);
+                    });
+
+                    joint2 = joint1.filter((item)=>{
+                        return listsAlgo[2].includes(item);
+                    });
                 }
+
+                this.prods = joint2;
+
+                this.colorList = [];
+                this.priceList = [];
+                this.masaList = [];
+
             } else {
-                if(this.checkbox1 == true){
-                    this.prods = this.newProds;
-                    this.newProds = [];
+
+                var joint2 = []
+
+                var listsAlgo = [];
+                
+                if(this.masaList.length > 0){
+                    listsAlgo.push(this.masaList);
+                } 
+
+                if(this.colorList.length > 0){
+                    listsAlgo.push(this.colorList);
+                    console.log("perfect")
+                } 
+
+                if(this.priceList.length > 0){
+                    listsAlgo.push(this.priceList);
+                } 
+
+                console.log(listsAlgo.length);
+
+                if(listsAlgo.length == 0){
+                    alert("G zgjidh sakt");
+                } else if(listsAlgo.length == 1){
+                    joint2 = listsAlgo[0];
+                } else if(listsAlgo.length == 2){
+                    joint2 = listsAlgo[0].filter((doc)=>{
+                        return listsAlgo[1].includes(doc);
+                    });
                 } else {
-                    this.chooseFilters = true;
+                    const joint1 = listsAlgo[0].filter((doc)=>{
+                        return listsAlgo[1].includes(doc);
+                    });
+
+                    joint2 = joint1.filter((item)=>{
+                        return listsAlgo[2].includes(item);
+                    });
                 }
+
+                this.prods = joint2;
+
+                this.colorList = [];
+                this.priceList = [];
+                this.masaList = [];
             }
             
         },
         resetFilter(){
+            this.checkbox1 = false;
+            this.checkbox2 = false;
+            this.checkbox3 = false;
+            this.checkbox4 = false;
+            this.checkbox5 = false;
+            this.checkbox6 = false;
+            this.checkbox7 = false;
+            this.white = false;
+            this.jeshile = false;
+            this.blue = false;
+            this.red = false;
+            this.yellow = false;
+            this.range[0]=100;
+            this.range[1]=30000;
             this.prods = this.prodsCopy;
         },
         greenColor1: function(){
-            this.blue = false;
-            this.red = false;
-            this.yellow = false;
-            this.white = false;
-            if(this.jeshile == true){
-                this.bG = [];
-                const jari = this.prods.filter((ele)=>{
-                    return ele.details.ngjyra == "Jeshile";
-                })
-                this.prods.forEach((ele) => {
-                    if(ele.details.ngjyra != "Jeshile"){
-                        console.log("removed")
-                        this.bG.push(ele);
-                    } 
-                });
-                this.prods = jari;
-            } else {
-                console.log("added");
-                this.bG.forEach((item)=>{
-                    this.prods.push(item);
-                });
+            try{
+                this.white = false;
+                this.red = false;
+                this.yellow = false;
+                this.blue = false;
+
+                if(this.jeshile == true){
+                    const needed = this.prods.filter((item)=>{
+                        return item.details.ngjyra == "Jeshile";
+                    });
+
+                    var newColorList = this.colorList.concat(needed);
+
+                    newColorList = [...new Set([...this.colorList, ...needed])];
+
+                    this.colorList = newColorList;
+
+                } else {
+                    const needed = this.colorList.filter((item)=>{
+                        return item.details.ngjyra != "Jeshile";
+                    });
+
+                    this.colorList = needed;
+                }
+                
+            } catch(e){
+                console.log(e);
             }
         },
         yellowColor: function(){
-            this.blue = false;
-            this.red = false;
-            this.jeshile = false;
-            this.white = false;
-            if(this.yellow == true){
-                this.bY = [];
-                const jari1 = this.prods.filter((ele)=>{
-                    return ele.details.ngjyra == "E verdhe";
-                })
-                this.prods.forEach((ele) => {
-                    if(ele.details.ngjyra != "E verdhe"){
-                        console.log("removed")
-                        this.bY.push(ele);
-                    } 
-                });
-                this.prods = jari1;
-            } else {
-                console.log("added");
-                this.bY.forEach((item)=>{
-                    this.prods.push(item);
-                });
-            }
-        },
-        blueColor: function(){
-            this.jeshile = false;
-            this.red = false;
-            this.yellow = false;
-            this.white = false;
-            if(this.blue == true){
-                this.bB = [];
-                const jari2 = this.prods.filter((ele)=>{
-                    return ele.details.ngjyra == "Blu";
-                })
-                this.prods.forEach((ele) => {
-                    if(ele.details.ngjyra != "Blu"){
-                        console.log("removed")
-                        this.bB.push(ele);
-                    } 
-                });
-                this.prods = jari2;
-            } else {
-                console.log("added");
-                this.bB.forEach((item)=>{
-                    this.prods.push(item);
-                });
-            }
-        },
-        whiteColor: function(){
-            this.blue = false;
-            this.red = false;
-            this.yellow = false;
-            this.jeshile = false;
-            if(this.white == true){
-                this.bW = [];
-                const jari3 = this.prods.filter((ele)=>{
-                    return ele.details.ngjyra == "White";
-                })
-                this.prods.forEach((ele) => {
-                    if(ele.details.ngjyra != "White"){
-                        console.log("removed")
-                        this.bW.push(ele);
-                    } 
-                });
-                this.prods = jari3;
-            } else {
-                console.log("added");
-                this.bW.forEach((item)=>{
-                    this.prods.push(item);
-                });
-            }
-        },
-        redColor: function(){
-            this.blue = false;
-            this.jeshile = false;
-            this.yellow = false;
-            this.white = false;
-            if(this.red == true){
-                this.bR = [];
-                const jari4 = this.prods.filter((ele)=>{
-                    return ele.details.ngjyra == "E kuqe";
-                })
-                this.prods.forEach((ele) => {
-                    if(ele.details.ngjyra != "E kuqe"){
-                        console.log("removed")
-                        this.bR.push(ele);
-                    } 
-                });
-                this.prods = jari4;
-            } else {
-                console.log("added");
-                this.bR.forEach((item)=>{
-                    this.prods.push(item);
-                });
-            }
-        },
-        checkBox1: function(){
-            console.log(this.checkbox1);
             try{
 
-                if(this.checkbox1 == true){
+                if(this.yellow == true){
                     const newArray1 = this.prods.filter((doc)=>{
-                        return doc.details.masa == "XS";
+                        return doc.details.ngjyra == "E verdhe";
                     });
                     const newArray2 = this.saved.filter((doc)=>{
-                        return doc.details.masa == "XS";
+                        return doc.details.ngjyra == "E verdhe";
                     });
                     
                     //Lista me elemente nga prods dhe saved
@@ -789,10 +791,137 @@ export default {
                 } else {
                     
                     const newProds = this.newProds.filter((doc)=>{
-                        return doc.details.masa != "XS";
+                        return doc.details.ngjyra != "E verdhe";
                     });
 
                     this.newProds = newProds;
+                }
+                
+            } catch(e){
+                console.log(e);
+            }
+        },
+        blueColor: function(){
+            try{
+                this.white = false;
+                this.red = false;
+                this.yellow = false;
+                this.jeshile = false;
+
+                if(this.blue == true){
+                    if(this.firstTime == true){
+                        this.prodsCopy = this.prods;
+                    }
+                    const needed = this.prods.filter((item)=>{
+                        return item.details.ngjyra == "Blu";
+                    });
+
+                    var newColorList = this.colorList.concat(needed);
+
+                    newColorList = [...new Set([...this.colorList, ...needed])];
+
+                    console.log(JSON.stringify(newColorList));
+
+                    this.colorList = newColorList;
+
+                } else {
+                    const needed = this.prodsCopy.filter((item)=>{
+                        return item.details.ngjyra != "Blu" || item.details.ngjyra == "Blu";
+                    });
+
+                    this.colorList = needed;
+                }
+                
+            } catch(e){
+                console.log(e);
+            }
+        },
+        whiteColor: function(){
+            try{
+
+                if(this.white == true){
+                    const newArray1 = this.prods.filter((doc)=>{
+                        return doc.details.ngjyra == "E bardhe";
+                    });
+                    const newArray2 = this.saved.filter((doc)=>{
+                        return doc.details.ngjyra == "E bardhe";
+                    });
+                    
+                    //Lista me elemente nga prods dhe saved
+                    const superlist = newArray1.concat(newArray2);
+
+                    const newProds = this.newProds.concat(superlist);
+
+                    this.newProds = newProds;
+
+                } else {
+                    
+                    const newProds = this.newProds.filter((doc)=>{
+                        return doc.details.ngjyra != "E bardhe";
+                    });
+
+                    this.newProds = newProds;
+                }
+                
+            } catch(e){
+                console.log(e);
+            }
+        },
+        redColor: function(){
+            try{
+
+                if(this.red == true){
+                    const newArray1 = this.prods.filter((doc)=>{
+                        return doc.details.ngjyra == "E kuqe";
+                    });
+                    const newArray2 = this.saved.filter((doc)=>{
+                        return doc.details.ngjyra == "E kuqe";
+                    });
+                    
+                    //Lista me elemente nga prods dhe saved
+                    const superlist = newArray1.concat(newArray2);
+
+                    const newProds = this.newProds.concat(superlist);
+
+                    this.newProds = newProds;
+
+                } else {
+                    
+                    const newProds = this.newProds.filter((doc)=>{
+                        return doc.details.ngjyra != "E kuqe";
+                    });
+
+                    this.newProds = newProds;
+                }
+                
+            } catch(e){
+                console.log(e);
+            }
+        },
+        checkBox1: function(){
+            try{
+
+                if(this.checkbox1 == true){
+                    if(this.firstTime == true){
+                        this.firstTime = false;
+                        this.prodsCopy = this.prods;
+                    }
+                    const needed = this.prods.filter((item)=>{
+                        return item.details.masa == "XS";
+                    });
+
+                    var newMasaList = this.masaList.concat(needed);
+
+                    newMasaList = [...new Set([...this.colorList, ...needed])];
+
+                    this.masaList = newMasaList;
+
+                } else {
+                    const needed = this.prodsCopy.filter((item)=>{
+                        return item.details.masa != "XS" || item.details.masa == "XS";
+                    });
+
+                    this.masaList = needed;
                 }
                 
             } catch(e){
@@ -800,32 +929,29 @@ export default {
             }
         },
         checkBox2: function(){
-            console.log(this.checkbox1);
             try{
 
                 if(this.checkbox2 == true){
-                    const newArray1 = this.prods.filter((doc)=>{
-                        return doc.details.masa == "S";
+                    if(this.firstTime == true){
+                        this.firstTime = false;
+                        this.prodsCopy = this.prods;
+                    }
+                    const needed = this.prods.filter((item)=>{
+                        return item.details.masa == "S";
                     });
-                    const newArray2 = this.saved.filter((doc)=>{
-                        return doc.details.masa == "S";
-                    });
-                    
-                    //Lista me elemente nga prods dhe saved
-                    const superlist = newArray1.concat(newArray2);
-                    console.log(superlist)
 
-                    const newProds = this.newProds.concat(superlist);
+                    var newMasaList = this.masaList.concat(needed);
 
-                    this.newProds = newProds;
+                    newMasaList = [...new Set([...this.colorList, ...needed])];
+
+                    this.masaList = newMasaList;
 
                 } else {
-                    
-                    const newProds = this.newProds.filter((doc)=>{
-                        return doc.details.masa != "S";
+                    const needed = this.prodsCopy.filter((item)=>{
+                        return item.details.masa != "S" || item.details.masa == "S";
                     });
 
-                    this.newProds = newProds;
+                    this.masaList = needed;
                 }
                 
             } catch(e){
@@ -833,31 +959,29 @@ export default {
             }
         },
         checkBox3: function(){
-            console.log(this.checkbox1);
             try{
 
                 if(this.checkbox3 == true){
-                    const newArray1 = this.prods.filter((doc)=>{
-                        return doc.details.masa == "M";
+                    if(this.firstTime == true){
+                        this.firstTime = false;
+                        this.prodsCopy = this.prods;
+                    }
+                    const needed = this.prods.filter((item)=>{
+                        return item.details.masa == "M";
                     });
-                    const newArray2 = this.saved.filter((doc)=>{
-                        return doc.details.masa == "M";
-                    });
-                    
-                    //Lista me elemente nga prods dhe saved
-                    const superlist = newArray1.concat(newArray2);
 
-                    const newProds = this.newProds.concat(superlist);
+                    var newMasaList = this.masaList.concat(needed);
 
-                    this.newProds = newProds;
+                    newMasaList = [...new Set([...this.colorList, ...needed])];
+
+                    this.masaList = newMasaList;
 
                 } else {
-                    
-                    const newProds = this.newProds.filter((doc)=>{
-                        return doc.details.masa != "M";
+                    const needed = this.prodsCopy.filter((item)=>{
+                        return item.details.masa != "M" || item.details.masa == "M";
                     });
 
-                    this.newProds = newProds;
+                    this.masaList = needed;
                 }
                 
             } catch(e){
@@ -865,31 +989,29 @@ export default {
             }
         },
         checkBox4: function(){
-            console.log(this.checkbox1);
             try{
 
                 if(this.checkbox4 == true){
-                    const newArray1 = this.prods.filter((doc)=>{
-                        return doc.details.masa == "L";
+                    if(this.firstTime == true){
+                        this.firstTime = false;
+                        this.prodsCopy = this.prods;
+                    }
+                    const needed = this.prods.filter((item)=>{
+                        return item.details.masa == "L";
                     });
-                    const newArray2 = this.saved.filter((doc)=>{
-                        return doc.details.masa == "L";
-                    });
-                    
-                    //Lista me elemente nga prods dhe saved
-                    const superlist = newArray1.concat(newArray2);
 
-                    const newProds = this.newProds.concat(superlist);
+                    var newMasaList = this.masaList.concat(needed);
 
-                    this.newProds = newProds;
+                    newMasaList = [...new Set([...this.colorList, ...needed])];
+
+                    this.masaList = newMasaList;
 
                 } else {
-                    
-                    const newProds = this.newProds.filter((doc)=>{
-                        return doc.details.masa != "L";
+                    const needed = this.prodsCopy.filter((item)=>{
+                        return item.details.masa != "L" || item.details.masa == "L";
                     });
 
-                    this.newProds = newProds;
+                    this.masaList = needed;
                 }
                 
             } catch(e){
@@ -897,31 +1019,29 @@ export default {
             }
         },
         checkBox5: function(){
-            console.log(this.checkbox1);
             try{
 
                 if(this.checkbox5 == true){
-                    const newArray1 = this.prods.filter((doc)=>{
-                        return doc.details.masa == "XL";
+                    if(this.firstTime == true){
+                        this.firstTime = false;
+                        this.prodsCopy = this.prods;
+                    }
+                    const needed = this.prods.filter((item)=>{
+                        return item.details.masa == "XL";
                     });
-                    const newArray2 = this.saved.filter((doc)=>{
-                        return doc.details.masa == "XL";
-                    });
-                    
-                    //Lista me elemente nga prods dhe saved
-                    const superlist = newArray1.concat(newArray2);
 
-                    const newProds = this.newProds.concat(superlist);
+                    var newMasaList = this.masaList.concat(needed);
 
-                    this.newProds = newProds;
+                    newMasaList = [...new Set([...this.colorList, ...needed])];
+
+                    this.masaList = newMasaList;
 
                 } else {
-                    
-                    const newProds = this.newProds.filter((doc)=>{
-                        return doc.details.masa != "XL";
+                    const needed = this.prodsCopy.filter((item)=>{
+                        return item.details.masa != "XL" || item.details.masa == "XL";
                     });
 
-                    this.newProds = newProds;
+                    this.masaList = needed;
                 }
                 
             } catch(e){
@@ -929,31 +1049,29 @@ export default {
             }
         },
         checkBox6: function(){
-            console.log(this.checkbox1);
             try{
 
                 if(this.checkbox6 == true){
-                    const newArray1 = this.prods.filter((doc)=>{
-                        return doc.details.masa == "2XL";
+                    if(this.firstTime == true){
+                        this.firstTime = false;
+                        this.prodsCopy = this.prods;
+                    }
+                    const needed = this.prods.filter((item)=>{
+                        return item.details.masa == "2XL";
                     });
-                    const newArray2 = this.saved.filter((doc)=>{
-                        return doc.details.masa == "2XL";
-                    });
-                    
-                    //Lista me elemente nga prods dhe saved
-                    const superlist = newArray1.concat(newArray2);
 
-                    const newProds = this.newProds.concat(superlist);
+                    var newMasaList = this.masaList.concat(needed);
 
-                    this.newProds = newProds;
+                    newMasaList = [...new Set([...this.colorList, ...needed])];
+
+                    this.masaList = newMasaList;
 
                 } else {
-                    
-                    const newProds = this.newProds.filter((doc)=>{
-                        return doc.details.masa != "2XL";
+                    const needed = this.prodsCopy.filter((item)=>{
+                        return item.details.masa != "2XL" || item.details.masa == "2XL";
                     });
 
-                    this.newProds = newProds;
+                    this.masaList = needed;
                 }
                 
             } catch(e){
@@ -961,36 +1079,53 @@ export default {
             }
         },
         checkBox7: function(){
-            console.log(this.checkbox1);
             try{
 
                 if(this.checkbox7 == true){
-                    const newArray1 = this.prods.filter((doc)=>{
-                        return doc.details.masa == "3XL";
+                    if(this.firstTime == true){
+                        this.firstTime = false;
+                        this.prodsCopy = this.prods;
+                    }
+                    const needed = this.prods.filter((item)=>{
+                        return item.details.masa == "3XL";
                     });
-                    const newArray2 = this.saved.filter((doc)=>{
-                        return doc.details.masa == "3XL";
-                    });
-                    
-                    //Lista me elemente nga prods dhe saved
-                    const superlist = newArray1.concat(newArray2);
 
-                    const newProds = this.newProds.concat(superlist);
+                    var newMasaList = this.masaList.concat(needed);
 
-                    this.newProds = newProds;
+                    newMasaList = [...new Set([...this.colorList, ...needed])];
+
+                    this.masaList = newMasaList;
 
                 } else {
-                    
-                    const newProds = this.newProds.filter((doc)=>{
-                        return doc.details.masa != "3XL";
+                    const needed = this.prodsCopy.filter((item)=>{
+                        return item.details.masa != "3XL" || item.details.masa == "3XL";
                     });
 
-                    this.newProds = newProds;
+                    this.masaList = needed;
                 }
                 
             } catch(e){
                 console.log(e);
             }
+        },
+        pricer: function(){
+            try{
+                this.priceList = [];
+
+                const needed = this.prods.filter((doc)=>{
+                    return parseInt(doc.details.price) >= this.range[0] && parseInt(doc.details.price) <= this.range[1];
+                });
+            
+
+                const newPriceList = this.priceList.concat(needed);
+
+                this.priceList = newPriceList;
+                
+            } catch(e){
+                console.log(e);
+            }
+
+
         },
         favorite: function(product){
             if(process.browser){
