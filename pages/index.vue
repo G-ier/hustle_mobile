@@ -148,7 +148,7 @@
             <div class="product-main-desc">
               <h3 class="qs secondary--text"><nuxt-link class="qs btn-c-o" :to="'/kategorite/elektronike/tv-dhe-video/' + item.spot">{{item.details.name}}</nuxt-link></h3>
               <v-rating 
-              v-model="ratingfake" 
+              :value="item.details.likes/item.details.likers"
               background-color="yellow darken-2"
               color="yellow"
               x-small
@@ -242,46 +242,18 @@
           </div>
         </div>
         <div class="products-main-2">
-          <div class="product-main">
-            <img class="product-main-image" src="https://images.pexels.com/photos/2312369/pexels-photo-2312369.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="iphone">
+          <div class="product-main" v-for="item in neue" :key="item.id">
+            <img class="product-main-image" :src="item.details.photos[0].src" :alt="item.details.name">
             <div class="product-main-desc">
-              <h3 class="qs secondary--text">Product title</h3>
+              <nuxt-link class="qs secondary--text" :to="item.details.kategorita + '/' + item.spot">{{item.details.name}}</nuxt-link>
               <v-rating 
-              v-model="ratingfake" 
+              :value="item.details.likes/item.details.likers"
               background-color="yellow darken-2"
               color="yellow"
               small
               readonly
               ></v-rating>
-              <p class="qs primary--text pricey">9700L</p>
-            </div>
-          </div>
-          <div class="product-main">
-            <img class="product-main-image" src="https://images.pexels.com/photos/2312369/pexels-photo-2312369.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="iphone">
-            <div class="product-main-desc">
-              <h3 class="qs secondary--text">Product title</h3>
-              <v-rating 
-              v-model="ratingfake" 
-              background-color="yellow darken-2"
-              color="yellow"
-              small
-              readonly
-              ></v-rating>
-              <p class="qs primary--text pricey">9700L</p>
-            </div>
-          </div>
-          <div class="product-main">
-            <img class="product-main-image" src="https://images.pexels.com/photos/2312369/pexels-photo-2312369.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="iphone">
-            <div class="product-main-desc">
-              <h3 class="qs secondary--text">Product title</h3>
-              <v-rating 
-              v-model="ratingfake" 
-              background-color="yellow darken-2"
-              color="yellow"
-              small
-              readonly
-              ></v-rating>
-              <p class="qs primary--text pricey">9700L</p>
+              <p class="qs primary--text pricey">{{item.details.price}} ALL</p>
             </div>
           </div>
         </div>
@@ -346,13 +318,13 @@
             <div class="product-main-desc">
               <h3 class="qs secondary--text"><nuxt-link class="qs btn-c-o" :to="'/kategorite/elektronike/tv-dhe-video/' + item.spot">{{item.details.name}}</nuxt-link></h3>
               <v-rating 
-              :v-model="ratingfake" 
+              :value="item.details.likes/item.details.likers"
               background-color="yellow darken-2"
               color="yellow"
               x-small
               readonly
               ></v-rating>
-              <p class="qs primary--text pricey">{{item.details.price}}L</p>
+              <p class="qs primary--text pricey">{{item.details.price}} ALL</p>
             </div>
           </div>          
         </div>
@@ -360,67 +332,26 @@
       <div class="side-side">
         <div class="side-pord">
           <div class="header-pord">
-            <p class="qs pa-0 ma-0">Reccommended</p>
+            <p class="qs pa-0 ma-0">Te rekomanduara</p>
           </div>
           <div class="fucked">
-            <div class="fucked-1">
-              <img class="fucked-image" src="https://images.pexels.com/photos/812264/pexels-photo-812264.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="apple">
-              <div class="fucked-desc">
-                <p class="qs secondary--text ma-0 pa-0">Lorem ipsum dolor sit amet.</p>
-                <v-rating 
-                  v-model="ratingfake" 
-                  background-color="yellow darken-2"
-                  color="yellow"
-                  small
-                  readonly
-                  class="pa-0 ma-0"
-                ></v-rating>
-                <p class="qs primary--text">3500L</p>
+            <div class="fucked-1" v-for="item in recom" :key="item.id">
+              <div class="kivi">
+                <v-avatar tile color="white" size="70" class="mb-5">
+                  <v-img class="fucked-image" :src="item.details.photos[0].src" :alt="item.details.name"></v-img>
+                </v-avatar>
               </div>
-            </div>
-            <div class="fucked-1">
-              <img class="fucked-image" src="https://images.pexels.com/photos/812264/pexels-photo-812264.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="apple">
               <div class="fucked-desc">
-                <p class="qs secondary--text ma-0 pa-0">Lorem ipsum dolor sit amet.</p>
+                <nuxt-link class="qs btn-c-o secondary--text ma-0 pa-0" :to="item.details.kategorita + '/' + item.spot">{{item.details.name}}</nuxt-link>
                 <v-rating 
-                  v-model="ratingfake" 
+                  :value="item.details.likes/item.details.likers" 
                   background-color="yellow darken-2"
                   color="yellow"
                   small
                   readonly
                   class="pa-0 ma-0"
                 ></v-rating>
-                <p class="qs primary--text">3500L</p>
-              </div>
-            </div>
-            <div class="fucked-1">
-              <img class="fucked-image" src="https://images.pexels.com/photos/812264/pexels-photo-812264.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="apple">
-              <div class="fucked-desc">
-                <p class="qs secondary--text ma-0 pa-0">Lorem ipsum dolor sit amet.</p>
-                <v-rating 
-                  v-model="ratingfake" 
-                  background-color="yellow darken-2"
-                  color="yellow"
-                  small
-                  readonly
-                  class="pa-0 ma-0"
-                ></v-rating>
-                <p class="qs primary--text">3500L</p>
-              </div>
-            </div>
-            <div class="fucked-1">
-              <img class="fucked-image" src="https://images.pexels.com/photos/812264/pexels-photo-812264.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="apple">
-              <div class="fucked-desc">
-                <p class="qs secondary--text ma-0 pa-0">Lorem ipsum dolor sit amet.</p>
-                <v-rating 
-                  v-model="ratingfake" 
-                  background-color="yellow darken-2"
-                  color="yellow"
-                  small
-                  readonly
-                  class="pa-0 ma-0"
-                ></v-rating>
-                <p class="qs primary--text">3500L</p>
+                <p class="qs primary--text">{{item.details.price}} ALL</p>
               </div>
             </div>
 
@@ -448,7 +379,7 @@
       </div>
     </div>
     <client-only placeholder="Carousel loading..." class="client-90" >
-      <agile ref="carousel" @after-change="getCurrSlide($event)" class="mos-i-qr">
+      <agile ref="carousel" :options="myOptions" @after-change="getCurrSlide($event)" class="mos-i-qr">
         <div class="deals-body" v-for="n in 10" :key="n">
           <div class="deals-image">
             <v-img :aspect-ratio="16/9" max-width="500" :src="seni"></v-img>
@@ -488,28 +419,28 @@
       <div class="squaremain">
         <div class="squarecentral">
           <div class="joint">
-            <h2 class="qs">Elektronike</h2>
+            <h2 class="qs">Aksesore elektronik</h2>
             <div class="line1"></div>
           </div>
-          <v-btn class="qs rounded-lg secondary--text" nuxt to="/kategorite/elektronike/tv-dhe-video" color="white">Vizito tani</v-btn>
+          <v-btn class="qs rounded-lg secondary--text" nuxt to="/kategorite/computers/aksesore" color="white">Vizito tani</v-btn>
         </div>
       </div>
       <div class="squarelikkle">
         <div class="squareside">
           <div class="joint-2">
             <h2 class="qs sq-mini">Produkte</h2>
-            <h2 class="qs sq-title secondary--text">Shtepiake</h2>
+            <h2 class="qs sq-title secondary--text">Shkollore</h2>
           </div>
-          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/elektronike/tv-dhe-video" color="white">Vizito tani</v-btn>
+          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/kancelari/shkollore" color="white">Vizito tani</v-btn>
         </div>
       </div>
       <div class="squarelikkle-2">
         <div class="squareside-2">
           <div class="joint-3">
             <h2 class="qs sq-mini">Produkte</h2>
-            <h2 class="qs sq-title secondary--text">Clothing brands</h2>
+            <h2 class="qs sq-title secondary--text">Zyrash</h2>
           </div>
-          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/elektronike/tv-dhe-video" color="white">Vizito tani</v-btn>
+          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/kancelari/zyra" color="white">Vizito tani</v-btn>
         </div>
       </div>
       <div class="squarelikkle-3">
@@ -518,16 +449,16 @@
             <h2 class="qs sq-mini">Produkte</h2>
             <h2 class="qs sq-title secondary--text">Kozmetike</h2>
           </div>
-          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/elektronike/tv-dhe-video" color="white">Vizito tani</v-btn>
+          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/kozmetike/kozmetike" color="white">Vizito tani</v-btn>
         </div>
       </div>
       <div class="squarelikkle-4">
         <div class="squareside-2">
           <div class="joint-3">
-            <h2 class="qs sq-mini">Produkte</h2>
-            <h2 class="qs sq-title secondary--text">Clothing brands</h2>
+            <h2 class="qs sq-mini">Clothing</h2>
+            <h2 class="qs sq-title secondary--text">per femra</h2>
           </div>
-          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/elektronike/tv-dhe-video" color="white">Vizito tani</v-btn>
+          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/fashion/femra" color="white">Vizito tani</v-btn>
         </div>
       </div>
     </div>
@@ -572,11 +503,17 @@ export default {
     const parsedData = data.data();
     var diff = parsedData.from.toDate().getTime() - Date.now();
 
-    const data2 = await firebase.firestore().collection('elektronike').get();
+    const data2 = await firebase.firestore().collection('elektronike').limit(4).get();
     const datas = data2.docs.map(doc => doc.data());
+
+    const gio = await firebase.firestore().collection('elektronike').orderBy("creationTime").limit(4).get();
+    const gio2 = gio.docs.map(doc => doc.data());
     
     const fata = await firebase.firestore().collection('basic').get();
     const fata2 = fata.docs.map(doc => doc.data());
+
+    const data21 = await firebase.firestore().collection('elektronike').where("details.likes", ">=", 3.5).limit(4).get();
+    const datas1 = data21.docs.map(doc => doc.data());
 
     return {
       statedTime: diff,
@@ -587,7 +524,9 @@ export default {
       side2: fata2[3],
       stingy: fata2[5],
       stangy: fata2[4],
-      dotd: fata2[0]
+      dotd: fata2[0],
+      recom: datas1,
+      neue: gio2
     }
   },
   data(){
@@ -600,7 +539,28 @@ export default {
       },
       objCount: 1,
       speed: 7000,
-      ratingfake: 4
+      ratingfake: 4,
+      myOptions: {
+            navButtons: false,
+            
+            responsive: [
+                {
+                    breakpoint: 600,
+                    settings: {
+                        dots: false
+                    }
+                },
+                
+                {
+                    breakpoint: 900,
+                    settings: {
+                        navButtons: true,
+                        dots: true,
+                        infinite: false
+                    }
+                }
+            ]
+        }
     }
   },
   head(){
@@ -672,7 +632,7 @@ export default {
   width: 90%;
   height: 27vh;
   border-radius: 25px;
-  background-image: url("https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
+  background-image: url("https://image.freepik.com/free-psd/headset-with-80s-pink-yellow-headphones_23-2148280782.jpg");
   background-position-y: center;
   background-size: cover;
   overflow: hidden;
@@ -686,7 +646,7 @@ export default {
   width: 90%;
   height: 20vh;
   border-radius: 25px;
-  background-image: url("../assets/img/2152.jpg");
+  background-image: url("https://image.freepik.com/free-photo/school-supplies-table-composition_23-2148939177.jpg");
   background-size: cover;
   overflow: hidden;
   margin-top: 1.3rem;
@@ -699,7 +659,7 @@ export default {
   width: 90%;
   height: 20vh;
   border-radius: 25px;
-  background-image: url("../assets/img/cos.jpg");
+  background-image: url("https://image.freepik.com/free-photo/top-view-arrangement-natural-material-stationery_23-2148898233.jpg");
   background-size: cover;
   overflow: hidden;
   margin-top: 1.3rem;
@@ -726,7 +686,7 @@ export default {
   width: 90%;
   height: 20vh;
   border-radius: 25px;
-  background-image: url("../assets/img/cos.jpg");
+  background-image: url("https://image.freepik.com/free-photo/pretty-young-woman-casual-clothes-pointing-finger-upper-right-corner-inviting-check-out-product_176420-21796.jpg");
   background-position-y: center;
   background-size: cover;
   overflow: hidden;
@@ -1112,10 +1072,17 @@ export default {
 
 @media only screen and (min-width: 850px){
 .fucked{
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+}
+.kivi{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
 }
 .fucked-1{
   display: flex;
@@ -1243,7 +1210,7 @@ export default {
 }
 .main-side-title{
   background-color: #bf081d;
-  padding: 0 10px 0 10px;
+  padding: 2px 10px 2px 10px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
@@ -1378,7 +1345,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   border-radius: 3px;
   border: 1px solid #bf081d;
@@ -1412,7 +1379,7 @@ export default {
   width: 650px;
   height: 27vh;
   border-radius: 25px;
-  background-image: url("https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
+  background-image: url("https://image.freepik.com/free-psd/headset-with-80s-pink-yellow-headphones_23-2148280782.jpg");
   background-position-y: center;
   background-size: cover;
   overflow: hidden;
@@ -1427,7 +1394,7 @@ export default {
   width: 320px;
   height: 20vh;
   border-radius: 25px;
-  background-image: url("../assets/img/2152.jpg");
+  background-image: url("https://image.freepik.com/free-photo/school-supplies-table-composition_23-2148939177.jpg");
   background-size: cover;
   overflow: hidden;
   margin-top: 1.3rem;
@@ -1441,7 +1408,7 @@ export default {
   width: 320px;
   height: 20vh;
   border-radius: 25px;
-  background-image: url("../assets/img/cos.jpg");
+  background-image: url("https://image.freepik.com/free-photo/top-view-arrangement-natural-material-stationery_23-2148898233.jpg");
   background-size: cover;
   overflow: hidden;
   margin-top: 1.3rem;
@@ -1470,7 +1437,7 @@ export default {
   width: 320px;
   height: 20vh;
   border-radius: 25px;
-  background-image: url("../assets/img/cos.jpg");
+  background-image: url("https://image.freepik.com/free-photo/pretty-young-woman-casual-clothes-pointing-finger-upper-right-corner-inviting-check-out-product_176420-21796.jpg");
   background-position-y: center;
   background-size: cover;
   overflow: hidden;
@@ -1508,6 +1475,10 @@ export default {
   align-items: center;
   width: 100%;
   height: 40;
+}
+.joint h2{
+  font-size: 30px;
+  font-family: 'qs';
 }
 .joint-2{
   display: flex;
@@ -1704,7 +1675,7 @@ export default {
 }
 .line1-main{
   width: 100%;
-  height: 3px;
+  height: 1px;
   background-color: #bf081d;
 }
 .line1-3{
@@ -1919,15 +1890,22 @@ export default {
 }
 @media only screen and (min-width: 1250px){
 .fucked{
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  padding: 5px 0 5px 0;
 }
-.fucked-1{
+.kivi{
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  width: 100%;
+}
+.fucked-1{
+  display: grid;
+  grid-template-columns: 30% 70%;
   width: 100%;
 }
 .fucked-image{
@@ -2039,7 +2017,7 @@ export default {
 }
 .main-side-title{
   background-color: #bf081d;
-  padding: 0 10px 0 10px;
+  padding: 2px 10px 2px 10px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
@@ -2173,7 +2151,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   border-radius: 3px;
   border: 1px solid #bf081d;
@@ -2191,12 +2169,13 @@ export default {
   border-bottom-right-radius: 0px;
 }
 .sq-title{
+  font-size: 25px;
   margin-bottom: 25px;
 }
 .sq-mini{
   position: relative;
   top: 10px;
-  font-size: 14px;
+  font-size: 15px;
   color: white;
 }
 .squaremain{
@@ -2207,7 +2186,7 @@ export default {
   width: 950px;
   height: 27vh;
   border-radius: 25px;
-  background-image: url("https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
+  background-image: url("https://image.freepik.com/free-psd/headset-with-80s-pink-yellow-headphones_23-2148280782.jpg");
   background-position-y: center;
   background-size: cover;
   overflow: hidden;
@@ -2222,7 +2201,7 @@ export default {
   width: 470px;
   height: 20vh;
   border-radius: 25px;
-  background-image: url("../assets/img/2152.jpg");
+  background-image: url("https://image.freepik.com/free-photo/school-supplies-table-composition_23-2148939177.jpg");
   background-size: cover;
   overflow: hidden;
   margin-top: 1.3rem;
@@ -2236,7 +2215,7 @@ export default {
   width: 470px;
   height: 20vh;
   border-radius: 25px;
-  background-image: url("../assets/img/cos.jpg");
+  background-image: url("https://image.freepik.com/free-photo/top-view-arrangement-natural-material-stationery_23-2148898233.jpg");
   background-size: cover;
   overflow: hidden;
   margin-top: 1.3rem;
@@ -2251,7 +2230,7 @@ export default {
   height: 20vh;
   border-radius: 25px;
   background-image: url("../assets/img/cos.jpg");
-  background-position-y: center;
+  background-position-y: bottom;
   background-size: cover;
   overflow: hidden;
   margin-top: 1.3rem;
@@ -2265,8 +2244,8 @@ export default {
   width: 470px;
   height: 20vh;
   border-radius: 25px;
-  background-image: url("../assets/img/cos.jpg");
-  background-position-y: center;
+  background-image: url("https://image.freepik.com/free-photo/pretty-young-woman-casual-clothes-pointing-finger-upper-right-corner-inviting-check-out-product_176420-21796.jpg");
+  background-position-y: top;
   background-size: cover;
   overflow: hidden;
   margin-top: 1.3rem;
@@ -2499,7 +2478,7 @@ export default {
 }
 .line1-main{
   width: 100%;
-  height: 3px;
+  height: 1px;
   background-color: #bf081d;
 }
 .line1-3{
