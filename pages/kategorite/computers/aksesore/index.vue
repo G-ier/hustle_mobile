@@ -2,11 +2,12 @@
     <div class="shop">
         <v-navigation-drawer
         v-model="drawer"
-        absolute
+        app
         color="white"
-        temporary
+        
+        bottom
         >
-            <div class="drawer-container">
+            <div class="drawer-container remove-scroll-wheel" >
             <div class="sidebar sidebar-side">
                <div class="sidebar-links mb-4 mt-1">
                    <h4 class="qs secondary--text ma-0 pa-0">Kompjutera dhe teknologji</h4>
@@ -185,18 +186,10 @@
                    <div class="sidebar-valuator-2">
                        <p class="qs s15 secondary--text">Cmimi</p>
                         <v-col class="px-4">
-                            <v-range-slider
-                                v-model="range"
-                                :max="30000"
-                                :min="0"
-                                hide-details
-                                class="align-center"
-                                track-color="#f2f2f2"
-                                track-fill-color="secondary"
-                                thumb-color="secondary"
-                                @change="pricer"
-                            >
-                            </v-range-slider>
+                            <b-field>
+                                <b-slider v-model="range" :min="0" :max="30000" :step="2">
+                                </b-slider>
+                            </b-field>
                             <p class="qs secondary--text">Min: {{range[0]}} | Max: {{range[1]}}</p>
                         </v-col>
                    </div>
@@ -390,18 +383,10 @@
                    <div class="sidebar-valuator-2">
                        <p class="qs s15 secondary--text">Cmimi</p>
                         <v-col class="px-4">
-                            <v-range-slider
-                                v-model="range"
-                                :max="30000"
-                                :min="0"
-                                hide-details
-                                class="align-center"
-                                track-color="#f2f2f2"
-                                track-fill-color="secondary"
-                                thumb-color="secondary"
-                                @change="pricer"
-                            >
-                            </v-range-slider>
+                            <b-field>
+                                <b-slider v-model="range" :min="0" :max="30000" :step="2">
+                                </b-slider>
+                            </b-field>
                             <p class="qs secondary--text">Min: {{range[0]}} | Max: {{range[1]}}</p>
                         </v-col>
                    </div>
@@ -1206,6 +1191,13 @@ export default {
 </script>
 
 <style scoped>
+.remove-scroll-wheel {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.remove-scroll-wheel::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
 .tracks{
     display: flex;
     justify-content: space-between;
@@ -1375,7 +1367,7 @@ export default {
     position: absolute;
     top: 0vh;
     width: 100%;
-    height: 81vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

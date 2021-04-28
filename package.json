@@ -42,7 +42,8 @@
     "vue-slick-carousel": "^1.0.6",
     "vue-stripe-checkout": "^3.5.15",
     "vue-tiny-slider": "^0.1.39",
-    "vuelidate": "^0.7.6"
+    "vuelidate": "^0.7.6",
+    "nuxt-buefy": "^0.4.4"
   },
   "devDependencies": {
     "@aceforth/nuxt-optimized-images": "^1.4.0",

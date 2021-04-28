@@ -61,6 +61,7 @@ export default {
     '@nuxtjs/sitemap',
     '@nuxtjs/auth',
     'js-cookie',
+    'nuxt-buefy'
   ],
   env: {
     STRIPE_PK: process.env.STRIPE_PK,

@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <div class="burst mb-3">
+    <div class="burst mb-6">
       <div class="burst2">
         <div class="burst3">
           <div class="main-foto">
@@ -144,7 +144,7 @@
         </div>
         <div class="products-main">
           <div class="product-main" v-for="item in prodis.slice(0,4)" :key="item.id">
-            <img class="product-main-image-2" src="https://images.pexels.com/photos/7214835/pexels-photo-7214835.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="iphone">
+            <v-img class="product-main-image-2"  :src="item.details.photos[0].src" alt="iphone"></v-img>
             <div class="product-main-desc">
               <h3 class="qs secondary--text"><nuxt-link class="qs btn-c-o" :to="'/kategorite/elektronike/tv-dhe-video/' + item.spot">{{item.details.name}}</nuxt-link></h3>
               <v-rating 
@@ -219,7 +219,7 @@
       </div>
     </div>
 
-    <div class="stingy mt-2 mb-3" :style="{'background-image': `url(${basic.ad1.photo})`}">
+    <div class="stingy mt-5 mb-6" :style="{'background-image': `url(${basic.ad1.photo})`}">
       <h1 class="qs">{{basic.ad1.name}}</h1>
       <v-btn color="white" class="primary--text rounded-lg" :to="basic.ad1.link">Vizito tani</v-btn>
     </div> 
@@ -289,28 +289,28 @@
       <div class="side-side-2">
         <div class="side-pord" style="border: none">
           <div class="reklamat">
-            <div class="reklama-1" :style="{'background-image': 'url(https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)'}">
-              <h2 class="qs">Reklame</h2>
+            <div class="reklama-1" :style="{'background-image': `url(${stangy.ad1.photo})`}">
+              <h2 class="qs">{{stangy.ad1.name}}</h2>
               <div class="mini-row">
-                <v-btn class="primary--text rounded" x-small color="white">Vizito tani</v-btn>
+                <v-btn class="primary--text rounded" x-small color="white" :to="stangy.ad1.link">Vizito tani</v-btn>
               </div>
             </div>
-            <div class="reklama-1" :style="{'background-image': 'url(https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)'}">
-              <h2 class="qs">Reklame</h2>
+            <div class="reklama-1" :style="{'background-image': `url(${stangy.ad2.photo})`}">
+              <h2 class="qs">{{stangy.ad2.name}}</h2>
               <div class="mini-row">
-                <v-btn class="primary--text rounded" x-small color="white">Vizito tani</v-btn>
+                <v-btn class="primary--text rounded" x-small color="white" :to="stangy.ad2.link">Vizito tani</v-btn>
               </div>
             </div>
-            <div class="reklama-1" :style="{'background-image': 'url(https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)'}">
-              <h2 class="qs">Reklame</h2>
+            <div class="reklama-1" :style="{'background-image': `url(${stangy.ad3.photo})`}">
+              <h2 class="qs">{{stangy.ad3.name}}</h2>
               <div class="mini-row">
-                <v-btn class="primary--text rounded" x-small color="white">Vizito tani</v-btn>
+                <v-btn class="primary--text rounded" x-small color="white" :to="stangy.ad3.link">Vizito tani</v-btn>
               </div>
             </div>
-            <div class="reklama-1" :style="{'background-image': 'url(https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)'}">
-              <h2 class="qs">Reklame</h2>
+            <div class="reklama-1" :style="{'background-image': `url(${stangy.ad4.photo})`}">
+              <h2 class="qs">{{stangy.ad4.name}}</h2>
               <div class="mini-row">
-                <v-btn class="primary--text rounded" x-small color="white">Vizito tani</v-btn>
+                <v-btn class="primary--text rounded" x-small color="white" :to="stangy.ad4.link">Vizito tani</v-btn>
               </div>
             </div>
           </div>
@@ -318,7 +318,7 @@
       </div>
     </div>
 
-    <div class="stingy mt-2 mb-3" :style="{'background-image': `url(${basic.ad2.photo})`}">
+    <div class="stingy mt-5 mb-6" :style="{'background-image': `url(${basic.ad2.photo})`}">
       <h1 class="qs">{{basic.ad2.name}}</h1>
       <v-btn color="white" class="primary--text rounded-lg" :to="basic.ad2.link">Vizito tani</v-btn>
     </div> 
@@ -342,7 +342,7 @@
         </div>
         <div class="products-main">
           <div class="product-main" v-for="item in prodis.slice(0,4)" :key="item.id">
-            <img class="product-main-image-2" src="https://images.pexels.com/photos/7214835/pexels-photo-7214835.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="iphone">
+            <img class="product-main-image-2" :src="item.details.photos[0].src" alt="iphone">
             <div class="product-main-desc">
               <h3 class="qs secondary--text"><nuxt-link class="qs btn-c-o" :to="'/kategorite/elektronike/tv-dhe-video/' + item.spot">{{item.details.name}}</nuxt-link></h3>
               <v-rating 
@@ -447,7 +447,7 @@
         </div>
       </div>
     </div>
-    <client-only placeholder="Carousel loading..." class="client-90">
+    <client-only placeholder="Carousel loading..." class="client-90" >
       <agile ref="carousel" @after-change="getCurrSlide($event)" class="mos-i-qr">
         <div class="deals-body" v-for="n in 10" :key="n">
           <div class="deals-image">
@@ -1195,10 +1195,9 @@ export default {
   grid-row-gap: 2%;
 }
 .product-main{
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 24% 24% 24% 24%;
+  grid-column-gap: 1%;
   border: 1px solid white;
   border-radius: 10px;
   overflow: hidden;
@@ -1977,9 +1976,9 @@ export default {
 }
 .products-main{
   width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 24% 24% 24% 24%;
+  grid-column-gap: 1%;
 }
 .products-main-2{
   width: 100%;

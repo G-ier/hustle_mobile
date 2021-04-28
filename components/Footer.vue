@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="footer"
+    class="footer1"
   >
     <div class="socialite">
       <div class="content-block-s">
@@ -67,7 +67,7 @@ export default {
 </script>
 
 <style scoped>
-.footer{
+.footer1{
   display: flex;
   flex-direction: column;
   width: 100%;
