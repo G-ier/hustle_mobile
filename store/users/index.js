@@ -127,7 +127,7 @@ export const actions = {
             console.log(e);
         }
     },
-    async change({commit}, kerkimi){
+    async change1({commit}, kerkimi){
         try{
             commit("SET_RESULT", null);
             const docu = await firebase.firestore().collection('search').where("emri", "==", kerkimi.toLowerCase()).get();
@@ -138,7 +138,7 @@ export const actions = {
             console.log(e);
         }
     },
-    async change1({commit}, kerkimi){
+    async change({commit}, kerkimi){
         try{
             commit("SET_RESULT", null);
             const docu = await firebase.firestore().collection('search').get();
