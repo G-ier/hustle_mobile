@@ -2,7 +2,7 @@
   <div class="edit">
       <div class="sets">
             
-            <h2 class="classy secondary--text">Edito</h2>
+            <h2 class="classy secondary--text">Perpuno</h2>
             
         </div>
         <div class="lineM"></div>
@@ -14,7 +14,7 @@
                         <div class="safety">
                             <div class="sellable-desc">
                                 <h4 class="sell-title">{{prod.details.name}}</h4>
-                                <p class="qs sell-price">{{prod.details.price}}$</p>
+                                <p class="qs sell-price">{{prod.details.price}} ALL</p>
                                 <div class="func-row">
                                     <v-btn color="secondary" class="rounded-md" small @click="edit(prod, prod.spot)">Edit</v-btn>
                                 </div>
@@ -88,6 +88,18 @@
                         required 
                         @input="$v.pricey.$touch()"
                     ></v-text-field>
+                    <v-text-field
+                        v-model="priceyLow"
+                        label="Cmimi ne ulje - jo i detyrueshem"
+                        outlined
+                        clearable
+                        dense
+                        dark
+                        color="secondary"
+                        :error-messages="priceyLowErrors" 
+                        required 
+                        @input="$v.priceyLow.$touch()"
+                    ></v-text-field>
                     <v-textarea
                         clearable
                         clear-icon="mdi-close-circle"
@@ -109,7 +121,7 @@
                         required 
                         @input="$v.kategorita.$touch()"
                     ></v-select>
-                    <div class="vert" v-for="post in postings" :key="post">
+                    <div class="vert" v-for="post in postings" :key="post.id">
                         <p class="qs white--text">Fotoja {{postings.indexOf(post)}}</p>
                         <p class="qs white--text pa-0 ma-0">Momentalisht: {{post.emri}}</p>
                         <v-btn x-small color="white" class="secondary--text mb-5 mt-2" @click="postings.splice(postings.indexOf(post), 1)">Remove</v-btn>
@@ -291,7 +303,7 @@
                     class="inputFileR ml-1"
                     type="file"
                     name="file"
-                    @change.prevent="uploadImageFile2($event.target.files)"
+                    @input="uploadImageFile2($event.target.files)"
                     style="width: 200px;"
                 >
             </v-card-text>
@@ -322,11 +334,11 @@
         >
         <v-card color="secondary">
             <v-card-title class="headline qs">
-            Creation success!
+            Perpunimi sukses!
             </v-card-title>
 
             <v-card-text class="qs">
-            Creation successful. A reload may be needed to refresh the data.
+            Perpunimi u krye me sukses.
             </v-card-text>
 
             <v-card-actions>
@@ -464,7 +476,8 @@ export default {
             ngjyra: "",
             eternalName: "",
             pending: null,
-            newP: false
+            newP: false,
+            priceyLow: null
 
         }
     },
@@ -476,6 +489,9 @@ export default {
         pricey: {
             numeric,
             required
+        },
+        priceyLow: {
+            numeric
         },
         kategorita: {
             required
@@ -496,6 +512,12 @@ export default {
             !this.$v.pricey.numeric && errors.push('Vetem numra')
             return errors
         },
+        priceyLowErrors(){
+            const errors = []
+            if (!this.$v.priceyLow.$dirty) return errors
+            !this.$v.priceyLow.numeric && errors.push('Vetem numra')
+            return errors
+        },
         katErrors(){
             const errors = []
             if (!this.$v.kategorita.$dirty) return errors
@@ -510,6 +532,7 @@ export default {
             this.namey = prod.details.name;
             this.eternalName = spot;
             this.pricey = prod.details.price;
+            this.priceyLow = prod.details.priceLow;
             this.descy = prod.details.desc;
             this.detailsy = prod.details.details;
             this.postings = prod.details.photos;
@@ -537,7 +560,6 @@ export default {
             this.selectedMeta = null;
             this.prodPhoto = "";
             this.spot = null;
-            document.getElementById("imazh").value = "";
 
             this.dialog = false;
             return;
@@ -553,8 +575,9 @@ export default {
 
             this.newP = true;
         },
-        addNew: function (){
-            this.postings.push(this.pending);
+        addNew: function (param){
+            this.postings.push(param);
+            console.log(JSON.stringify(param));
             this.newP = false;
         },
         uploadImageFile (files) {
@@ -686,6 +709,8 @@ export default {
                     src: url,
                     emri: file.name
                 };
+                console.log(this.pending);
+                this.addNew(this.pending);
             })
             
         },
@@ -904,6 +929,7 @@ export default {
                 details: {
                     name: this.namey,
                     price: this.pricey,
+                    priceLow: this.priceyLow ? this.priceyLow : null, 
                     desc: this.descy,
                     seller: this.nameOfS,
                     sellerPhoto: this.photo,
@@ -1015,7 +1041,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 270px;
+    height: 290px;
 }
 .sell-link{
     width: 100%;
@@ -1070,7 +1096,7 @@ export default {
     align-items: flex-start;
     color: rgb(214, 214, 214);
 }
-@media only screen and (min-width: 850px){
+@media only screen and (min-width: 1000px){
     .pc-small{
         width: 400px;
     }
@@ -1078,7 +1104,7 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 90%;
+        width: 950px;
         padding: 15px 0 8px 0;
     }
     .inputFileR::-webkit-file-upload-button {
@@ -1104,7 +1130,7 @@ export default {
     }
     .lineM{
         height: 1px;
-        width: 90%;
+        width: 950px;
         background-color: #a10517;
         margin-bottom: 15px;
     }
@@ -1113,20 +1139,21 @@ export default {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 70%;
+        width: 950px;
     }
     .market-inner{
         width: 100%;
         padding: 0;
         display: grid;
         grid-template-columns: 33% 33% 33%;
-        grid-row-gap: 15px;
+        grid-row-gap: 25px;
+        justify-content: center;
     }
     .sell-container{
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 340px;
+        height: 360px;
         width: 250px;
     }
     .sell-link{
@@ -1176,7 +1203,6 @@ export default {
     }
     .hiddeneye{
         display: flex;
-        width: 750px;
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;

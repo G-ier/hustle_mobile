@@ -534,7 +534,7 @@ import Cookies from 'js-cookie';
 import { parse } from '~/node_modules/cookieparser/js/cookieparser';
 export default {
     async asyncData(){
-        const pageData = await firebase.firestore().collection('elektronike').orderBy("details.priceLow").limit(5).get();
+        const pageData = await firebase.firestore().collection('elektronike').orderBy("details.price").limit(3).get();
         const page = pageData.docs.map(doc => doc.data());
         return {
             prods: page

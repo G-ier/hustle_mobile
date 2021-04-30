@@ -127,8 +127,18 @@ export const actions = {
             console.log(e);
         }
     },
-
     async change({commit}, kerkimi){
+        try{
+            commit("SET_RESULT", null);
+            const docu = await firebase.firestore().collection('search').where("emri", "==", kerkimi.toLowerCase()).get();
+            const docData = docu.docs.map(doc => doc.data());
+            commit("SET_RESULT", docData);
+            
+        } catch(e){
+            console.log(e);
+        }
+    },
+    async change1({commit}, kerkimi){
         try{
             commit("SET_RESULT", null);
             const docu = await firebase.firestore().collection('search').get();
@@ -138,7 +148,7 @@ export const actions = {
             var result = [];
             var venis = [];
             docData.forEach((term) => {
-                if(term.emri.includes(kerkimi.toLowerCase())){
+                if(term.emri.toLowerCase().includes(kerkimi.toLowerCase())){
                     console.log("kerkimi: " + kerkimi)
                     emrat.push(term.emri);
                     reds.push(term.cilesia);
@@ -160,7 +170,8 @@ export const actions = {
             
             if(reds.length != 0){
                 commit("SET_RESULT", result);
-                console.log("Done full commit.");
+                console.log("Printing length of reds");
+                console.log(JSON.stringify(reds));
             } else {
                 console.log("Done null commit.");
             }

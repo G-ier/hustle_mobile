@@ -389,20 +389,14 @@
               <button class="btn-c-o qs searchy-btn" @click="searchGo"><v-icon color="white">mdi-magnify</v-icon></button>
             </div>
             <div class="results" v-if="answer == true" ref="karuci" @mouseenter="itsover = true" @mouseleave="itsover = false" @mouseout="mouseOut">
-              <div class="listings" v-if="sToShow != null">
+              <div class="listings" v-if="sToShow.length > 0">
                 <div class="tile" v-for="ting in sToShow.slice(0, 4)" :key="ting.id">
-                  <v-btn class="qs secondary--text btn-c-o" text nuxt :to="ting.red" @click="itsover = false; answer = false">{{ting.emri}}</v-btn>
-                </div>
-                <div class="dontchange" style="display: flex; justify-content: center; align-items: center;">
-                  <v-btn small class="white--text rounded-lg" color="secondary" @click="sendToMore">More</v-btn>
+                  <v-btn class="qs secondary--text btn-c-o" text nuxt :to="ting.red + '/' + ting.emri" @click="itsover = false; answer = false">{{ting.emri}}</v-btn>
                 </div>
               </div>
               <div class="listings" v-else>
                 <div class="tile">
                   <p class="qs btn-c-o secondary--text">No result.</p>
-                </div>
-                <div class="dontchange" style="display: flex; justify-content: center; align-items: center;">
-                  <v-btn small class="white--text rounded-lg" color="secondary" @click="sendToMore">More</v-btn>
                 </div>
               </div>
             </div>
@@ -539,16 +533,10 @@ export default {
           this.searchOn = false;
         }
       },
-      searchGo: async function(){
-        await this.$store.dispatch("users/search", this.searchQ);
+      searchGo: function(){
 
-        this.answer = true;
-
-        if(this.$store.state.users.red == null){
-          this.$router.push({ path: '/search', query: { search: this.searchQ } });
-        } else {
-          this.$router.push({ path: this.$store.state.users.red });
-        }
+        const redItem = this.sToShow[0];
+        this.$router.push({ path: redItem.red });
 
       },
       sendToMore: function(){
@@ -588,7 +576,6 @@ export default {
         var cartToJSONIFY = Cookies.get('cartToken');
         this.cart = JSON.parse(cartToJSONIFY);
         this.cartD = true;
-        console.log(JSON.parse(cartToJSONIFY));
       },
       sendTo: function(veni){
         this.$router.push({path: veni});
@@ -645,8 +632,13 @@ export default {
   justify-content: center;
   align-items: center;
   width: 95%;
-  height: 30vh;
+  min-height: 250px;
   transition: 0.3s;
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.results::-webkit-scrollbar{
+  display: none;
 }
 .search-p-result{
   cursor: pointer;
@@ -658,6 +650,7 @@ export default {
   align-items: center;
   width: 95%;
   height: 90%;
+  overflow: hidden;
 }
 .tile{
   font-size: 13px;
@@ -670,18 +663,14 @@ export default {
   margin-top: 10px;
   background-color: white;
   transition: 0.3s;
+  height: 50px;
 }
 .tile p{
   text-align: center;
   padding: 5px 0 5px 10px;
   margin: 0;
 }
-.tile:hover{
-  font-size: 13px;
-  display: flex;
-  justify-content: flex-start;
-  background-color: gray;
-}
+
 .dontchange{
   font-size: 13px;
   color: black;
@@ -1011,9 +1000,15 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow: scroll;
     width: 505px;
-    height: 30vh;
+    min-height: 300px;
     transition: 0.3s;
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .results::-webkit-scrollbar{
+    display: none;
   }
   .search-p-result{
     cursor: pointer;
@@ -1025,34 +1020,30 @@ export default {
   .listings{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 95%;
-    height: 90%;
+
   }
   .tile{
     font-size: 13px;
     color: black;
     width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     margin-bottom: 3px;
     margin-top: 10px;
     background-color: white;
     transition: 0.3s;
+    height: 50px;
   }
   .tile p{
     text-align: center;
     padding: 5px 0 5px 10px;
     margin: 0;
   }
-  .tile:hover{
-    font-size: 13px;
-    display: flex;
-    justify-content: flex-start;
-    background-color: gray;
-  }
+  
   .dontchange{
     font-size: 13px;
     color: black;
@@ -1064,7 +1055,6 @@ export default {
     margin-top: 6px;
     background-color: white;
     transition: 0.3s;
-    
   }
   .embed{
     display: flex;

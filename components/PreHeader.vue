@@ -72,9 +72,7 @@ export default {
 .main-nav{
     width: 100vw;
     height: 22px;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-bottom-color: white;
+    
     display: flex;
     justify-content: center;
     padding-bottom: 10px;
@@ -104,8 +102,7 @@ export default {
     width: 10%;
 }
 .lang{
-    margin-bottom: 2
-    1px;
+    margin-bottom: 1px;
 }
 .index-upper-2{
     z-index: 999999999999999999999;
@@ -114,9 +111,7 @@ export default {
     .main-nav{
         width: 100vw;
         height: 22px;
-        border-bottom-style: solid;
-        border-bottom-width: 1px;
-        border-bottom-color: white;
+        
         display: flex;
         justify-content: center;
         padding-bottom: 10px;
@@ -126,6 +121,7 @@ export default {
         justify-content: space-around;
         align-items: center;
         width: 750px;
+        margin-top: 3px;
     }
     .leftside{
         display: flex;
@@ -145,8 +141,7 @@ export default {
         align-items: center; 
     }
     .lang{
-        margin-bottom: 2
-        1px;
+        margin-bottom: 1px;
     }
 }
 

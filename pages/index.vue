@@ -129,11 +129,8 @@
             <div class="deals-header-1-cash">
               <h3 class="qs font-weight-regular main-side-title white--text" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">DEALS </span>of the day</h3>
               <div class="packting">
-                <v-btn class="qs" icon>
-                  <v-icon color="secondary" size="15">mdi-arrow-left-drop-circle</v-icon>
-                </v-btn>
-                <v-btn class="qs" icon width="10">
-                  <v-icon color="secondary" size="15">mdi-arrow-right-drop-circle</v-icon>
+                <v-btn class="qs primary--text" small text to="/ofertat">
+                  Me shume
                 </v-btn>
               </div>
             </div>
@@ -154,7 +151,7 @@
               x-small
               readonly
               ></v-rating>
-              <p class="qs primary--text pricey">{{item.details.price}}L</p>
+              <p class="qs primary--text pricey">{{item.details.price}} ALL <span class="sq-mini gray--text text-decoration-line-through" v-if="item.details.priceLow != null">{{item.details.price}}</span></p>
             </div>
           </div>          
         </div>
@@ -185,7 +182,7 @@
                     small
                     readonly
                   ></v-rating>
-                  <p class="qs d-p">28$ <span class="qs text-decoration-line-through"> 32$</span></p>
+                  <p class="qs d-p">2800 ALL <span class="qs text-decoration-line-through"> 3200 ALL</span></p>
                   <div class="timer-2">
                     <no-ssr>
                       <vac :left-time="statedTime">
@@ -210,7 +207,7 @@
                     small
                     readonly
                   ></v-rating>
-                  <p class="qs d-p">28$ <span class="qs text-decoration-line-through"> 32$</span></p>
+                  <p class="qs d-p">2800 ALL <span class="qs text-decoration-line-through"> 3200 ALL</span></p>
                 </div>
               </div>
             </agile>
@@ -231,8 +228,8 @@
             <div class="deals-header-1-cash">
               <h3 class="qs font-weight-regular main-side-title white--text" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">New </span>products</h3>
               <div class="packting">
-                <v-btn class="qs primary--text" small text>
-                  Show more 
+                <v-btn class="qs primary--text" small text nuxt to="/new">
+                  Me shume 
                 </v-btn>
               </div>
             </div>
@@ -300,10 +297,10 @@
         <div class="dealsod-2 mb-5">
           <div class="deals-header">
             <div class="deals-header-1-cash">
-              <h3 class="qs font-weight-regular main-side-title white--text" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">New </span>products</h3>
+              <h3 class="qs font-weight-regular main-side-title white--text" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">New </span></h3>
               <div class="packting">
-                <v-btn class="qs primary--text" small text nuxt to="/kategorite/elektronike/tv-dhe-video">
-                  Show more 
+                <v-btn class="qs primary--text" small text nuxt to="/worthit">
+                  Me shume 
                 </v-btn>
               </div>
             </div>

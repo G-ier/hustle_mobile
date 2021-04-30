@@ -29,7 +29,7 @@ export default {
   ],
 
   loading: {
-    color: '#363f4e'
+    color: '#e0d500'
   },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
