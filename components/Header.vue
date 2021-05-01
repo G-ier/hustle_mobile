@@ -345,12 +345,7 @@
       elevation="0"
       class="index-upper"
     >
-      <v-skeleton-loader
-        class="mx-auto"
-        max-width="300"
-        type="card"
-        loading
-      ></v-skeleton-loader>
+      
       <div class="embed">
         <div class="elem-row">
           <PreHeader />

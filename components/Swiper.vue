@@ -13,7 +13,7 @@
         <swiper-slide v-for="n in 5" :key="n">
             <div class="deals-body">
                 <div class="deals-image">
-                    <v-img :aspect-ratio="16/9" max-width="500" :src="seni"></v-img>
+                    <v-img :aspect-ratio="16/9" max-width="500" src="https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></v-img>
                 </div>
                 <div class="deals-desc">
                     <h4 class="qs d-t">25798445 JBL Headphones</h4>
@@ -62,14 +62,13 @@
 </template>
 
 <script>
-  import seni from '../assets/img/heads.jpg';
-  import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
   import 'swiper/css/swiper.css'
   export default {
     name: 'swiper-nuxt',
     props: ['time'],
     data () {
       return {
+        ratings: 4,
         swiperOptions: {
           loop: true,
           slidesPerView: 'auto',
@@ -79,8 +78,7 @@
             el: '.swiper-pagination',
             dynamicBullets: true
           }
-        },
-        seni: seni
+        }
       }
     },
     methods: {
@@ -122,6 +120,7 @@
   .sq-title{
   margin-bottom: 25px;
 }
+
 .sq-mini{
   position: relative;
   top: 10px;

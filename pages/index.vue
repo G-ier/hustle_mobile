@@ -171,7 +171,7 @@
             <agile ref="carousels" @after-change="getCurrSlides($event)" class="mos-i-qr-2">
               <div class="deals-body-2" v-for="n in 10" :key="n">
                 <div class="deals-image-2">
-                  <v-img :aspect-ratio="16/9" max-width="500" :src="seni"></v-img>
+                  <v-img :aspect-ratio="16/9" max-width="500" src="https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></v-img>
                 </div>
                 <div class="deals-desc">
                   <h4 class="qs d-t">25798445 JBL Headphones</h4>
@@ -503,16 +503,13 @@
 </template>
 
 <script>
-import seni from '../assets/img/heads.jpg';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import Carousel from '../components/Carousel';
 import Swiper from '../components/Swiper';
 
 
 export default {
   components: {
-    Carousel,
     Swiper
   },
   async asyncData(){
@@ -548,7 +545,6 @@ export default {
   },
   data(){
     return{
-      seni: seni,
       ratings: 4,
       slickOptions: {
         slidesToShow: 3,
