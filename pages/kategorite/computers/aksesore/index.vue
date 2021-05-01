@@ -187,10 +187,32 @@
                    <div class="sidebar-valuator-2">
                        <p class="qs s15 secondary--text">Cmimi</p>
                         <v-col class="px-4">
-                            <b-field>
-                                <b-slider v-model="range" :min="0" :max="30000" :step="2" @change="pricer">
-                                </b-slider>
-                            </b-field>
+                            <v-text-field
+                                label="Cmimi minimal"
+                                color="secondary"
+                                light
+                                v-model="range[0]"
+                                @change="pricer"
+                                :error-messages="num1Errors"
+                                @input="$v.num1.$touch()"
+                            >
+                                <template slot="append-outer">
+                                    <p class="qs secondary--text">ALL</p>
+                                </template>
+                            </v-text-field>
+                            <v-text-field
+                                label="Cmimi maksimal"
+                                color="secondary"
+                                light
+                                v-model="range[1]"
+                                @change="pricer"
+                                :error-messages="num2Errors"
+                                @input="$v.num2.$touch()"
+                            >
+                                <template slot="append-outer">
+                                    <p class="qs secondary--text">ALL</p>
+                                </template>
+                            </v-text-field>
                             <p class="qs secondary--text">Min: {{range[0]}} | Max: {{range[1]}}</p>
                         </v-col>
                    </div>
@@ -532,8 +554,10 @@
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import Cookies from 'js-cookie';
-import { parse } from '~/node_modules/cookieparser/js/cookieparser';
+import {validationMixin} from 'vuelidate'
+import {numeric} from 'vuelidate/lib/validators'
 export default {
+    mixins: [validationMixin],
     async asyncData(){
         const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Aksesore").limit(5).get();
         const page = pageData.docs.map(doc => doc.data());
@@ -591,6 +615,30 @@ export default {
             masaList: [],
             colorCopy: []
         }
+    },
+    validations: {
+        
+        num1: {
+            numeric
+        },
+        num2: {
+            numeric
+        }
+        
+    },
+    computed: {
+        num1Errors () {
+            const errors = []
+            if (!this.$v.num1.$dirty) return errors
+            this.$v.num1.numeric&& errors.push('Duhet te jete numer')
+            return errors
+        },
+        num2Errors () {
+            const errors = []
+            if (!this.$v.num2.$dirty) return errors
+            this.$v.num2.numeric&& errors.push('Duhet te jete numer')
+            return errors
+        },
     },
     methods: {
         addToCart: async function(emri, seller, price, times, desc){
@@ -1147,8 +1195,10 @@ export default {
 
                 console.log(JSON.stringify(this.priceList));
 
+
+
                 const needed = this.prods.filter((doc)=>{
-                    return parseInt(doc.details.price) >= this.range[0] && parseInt(doc.details.price) <= this.range[1];
+                    return parseInt(doc.details.price) >= parseInt(this.range[0]) && parseInt(doc.details.price) <= parseInt(this.range[1]);
                 });
             
                 console.log(JSON.stringify(needed));

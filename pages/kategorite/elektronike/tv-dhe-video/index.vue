@@ -551,7 +551,7 @@ import Cookies from 'js-cookie';
 import { parse } from '~/node_modules/cookieparser/js/cookieparser';
 export default {
     async asyncData(){
-        const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "TV & Audjo").limit(5).get();
+        const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "TV & Vidjo").limit(5).get();
         const page = pageData.docs.map(doc => doc.data());
         return {
             prods: page

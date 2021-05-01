@@ -333,19 +333,21 @@ export default {
             var false5 = fell.name.split(" |");
             var false4 = false5[1];
             console.log(false4);
-            await firebase.firestore().collection('orders').doc(Math.random().toString(36).substring(2,7)).set({
-                from: this.email[0],
+            const orderID = Math.random().toString(36).substring(2,17);
+            await firebase.firestore().collection('orders').doc(orderID).set({
+                from: fell.owner,
                 fulfilled: false,
                 onto: false4,
                 address: this.note,
                 qyteti: this.qyteti,
                 number: this.num,
+                orderID: orderID,
                 orders: {
                     item: false5[0],
                     paid: false,
                     price: fell.amount * fell.quantity,
                     quantity: fell.quantity,
-                    type: "tohand"
+                    type: "Ne dore"
                 },
                 payee_email: this.$store.state.users.user.email
             })

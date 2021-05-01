@@ -11,11 +11,11 @@
             <div class="market-inner">
                 <div class="sell-container" v-for="prod in dotd" :key="prod.id">
                     <div class="sellable">
-                        <v-img :aspect-ratio="1/1" class="market-img secondary-bg" src="https://images.pexels.com/photos/335257/pexels-photo-335257.jpeg?cs=srgb&dl=pexels-eprism-studio-335257.jpg&fm=jpg"></v-img>
+                        <v-img :aspect-ratio="1/1" class="market-img secondary-bg" :src="prod.photo"></v-img>
                         <div class="safety">
                             <div class="sellable-desc">
                                 <h4 class="sell-title">{{prod.details.name}}</h4>
-                                <p class="qs sell-price">{{prod.details.marke}}$</p>
+                                <p class="qs sell-price">{{prod.details.marke}}</p>
                                 <div class="func-row">
                                     <v-btn color="secondary" class="rounded-md" small @click="edit(prod.details, prod.from)">Perpuno</v-btn>
                                 </div>
@@ -240,7 +240,7 @@
                 <v-list-item>
                     <v-list-item-content class="oat-1">
                     <v-text-field
-                        v-model="adname"
+                        v-model="ademri"
                         label="Emri"
                         outlined
                         color="white"
@@ -248,7 +248,7 @@
                         dense
                     ></v-text-field>
                     <v-text-field
-                        v-model="adlink"
+                        v-model="adlinku"
                         label="Linku per klientin"
                         outlined
                         color="white"
@@ -297,7 +297,7 @@
                     text
                     @click="update"
                     >
-                    Save
+                    Ruaj
                     </v-btn>
                 </v-toolbar-items>
                 </v-toolbar>
@@ -324,7 +324,7 @@
                 <v-list-item>
                     <v-list-item-content class="oat-1">
                     <v-text-field
-                        v-model="adname"
+                        v-model="ademri"
                         label="Emri"
                         outlined
                         color="white"
@@ -332,7 +332,7 @@
                         dense
                     ></v-text-field>
                     <v-text-field
-                        v-model="adlink"
+                        v-model="adlinku"
                         label="Linku per klientin"
                         outlined
                         color="white"
@@ -706,6 +706,8 @@ export default {
             dotdMarke: "",
             adname: "",
             adlink: "",
+            ademri: "",
+            adlinku: "",
             adphoto: "",
             adindex: null,
             index: null,
@@ -745,8 +747,7 @@ export default {
         },
         editAd: function (ad){
             this.adindex = ad.index;
-            this.adname = ad.name;
-            this.adlink = ad.link;
+            console.log("kariiiii")
 
             this.dialogA = true;
         },
@@ -876,21 +877,23 @@ export default {
             // When the upload ends, set the value of the blog image URL
             // and signal that uploading is done.
             uploadTask.then(async(url) => {
-                if(this.adindex == 1){
+                if(this.adindex == 1 ){
                     await firebase.firestore().collection('basic').doc('stingy').update({
                         "ad1": {
-                            "name" : this.adname,
-                            "link": this.adlink,
-                            "photo": url
-                        }
+                            "name" : this.ademri,
+                            "link": this.adlinku,
+                            "photo": url,
+                            "index": this.adindex
+                        },
                     });
-                } else {
+                }  else {
                     await firebase.firestore().collection('basic').doc('stingy').update({
                         "ad2": {
-                            "name" : this.adname,
-                            "link": this.adlink,
-                            "photo": url
-                        }
+                            "name" : this.ademri,
+                            "link": this.adlinku,
+                            "photo": url,
+                            "index": this.adindex
+                        },
                     });
                 }
             })

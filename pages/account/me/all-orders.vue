@@ -12,12 +12,12 @@
                 <v-expansion-panel class="primary white--text mb-2" v-for="panel in stuff" :key="panel">
                     <v-expansion-panel-header class="qs white--text">From: {{panel.from}}</v-expansion-panel-header>
                     <v-expansion-panel-content class="qs white--text">
-                        <div class="order" v-for="order in panel.orders" :key="order">
+                        <div class="order">
                             <div class="peace">
-                                <p class="qs">Item: {{order.item}}</p>
-                                <p class="qs">Order payment: {{order.type}}</p>
-                                <p class="qs">Order price: {{order.price}}</p>
-                                <p class="qs">Paid for: {{order.paid}}</p>
+                                <p class="qs">Item: {{panel.orders.item}}</p>
+                                <p class="qs">Order payment: {{panel.orders.type}}</p>
+                                <p class="qs">Order price: {{panel.orders.price}}</p>
+                                <p class="qs">Paid for: {{panel.orders.paid}}</p>
                             </div>
                         </div>
                     </v-expansion-panel-content>

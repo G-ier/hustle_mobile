@@ -33,7 +33,7 @@
                             </div>
                         </v-form>
                         <div class="button-side">
-                            <v-btn rounded color="white" class="secondary--text qs btn-c v-fsm" to="/account/me" @click="back">Login</v-btn>
+                            <v-btn rounded color="white" class="secondary--text qs btn-c v-fsm" to="/account/me">Login</v-btn>
                             <v-btn rounded color="white" class="secondary--text btn-c v-fsm" @click="register"><span class="qs secondary--text" v-if = "loading == false">Register</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                             </div>
                         </v-form>
                         <div class="button-side">
-                            <v-btn rounded color="white" class="secondary--text qs btn-c v-fsm" to="/account/me" @click="back">Login</v-btn>
+                            <v-btn rounded color="white" class="secondary--text qs btn-c v-fsm" to="/account/me">Login</v-btn>
                             <v-btn rounded color="white" class="secondary--text btn-c v-fsm" @click="register"><span class="qs secondary--text" v-if = "loading == false">Register</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
                         </div>
                     </div>
@@ -259,9 +259,11 @@ export default {
         },
         setRoleToSeller: function (){
             this.account.role = "seller";
+            console.log(this.account.role);
         },
         setRoleToBuyer: function (){
             this.account.role = "buyer";
+            console.log(this.account.role);
         }
     },
     head(){

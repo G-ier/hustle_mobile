@@ -20,12 +20,12 @@
                 <div class="simple-row mb-3">
                     <div class="simple-listing">
                         <div class="simple-tile">
-                            <p class="qs secondary--text simple-m">10 <span class="qs side-m">Items</span>  </p>
+                            <p class="qs secondary--text simple-m">{{data.ads.length}} <span class="qs side-m">DOTD</span>  </p>
                         </div>
                     </div>
                     <div class="simple-listing">
                         <div class="simple-tile">
-                            <p class="qs secondary--text simple-m">10 <span class="qs side-m">Ads</span>  </p>
+                            <p class="qs secondary--text simple-m">6 <span class="qs side-m">Ads</span>  </p>
                         </div>
                     </div>
                 </div>
@@ -61,7 +61,14 @@ import 'firebase/firestore'
 import Cookies from 'js-cookie'
 export default {
     mixins: [validationMixin],
-    
+    async asyncData(){
+        const firedata = await firebase.firestore().collection('basic').doc('dotd').get();
+        const ff = firedata.data();
+
+        return{
+            data: ff
+        }
+    },
     data(){
         return{
             steps: 4,

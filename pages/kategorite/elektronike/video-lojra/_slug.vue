@@ -16,7 +16,7 @@
           </div>
           <div class="details">
               <div class="shithole">
-                  <h1 class="qs secondary--text">{{product.details.name}}</h1>
+                  <h1 class="qs secondary--text s25">{{product.details.name}}</h1>
                   <v-rating
                     v-model="rating"
                     readonly

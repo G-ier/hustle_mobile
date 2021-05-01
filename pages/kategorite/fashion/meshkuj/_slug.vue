@@ -16,7 +16,7 @@
           </div>
           <div class="details">
               <div class="shithole">
-                  <h1 class="qs secondary--text">{{product.details.name}}</h1>
+                  <h1 class="qs secondary--text s25">{{product.details.name}}</h1>
                   <v-rating
                     v-model="rating"
                     readonly
@@ -38,9 +38,9 @@
                 <h3 class="qs secondary--text mb-4">Shitesi</h3>
                 <div class="row-center">
                     <v-avatar size="40" color="primary">
-                        <img v-if="seller.photo == ''" :src="seller.photo" alt="seller photo">
+                        <img v-if="product.details.sellerPhoto == ''" :src="product.details.sellerPhoto" alt="seller photo">
                     </v-avatar>
-                    <p class="qs ma-0 pa-0 ml-4 secondary--text">{{seller.displaName}}</p>
+                    <p class="qs ma-0 pa-0 ml-4 secondary--text">{{product.details.seller}}</p>
                 </div>
             </div>
         </div>

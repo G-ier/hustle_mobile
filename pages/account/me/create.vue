@@ -324,14 +324,39 @@
             </v-card-actions>
         </v-card>
         </v-dialog>
+        <!-- Loading dialog -->
         <v-dialog
         v-model="loading"
-        max-width="140"
+        max-width="240"
         >
         <v-card color="secondary">
-            <v-progress-circular color="primary"></v-progress-circular>
+            <v-card-title class="headline qs">
+            Ju lutem prisni...
+            </v-card-title>
+
+            <v-card-text class="qs">
+            <v-row justify="center" class="mt-3">
+                <v-progress-circular
+                indeterminate
+                color="primary"
+                ></v-progress-circular>
+            </v-row>
+            </v-card-text>
+
+            <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn
+                color="white"
+                text
+                @click="dialog2 = false"
+            >
+                Close
+            </v-btn>
+            </v-card-actions>
         </v-card>
         </v-dialog>
+        <!-- Loading dialog ends-->
          <v-fab-transition>
             <v-btn
                 fab

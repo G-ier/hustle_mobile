@@ -8,8 +8,7 @@
             <p class="qs ma-0 py-1">Fatura</p>
           </div>
           <div class="f-contains mt-4">
-            <p class="qs secondary--text">Name: {{cookie.name.given_name}}</p>
-            <p class="qs secondary--text">Surname: {{cookie.name.surname}}</p>
+            <p class="qs secondary--text">Name: {{identity.emri}}</p>
             <p class="qs secondary--text">Numri: {{identity.numri}}</p>
             <p class="qs secondary--text">Adresa: {{identity.adresa}}</p>
             <p class="qs secondary--text">Qyteti: {{identity.qyt}}</p>
@@ -82,18 +81,20 @@ export default {
       this.cookie = cookieD;
       this.identity = cookieI;
 
-      this.toSell.forEach(fell => {
+      this.toSell.forEach(async fell => {
           var false5 = fell.name.split(" |");
           var false4 = false5[1];
           console.log(false4);
-          firebase.firestore().collection('orders').doc(Math.random().toString(36).substring(2,7)).set({
-              from: cookieD.name.given_name,
+          const orderID = Math.random().toString(36).substring(2,17);
+          await firebase.firestore().collection('orders').doc(orderID).set({
+              from: fell.owner,
               payee_email: this.$store.state.users.user.email,
               fulfilled: false,
               onto: false4,
               address: cookieI.adresa,
               qyteti: cookieI.qyt,
               number: cookieI.numri,
+              orderID: orderID,
               orders: {
                 item: false5[0],
                 paid: true,
