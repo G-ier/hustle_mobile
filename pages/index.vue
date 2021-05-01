@@ -419,7 +419,8 @@
         </div>
       </div>
     </div>
-    <client-only>
+    <div class="mos-i-qr">
+      <client-only>
       <swiper
         ref="carousel"
         class="swiper"
@@ -456,6 +457,7 @@
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
     </client-only>
+    </div>
 
     <div class="deals-header-2">
       <div class="deals-header-3">
@@ -671,8 +673,7 @@ export default {
 <style scoped>
 .swiper-slide {
   text-align: center;
-  font-size: 38px;
-  font-weight: 700;
+
   background-color: #eee;
   display: flex;
   justify-content: center;
@@ -682,7 +683,7 @@ export default {
   background-color: red;
 }
 .swiper {
-  height: 300px;
+  height: 100%;
   width: 100%;
 }
 .example {
@@ -835,10 +836,11 @@ export default {
 .deals-body{
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
   width: 100vw;
-  height: 60vh;
+  height: 50vh;
+  background-color: white;
 }
 .deals-image{
   display: flex;
@@ -1142,7 +1144,12 @@ export default {
 .stingy{
   display: none;
 }
-
+.mos-i-qr{
+  width: 100%;
+  min-height: 400px;
+  margin: 10px 0 10px 0;
+  display: block;
+}
 @media only screen and (min-width: 850px){
 .miniature{
   font-size: 13px;
@@ -1618,7 +1625,7 @@ export default {
 .deals-body{
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
   width: 750px;
   height: 500px;

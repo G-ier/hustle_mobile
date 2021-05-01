@@ -43,6 +43,7 @@
     "vue-meta": "^2.3.0",
     "vue-paypal-checkout": "^3.2.0",
     "vue-property-decorator": "^8.5.1",
+    "vue-tiny-slider": "^0.1.39",
     "vuelidate": "^0.7.6"
   },
   "devDependencies": {
