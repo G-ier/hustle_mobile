@@ -419,7 +419,43 @@
         </div>
       </div>
     </div>
-    <Swiper :time="statedTime"/>
+    <client-only>
+      <swiper
+        ref="carousel"
+        class="swiper"
+        :options="swiperOptions"
+        
+      >
+        <swiper-slide v-for="n in 5" :key="n">
+            <div class="deals-body">
+                <div class="deals-image">
+                    <v-img :aspect-ratio="16/9" max-width="500" src="https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></v-img>
+                </div>
+                <div class="deals-desc">
+                    <h4 class="qs d-t">25798445 JBL Headphones</h4>
+                    <v-rating
+                    v-model="ratings"
+                    background-color="yellow darken-2"
+                    color="yellow"
+                    small
+                    readonly
+                    ></v-rating>
+                    <p class="qs d-p">28$ <span class="qs text-decoration-line-through"> 32$</span></p>
+                    <div class="timer">
+                    <no-ssr>
+                        <vac :left-time="statedTime">
+                        <span slot="process" slot-scope="{ timeObj }" class="secondary--text"><span class="custom-timer mr-4">{{ `${timeObj.m}`}}m</span><span class="custom-timer">{{ `${timeObj.s}`}}s</span></span>
+                        <span slot="finish" class="secondary--text">Offer expired!</span>
+                        </vac>
+                    </no-ssr>
+                    <nuxt-link to="/ofertat" class="secondary--text btn-c-o">Show More</nuxt-link>
+                    </div>
+                </div>
+            </div>
+        </swiper-slide>
+        <div class="swiper-pagination" slot="pagination"></div>
+      </swiper>
+    </client-only>
 
     <div class="deals-header-2">
       <div class="deals-header-3">
@@ -505,13 +541,9 @@
 <script>
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import Swiper from '../components/Swiper';
-
+import 'swiper/css/swiper.css'
 
 export default {
-  components: {
-    Swiper
-  },
   async asyncData(){
     const data = await firebase.firestore().collection('dod').doc('Headphones').get();
     const parsedData = data.data();
@@ -551,6 +583,16 @@ export default {
         arrows: false
       },
       objCount: 1,
+      swiperOptions: {
+        loop: true,
+        slidesPerView: 'auto',
+        centeredSlides: true,
+        spaceBetween: 30,
+        pagination: {
+          el: '.swiper-pagination',
+          dynamicBullets: true
+        }
+      },
       speed: 7000,
       ratingfake: 4,
       myOptions: {
@@ -627,7 +669,25 @@ export default {
 </script>
 
 <style scoped>
-
+.swiper-slide {
+  text-align: center;
+  font-size: 38px;
+  font-weight: 700;
+  background-color: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.swiper-pagination-bullet {
+  background-color: red;
+}
+.swiper {
+  height: 300px;
+  width: 100%;
+}
+.example {
+  height: auto;
+}   
 .sq-title{
   margin-bottom: 25px;
 }

@@ -123,6 +123,11 @@ export default {
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: ['vue-agile']
+    transpile: ['vue-agile'],
+    loaders:  {
+      vue: {
+         prettify: false
+      }
+    }
   }
 }
