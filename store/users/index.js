@@ -77,6 +77,7 @@ export const actions = {
                 username: account.emri,
                 role: account.role.toLowerCase(),
                 displaName: toFilter[0],
+                password: account.password,
                 photo: null,
                 location: account.adresa,
                 qyteti: account.qyteti,
