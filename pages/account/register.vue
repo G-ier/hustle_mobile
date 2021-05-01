@@ -1,7 +1,7 @@
 <template>
   <div class="aplikimi-container-cu-2">
       <v-sheet elevation="12" class="mx-auto py-4 custom-stepper rounded-lg" color="secondary">
-          <h1 class="big-header-white text-center v-fsm mb-7">Register Now</h1>
+          <h1 class="classy text-center qs v-fsm mb-7">Register Now</h1>
           <v-tabs
             v-model="tab"
             background-color="secondary"
@@ -47,7 +47,8 @@
                                 <v-select :items="items" color="white" class="fully white--text" label="Qyteti" dark outlined v-model="account.qyteti" :error-messages="adresaErrors" required @input="$v.account.qyteti.$touch()"></v-select>
                                 <v-text-field label="Adresa" outlined class="white--text fully" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
                                 <v-text-field label="Numri" outlined class="white--text fully" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
-                                <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully" v-model="account.password"></v-text-field>
+                                <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully" v-model="account.password" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
+                                <v-text-field label="Perserit Password" type="password" color="white" outlined class="white--text fully" v-model="account.passwordR" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
                             </div>
                         </v-form>
                         <div class="button-side">
@@ -159,7 +160,8 @@ export default {
             account: {
                 email: '',
                 password: '',
-                role: '',
+                passwordR: '',
+                role: 'seller',
                 adresa: "",
                 qyteti: "",
                 numri: null,
@@ -173,6 +175,9 @@ export default {
     validations: {
         account: {
             emri: {
+                required,
+            },
+            password: {
                 required,
             },
             email: {
@@ -203,6 +208,12 @@ export default {
             if (!this.$v.account.email.$dirty) return errors
             !this.$v.account.email.email && errors.push('Must be valid e-mail')
             !this.$v.account.email.required && errors.push('E-mail eshte i detyrueshem')
+            return errors
+        },
+        passErrors () {
+            const errors = []
+            if (!this.$v.account.password.$dirty) return errors
+            !this.$v.account.password.required && errors.push('Passwordi eshte i detyrueshem')
             return errors
         },
         emriErrors () {
@@ -239,16 +250,21 @@ export default {
     },
     methods: {
         register: async function(){
+            console.log(JSON.stringify(this.account));
             this.loading = true;
             this.$v.account.email.$touch();
             this.$v.account.adresa.$touch();
             this.$v.account.emri.$touch();
             this.$v.account.qyteti.$touch();
             this.$v.account.numri.$touch();
-            if (this.$v.account.email.$invalid || this.$v.account.adresa.$invalid || this.$v.account.emri.$invalid || this.$v.account.qyteti.$invalid || this.$v.account.numri.$invalid) {
+            this.$v.account.password.$touch();
+            if (this.$v.account.email.$invalid || this.$v.account.adresa.$invalid || this.$v.account.emri.$invalid || this.$v.account.qyteti.$invalid || this.$v.account.numri.$invalid || this.$v.account.password.$invalid) {
+                this.loading = false;
                 return;
-            } else {
-                console.log("gucci");
+            }
+            if(this.account.password != this.account.passwordR){
+                this.loading = false;
+                return;
             }
             await this.$store.dispatch("users/register", this.account);
             this.dialog = true;
@@ -291,6 +307,9 @@ export default {
 }
 .fully{
     width: 220px;
+}
+.classy{
+    font-size: 22px;
 }
 .aplikimi-container-cu-2{
     background-size: cover;
@@ -366,6 +385,9 @@ export default {
     outline: none;
 }
 @media only screen and (max-width: 650px){
+    .classy{
+    font-size: 22px;
+}
     .aplikimi-container{
         height: 100vh;
     }
@@ -389,5 +411,8 @@ export default {
     .fully{
         width: 220px;
     }
+    .classy{
+    font-size: 22px;
+}
 }
 </style>

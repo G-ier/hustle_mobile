@@ -73,7 +73,7 @@ export const actions = {
             const toFilter = account.email.split("@");
             await firebase.auth().createUserWithEmailAndPassword(account.email, account.password);
             await firebase.firestore().collection('users').doc(toFilter[0]).set({
-                email: account.email,
+                email: account.email.toLowerCase(),
                 username: account.emri,
                 role: account.role.toLowerCase(),
                 displaName: toFilter[0],

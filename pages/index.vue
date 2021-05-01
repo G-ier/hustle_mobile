@@ -341,7 +341,7 @@
                 </v-avatar>
               </div>
               <div class="fucked-desc">
-                <nuxt-link class="qs btn-c-o secondary--text ma-0 pa-0" :to="item.details.kategorita + '/' + item.spot">{{item.details.name}}</nuxt-link>
+                <nuxt-link class="qs btn-c-o secondary--text ma-0 pa-0" :to="'/kategorite' + item.details.kategorita + '/' + item.spot">{{item.details.name}}</nuxt-link>
                 <v-rating 
                   :value="item.details.likes/item.details.likers" 
                   background-color="yellow darken-2"

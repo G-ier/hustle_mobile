@@ -48,6 +48,10 @@ export default {
 </script>
 
 <style>
+.classy{
+    font-family: 'qs';
+    font-size: 22px;
+}
 .edit{
     display: flex;
     flex-direction: column;

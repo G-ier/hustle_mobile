@@ -18,13 +18,14 @@
               <div class="shithole">
                   <h1 class="qs secondary--text">{{product.details.name}}</h1>
                   <v-rating
-                    v-model="rating"
+                    :value="product.details.likes/product.details.likers"
                     readonly
                     background-color="yellow lighten-3"
                     color="yellow"
                     small
                   ></v-rating>
-                  <p class="price-prod">{{product.details.price}} <span class="mini-span">ALL</span></p>
+                  <p class="price-prod" v-if="product.details.priceLow">{{product.details.priceLow}} <span class="mini-span">ALL</span> <span class="text-decoration-line-through qs s16 primary--text">{{product.details.price}}</span> <span class="mini-span primary--text">ALL</span></p>
+                  <p class="price-prod" v-if="product.details.priceLow == null">{{product.details.price}} <span class="mini-span">ALL</span></p>
                   <div class="rowting">
                       <v-btn class="white--text rounded-md width-70" color="primary" @click="addToCart(product.details.name, product.details.seller, product.details.price, 1, product.details.desc, product.details.photos[0].src)">Add to Cart</v-btn>
                       <v-btn class="white--text" color="primary" icon @click="favs(product)"><v-icon size="34" color="secondary">mdi-heart-outline</v-icon></v-btn>
