@@ -75,7 +75,7 @@ export default {
     
     display: flex;
     justify-content: center;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
 }
 .overall{
     display: flex;

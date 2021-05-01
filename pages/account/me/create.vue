@@ -1,6 +1,6 @@
 <template>
   <div class="edit">
-      <div class="sets">
+        <div class="sets">
             
             <h2 class="classy secondary--text">Krijo produkte te reja</h2>
             
@@ -43,15 +43,8 @@
                     </v-btn>
                 </v-toolbar-items>
                 </v-toolbar>
-                <v-list
-                three-line
-                subheader
-                
-                >
-                <v-subheader class="white--text">Perpuno detajet</v-subheader>
-                <v-list-item>
-                    <v-list-item-content class="hiddeneye">
-                        <v-text-field
+                <div class="hiddeneye">
+                    <v-text-field
                             v-model="namey"
                             label="Emri"
                             outlined
@@ -62,109 +55,107 @@
                             :error-messages="nameyyErrors" 
                             required 
                             @input="$v.namey.$touch()"
-                        ></v-text-field>
-                        <v-text-field
-                            v-model="pricey"
-                            label="Cmimi"
-                            outlined
-                            clearable
-                            dense
-                            dark
-                            color="white"
-                            :error-messages="priceyErrors" 
-                            required 
-                            @input="$v.pricey.$touch()"
-                        ></v-text-field>
-                        <v-text-field
-                            v-model="priceyLow"
-                            label="Cmimi me ulje"
-                            outlined
-                            clearable
-                            dense
-                            dark
-                            color="white"
-                            :error-messages="priceyLowErrors" 
-                            required 
-                            @input="$v.priceyLow.$touch()"
-                        ></v-text-field>
-                        <v-textarea
-                            clearable
-                            clear-icon="mdi-close-circle"
-                            label="Pershkrimi"
-                            v-model="descy"
-                            color="white"
-                            outlined
-                            dark
-                        ></v-textarea>
-                        <v-select
-                            v-model="kategorita"
-                            :items="kateg"
-                            label="Kategoria"
-                            dense
-                            outlined
-                            dark
-                            color="white"
-                            :error-messages="katErrors" 
-                            required 
-                            @input="$v.kategorita.$touch()"
-                        ></v-select>
-                        <div class="vert">
-                            <p class="qs white--text">Fotot - e para e detyrueshme</p>
-                            <input
-                                ref="imageFile"
-                                placeholder="Required photo"
-                                accept="image/png, image/jpeg"
-                                class="inputFileR ml-1"
-                                type="file"
-                                name="file"
-                                id="imazh"
-                                @change.prevent="uploadImageFile($event.target.files)"
+                    ></v-text-field>
+                    <v-text-field
+                        v-model="pricey"
+                        label="Cmimi"
+                        outlined
+                        clearable
+                        dense
+                        dark
+                        color="white"
+                        :error-messages="priceyErrors" 
+                        required 
+                        @input="$v.pricey.$touch()"
+                    ></v-text-field>
+                    <v-text-field
+                        v-model="priceyLow"
+                        label="Cmimi me ulje"
+                        outlined
+                        clearable
+                        dense
+                        dark
+                        color="white"
+                        :error-messages="priceyLowErrors" 
+                        required 
+                        @input="$v.priceyLow.$touch()"
+                    ></v-text-field>
+                    <v-textarea
+                        clearable
+                        clear-icon="mdi-close-circle"
+                        label="Pershkrimi"
+                        v-model="descy"
+                        color="white"
+                        outlined
+                        dark
+                    ></v-textarea>
+                    <v-select
+                        v-model="kategorita"
+                        :items="kateg"
+                        label="Kategoria"
+                        dense
+                        outlined
+                        dark
+                        color="white"
+                        :error-messages="katErrors" 
+                        required 
+                        @input="$v.kategorita.$touch()"
+                    ></v-select>
+                    <div class="vert">
+                        <p class="qs white--text">Fotot - e para e detyrueshme</p>
+                        <input
+                            ref="imageFile"
+                            placeholder="Required photo"
+                            accept="image/png, image/jpeg"
+                            class="inputFileR ml-1"
+                            type="file"
+                            name="file"
+                            id="imazh"
+                            @change.prevent="uploadImageFile($event.target.files)"
+                        >
+                    </div>
+                    <div class="vert" v-for="show in toShow" :key="show.id">
+                        <input
+                            ref="imageFile"
+                            placeholder="Profile photo"
+                            accept="image/png, image/jpeg"
+                            class="inputFileR ml-1"
+                            type="file"
+                            name="file" 
+                            @change.prevent="uploadImageFile1($event.target.files)"
+                        >
+                    </div>
+                    <v-row justify="center full-width mt-6 ml-3 custom-right">
+                        <v-fab-transition>
+                            <v-btn
+                                fab
+                                small
+                                dark
+                                bottom
+                                left
+                                class="v-btn--example"
+                                color="secondary"
+                                @click="newphoto"
                             >
-                        </div>
-                        <div class="vert" v-for="show in toShow" :key="show.id">
-                            <input
-                                ref="imageFile"
-                                placeholder="Profile photo"
-                                accept="image/png, image/jpeg"
-                                class="inputFileR ml-1"
-                                type="file"
-                                name="file" 
-                                @change.prevent="uploadImageFile1($event.target.files)"
+                                <v-icon>mdi-plus</v-icon>
+                            </v-btn>
+                        </v-fab-transition>
+                        <v-fab-transition>
+                            <v-btn
+                                fab
+                                small
+                                dark
+                                bottom
+                                left
+                                class="v-btn--example ml-4"
+                                color="secondary"
+                                @click="remphoto"
                             >
-                        </div>
-                        <v-row justify="center full-width mt-6 custom-right">
-                            <v-fab-transition>
-                                <v-btn
-                                    fab
-                                    small
-                                    dark
-                                    bottom
-                                    left
-                                    class="v-btn--example"
-                                    color="secondary"
-                                    @click="newphoto"
-                                >
-                                    <v-icon>mdi-plus</v-icon>
-                                </v-btn>
-                            </v-fab-transition>
-                            <v-fab-transition>
-                                <v-btn
-                                    fab
-                                    small
-                                    dark
-                                    bottom
-                                    left
-                                    class="v-btn--example ml-4"
-                                    color="secondary"
-                                    @click="remphoto"
-                                >
-                                    <v-icon>mdi-minus</v-icon>
-                                </v-btn>
-                            </v-fab-transition>
-                        </v-row>
-                    </v-list-item-content>
-                </v-list-item>
-                </v-list>
+                                <v-icon>mdi-minus</v-icon>
+                            </v-btn>
+                        </v-fab-transition>
+                    </v-row>
+                </div>
                 <v-divider></v-divider>
                 <v-list
                 three-line
@@ -333,6 +324,14 @@
             </v-card-actions>
         </v-card>
         </v-dialog>
+        <v-dialog
+        v-model="loading"
+        max-width="140"
+        >
+        <v-card color="secondary">
+            <v-progress-circular color="primary"></v-progress-circular>
+        </v-card>
+        </v-dialog>
          <v-fab-transition>
             <v-btn
                 fab
@@ -463,7 +462,8 @@ export default {
             masa: "",
             sizey: "",
             ngjyra: "",
-            priceyUlje: null
+            priceyUlje: null,
+            loading: false
 
         }
     },
@@ -543,6 +543,7 @@ export default {
             });
         },
         newphoto: function(){
+            this.loading = true;
 
             this.toShow.push("item");
         },
@@ -591,6 +592,10 @@ export default {
                     src: url,
                     emri: file.name
                 });
+                this.loading = true;
+                setTimeout(()=>{
+                    this.loading = false;
+                }, 3000);
             })
             
         },
@@ -911,6 +916,18 @@ export default {
 .r{
     z-index: 999999998989898787979867987;
 }
+.hiddeneye{
+    display: flex;
+    
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 25px;
+}
+.classy{
+    font-family: 'qs';
+    font-size: 20px;
+}
 .border-chip{
     border: 1px solid black;
 }
@@ -1031,6 +1048,10 @@ export default {
     .pc-small{
         width: 400px;
     }
+    .classy{
+        font-size: 23px;
+        font-family: 'qs';
+    }
     .sets{
         display: flex;
         justify-content: space-between;
@@ -1137,6 +1158,7 @@ export default {
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
+        padding: 25px;
     }
     .custom-right{
         margin-left: 15px;

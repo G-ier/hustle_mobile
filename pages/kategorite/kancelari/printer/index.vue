@@ -1,11 +1,12 @@
 <template>
     <div class="shop">
         <v-navigation-drawer
-        v-model="drawer"
-        app
-        color="white"
-        
-        bottom
+            v-model="drawer"
+            app
+            color="white"
+            class="mobile-non"
+            temporary
+            bottom
         >
             <div class="drawer-container">
             <div class="sidebar sidebar-side">
@@ -187,7 +188,7 @@
                        <p class="qs s15 secondary--text">Cmimi</p>
                         <v-col class="px-4">
                             <b-field>
-                                <b-slider v-model="range" :min="0" :max="30000" :step="2">
+                                <b-slider v-model="range" :min="0" :max="30000" :step="2" @change="pricer">
                                 </b-slider>
                             </b-field>
                             <p class="qs secondary--text">Min: {{range[0]}} | Max: {{range[1]}}</p>
@@ -384,7 +385,7 @@
                        <p class="qs s15 secondary--text">Cmimi</p>
                         <v-col class="px-4">
                             <b-field>
-                                <b-slider v-model="range" :min="0" :max="30000" :step="2">
+                                <b-slider v-model="range" :min="0" :max="30000" :step="2" @change="pricer">
                                 </b-slider>
                             </b-field>
                             <p class="qs secondary--text">Min: {{range[0]}} | Max: {{range[1]}}</p>
@@ -668,7 +669,7 @@ export default {
                 console.log(listsAlgo.length);
 
                 if(listsAlgo.length == 0){
-                    alert("G zgjidh sakt");
+                    console.log("hack me");
                 } else if(listsAlgo.length == 1){
                     joint2 = listsAlgo[0];
                 } else if(listsAlgo.length == 2){
@@ -713,7 +714,7 @@ export default {
                 console.log(listsAlgo.length);
 
                 if(listsAlgo.length == 0){
-                    alert("G zgjidh sakt");
+                    console.log("hack me");
                 } else if(listsAlgo.length == 1){
                     joint2 = listsAlgo[0];
                 } else if(listsAlgo.length == 2){
@@ -1375,6 +1376,12 @@ export default {
     display: none;  /* Safari and Chrome */
 }
 @media only screen and (min-width: 900px){
+    .drawer-container{
+        display: none;
+    }
+    .mobile-non{
+        display: none;
+    }
     .grid-buttons{
         display: none;
     }

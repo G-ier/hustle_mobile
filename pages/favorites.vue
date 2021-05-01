@@ -3,16 +3,14 @@
         <div class="sets">
             
             <h2 class="classy secondary--text">Te preferuarat</h2>
-            <v-btn icon @click="drawer2 = !drawer2">
-                <v-icon color="secondary">mdi-filter</v-icon>
-            </v-btn>
+            
         </div>
         <div class="lineM"></div>
-        <div class="market mb-3" v-if="empty == false">
+        <div class="market mb-3" v-if="favs.length > 0">
             <div class="market-inner">
                 <div class="sell-container" v-for="prod in favs" :key="prod.name">
                     <div class="sellable">
-                        <v-img :aspect-ratio="1/1" class="market-img secondary-bg" src="https://images.pexels.com/photos/335257/pexels-photo-335257.jpeg?cs=srgb&dl=pexels-eprism-studio-335257.jpg&fm=jpg" @click="sendToProduct(prod.spot)"></v-img>
+                        <v-img :aspect-ratio="1/1" class="market-img secondary-bg" :src="prod.details.photos[0]" @click="sendToProduct(prod.spot)"></v-img>
                         <div class="safety">
                             <div class="sellable-desc">
                                 <h4 class="sell-title">{{prod.details.name}}</h4>
@@ -28,7 +26,7 @@
             </div>
         </div>
         <div class="market-empty" v-else>
-            <p class="qs secondary--text">No favorites to show.</p>
+            <p class="qs secondary--text">Akoma pa preferenca.</p>
         </div>
         <v-snackbar
         v-model="snackbar"
@@ -285,7 +283,15 @@ export default {
     padding: 0;
     margin: 0;
 }
+.classy{
+    font-family: 'qs';
+    font-size: 20px;
+}
 @media only screen and (min-width: 850px){
+    .classy{
+        font-family: 'qs';
+        font-size: 23px;
+    }
     .sets{
         display: flex;
         justify-content: space-between;

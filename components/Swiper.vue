@@ -1,638 +1,125 @@
 <template>
-  <div class="homepage">
-    <div class="mini-links">
-      <div class="mini-actual-links">
-        <div class="al-ting">
-          <v-slide-group mobile-breakpoint="560" show-arrows="desktop">
-            <v-slide-item>
-              <button text class="qs white--text btn-c-o mini-link">
-                <nuxt-link class="qs btn-c-o white--text" to="/ofertat">Oferta te nxehta</nuxt-link>
-              </button>
-            </v-slide-item>
-            <v-slide-item>
-              <button text class="qs white--text btn-c-o mini-link">
-                <nuxt-link class="qs btn-c-o white--text" to="/account/register">Regjistrohu</nuxt-link>
-              </button>
-            </v-slide-item>
-            <v-slide-item>
-              <button text class="qs white--text btn-c-o mini-link" @click="href">
-                Faqja juaj
-              </button>
-            </v-slide-item>
-            <v-slide-item>
-              <button text class="qs white--text btn-c-o mini-link">
-                <nuxt-link class="qs btn-c-o white--text" to="/rreth-nesh">Rreth nesh</nuxt-link>
-              </button>
-            </v-slide-item>
-          </v-slide-group>
-        </div>
-      </div>
-    </div>
-
-    <div class="burst mb-6">
-      <div class="burst2">
-        <div class="burst3">
-          <div class="main-foto">
-            <v-img :src="main.photo" class="robshja">
-              <div class="kari">
-                <p class="qs secondary--text">{{main.infos.subheader}}</p>
-                <h1 class="bushtri">{{main.infos.header}}</h1>
-                <h4 class="qs buta">{{main.infos.subtext}}</h4>
-                <v-btn class="rounded-lg white--text" color="primary" nuxt :to="main.infos.link">Vizito tani</v-btn>
-              </div>
-            </v-img>
-          </div>
-          <div class="likkle-div">
-            <div class="likkle-1" :style="{'background-image': `url(${side1.photo})`}">
-                <div class="kari-2" >
-                  <h1 class="bushtri-1">{{side1.infos.header}}</h1>
-                  <h4 class="qs buta-1 mb-4">{{side1.infos.subheader}}</h4>
-                  <v-btn class="rounded-lg white--text" color="primary" nuxt :to="side1.infos.link">Vizito tani</v-btn>
-                </div>
-            </div>
-            <div class="likkle-2" :style="{'background-image': `url(${side2.photo})`}">
-                <div class="kari-3">
-                  <h1 class="bushtri-1 white--text">{{side2.infos.header}}</h1>
-                  <v-btn class="rounded-lg primary--text" color="white" nuxt :to="side2.infos.link">Vizito tani</v-btn>
-                </div>
-            </div>
-          </div>
-        </div>
-        <div class="burst4">
-          <div class="explain">
-            <v-list-item
-            >
-              <v-list-item-avatar>
-                <v-icon
-                  class="white"
-                  dark
-                  color="secondary"
-                  size="40"
-                >
-                  mdi-car-estate
-                </v-icon>
-              </v-list-item-avatar>
-
-              <v-list-item-content>
-                <v-list-item-title class="secondary--text">Transport</v-list-item-title>
-
-                <v-list-item-subtitle class="secondary--text">Me te shpejtet</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item> 
-            <v-list-item
-            >
-              <v-list-item-avatar>
-                <v-icon
-                  class="white"
-                  dark
-                  color="secondary"
-                  size="37"
-                >
-                  mdi-package-variant
-                </v-icon>
-              </v-list-item-avatar>
-
-              <v-list-item-content>
-                <v-list-item-title class="secondary--text">Produktet</v-list-item-title>
-
-                <v-list-item-subtitle class="secondary--text">Me cilesoret ne treg</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>  
-            <v-list-item
-            >
-              <v-list-item-avatar>
-                <v-icon
-                  class="white"
-                  dark
-                  color="secondary"
-                  size="35"
-                >
-                  mdi-face-agent
-                </v-icon>
-              </v-list-item-avatar>
-
-              <v-list-item-content>
-                <v-list-item-title class="secondary--text">Sherbim</v-list-item-title>
-
-                <v-list-item-subtitle class="secondary--text">Te pakonkurueshem ne Shqiperi</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>  
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="main-body">
-      <div class="main-side">
-        <div class="dealsod-2 mb-5">
-          <div class="deals-header">
-            <div class="deals-header-1-cash">
-              <h3 class="qs font-weight-regular main-side-title white--text" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">DEALS </span>of the day</h3>
-              <div class="packting">
-                <v-btn class="qs primary--text" small text to="/ofertat">
-                  Me shume
-                </v-btn>
-              </div>
-            </div>
-            <div class="line1-main">
-              <div class="smooth" :class="{'line10': objCount == 1, 'line20': objCount == 2, 'line30': objCount == 3, 'line40': objCount == 4, 'line50': objCount == 5, 'line60': objCount == 6, 'line70': objCount == 7, 'line80': objCount == 8, 'line90': objCount == 9, 'line100': objCount == 10, }"></div>
-            </div>
-          </div>
-        </div>
-        <div class="products-main">
-          <div class="product-main" v-for="item in prodis.slice(0,4)" :key="item.id">
-            <v-img class="product-main-image-2"  :src="item.details.photos[0].src" alt="iphone"></v-img>
-            <div class="product-main-desc">
-              <h3 class="qs secondary--text"><nuxt-link class="qs btn-c-o" :to="'/kategorite/elektronike/tv-dhe-video/' + item.spot">{{item.details.name}}</nuxt-link></h3>
-              <v-rating 
-              :value="item.details.likes/item.details.likers"
-              background-color="yellow darken-2"
-              color="yellow"
-              x-small
-              readonly
-              ></v-rating>
-              <p class="qs primary--text pricey">{{item.details.priceLow}} ALL <span class="miniature gray--text text-decoration-line-through" v-if="item.details.priceLow != null">{{item.details.price}} ALL</span></p>
-            </div>
-          </div>          
-        </div>
-      </div>
-      <div class="side-side">
-        <div class="side-pord">
-          <div class="header-pord">
-            <v-btn class="qs" icon width="20" height="20" @click="gotoprev1">
-              <v-icon color="white" size="15">mdi-arrow-left-drop-circle</v-icon>
-            </v-btn>
-            <p class="qs pa-0 ma-0">Oferta te nxehta</p>
-            <v-btn class="qs" icon width="20" height="20" @click="gotonext1">
-              <v-icon color="white" size="15">mdi-arrow-right-drop-circle</v-icon>
-            </v-btn>
-          </div>
-          <client-only placeholder="Carousel loading..." class="client-80">
-            <agile ref="carousels" @after-change="getCurrSlides($event)" class="mos-i-qr-2">
-              <div class="deals-body-2" v-for="n in 10" :key="n">
-                <div class="deals-image-2">
-                  <v-img :aspect-ratio="16/9" max-width="500" :src="seni"></v-img>
+  <div class="mos-i-qr" >
+    <!-- component: only render Swiper on browser env -->
+    <client-only>
+      <swiper
+        ref="carousel"
+        class="swiper"
+        :options="swiperOptions"
+        @ready="onSwiperRedied"
+        @clickSlide="onSwiperClickSlide"
+        @slideChangeTransitionStart="onSwiperSlideChangeTransitionStart"
+      >
+        <swiper-slide v-for="n in 5" :key="n">
+            <div class="deals-body">
+                <div class="deals-image">
+                    <v-img :aspect-ratio="16/9" max-width="500" :src="seni"></v-img>
                 </div>
                 <div class="deals-desc">
-                  <h4 class="qs d-t">25798445 JBL Headphones</h4>
-                  <v-rating
+                    <h4 class="qs d-t">25798445 JBL Headphones</h4>
+                    <v-rating
                     v-model="ratings"
                     background-color="yellow darken-2"
                     color="yellow"
                     small
                     readonly
-                  ></v-rating>
-                  <p class="qs d-p">2800 ALL <span class="qs text-decoration-line-through"> 3200 ALL</span></p>
-                  <div class="timer-2">
+                    ></v-rating>
+                    <p class="qs d-p">28$ <span class="qs text-decoration-line-through"> 32$</span></p>
+                    <div class="timer">
                     <no-ssr>
-                      <vac :left-time="statedTime">
+                        <vac :left-time="time">
                         <span slot="process" slot-scope="{ timeObj }" class="secondary--text"><span class="custom-timer mr-4">{{ `${timeObj.m}`}}m</span><span class="custom-timer">{{ `${timeObj.s}`}}s</span></span>
                         <span slot="finish" class="secondary--text">Offer expired!</span>
-                      </vac>
+                        </vac>
                     </no-ssr>
-                    <nuxt-link to="/kategorite/elektronike/tv-dhe-video" class="secondary--text btn-c-o">Show More</nuxt-link>
-                  </div>
+                    <nuxt-link to="/ofertat" class="secondary--text btn-c-o">Show More</nuxt-link>
+                    </div>
                 </div>
-              </div>
-              <div class="deals-body-2">
-                <div class="deals-image-2">
-                  <v-img :aspect-ratio="16/9" max-width="500" src="https://images.pexels.com/photos/3945667/pexels-photo-3945667.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"></v-img>
-                </div>
-                <div class="deals-desc">
-                  <h4 class="qs d-t">25798445 JBL Headphones</h4>
-                  <v-rating
-                    v-model="ratings"
-                    background-color="yellow darken-2"
-                    color="yellow"
-                    small
-                    readonly
-                  ></v-rating>
-                  <p class="qs d-p">2800 ALL <span class="qs text-decoration-line-through"> 3200 ALL</span></p>
-                </div>
-              </div>
-            </agile>
-          </client-only>
-        </div>
-      </div>
-    </div>
-
-    <div class="stingy mt-5 mb-6" :style="{'background-image': `url(${basic.ad1.photo})`}">
-      <h1 class="qs">{{basic.ad1.name}}</h1>
-      <v-btn color="white" class="primary--text rounded-lg" :to="basic.ad1.link">Vizito tani</v-btn>
-    </div> 
-
-    <div class="main-body">
-      <div class="main-side">
-        <div class="dealsod-2 mb-5">
-          <div class="deals-header">
-            <div class="deals-header-1-cash">
-              <h3 class="qs font-weight-regular main-side-title white--text" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">Produkte </span>te reja</h3>
-              <div class="packting">
-                <v-btn class="qs primary--text" small text nuxt to="/new">
-                  Me shume 
-                </v-btn>
-              </div>
             </div>
-            <div class="line1-main">
-              <div class="smooth" :class="{'line10': objCount == 1, 'line20': objCount == 2, 'line30': objCount == 3, 'line40': objCount == 4, 'line50': objCount == 5, 'line60': objCount == 6, 'line70': objCount == 7, 'line80': objCount == 8, 'line90': objCount == 9, 'line100': objCount == 10, }"></div>
-            </div>
-          </div>
-        </div>
-        <div class="products-main-2">
-          <div class="product-main" v-for="item in neue" :key="item.id">
-            <img class="product-main-image" :src="item.details.photos[0].src" :alt="item.details.name">
-            <div class="product-main-desc">
-              <nuxt-link class="qs secondary--text" :to="item.details.kategorita + '/' + item.spot">{{item.details.name}}</nuxt-link>
-              <v-rating 
-              :value="item.details.likes/item.details.likers"
-              background-color="yellow darken-2"
-              color="yellow"
-              small
-              readonly
-              ></v-rating>
-              <p class="qs primary--text pricey" v-if="item.details.priceLow">{{item.details.priceLow}} ALL <span class="miniature gray--text text-decoration-line-through">{{item.details.price}} ALL</span></p>
-              <p class="qs primary--text pricey" v-if="item.details.priceLow == null">{{item.details.price}} ALL</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="side-side-2">
-        <div class="side-pord" style="border: none">
-          <div class="reklamat">
-            <div class="reklama-1" :style="{'background-image': `url(${stangy.ad1.photo})`}">
-              <h2 class="qs">{{stangy.ad1.name}}</h2>
-              <div class="mini-row">
-                <v-btn class="primary--text rounded" x-small color="white" :to="stangy.ad1.link">Vizito tani</v-btn>
-              </div>
-            </div>
-            <div class="reklama-1" :style="{'background-image': `url(${stangy.ad2.photo})`}">
-              <h2 class="qs">{{stangy.ad2.name}}</h2>
-              <div class="mini-row">
-                <v-btn class="primary--text rounded" x-small color="white" :to="stangy.ad2.link">Vizito tani</v-btn>
-              </div>
-            </div>
-            <div class="reklama-1" :style="{'background-image': `url(${stangy.ad3.photo})`}">
-              <h2 class="qs">{{stangy.ad3.name}}</h2>
-              <div class="mini-row">
-                <v-btn class="primary--text rounded" x-small color="white" :to="stangy.ad3.link">Vizito tani</v-btn>
-              </div>
-            </div>
-            <div class="reklama-1" :style="{'background-image': `url(${stangy.ad4.photo})`}">
-              <h2 class="qs">{{stangy.ad4.name}}</h2>
-              <div class="mini-row">
-                <v-btn class="primary--text rounded" x-small color="white" :to="stangy.ad4.link">Vizito tani</v-btn>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="stingy mt-5 mb-6" :style="{'background-image': `url(${basic.ad2.photo})`}">
-      <h1 class="qs">{{basic.ad2.name}}</h1>
-      <v-btn color="white" class="primary--text rounded-lg" :to="basic.ad2.link">Vizito tani</v-btn>
-    </div> 
-
-    <div class="main-body">
-      <div class="main-side">
-        <div class="dealsod-2 mb-5">
-          <div class="deals-header">
-            <div class="deals-header-1-cash">
-              <h3 class="qs font-weight-regular main-side-title white--text" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">Me te mirat </span></h3>
-              <div class="packting">
-                <v-btn class="qs primary--text" small text nuxt to="/worthit">
-                  Me shume 
-                </v-btn>
-              </div>
-            </div>
-            <div class="line1-main">
-              <div class="smooth" :class="{'line10': objCount == 1, 'line20': objCount == 2, 'line30': objCount == 3, 'line40': objCount == 4, 'line50': objCount == 5, 'line60': objCount == 6, 'line70': objCount == 7, 'line80': objCount == 8, 'line90': objCount == 9, 'line100': objCount == 10, }"></div>
-            </div>
-          </div>
-        </div>
-        <div class="products-main">
-          <div class="product-main" v-for="item in prodis.slice(0,4)" :key="item.id">
-            <img class="product-main-image-2" :src="item.details.photos[0].src" alt="iphone">
-            <div class="product-main-desc">
-              <h3 class="qs secondary--text"><nuxt-link class="qs btn-c-o" :to="'/kategorite/elektronike/tv-dhe-video/' + item.spot">{{item.details.name}}</nuxt-link></h3>
-              <v-rating 
-              :value="item.details.likes/item.details.likers"
-              background-color="yellow darken-2"
-              color="yellow"
-              x-small
-              readonly
-              ></v-rating>
-              <p class="qs primary--text pricey" v-if="item.details.priceLow">{{item.details.priceLow}} ALL <span class="miniature gray--text text-decoration-line-through">{{item.details.price}} ALL</span></p>
-              <p class="qs primary--text pricey" v-if="item.details.priceLow == null">{{item.details.price}} ALL</p>
-            </div>
-          </div>          
-        </div>
-      </div>
-      <div class="side-side">
-        <div class="side-pord">
-          <div class="header-pord">
-            <p class="qs pa-0 ma-0">Te rekomanduara</p>
-          </div>
-          <div class="fucked">
-            <div class="fucked-1" v-for="item in recom" :key="item.id">
-              <div class="kivi">
-                <v-avatar tile color="white" size="70" class="mb-5">
-                  <v-img class="fucked-image" :src="item.details.photos[0].src" :alt="item.details.name"></v-img>
-                </v-avatar>
-              </div>
-              <div class="fucked-desc">
-                <nuxt-link class="qs btn-c-o secondary--text ma-0 pa-0" :to="item.details.kategorita + '/' + item.spot">{{item.details.name}}</nuxt-link>
-                <v-rating 
-                  :value="item.details.likes/item.details.likers" 
-                  background-color="yellow darken-2"
-                  color="yellow"
-                  small
-                  readonly
-                  class="pa-0 ma-0"
-                ></v-rating>
-                <p class="qs primary--text" v-if="item.details.price">{{item.details.price}} ALL</p>
-                <p class="qs primary--text" v-if="item.details.priceLow">{{item.details.priceLow}} ALL</p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--
-    <div class="dealsod">
-      <div class="deals-header">
-        <div class="deals-header-1">
-          <h3 class="qs font-weight-regular" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">DEALS </span>of the day</h3>
-          <div class="packting">
-            <v-btn class="qs" icon @click="gotoprev">
-              <v-icon color="secondary" size="15">mdi-arrow-left-drop-circle</v-icon>
-            </v-btn>
-            <v-btn class="qs" icon width="10" @click="gotonext">
-              <v-icon color="secondary" size="15">mdi-arrow-right-drop-circle</v-icon>
-            </v-btn>
-          </div>
-        </div>
-        <div class="line1">
-          <div class="smooth" :class="{'line10': objCount == 1, 'line20': objCount == 2, 'line30': objCount == 3, 'line40': objCount == 4, 'line50': objCount == 5, 'line60': objCount == 6, 'line70': objCount == 7, 'line80': objCount == 8, 'line90': objCount == 9, 'line100': objCount == 10, }"></div>
-        </div>
-      </div>
-    </div>
-    <client-only placeholder="Carousel loading..." class="client-90" >
-      <agile ref="carousel" :options="myOptions" @after-change="getCurrSlide($event)" class="mos-i-qr">
-        <div class="deals-body" v-for="n in 10" :key="n">
-          <div class="deals-image">
-            <v-img :aspect-ratio="16/9" max-width="500" :src="seni"></v-img>
-          </div>
-          <div class="deals-desc">
-            <h4 class="qs d-t">25798445 JBL Headphones</h4>
-            <v-rating
-              v-model="ratings"
-              background-color="yellow darken-2"
-              color="yellow"
-              small
-              readonly
-            ></v-rating>
-            <p class="qs d-p">28$ <span class="qs text-decoration-line-through"> 32$</span></p>
-            <div class="timer">
-              <no-ssr>
-                <vac :left-time="statedTime">
-                  <span slot="process" slot-scope="{ timeObj }" class="secondary--text"><span class="custom-timer mr-4">{{ `${timeObj.m}`}}m</span><span class="custom-timer">{{ `${timeObj.s}`}}s</span></span>
-                  <span slot="finish" class="secondary--text">Offer expired!</span>
-                </vac>
-              </no-ssr>
-              <nuxt-link to="/kategorite/elektronike/tv-dhe-video" class="secondary--text btn-c-o">Show More</nuxt-link>
-            </div>
-          </div>
-        </div>
-      </agile>
+        </swiper-slide>
+        <div class="swiper-pagination" slot="pagination"></div>
+      </swiper>
     </client-only>
+    <!-- directive: render origin html on server & render Swiper on browser -->
+    <!-- You can get the swiper instance object in current component context by the name: "mySwiper"  -->
+    <!--
+    <div
+      class="swiper"
+      v-swiper:myDirectiveSwiper="swiperOptions"
+      @ready="onSwiperRedied"
+      @click-slide="onSwiperClickSlide"
+      @slide-change-transition-start="onSwiperSlideChangeTransitionStart"
+    >
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" v-for="index in 6" :key="index">
+          <span>Slide {{ index }}</span>
+        </div>
+      </div>
+      <div class="swiper-pagination swiper-pagination-bullets"></div>
+    </div>
     -->
-    <div class="dealsod">
-      <div class="deals-header">
-        <div class="deals-header-1">
-          <h3 class="qs font-weight-regular" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">DEALS </span>of the day</h3>
-          
-        </div>
-        <div class="line1">
-          <div class="smooth" :class="{'line10': objCount == 1, 'line20': objCount == 2, 'line30': objCount == 3, 'line40': objCount == 4, 'line50': objCount == 5, 'line60': objCount == 6, 'line70': objCount == 7, 'line80': objCount == 8, 'line90': objCount == 9, 'line100': objCount == 10, }"></div>
-        </div>
-      </div>
-    </div>
-    <Swiper :time="statedTime"/>
-
-    <div class="deals-header-2">
-      <div class="deals-header-3">
-        <h3 class="qs font-weight-regular pb-1" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">Kategorite </span>me te mira</h3>
-      </div>
-      <div class="line1-3">
-        <div class="smooth line100"></div>
-      </div>
-    </div>
-    <div class="dealsod1">
-      <div class="squaremain">
-        <div class="squarecentral">
-          <div class="joint">
-            <h2 class="qs">Aksesore elektronik</h2>
-            <div class="line1"></div>
-          </div>
-          <v-btn class="qs rounded-lg secondary--text" nuxt to="/kategorite/computers/aksesore" color="white">Vizito tani</v-btn>
-        </div>
-      </div>
-      <div class="squarelikkle">
-        <div class="squareside">
-          <div class="joint-2">
-            <h2 class="qs sq-mini">Produkte</h2>
-            <h2 class="qs sq-title secondary--text">Shkollore</h2>
-          </div>
-          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/kancelari/shkollore" color="white">Vizito tani</v-btn>
-        </div>
-      </div>
-      <div class="squarelikkle-2">
-        <div class="squareside-2">
-          <div class="joint-3">
-            <h2 class="qs sq-mini">Produkte</h2>
-            <h2 class="qs sq-title secondary--text">Zyrash</h2>
-          </div>
-          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/kancelari/zyra" color="white">Vizito tani</v-btn>
-        </div>
-      </div>
-      <div class="squarelikkle-3">
-        <div class="squareside">
-          <div class="joint-2">
-            <h2 class="qs sq-mini">Produkte</h2>
-            <h2 class="qs sq-title secondary--text">Kozmetike</h2>
-          </div>
-          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/kozmetike/kozmetike" color="white">Vizito tani</v-btn>
-        </div>
-      </div>
-      <div class="squarelikkle-4">
-        <div class="squareside-2">
-          <div class="joint-3">
-            <h2 class="qs sq-mini">Clothing</h2>
-            <h2 class="qs sq-title secondary--text">per femra</h2>
-          </div>
-          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/fashion/femra" color="white">Vizito tani</v-btn>
-        </div>
-      </div>
-    </div>
-    <div class="contact">
-      <h1 class="con-title">Tregu per ju!</h1>
-      <div class="con-controller">
-        <div class="wrapper">
-          <v-card elevation="4" color="#f5f5f5" width="310" height="250" class="rounded-xl" tile>
-            <v-card-title class="secondary--text qs"><v-icon color="secondary" class="mr-5">mdi-account-group-outline</v-icon>Stafi jone</v-card-title>
-            <v-card-text class="secondary--text qs">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, voluptatibus placeat maiores nostrum esse animi nulla nihil non, sed natus repellat fugit ipsam est iste?</v-card-text> 
-          </v-card>
-        </div>
-        <div class="wrapper">
-          <v-card elevation="4" color="#f5f5f5" width="310" height="250" class="rounded-xl" tile>
-            <v-card-title class="secondary--text qs"><v-icon color="secondary" class="mr-5">mdi-note-text-outline</v-icon>Rregullat tona</v-card-title>
-            <v-card-text class="secondary--text qs">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quod nam quos pariatur rem corrupti odio atque repellat! Ipsum similique error velit excepturi. Nostrum, nisi rerum?</v-card-text> 
-          </v-card>
-        </div>
-        <div class="wrapper">
-          <v-card elevation="4" color="#f5f5f5" width="310" height="250" class="rounded-xl" tile>
-            <v-card-title class="secondary--text qs"><v-icon color="secondary" class="mr-5">mdi-toolbox</v-icon>Produktet tona</v-card-title>
-            <v-card-text class="secondary--text qs">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae reiciendis quia labore laborum assumenda quas eos, quam porro, officia nulla architecto sed adipisci minus fuga.</v-card-text> 
-          </v-card>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
-import seni from '../assets/img/heads.jpg';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import Carousel from '../components/Carousel';
-import Swiper from '../components/Swiper';
-
-
-export default {
-  components: {
-    Carousel,
-    Swiper
-  },
-  async asyncData(){
-    const data = await firebase.firestore().collection('dod').doc('Headphones').get();
-    const parsedData = data.data();
-    var diff = parsedData.from.toDate().getTime() - Date.now();
-
-    const data2 = await firebase.firestore().collection('elektronike').limit(4).get();
-    const datas = data2.docs.map(doc => doc.data());
-
-    const gio = await firebase.firestore().collection('elektronike').orderBy("creationTime").limit(4).get();
-    const gio2 = gio.docs.map(doc => doc.data());
-    
-    const fata = await firebase.firestore().collection('basic').get();
-    const fata2 = fata.docs.map(doc => doc.data());
-
-    const data21 = await firebase.firestore().collection('elektronike').where("details.likes", ">=", 3.5).limit(4).get();
-    const datas1 = data21.docs.map(doc => doc.data());
-
-    return {
-      statedTime: diff,
-      prodis: datas,
-      basic: fata2[5],
-      main: fata2[1],
-      side1: fata2[2],
-      side2: fata2[3],
-      stingy: fata2[5],
-      stangy: fata2[4],
-      dotd: fata2[0],
-      recom: datas1,
-      neue: gio2
-    }
-  },
-  data(){
-    return{
-      seni: seni,
-      ratings: 4,
-      slickOptions: {
-        slidesToShow: 3,
-        arrows: false
-      },
-      objCount: 1,
-      speed: 7000,
-      ratingfake: 4,
-      myOptions: {
-            navButtons: false,
-            
-            responsive: [
-                {
-                    breakpoint: 600,
-                    settings: {
-                        dots: false
-                    }
-                },
-                
-                {
-                    breakpoint: 900,
-                    settings: {
-                        navButtons: true,
-                        dots: true,
-                        infinite: false
-                    }
-                }
-            ]
-        }
-    }
-  },
-  head(){
-      return{
-        title: "Homepage",
-        meta: [
-          {
-            hid: 'description',
-            name: 'description',
-            content: 'Marketi me i perhapur'
+  import seni from '../assets/img/heads.jpg';
+  import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+  import 'swiper/css/swiper.css'
+  export default {
+    name: 'swiper-nuxt',
+    props: ['time'],
+    data () {
+      return {
+        swiperOptions: {
+          loop: true,
+          slidesPerView: 'auto',
+          centeredSlides: true,
+          spaceBetween: 30,
+          pagination: {
+            el: '.swiper-pagination',
+            dynamicBullets: true
           }
-        ]
+        },
+        seni: seni
       }
     },
     methods: {
-      gotonext: function(){
-        this.$refs.carousel.goToNext();
-        if(this.objCount != 10){
-          this.objCount++;
-        }
+      onSwiperRedied(swiper) {
+        console.log('Swiper redied!', swiper)
       },
-      gotoprev: function(){
-        this.$refs.carousel.goToPrev();
-        if(this.objCount != 1){
-          this.objCount--;
-        }
+      onSwiperSlideChangeTransitionStart() {
+        console.log('SwiperSlideChangeTransitionStart!')
       },
-      getCurrSlide: function(event){
-        this.objCount = event.currentSlide + 1;
-      },
-      gotonext1: function(){
-        this.$refs.carousels.goToNext();
-        if(this.objCount != 10){
-          this.objCount++;
-        }
-      },
-      gotoprev1: function(){
-        this.$refs.carousels.goToPrev();
-        if(this.objCount != 1){
-          this.objCount--;
-        }
-      },
-      getCurrSlides: function(event){
-        this.objCount = event.currentSlide + 1;
-      },
-      href: function (){
-        this.$router.push({name: 'account-me'});
+      onSwiperClickSlide(index, reallyIndex) {
+        console.log('Swiper click slide!', reallyIndex)
       }
     }
-}
+  }
 </script>
 
-<style scoped>
-
-.sq-title{
+<style lang="scss" scoped>
+  .example {
+    height: auto;
+    .swiper {
+      height: 300px;
+      width: 100%;
+      .swiper-slide {
+        text-align: center;
+        font-size: 38px;
+        font-weight: 700;
+        background-color: #eee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .swiper-pagination {
+        > .swiper-pagination-bullet {
+          background-color: red;
+        }
+      }
+    }
+  }
+  .sq-title{
   margin-bottom: 25px;
 }
 .sq-mini{

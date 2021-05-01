@@ -56,14 +56,7 @@
                     </v-btn>
                 </v-toolbar-items>
                 </v-toolbar>
-                <v-list
-                three-line
-                subheader
-                
-                >
-                <v-subheader class="white--text">Perpuno detajet</v-subheader>
-                <v-list-item>
-                    <v-list-item-content class="hiddeneye">
+                <div class="hiddeneye">
                     <v-text-field
                         v-model="namey"
                         label="Titulli"
@@ -134,7 +127,7 @@
                                 dark
                                 bottom
                                 left
-                                class="v-btn--example"
+                                class="v-btn--example ml-3"
                                 color="secondary"
                                 @click="newP = true"
                             >
@@ -142,9 +135,7 @@
                             </v-btn>
                         </v-fab-transition>
                     </v-row>
-                    </v-list-item-content>
-                </v-list-item>
-                </v-list>
+                </div>
                 <v-divider></v-divider>
                 <v-list
                 three-line
@@ -979,6 +970,18 @@ export default {
 .r{
     z-index: 999999998989898787979867987;
 }
+.hiddeneye{
+    display: flex;
+    
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 25px;
+}
+.classy{
+    font-family: 'qs';
+    font-size: 20px;
+}
 .border-chip{
     border: 1px solid black;
 }
@@ -1203,9 +1206,15 @@ export default {
     }
     .hiddeneye{
         display: flex;
+        
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
+        padding: 25px;
+    }
+    .classy{
+        font-family: 'qs';
+        font-size: 20px;
     }
     .custom-right{
         margin-left: 15px;
