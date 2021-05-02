@@ -62,11 +62,21 @@
       </v-sheet> 
       <v-dialog v-model="dialog" max-width="240">
             <v-card color="secondary">
-                <v-card-title class="qs headline">Few more steps!</v-card-title>
-                <v-card-text class="qs">Account creation is successful. Please verify your email by clicking the link provided to you. In the meantime, please head to the login page.</v-card-text>
+                <v-card-title class="qs headline">Disa hapa me shume!</v-card-title>
+                <v-card-text class="qs">Hapja e llogarise perfundoi me sukses. Ju lutem konfirmojeni llogarine tuaj duke klikuar ne linkun e nisur ne email-in tuaj.</v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn class="qs" @click="redir" text >To Login</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="uncorrect" max-width="240">
+            <v-card color="primary">
+                <v-card-title class="qs headline">Rishikoni passwordin!</v-card-title>
+                <v-card-text class="qs">Password i vendosur nuk perputhet me passwordin e perseritur.</v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn class="qs" @click="uncorrect = false" text >Mbyll</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -265,6 +275,7 @@ export default {
             }
             if(this.account.password != this.account.passwordR){
                 this.loading = false;
+                this.uncorrect = true;
                 return;
             }
             await this.$store.dispatch("users/register", this.account);
