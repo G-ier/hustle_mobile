@@ -29,7 +29,7 @@
                                 <v-select :items="items" label="Qyteti" class="fully white--text" color="white" dark outlined v-model="account.qyteti" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-select>
                                 <v-text-field label="Rruga" outlined  class="white--text fully" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
                                 <v-text-field label="Numri" outlined class="white--text fully" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
-                                <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully" v-model="account.password"></v-text-field>
+                                <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully" v-model="account.password" :error-messages="passErrors" required @input="$v.account.password.$touch()"></v-text-field>
                                 <v-text-field label="Perserit Password" type="password" color="white" outlined class="white--text fully" v-model="account.passwordR" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
                             </div>
                         </v-form>
@@ -85,7 +85,7 @@
 
 <script>
 import {validationMixin} from 'vuelidate'
-import {required, numeric, email} from 'vuelidate/lib/validators'
+import {required, numeric, email, minLength} from 'vuelidate/lib/validators'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 export default {
@@ -181,6 +181,7 @@ export default {
             loading: false,
             dialog: false,
             tab: null,
+            uncorrect: false
         }
     },
     validations: {
@@ -190,13 +191,11 @@ export default {
             },
             password: {
                 required,
+                minLength: minLength(6)
             },
             email: {
                 required,
                 email
-            },
-            password: {
-                required,
             },
             adresa: {
                 required,
@@ -225,6 +224,7 @@ export default {
             const errors = []
             if (!this.$v.account.password.$dirty) return errors
             !this.$v.account.password.required && errors.push('Passwordi eshte i detyrueshem')
+            !this.$v.account.password.minLength && errors.push('Passwordi duhet te kete minimalisht 6 karaktera')
             return errors
         },
         emriErrors () {
