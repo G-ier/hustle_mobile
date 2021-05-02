@@ -92,14 +92,18 @@ export const actions = {
             const token = await firebase.auth().currentUser.getIdToken();
             const { email, uid } = firebase.auth().currentUser
 
+            // Get role TODO: check if user doesnt exist.
+            //const snapshot = await firebase.firestore().collection('users').doc(toFilter[0]).get();
+            //const roleName = snapshot.data(); 
+
 
             //Set token to cookie
             Cookie.set('access_token', token);
-            Cookies.set('role_token', roleName.role);  
-            const usershit = {
-                username: roleName.username,
-            }
-            Cookies.set('user', JSON.stringify(usershit));  
+            //Cookies.set('role_token', roleName.role);  
+            //const usershit = {
+            //    username: roleName.username,
+            //}
+            //Cookies.set('user', JSON.stringify(usershit));  
 
             // Set role
             commit("SET_ROLE", account.role.toLowerCase());
