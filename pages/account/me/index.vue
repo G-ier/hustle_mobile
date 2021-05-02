@@ -46,6 +46,13 @@
       <div class="admin-starter" v-if="role == 'buyer'">
           <div class="container-stuff">
               <h1 class="starter-title qs">Pagesat tuaja</h1>
+              <div class="starter-row-1">
+                <div class="simple-listing">
+                    <div class="simple-tile">
+                        <p class="qs secondary--text simple-m ma-0 pa-0">{{bought.length}} <span class="qs side-m">Blerje</span>  </p>
+                    </div>
+                </div>
+              </div>
                 <div class="starter-row">
                     <v-btn class="qs white--text" small text nuxt @click="boughting = true">Cdo pagese</v-btn>
                 </div>
@@ -62,13 +69,13 @@
             <v-card-title>Cdo blerje</v-card-title>
             <v-divider></v-divider>
             <v-card-text style="height: 300px;">
-            <v-list color="secondary">
-                <v-list-item v-for="pur in bought" :key="pur.id">
-                    <v-list-item-content v-for="ting in pur.orders" :key="ting.id">
-                        <v-list-item-title>{{ting.item}}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
+            <div class="lister">
+                <div class="lister-item" v-for="pur in bought" :key="pur.id">
+                    <p class="qs white--text">Produkti: {{pur.orders.item}}</p>
+                    <p class="qs white--text">Totali: {{pur.orders.price}}</p>
+                    <p class="qs white--text">Cope: {{pur.orders.quantity}}</p>
+                </div>
+            </div>
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
@@ -183,15 +190,21 @@ export default {
         var realting = full[0];
         console.log(realting);
 
-        const data = await firebase.firestore().collection('orders').where("from", "==", realting).get();
+        const datush = await firebase.firestore().collection('users').doc(realting).get();
+        const datush2 = datush.data();
+
+        const data = await firebase.firestore().collection('orders').where("payee_email", "==", datush2.email).get();
         const data2 = data.docs.map(doc => doc.data());
 
-        const data3 = await firebase.firestore().collection('elektronike').where("owner", "==", realting).get();
-        const data4 = data3.docs.map(doc => doc.data());
+        var data4 = [];
+        if(store.state.users.role == "seller"){
+            const data3 = await firebase.firestore().collection('elektronike').where("owner", "==", datush2.username).get();
+            data4 = data3.docs.map(doc => doc.data());
+        }
 
         return{
             bought: data2.length > 0 ? data2 : [],
-            prods: data4
+            prods: data4.length > 0 ? data4 : []
         }
     },
     data(){
@@ -327,6 +340,22 @@ export default {
 <style>
 .r{
     z-index: 999999998989898787979867987;
+}
+.lister{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.lister-item{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid gray;
+    margin-bottom: 20px;
 }
 .inputFile::-webkit-file-upload-button {
     visibility: hidden;

@@ -2,7 +2,7 @@
     <div class="edit">
         <div class="sets">
             
-            <h2 class="classy secondary--text">Your orders</h2>
+            <h2 class="classy secondary--text">Porosite tuaja</h2>
             
         </div>
         <div class="lineM"></div>
@@ -10,7 +10,16 @@
           <div class="desc-row">
             <v-expansion-panels accordion dark>
                 <v-expansion-panel class="primary white--text mb-2" v-for="panel in stuff" :key="panel">
-                    <v-expansion-panel-header class="qs white--text">From: {{panel.from}}</v-expansion-panel-header>
+                    <v-expansion-panel-header class="qs white--text">
+                        <v-row no-gutters align="center">
+                            <h2 class="qs white--text ma-0 pa-0">{{stuff.indexOf(panel)+1}}</h2>
+                            <v-spacer></v-spacer>
+                            <h2 class="qs white--text ma-0 pa-0">Derguar: </h2>
+                            <v-icon v-if="panel.fulfilled" color="white" >mdi-check-circle-outline</v-icon>
+                            <v-icon v-if="!panel.fulfilled" color="white">mdi-close-octagon-outline</v-icon>
+                            <v-spacer></v-spacer>
+                        </v-row>
+                    </v-expansion-panel-header>
                     <v-expansion-panel-content class="qs white--text">
                         <div class="order">
                             <div class="peace">
@@ -52,6 +61,10 @@ export default {
     width: 100vw;
     min-height: 81vh;
     background-color: white;
+}
+.classy{
+    font-family: 'qs';
+    font-size: 22px;
 }
 .sets{
     display: flex;

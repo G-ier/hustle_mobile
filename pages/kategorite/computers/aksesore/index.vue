@@ -687,10 +687,37 @@ export default {
                 return doc2.details.price - doc1.details.price
             })
         },
+        compareFunction: function (f, s){
+            if(f > s){
+                return 1;
+            } else if(f < s) {
+                return -1;
+            } else {
+                return 0;
+            }
+        },
         filterReviews: function(){
             this.prods.sort((doc1, doc2) => {
-                return doc2.details.likes - doc1.details.likes
-            })
+                if((doc2.details.likes)/(doc2.details.likers+1) > (doc1.details.likes)/(doc1.details.likers)){
+                    console.log("case 1");
+                    return 1;
+                } else if((doc2.details.likes)/(doc2.details.likers+1) < (doc1.details.likes)/(doc1.details.likers)){
+                    console.log("case 2");
+                    return -1;
+                } else {
+                    if(doc2.details.likers > doc1.details.likers){
+                        return 1;
+                    } else if(doc2.details.likers < doc1.details.likers) {
+                        return -1;
+                    } else {
+                        if(doc2.details.likes){
+                            return 1;
+                        } else {
+                            return -1;
+                        }
+                    }
+                }
+            });
         },
         applyPrice: function(){
             

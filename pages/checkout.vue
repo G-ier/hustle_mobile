@@ -279,6 +279,7 @@ export default {
             this.completedP = true;
             this.dun = true;
         }
+
     },
     /*
     doTheTing: function(details){
@@ -318,7 +319,7 @@ export default {
     inhand: async function(){
 
         this.$v.num.$touch();
-        this.$v.num.$touch();
+        this.$v.note.$touch();
 
         if (this.$v.num.$invalid || this.$v.note.$invalid) {
             this.submitStatus = 'ERROR'
@@ -327,21 +328,24 @@ export default {
             console.log("gucci");
         }
 
+        const cookie = JSON.parse(Cookies.get("user"));
         this.inhandp = true;
         this.loading2 = true;
         this.toSell.forEach(async (fell) => {
             var false5 = fell.name.split(" |");
-            var false4 = false5[1];
-            console.log(false4);
-            const orderID = Math.random().toString(36).substring(2,17);
-            await firebase.firestore().collection('orders').doc(orderID).set({
-                from: fell.owner,
+            var fellDesc = fell.description.split("from ");
+            var author = fellDesc[1];
+            console.log(JSON.stringify(fell));
+            const orderID = Math.random().toString(36).substring(2,30);
+            const docName = false5[0] + orderID;
+            await firebase.firestore().collection('orders').doc(`${docName}`).set({
+                from: cookie.username,
                 fulfilled: false,
-                onto: false4,
+                onto: author,
                 address: this.note,
                 qyteti: this.qyteti,
                 number: this.num,
-                orderID: orderID,
+                orderId: docName,
                 orders: {
                     item: false5[0],
                     paid: false,
@@ -349,7 +353,7 @@ export default {
                     quantity: fell.quantity,
                     type: "Ne dore"
                 },
-                payee_email: this.$store.state.users.user.email
+                payee_email: this.$store.state.users.user.email ? this.$store.state.users.user.email : "Anonim"
             })
         });
 

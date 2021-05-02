@@ -54,6 +54,10 @@ export const actions = {
             //Set token to cookie
             Cookie.set('access_token', token);
             Cookies.set('role_token', roleName.role);  
+            const usershit = {
+                username: roleName.username,
+            }
+            Cookies.set('user', JSON.stringify(usershit));  
 
             // Set role
             commit("SET_ROLE", roleName.role);
@@ -74,7 +78,7 @@ export const actions = {
             await firebase.auth().createUserWithEmailAndPassword(account.email, account.password);
             await firebase.firestore().collection('users').doc(toFilter[0]).set({
                 email: account.email.toLowerCase(),
-                username: account.emri,
+                username: account.emri.toLowerCase(),
                 role: account.role.toLowerCase(),
                 displaName: toFilter[0],
                 password: account.password,
@@ -91,6 +95,11 @@ export const actions = {
 
             //Set token to cookie
             Cookie.set('access_token', token);
+            Cookies.set('role_token', roleName.role);  
+            const usershit = {
+                username: roleName.username,
+            }
+            Cookies.set('user', JSON.stringify(usershit));  
 
             // Set role
             commit("SET_ROLE", account.role.toLowerCase());

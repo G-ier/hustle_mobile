@@ -141,7 +141,7 @@
         </div>
         <div class="products-main">
           <div class="product-main" v-for="item in prodis.slice(0,4)" :key="item.id">
-            <v-img class="product-main-image-2"  :src="item.details.photos[0].src" alt="iphone"></v-img>
+            <v-img class="product-main-image-2" v-if="item" :src="item.details.photos[0].src" alt="iphone"></v-img>
             <div class="product-main-desc">
               <h3 class="qs secondary--text"><nuxt-link class="qs btn-c-o" :to="'/kategorite/elektronike/tv-dhe-video/' + item.spot">{{item.details.name}}</nuxt-link></h3>
               <v-rating 
@@ -240,7 +240,7 @@
         </div>
         <div class="products-main-2">
           <div class="product-main" v-for="item in neue" :key="item.id">
-            <img class="product-main-image" :src="item.details.photos[0].src" :alt="item.details.name">
+            <img class="product-main-image" v-if="item" :src="item.details.photos[0].src" :alt="item.details.name">
             <div class="product-main-desc">
               <nuxt-link class="qs secondary--text" :to="item.details.kategorita + '/' + item.spot">{{item.details.name}}</nuxt-link>
               <v-rating 
@@ -312,7 +312,7 @@
         </div>
         <div class="products-main">
           <div class="product-main" v-for="item in prodis.slice(0,4)" :key="item.id">
-            <img class="product-main-image-2" :src="item.details.photos[0].src" alt="iphone">
+            <img class="product-main-image-2" v-if="item" :src="item.details.photos[0].src" alt="iphone">
             <div class="product-main-desc">
               <h3 class="qs secondary--text"><nuxt-link class="qs btn-c-o" :to="'/kategorite/elektronike/tv-dhe-video/' + item.spot">{{item.details.name}}</nuxt-link></h3>
               <v-rating 
@@ -337,7 +337,7 @@
             <div class="fucked-1" v-for="item in recom" :key="item.id">
               <div class="kivi">
                 <v-avatar tile color="white" size="70" class="mb-5">
-                  <v-img class="fucked-image" :src="item.details.photos[0].src" :alt="item.details.name"></v-img>
+                  <v-img class="fucked-image" v-if="item" :src="item.details.photos[0].src" :alt="item.details.name"></v-img>
                 </v-avatar>
               </div>
               <div class="fucked-desc">

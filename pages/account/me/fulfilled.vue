@@ -61,6 +61,10 @@ export default {
     min-height: 81vh;
     background-color: white;
 }
+.classy{
+    font-family: 'qs';
+    font-size: 22px;
+}
 .sets{
     display: flex;
     justify-content: space-between;

@@ -38,6 +38,7 @@
 
 <script>
 import Cookie from 'js-cookie';
+import Cookies from 'js-cookie';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 export default {
@@ -80,21 +81,22 @@ export default {
       //console.log(cookieD);
       this.cookie = cookieD;
       this.identity = cookieI;
-
+      const cookiey = JSON.parse(Cookies.get("user"));
       this.toSell.forEach(async fell => {
           var false5 = fell.name.split(" |");
-          var false4 = false5[1];
-          console.log(false4);
-          const orderID = Math.random().toString(36).substring(2,17);
-          await firebase.firestore().collection('orders').doc(orderID).set({
-              from: fell.owner,
+          var fellDesc = fell.description.split("from ");
+          var author = fellDesc[1];
+          const orderID = Math.random().toString(36).substring(2,30);
+          const docName = false5[0] + orderID;
+          await firebase.firestore().collection('orders').doc(`${docName}`).set({
+              from: cookiey.username,
               payee_email: this.$store.state.users.user.email,
               fulfilled: false,
-              onto: false4,
+              onto: author,
               address: cookieI.adresa,
               qyteti: cookieI.qyt,
               number: cookieI.numri,
-              orderID: orderID,
+              orderID: docName,
               orders: {
                 item: false5[0],
                 paid: true,

@@ -30,6 +30,7 @@
                                 <v-text-field label="Rruga" outlined  class="white--text fully" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
                                 <v-text-field label="Numri" outlined class="white--text fully" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
                                 <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully" v-model="account.password"></v-text-field>
+                                <v-text-field label="Perserit Password" type="password" color="white" outlined class="white--text fully" v-model="account.passwordR" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
                             </div>
                         </v-form>
                         <div class="button-side">
