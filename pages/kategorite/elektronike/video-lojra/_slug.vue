@@ -20,14 +20,14 @@
                   <v-rating
                     :value="product.details.likes/product.details.likers"
                     readonly
-                    background-color="yellow lighten-3"
-                    color="yellow"
+                    background-color="secondary"
+                    color="secondary"
                     small
                   ></v-rating>
-                  <p class="price-prod" v-if="product.details.priceLow">{{product.details.priceLow}} <span class="mini-span">ALL</span> <span class="text-decoration-line-through qs s16 primary--text">{{product.details.price}}</span> <span class="mini-span primary--text">ALL</span></p>
+                  <p class="price-prod" v-if="product.details.priceLow">{{product.details.priceLow}} <span class="mini-span">ALL</span> <span class="text-decoration-line-through qs s14 primary--text">{{product.details.price}}</span> <span class="mini-span primary--text">ALL</span></p>
                   <p class="price-prod" v-if="product.details.priceLow == null">{{product.details.price}} <span class="mini-span">ALL</span></p>
                   <div class="rowting">
-                      <v-btn class="white--text rounded-md width-70" color="primary" @click="addToCart">Add to Cart</v-btn>
+                      <v-btn class="white--text rounded-md width-70" color="primary" @click="addToCart(product.details.name, product.details.seller, product.details.price, 1, product.details.desc, product.details.photos[0].src)">Add to Cart</v-btn>
                       <v-btn class="white--text" color="primary" icon @click="favs(product)"><v-icon size="34" color="secondary">mdi-heart-outline</v-icon></v-btn>
                   </div>
               </div>
@@ -269,18 +269,20 @@ export default {
         }
     },
     methods: {
-        addToCart: async function (){
+        addToCart2: async function (){
             
-            var cookie = Cookies.get("cartToken");
+            var cookie = Cookie.get("cartToken");
 
             if(!cookie){
                 var real = {
                     emri: this.product.details.name,
                     price: this.product.details.price,
                     times: 1,
-                    desc: "Item from " + this.product.details.seller,
+                    desc: "Item from " + this.product.owner.toLowerCase(),
                     currentCart: []
                 }
+
+                console.log("CASE 1");
 
                 await this.$store.dispatch("users/addToCart", real);
             } else {
@@ -291,23 +293,58 @@ export default {
                     emri: this.product.details.name,
                     price: this.product.details.price,
                     times: 1,
-                    desc: "Item from " + this.product.owner,
+                    desc: "Item from " + this.product.owner.toLowerCase(),
                     currentCart: carty
                 }
+                
+                console.log("CASE 2");
 
-                carty.forEach(element => {
+                carty.forEach(async element => {
                     if(element.prodEmri == this.$store.state.users.cart){
-                        this.$store.dispatch("users/updateCart", {
+                        await this.$store.dispatch("users/updateCart", {
                             cartEmri: this.product.details.name,
                             cartTimes: 1,
                             currentCart: real
                         })
                     } else {
-                        this.$store.dispatch("users/addToCart", real);
+                        await this.$store.dispatch("users/addToCart", real);
                     }
                 });
             }
 
+
+            this.snack = true;
+        },
+        addToCart: async function(emri, seller, price, times, desc, photo){
+            var currentCartJSON = Cookies.get("cart_hustle");
+            
+            if(typeof currentCartJSON === 'undefined'){
+                currentCart = [];
+            } else {
+                var currentCart = JSON.parse(currentCartJSON);
+            }
+
+            const cartNewDetails = {
+                cartEmri: emri,
+                cartTimes: times,
+                currentCart: currentCart
+            }
+            currentCart.forEach((doc) => {
+                if(doc.prodEmri == emri){
+                    this.$store.dispatch("users/updateCart", cartNewDetails);
+                    return;
+                }
+            })
+            await this.$store.dispatch("users/addToCart", {
+                emri: emri,
+                seller: seller,
+                price: price,
+                times: times,
+                desc: "Produkt nga " + seller,
+                photo: photo,
+                currentCart: currentCart
+            });
+            console.log(currentCart);
 
             this.snack = true;
         },
@@ -513,6 +550,10 @@ export default {
     width: 100%;
 }
 @media only screen and (min-width: 850px){
+.miniature{
+  font-size: 13px;
+  color: darkgray;
+}
     .qualifier{
         width: 100%;
         display: flex;

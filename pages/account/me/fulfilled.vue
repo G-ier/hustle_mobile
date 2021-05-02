@@ -37,7 +37,7 @@ export default {
         const ordeal = ord.docs.map(doc => doc.data());
 
         const newordeal = ordeal.filter(doc => {
-            doc.fulfilled = true;
+            return doc.fulfilled == true;
         });
 
         return{

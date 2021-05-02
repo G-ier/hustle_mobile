@@ -40,9 +40,12 @@
 <script>
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
+import Cookies from 'js-cookie';
 export default {
-    async asyncData({route}){
-        const ord = await firebase.firestore().collection("orders").where("onto", "==", route.query.name).get();
+    async asyncData({route, store}){
+        const cook = route.query.name;
+
+        const ord = await firebase.firestore().collection("orders").where("onto", "==", cook).get();
         const ordeal = ord.docs.map(doc => doc.data());
 
         return{

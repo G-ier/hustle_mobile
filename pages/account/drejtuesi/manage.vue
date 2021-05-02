@@ -1248,6 +1248,10 @@ export default {
     color: rgb(214, 214, 214);
 }
 @media only screen and (min-width: 850px){
+.miniature{
+  font-size: 13px;
+  color: darkgray;
+}
     .oat-1{
         display: flex;
         flex-direction: column;

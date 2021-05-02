@@ -16,15 +16,17 @@
           </div>
           <div class="details">
               <div class="shithole">
-                  <h1 class="qs secondary--text">{{product.details.name}}</h1>
+                  <h1 class="qs secondary--text s25">{{product.details.name}}</h1>
                   <v-rating
                     :value="product.details.likes/product.details.likers"
                     readonly
-                    background-color="yellow lighten-3"
-                    color="yellow"
+                    background-color="secondary"
+                    color="secondary"
                     small
-                  ></v-rating>
-                  <p class="price-prod" v-if="product.details.priceLow">{{product.details.priceLow}} <span class="mini-span">ALL</span> <span class="text-decoration-line-through qs s16 primary--text">{{product.details.price}}</span> <span class="mini-span primary--text">ALL</span></p>
+                  >
+                  </v-rating>
+                  <p class="qs secondary--text">{{'(' + product.details.likers + ')'}}</p>
+                  <p class="price-prod" v-if="product.details.priceLow">{{product.details.priceLow}} <span class="mini-span">ALL</span> <span class="text-decoration-line-through qs s14 primary--text">{{product.details.price}}</span> <span class="mini-span primary--text">ALL</span></p>
                   <p class="price-prod" v-if="product.details.priceLow == null">{{product.details.price}} <span class="mini-span">ALL</span></p>
                   <div class="rowting">
                       <v-btn class="white--text rounded-md width-70" color="primary" @click="addToCart(product.details.name, product.details.seller, product.details.price, 1, product.details.desc, product.details.photos[0].src)">Add to Cart</v-btn>
@@ -282,9 +284,11 @@ export default {
                     emri: this.product.details.name,
                     price: this.product.details.price,
                     times: 1,
-                    desc: "Item from " + this.product.details.seller,
+                    desc: "Item from " + this.product.owner.toLowerCase(),
                     currentCart: []
                 }
+
+                console.log("CASE 1");
 
                 await this.$store.dispatch("users/addToCart", real);
             } else {
@@ -295,9 +299,11 @@ export default {
                     emri: this.product.details.name,
                     price: this.product.details.price,
                     times: 1,
-                    desc: "Item from " + this.product.owner,
+                    desc: "Item from " + this.product.owner.toLowerCase(),
                     currentCart: carty
                 }
+                
+                console.log("CASE 2");
 
                 carty.forEach(async element => {
                     if(element.prodEmri == this.$store.state.users.cart){
@@ -335,13 +341,12 @@ export default {
                     return;
                 }
             })
-
             await this.$store.dispatch("users/addToCart", {
                 emri: emri,
                 seller: seller,
                 price: price,
                 times: times,
-                desc: desc,
+                desc: "Produkt nga " + seller,
                 photo: photo,
                 currentCart: currentCart
             });
@@ -575,6 +580,10 @@ export default {
     width: 100%;
 }
 @media only screen and (min-width: 850px){
+.miniature{
+  font-size: 13px;
+  color: darkgray;
+}
     .qualifier{
         width: 100%;
         display: flex;

@@ -960,6 +960,10 @@ export default {
   display: none;
 }
 @media only screen and (min-width: 850px){
+.miniature{
+  font-size: 13px;
+  color: darkgray;
+}
   .spacer-1{
     display: flex;
   }

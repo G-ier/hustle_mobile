@@ -92,7 +92,7 @@ export default {
               from: cookiey.username,
               payee_email: this.$store.state.users.user.email,
               fulfilled: false,
-              onto: author,
+              onto: author.toLowerCase(),
               address: cookieI.adresa,
               qyteti: cookieI.qyt,
               number: cookieI.numri,

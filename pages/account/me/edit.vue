@@ -16,7 +16,8 @@
                                 <h4 class="sell-title">{{prod.details.name}}</h4>
                                 <p class="qs sell-price">{{prod.details.price}} ALL</p>
                                 <div class="func-row">
-                                    <v-btn color="secondary" class="rounded-md" small @click="edit(prod, prod.spot)">Edit</v-btn>
+                                    <v-btn color="secondary" class="rounded-md" small @click="edit(prod, prod.spot)">Perpuno</v-btn>
+                                    <v-btn color="primary" class="rounded-md" small @click="remove(prod, prod.spot)">Hiq</v-btn>
                                 </div>
                             </div>
                         </div>
@@ -325,7 +326,7 @@
         >
         <v-card color="secondary">
             <v-card-title class="headline qs">
-            Perpunimi sukses!
+            Sukses!
             </v-card-title>
 
             <v-card-text class="qs">
@@ -356,17 +357,17 @@ import {validationMixin} from 'vuelidate'
 import {required, minLength, numeric} from 'vuelidate/lib/validators'
 export default {
     mixins: [validationMixin],
-    async asyncData({route}){
-        const data = await firebase.firestore().collection('users').doc(route.query.name).get();
-        const dataF = data.data();
+    async asyncData({route, store}){
+        const data = await firebase.firestore().collection('users').where("email", "==", store.state.users.user.email).get();
+        const dataF = data.docs.map(doc => doc.data());
 
-        const dataE = await firebase.firestore().collection('elektronike').where("details.seller", "==", route.query.name).get();
+        const dataE = await firebase.firestore().collection('elektronike').where("owner", "==", dataF[0].username.toLowerCase()).get();
         const dataFiltered = dataE.docs.map(doc => doc.data());
 
         var fotoErsatz = dataF.photo ? dataF.photo : null;
 
         return{
-            nameOfS: dataF.username,
+            nameOfS: dataF[0].username,
             photo: fotoErsatz,
             prods: dataFiltered
         }
@@ -539,6 +540,13 @@ export default {
 
             this.dialog = true;
         },
+        remove: async function (prod, spot){
+            await firebase.firestore().collection('elektronike').doc(prod.details.name).delete();
+            this.prods.filter((doc) => {
+                return doc.details.name != prod.details.name; 
+            });
+            alert("Item removed!")
+        },
         close: function(){
             this.namey = "";
             this.pricey = "";
@@ -567,9 +575,10 @@ export default {
             this.newP = true;
         },
         addNew: function (param){
-            this.postings.push(param);
-            console.log(JSON.stringify(param));
+            this.loading = true;
             this.newP = false;
+            console.log(this.lengy);
+            setTimeout(()=>{this.loading = false}, 30000);
         },
         uploadImageFile (files) {
             if (!files.length) {
@@ -670,6 +679,11 @@ export default {
                 return
             }
 
+            if(filey.size >= 3072000){
+                alert("Fotoja shume madhe.");
+                return;
+            }
+
             const metadata = {
                 contentType: filey.type
             }
@@ -689,20 +703,18 @@ export default {
                 return snapshot.ref.getDownloadURL().then((url) => {
                 return url
                 })
-            }).catch((error) => {
-                console.error('Error uploading image', error)
+            }).then( (url) => {
+                var posts = this.postings;
+                posts.push({
+                    src: url,
+                    emri: file.name
+                });
+                this.postings = posts;
             })
 
             // When the upload ends, set the value of the blog image URL
             // and signal that uploading is done.
-            uploadTask.then( (url) => {
-                this.pending = {
-                    src: url,
-                    emri: file.name
-                };
-                console.log(this.pending);
-                this.addNew(this.pending);
-            })
+            
             
         },
         upload: async function(){

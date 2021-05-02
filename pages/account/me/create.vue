@@ -101,29 +101,12 @@
                         required 
                         @input="$v.kategorita.$touch()"
                     ></v-select>
-                    <div class="vert">
-                        <p class="qs white--text">Fotot - e para e detyrueshme</p>
-                        <input
-                            ref="imageFile"
-                            placeholder="Required photo"
-                            accept="image/png, image/jpeg"
-                            class="inputFileR ml-1"
-                            type="file"
-                            name="file"
-                            id="imazh"
-                            @change.prevent="uploadImageFile($event.target.files)"
-                        >
-                    </div>
-                    <div class="vert" v-for="show in toShow" :key="show.id">
-                        <input
-                            ref="imageFile"
-                            placeholder="Profile photo"
-                            accept="image/png, image/jpeg"
-                            class="inputFileR ml-1"
-                            type="file"
-                            name="file" 
-                            @change.prevent="uploadImageFile1($event.target.files)"
-                        >
+                    <p class="qs white--text">Fotot - e para e detyrueshme</p>
+                    <p class="qs white--text" v-if="postings.length == 0">Kliko tek plusi per te shtuar</p>
+                    <div class="vert" v-for="post in postings" :key="post.id">
+                        <p class="qs white--text">Fotoja {{postings.indexOf(post)+1}}</p>
+                        <p class="qs white--text pa-0 ma-0">Momentalisht: {{post.emri}}</p>
+                        <v-btn x-small color="white" class="secondary--text mb-5 mt-2" @click="postings.splice(postings.indexOf(post), 1)">Remove</v-btn>
                     </div>
                     <v-row justify="center full-width mt-6 ml-3 custom-right">
                         <v-fab-transition>
@@ -297,6 +280,47 @@
             </v-card-actions>
         </v-card>
         </v-dialog>
+        <v-dialog
+            v-model="newP"
+            max-width="240"
+            >
+            <v-card color="primary">
+                <v-card-title class="headline qs">
+                Shto foto
+                </v-card-title>
+
+                <v-card-text class="qs">
+                    <input
+                        ref="imageFile"
+                        placeholder="Profile photo"
+                        accept="image/png, image/jpeg"
+                        class="inputFileR ml-1"
+                        type="file"
+                        name="file"
+                        @input="uploadImageFile1($event.target.files)"
+                        style="width: 200px;"
+                    >
+                </v-card-text>
+
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                    color="white"
+                    text
+                    @click="newP = false"
+                >
+                    Cancel
+                </v-btn>
+                <v-btn
+                    color="white"
+                    text
+                    @click="addNew"
+                >
+                    Shto
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
         </v-dialog>
         <v-dialog
         v-model="dialog2"
@@ -380,16 +404,17 @@ import 'firebase/firestore'
 import 'firebase/storage'
 import {validationMixin} from 'vuelidate'
 import {required, minLength, numeric} from 'vuelidate/lib/validators'
+import Cookie from 'js-cookie';
 export default {
     mixins: [validationMixin],
-    async asyncData({route}){
-        const data = await firebase.firestore().collection('users').doc(route.query.name).get();
-        const dataF = data.data();
+    async asyncData({route, store}){
+        const data = await firebase.firestore().collection('users').where("email", "==", store.state.users.user.email).get();
+        const dataF = data.docs.map(doc => doc.data());
 
-        var fotoErsatz = dataF.photo ? dataF.photo : null;
+        var fotoErsatz = dataF[0].photo ? dataF.photo : null;
 
         return{
-            nameOfS: dataF.username,
+            nameOfS: dataF[0].username,
             photo: fotoErsatz
         }
     },
@@ -487,8 +512,10 @@ export default {
             masa: "",
             sizey: "",
             ngjyra: "",
-            priceyUlje: null,
-            loading: false
+            priceyLow: null,
+            loading: false,
+            newP: false,
+            lengy: null
 
         }
     },
@@ -555,26 +582,23 @@ export default {
             this.selectedMeta = null;
             this.prodPhoto = "";
             this.spot = null;
-            document.getElementById("imazh").value = "";
 
             this.dialog = false;
             return;
         },
-        newline: function(){
-            
-
-            this.toDet.push({
-                detail: ""
-            });
-        },
         newphoto: function(){
-            this.loading = true;
-
-            this.toShow.push("item");
+            
+            this.newP = true;
         },
         remphoto: function(){
 
-            this.toShow.pop("item");
+            this.postings.pop();
+        },
+        addNew: function (){
+            this.loading = true;
+            this.newP = false;
+            console.log(this.lengy);
+            setTimeout(()=>{this.loading = false}, 30000);
         },
         uploadImageFile (files) {
             if (!files.length) {
@@ -591,37 +615,35 @@ export default {
                 contentType: filey.type
             }
             
-            this.selectedMeta = metadata;
+            
 
-            this.selectedFile = filey;
-
-            const file = this.selectedFile;
-            const metadata1 = this.selectedMeta;
+            const file = filey;
+            const metadata1 = metadata;
             const storage = firebase.storage()
             const imageRef = storage.ref(`images/${file.name}`)
 
-            const uploadTask = imageRef.put(file, metadata1).then((snapshot) => {
+            imageRef.put(file, metadata1).then((snapshot) => {
                 // Once the image is uploaded, obtain the download URL, which
                 // is the publicly accessible URL of the image.
                 return snapshot.ref.getDownloadURL().then((url) => {
                 return url
                 })
-            }).catch((error) => {
-                console.error('Error uploading image', error)
+            }).then( (url) => {
+                var postings = this.postings.filter((doc)=>{
+                    return doc.index != 1;
+                });
+                postings.push({
+                    src: url,
+                    emri: file.name,
+                    index: 1
+                });
+                this.postings = postings;
+                console.log(JSON.parse(this.postings));
             })
 
             // When the upload ends, set the value of the blog image URL
             // and signal that uploading is done.
-            uploadTask.then( (url) => {
-                this.postings.push({
-                    src: url,
-                    emri: file.name
-                });
-                this.loading = true;
-                setTimeout(()=>{
-                    this.loading = false;
-                }, 3000);
-            })
+            
             
         },
         uploadImageFile1 (files) {
@@ -635,37 +657,39 @@ export default {
                 return
             }
 
+            if(filey.size >= 3072000){
+                alert("Fotoja shume madhe.");
+                return;
+            }
+
             const metadata = {
                 contentType: filey.type
             }
-            
-            this.selectedMeta = metadata;
 
-            this.selectedFile = filey;
-
-            const file = this.selectedFile;
-            const metadata1 = this.selectedMeta;
+            const file = filey;
+            const metadata1 = metadata;
             const storage = firebase.storage()
             const imageRef = storage.ref(`images/${file.name}`)
 
-            const uploadTask = imageRef.put(file, metadata1).then((snapshot) => {
+            imageRef.put(file, metadata1).then((snapshot) => {
                 // Once the image is uploaded, obtain the download URL, which
                 // is the publicly accessible URL of the image.
                 return snapshot.ref.getDownloadURL().then((url) => {
                 return url
                 })
-            }).catch((error) => {
-                console.error('Error uploading image', error)
+            }).then( (url) => {
+                var posts = this.postings;
+                posts.push({
+                    src: url,
+                    emri: file.name
+                });
+                this.postings = posts;
+                
             })
 
             // When the upload ends, set the value of the blog image URL
             // and signal that uploading is done.
-            uploadTask.then( (url) => {
-                this.postings.push({
-                    src: url,
-                    emri: file.name
-                });
-            })
+            
             
         },
         upload: async function(){
@@ -673,7 +697,6 @@ export default {
             this.$v.namey.$touch();
             this.$v.pricey.$touch();
             this.$v.kategorita.$touch();
-            const mainPhoto = document.getElementById("imazh");
 
 
             if(this.$v.namey.$invalid || this.$v.pricey.$invalid || this.$v.kategorita.$invalid){
@@ -682,7 +705,7 @@ export default {
                 console.log("hack me fam");
             }
             
-            if(mainPhoto.value == ""){
+            if(this.postings.length <= 0){
                 this.photoProb = true;
                 
                 return;
@@ -885,6 +908,9 @@ export default {
             const currentDate = new Date();
             const timestamp = currentDate.getTime();
 
+            const cookie = Cookie.get("user");
+            const cook = JSON.parse(cookie);
+
             await firebase.firestore().collection('elektronike').doc(this.namey).set({
                 details: {
                     name: this.namey,
@@ -904,7 +930,7 @@ export default {
                     likes: 0,
                     likers: 0
                 },
-                owner: this.nameOfS,
+                owner: cook.username.toLowerCase(),
                 spot: this.namey,
                 creationTime: timestamp
             });
@@ -1074,6 +1100,10 @@ export default {
     color: rgb(214, 214, 214);
 }
 @media only screen and (min-width: 850px){
+.miniature{
+  font-size: 13px;
+  color: darkgray;
+}
     .pc-small{
         width: 400px;
     }

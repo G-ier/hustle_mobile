@@ -458,7 +458,8 @@
                    <div class="marketplace-item" v-if="prods.length > 0">
                        <div class="marketplace-vendor" v-for="prod in prods" :key="prod.id">
                            <div class="fullscreen-img">
-                               <v-img :aspect-ratio="1/1" :src="prod.details.photos[0].src" @click="sendToProduct(prod.details.kategorita, prod.spot)"></v-img>
+                               <v-img :aspect-ratio="1/1" v-if="typeof prod.details.photos[0] !== 'undefined'" :lazy-src="prod.details.photos[0].src" @click="sendToProduct(prod.details.kategorita, prod.spot)"></v-img>
+                               <v-img :aspect-ratio="1/1" v-if="typeof prod.details.photos[0] === 'undefined'"  @click="sendToProduct(prod.details.kategorita, prod.spot)"></v-img>
                            </div>
                            <div class="fullscreen-ting">
                                <p class="qs secondary--text s20">{{prod.details.name}}</p>
@@ -475,7 +476,8 @@
                                     class="mb-3"
                                     small
                                 ></v-rating>
-                                <p class="qs primary--text">{{prod.details.price}} ALL</p>
+                                <p class="qs primary--text pricey" v-if="prod.details.priceLow">{{prod.details.priceLow}} ALL <span class="miniature gray--text text-decoration-line-through" v-if="prod.details.priceLow != null">{{prod.details.price}} ALL</span></p>
+                                <p class="qs primary--text pricey" v-if="prod.details.priceLow == null">{{prod.details.price}} ALL</p>
                            </div>
                        </div>
                    </div>

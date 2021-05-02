@@ -255,6 +255,10 @@ export default {
 }
 
 @media only screen and (min-width: 850px){
+.miniature{
+  font-size: 13px;
+  color: darkgray;
+}
     .simple-listing{
         background-color: white;
         border-radius: 20px;

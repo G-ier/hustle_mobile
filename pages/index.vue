@@ -151,7 +151,8 @@
               x-small
               readonly
               ></v-rating>
-              <p class="qs primary--text pricey">{{item.details.priceLow}} ALL <span class="miniature gray--text text-decoration-line-through" v-if="item.details.priceLow != null">{{item.details.price}} ALL</span></p>
+              <p class="qs primary--text pricey" v-if="item.details.priceLow">{{item.details.priceLow}} ALL <span class="miniature gray--text text-decoration-line-through" v-if="item.details.priceLow != null">{{item.details.price}} ALL</span></p>
+              <p class="qs primary--text pricey" v-if="item.details.priceLow == null">{{item.details.price}} ALL</p>
             </div>
           </div>          
         </div>
@@ -1155,6 +1156,7 @@ export default {
   font-size: 13px;
   color: darkgray;
 }
+
 .fucked{
   width: 100%;
   display: flex;

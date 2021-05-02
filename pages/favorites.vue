@@ -288,6 +288,10 @@ export default {
     font-size: 20px;
 }
 @media only screen and (min-width: 850px){
+.miniature{
+  font-size: 13px;
+  color: darkgray;
+}
     .classy{
         font-family: 'qs';
         font-size: 23px;

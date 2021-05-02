@@ -236,8 +236,20 @@ export default {
     };
   },
    methods: {
-    dunn: function(){
-        this.numryTab = true;
+    dunn: async function(){
+        if(this.$store.state.users.user){
+            const dddddd = await firebase.firestore().collection('users').doc(this.email[0]).get();
+            const d = dddddd.data();
+
+            this.numryTab = true;
+
+            this.rrug = d.location;
+            this.namber = d.numri;
+            this.qyt = d.qyteti;
+            this.emr = d.username;
+        } else {
+            this.numryTab = true;
+        }
     },
     checkout () {
       this.$refs.checkoutRef.redirectToCheckout({
@@ -334,6 +346,7 @@ export default {
         this.toSell.forEach(async (fell) => {
             var false5 = fell.name.split(" |");
             var fellDesc = fell.description.split("from ");
+            console.log(fellDesc[1]);
             var author = fellDesc[1];
             console.log(JSON.stringify(fell));
             const orderID = Math.random().toString(36).substring(2,30);
@@ -341,7 +354,7 @@ export default {
             await firebase.firestore().collection('orders').doc(`${docName}`).set({
                 from: cookie.username,
                 fulfilled: false,
-                onto: author,
+                onto: author.toLowerCase(),
                 address: this.note,
                 qyteti: this.qyteti,
                 number: this.num,
@@ -366,6 +379,8 @@ export default {
         
         this.$store.dispatch("users/removeCart");
         Cookies.remove("cart_hustle");
+
+        this.$router.push({name: "account-me"});
 
     }
   },
@@ -598,6 +613,10 @@ export default {
     width: 70%;
 }
 @media only screen and (min-width: 850px){
+.miniature{
+  font-size: 13px;
+  color: darkgray;
+}
     .display-off{
         display: none;
     }

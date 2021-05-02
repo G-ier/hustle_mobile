@@ -43,7 +43,7 @@
           </div>
       </div>
 
-      <div class="admin-starter" v-if="role == 'buyer'">
+      <div class="admin-starter">
           <div class="container-stuff">
               <h1 class="starter-title qs">Pagesat tuaja</h1>
               <div class="starter-row-1">
@@ -198,7 +198,7 @@ export default {
 
         var data4 = [];
         if(store.state.users.role == "seller"){
-            const data3 = await firebase.firestore().collection('elektronike').where("owner", "==", datush2.username).get();
+            const data3 = await firebase.firestore().collection('elektronike').where("owner", "==", datush2.username.toLowerCase()).get();
             data4 = data3.docs.map(doc => doc.data());
         }
 
@@ -246,18 +246,24 @@ export default {
             location.href = "/account";
         },
         toEdit: function(){
-            this.$router.push({name: "account-me-edit", query: {name: this.username[0]}});
+            const cookie = Cookie.get("user");
+            const cook = JSON.parse(cookie);
+            this.$router.push({name: "account-me-edit", query: {name: cook.username.toLowerCase()}});
         },
         toCreate: function(){
-            this.$router.push({name: "account-me-create", query: {name: this.username[0]}});
+            const cookie = Cookie.get("user");
+            const cook = JSON.parse(cookie);
+            this.$router.push({name: "account-me-create", query: {name: cook.username.toLowerCase()}});
         },
         toOrders: function (){
-            
-            this.$router.push({name: "account-me-all-orders", query: {name: this.username[0]}});
+            const cookie = Cookie.get("user");
+            const cook = JSON.parse(cookie);
+            this.$router.push({name: "account-me-all-orders", query: {name: cook.username.toLowerCase()}});
         },
         toFulfilled: function (){
-            
-            this.$router.push({name: "account-me-fulfilled", query: {name: this.username[0]}});
+            const cookie = Cookie.get("user");
+            const cook = JSON.parse(cookie);
+            this.$router.push({name: "account-me-fulfilled", query: {name: cook.username.toLowerCase()}});
         },
         isBlank: function(str) {
             return (!str || /^\s*$/.test(str));

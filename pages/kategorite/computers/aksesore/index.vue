@@ -481,7 +481,9 @@
                                     class="mb-3"
                                     small
                                 ></v-rating>
-                                <p class="qs primary--text">{{prod.details.price}} ALL</p>
+                                <p class="qs primary--text pricey" v-if="prod.details.priceLow">{{prod.details.priceLow}} ALL <span class="miniature gray--text text-decoration-line-through" v-if="prod.details.priceLow != null">{{prod.details.price}} ALL</span></p>
+                                <p class="qs primary--text pricey" v-if="prod.details.priceLow == null">{{prod.details.price}} ALL</p>
+                                
                            </div>
                        </div>
                    </div>

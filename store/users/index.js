@@ -80,7 +80,7 @@ export const actions = {
                 email: account.email.toLowerCase(),
                 username: account.emri.toLowerCase(),
                 role: account.role.toLowerCase(),
-                displaName: toFilter[0],
+                displaName: account.emri.toLowerCase(),
                 password: account.password,
                 photo: null,
                 location: account.adresa,
