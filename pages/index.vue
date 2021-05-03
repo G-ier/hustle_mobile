@@ -141,7 +141,16 @@
         </div>
         <div class="products-main">
           <div class="product-main" v-for="item in prodis.slice(0,4)" :key="item.id">
-            <v-img class="product-main-image-2" v-if="item" :src="item.details.photos[0].src" alt="iphone"></v-img>
+            <v-img class="product-main-image-2" v-if="item" :src="item.details.photos[0].src" alt="iphone">
+              <v-chip
+                  v-if="item.creationTime + 172800000 >= Date.now()"
+                  class="ma-2"
+                  color="green"
+                  label
+                  >
+                  I ri
+              </v-chip>
+            </v-img>
             <div class="product-main-desc">
               <h3 class="qs secondary--text"><nuxt-link class="qs btn-c-o" :to="'/kategorite/elektronike/tv-dhe-video/' + item.spot">{{item.details.name}}</nuxt-link></h3>
               <v-rating 
@@ -170,28 +179,31 @@
           </div>
           <client-only placeholder="Carousel loading..." class="client-80">
             <agile ref="carousels" @after-change="getCurrSlides($event)" class="mos-i-qr-2">
-              <div class="deals-body-2" v-for="n in 10" :key="n">
+              <div class="deals-body-2" v-for="n in dotd" :key="n.id">
                 <div class="deals-image-2">
-                  <v-img :aspect-ratio="16/9" max-width="500" src="https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></v-img>
+                  <v-img :aspect-ratio="16/9" max-width="500" :src="n.photo">
+                    
+                  </v-img>
                 </div>
                 <div class="deals-desc-1">
-                  <h4 class="qs d-t">25798445 JBL Headphones</h4>
+                  <h4 class="qs d-t">{{n.details.name}}</h4>
                   <v-rating
-                    v-model="ratings"
-                    background-color="yellow darken-2"
-                    color="yellow"
+                    :value="n.details.rating"
+                    background-color="secondary"
+                    color="secondary"
                     small
                     readonly
                   ></v-rating>
-                  <p class="qs d-p">2800 ALL <span class="qs text-decoration-line-through"> 3200 ALL</span></p>
+                  <p class="qs d-p" v-if="n.details.priceLow">{{n.details.priceLow}} ALL<span class="qs text-decoration-line-through"> {{n.details.price}} ALL</span></p>
+                    <p class="qs d-p" v-if="n.details.priceLow == null">{{n.details.price}} ALL</p>
                   <div class="timer-2">
                     <no-ssr>
-                      <vac :left-time="statedTime">
+                        <vac :left-time="times[n.index]">
                         <span slot="process" slot-scope="{ timeObj }" class="secondary--text"><span class="custom-timer mr-4">{{ `${timeObj.m}`}}m</span><span class="custom-timer">{{ `${timeObj.s}`}}s</span></span>
-                        <span slot="finish" class="secondary--text">Offer expired!</span>
-                      </vac>
+                        <span slot="finish" class="secondary--text">Oferta mbaroi!</span>
+                        </vac>
                     </no-ssr>
-                    <nuxt-link to="/kategorite/elektronike/tv-dhe-video" class="secondary--text btn-c-o">Show More</nuxt-link>
+                    <nuxt-link to="/ofertat" class="secondary--text btn-c-o">Show More</nuxt-link>
                   </div>
                 </div>
               </div>
@@ -225,7 +237,16 @@
         </div>
         <div class="products-main-2">
           <div class="product-main" v-for="item in neue" :key="item.id">
-            <v-img class="product-main-image" :aspect-ratio="1" v-if="item" :src="item.details.photos[0].src" :alt="item.details.name"></v-img>
+            <v-img class="product-main-image" :aspect-ratio="1" v-if="item" :src="item.details.photos[0].src" :alt="item.details.name">
+              <v-chip
+                  v-if="item.creationTime + 172800000 >= Date.now()"
+                  class="ma-2"
+                  color="green"
+                  label
+                  >
+                  I ri
+              </v-chip>
+            </v-img>
             <div class="product-main-desc">
               <nuxt-link class="qs secondary--text" :to="'/kategorite' + item.details.kategorita + '/' + item.spot">{{item.details.name}}</nuxt-link>
               <v-rating 
@@ -297,7 +318,16 @@
         </div>
         <div class="products-main">
           <div class="product-main" v-for="item in prodis.slice(0,4)" :key="item.id">
-            <v-img class="product-main-image-2" v-if="item" :src="item.details.photos[0].src" alt="iphone"></v-img>
+            <v-img class="product-main-image-2" v-if="item" :src="item.details.photos[0].src" alt="iphone">
+              <v-chip
+                  v-if="item.creationTime + 172800000 >= Date.now()"
+                  class="ma-2"
+                  color="green"
+                  label
+                  >
+                  I ri
+              </v-chip>
+            </v-img>
             <div class="product-main-desc">
               <h3 class="qs secondary--text"><nuxt-link class="qs btn-c-o" :to="'/kategorite/elektronike/tv-dhe-video/' + item.spot">{{item.details.name}}</nuxt-link></h3>
               <v-rating 
@@ -412,29 +442,30 @@
         :options="swiperOptions"
         
       >
-        <swiper-slide v-for="n in 5" :key="n">
+        <swiper-slide v-for="n in dotd" :key="n.id">
             <div class="deals-body">
                 <div class="deals-image">
-                    <v-img :aspect-ratio="16/9" max-width="500" src="https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></v-img>
+                    <v-img :aspect-ratio="16/9" max-width="500" :src="n.photo"></v-img>
                 </div>
                 <div class="deals-desc">
-                    <h4 class="qs d-t">25798445 JBL Headphones</h4>
+                    <h4 class="qs d-t">{{n.details.name}}</h4>
                     <v-rating
-                    v-model="ratings"
+                    :value="n.details.rating"
                     background-color="yellow darken-2"
                     color="yellow"
                     small
                     readonly
                     ></v-rating>
-                    <p class="qs d-p">28$ <span class="qs text-decoration-line-through"> 32$</span></p>
+                    <p class="qs d-p" v-if="n.details.priceLow">{{n.details.priceLow}} ALL<span class="qs text-decoration-line-through"> {{n.details.price}} ALL</span></p>
+                    <p class="qs d-p" v-if="n.details.priceLow == null">{{n.details.price}} ALL</p>
                     <div class="timer">
                     <no-ssr>
-                        <vac :left-time="statedTime">
+                        <vac :left-time="times[n.index]">
                         <span slot="process" slot-scope="{ timeObj }" class="secondary--text"><span class="custom-timer mr-4">{{ `${timeObj.m}`}}m</span><span class="custom-timer">{{ `${timeObj.s}`}}s</span></span>
-                        <span slot="finish" class="secondary--text">Offer expired!</span>
+                        <span slot="finish" class="secondary--text">Oferta mbaroi!</span>
                         </vac>
                     </no-ssr>
-                    <nuxt-link to="/ofertat" class="secondary--text btn-c-o">Show More</nuxt-link>
+                    <nuxt-link to="/ofertat" class="secondary--text btn-c-o">Me shume</nuxt-link>
                     </div>
                 </div>
             </div>
@@ -532,9 +563,6 @@ import 'swiper/css/swiper.css'
 
 export default {
   async asyncData(){
-    const data = await firebase.firestore().collection('dod').doc('Headphones').get();
-    const parsedData = data.data();
-    var diff = parsedData.from.toDate().getTime() - Date.now();
 
     const data2 = await firebase.firestore().collection('elektronike').limit(4).get();
     const datas = data2.docs.map(doc => doc.data());
@@ -548,8 +576,11 @@ export default {
     const data21 = await firebase.firestore().collection('elektronike').where("details.likes", ">=", 3.5).limit(4).get();
     const datas1 = data21.docs.map(doc => doc.data());
 
+    const timeList = fata2[0].ads.map(doc => doc.from.toDate().getTime() - Date.now());
+
+    console.log(JSON.stringify(timeList))
+
     return {
-      statedTime: diff,
       prodis: datas,
       basic: fata2[5],
       main: fata2[1],
@@ -557,9 +588,10 @@ export default {
       side2: fata2[3],
       stingy: fata2[5],
       stangy: fata2[4],
-      dotd: fata2[0],
+      dotd: fata2[0].ads,
       recom: datas1,
-      neue: gio2
+      neue: gio2,
+      times: timeList
     }
   },
   data(){

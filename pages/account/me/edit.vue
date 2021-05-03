@@ -469,7 +469,10 @@ export default {
             eternalName: "",
             pending: null,
             newP: false,
-            priceyLow: null
+            priceyLow: null,
+            likes: 0,
+            likers: 0,
+            creationTime: null
 
         }
     },
@@ -537,6 +540,9 @@ export default {
             this.ngjyra = prod.details.ngjyra;
             this.masa = prod.details.masa;
             this.sizey = prod.details.sizey;
+            this.likes = prod.details.likes;
+            this.likers = prod.details.likers;
+            this.creationTime = prod.creationTime;
 
             this.dialog = true;
         },
@@ -943,8 +949,11 @@ export default {
                     pesha: this.pesha != null ? this.pesha : null,
                     sizey: this.sizey != "" ? this.sizey : null,
                     masa: this.masa != "" ? this.masa : null,
-                    ngjyra: this.ngjyra != "" ? this.ngjyra : null
+                    ngjyra: this.ngjyra != "" ? this.ngjyra : null,
+                    likes: this.likes,
+                    likers: this.likers
                 },
+                creationTime: this.creationTime,
                 owner: this.eternalName,
                 spot: this.namey
             });

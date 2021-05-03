@@ -426,7 +426,16 @@
                    <div class="marketplace-item" v-if="prods.length > 0">
                        <div class="marketplace-vendor" v-for="prod in prods" :key="prod.id">
                            <div class="fullscreen-img">
-                               <v-img :aspect-ratio="1/1" :src="prod.details.photos[0].src" @click="sendToProduct(prod.details.kategorita, prod.spot)"></v-img>
+                               <v-img :aspect-ratio="1/1" :src="prod.details.photos[0].src" @click="sendToProduct(prod.details.kategorita, prod.spot)">
+                                <v-chip
+                                    v-if="prod.creationTime + 172800000 >= Date.now()"
+                                    class="ma-2"
+                                    color="green"
+                                    label
+                                    >
+                                    I ri
+                                </v-chip>
+                               </v-img>
                            </div>
                            <div class="fullscreen-ting">
                                <p class="qs secondary--text s20">{{prod.details.name}}</p>
@@ -512,6 +521,19 @@
             </v-btn>
         </template>
         </v-snackbar>
+        <v-btn
+            v-scroll="onScroll"
+            v-show="fab"
+            fab
+            dark
+            fixed
+            bottom
+            right
+            color="primary"
+            @click="toTop"
+          >
+            <v-icon color="white">mdi-arrow-up</v-icon>
+          </v-btn>
     </div>
 </template>
 
@@ -522,10 +544,13 @@ import Cookies from 'js-cookie';
 import { parse } from '~/node_modules/cookieparser/js/cookieparser';
 export default {
     async asyncData(){
-        const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Rroba femrash").limit(5).get();
+        const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Rroba femrash").orderBy("details.likes").startAt(0).limit(6).get();
         const page = pageData.docs.map(doc => doc.data());
+
+        const last = page[page.length-1];
         return {
-            prods: page
+            prods: page,
+            last: last
         }
     },
     head(){
@@ -542,6 +567,8 @@ export default {
     },
     data(){
         return{
+            fab: false,
+            page: 1,
             range: [100, 30000],
             range1: [100, 30000],
             snackbar: false,
@@ -581,13 +608,22 @@ export default {
     },
     methods: {
         loadMore: async function(){
-            const pageData2 = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Aksesore").orderBy("details.likes").startAt(this.last).limit(3).get();
-            const last = this.last + 2;
+            const pageData2 = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Rroba femrash").orderBy("details.likes").startAt(this.last).limit(6).get();
+            const last = this.last + 5;
             this.last = last;
             const newStuff = pageData2.docs.map(doc => doc.data());
 
             const newProds = this.prods.concat(newStuff);
             this.prods = newProds;
+            this.applyPrice();
+        },
+        onScroll (e) {
+            if (typeof window === 'undefined') return
+            const top = window.pageYOffset ||   e.target.scrollTop || 0
+            this.fab = top > 20
+        },
+        toTop () {
+            this.$vuetify.goTo(0)
         },
         addToCart: async function(emri, seller, price, times, desc){
             var currentCartJSON = Cookies.get("cart_hustle");
@@ -681,7 +717,7 @@ export default {
                 console.log(listsAlgo.length);
 
                 if(listsAlgo.length == 0){
-                    console.log("hack me");
+                    joint2 = this.prods;
                 } else if(listsAlgo.length == 1){
                     joint2 = listsAlgo[0];
                 } else if(listsAlgo.length == 2){
@@ -726,7 +762,7 @@ export default {
                 console.log(listsAlgo.length);
 
                 if(listsAlgo.length == 0){
-                    console.log("hack me");
+                    joint2 = this.prods;
                 } else if(listsAlgo.length == 1){
                     joint2 = listsAlgo[0];
                 } else if(listsAlgo.length == 2){
