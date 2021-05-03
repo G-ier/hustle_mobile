@@ -911,29 +911,55 @@ export default {
             const cookie = Cookie.get("user");
             const cook = JSON.parse(cookie);
 
-            await firebase.firestore().collection('elektronike').doc(this.namey).set({
-                details: {
-                    name: this.namey,
-                    price: this.pricey,
-                    priceLow: this.priceyLow ? this.priceyLow : null,
-                    desc: this.descy,
-                    seller: this.nameOfS,
-                    sellerPhoto: this.photo,
-                    details: this.toDet,
-                    kategoria: kat,
-                    kategorita: this.kategoritaPrefix + this.kategorita,
-                    photos: this.postings,
-                    pesha: this.pesha != null ? this.pesha : null,
-                    sizey: this.sizey != "" ? this.sizey : null,
-                    masa: this.masa != "" ? this.masa : null,
-                    ngjyra: this.ngjyra != "" ? this.ngjyra : null,
-                    likes: 0,
-                    likers: 0
-                },
-                owner: cook.username.toLowerCase(),
-                spot: this.namey,
-                creationTime: timestamp
-            });
+            if(this.kategorita == "aksesore"){
+                await firebase.firestore().collection('aksesore').doc(this.namey).set({
+                    details: {
+                        name: this.namey,
+                        price: this.pricey,
+                        priceLow: this.priceyLow ? this.priceyLow : null,
+                        desc: this.descy,
+                        seller: this.nameOfS,
+                        sellerPhoto: this.photo,
+                        details: this.toDet,
+                        kategoria: kat,
+                        kategorita: this.kategoritaPrefix + this.kategorita,
+                        photos: this.postings,
+                        pesha: this.pesha != null ? this.pesha : null,
+                        sizey: this.sizey != "" ? this.sizey : null,
+                        masa: this.masa != "" ? this.masa : null,
+                        ngjyra: this.ngjyra != "" ? this.ngjyra : null,
+                        likes: 0,
+                        likers: 0
+                    },
+                    owner: cook.username.toLowerCase(),
+                    spot: this.namey,
+                    creationTime: timestamp
+                });
+            } else if(this.kategorita != "aksesore"){
+                await firebase.firestore().collection('elektronike').doc(this.namey).set({
+                    details: {
+                        name: this.namey,
+                        price: this.pricey,
+                        priceLow: this.priceyLow ? this.priceyLow : null,
+                        desc: this.descy,
+                        seller: this.nameOfS,
+                        sellerPhoto: this.photo,
+                        details: this.toDet,
+                        kategoria: kat,
+                        kategorita: this.kategoritaPrefix + this.kategorita,
+                        photos: this.postings,
+                        pesha: this.pesha != null ? this.pesha : null,
+                        sizey: this.sizey != "" ? this.sizey : null,
+                        masa: this.masa != "" ? this.masa : null,
+                        ngjyra: this.ngjyra != "" ? this.ngjyra : null,
+                        likes: 0,
+                        likers: 0
+                    },
+                    owner: cook.username.toLowerCase(),
+                    spot: this.namey,
+                    creationTime: timestamp
+                });
+            }
 
             await firebase.firestore().collection('search').doc(this.namey).set({
                 cilesia: "/kategorite" + this.kategoritaPrefix + this.kategorita,

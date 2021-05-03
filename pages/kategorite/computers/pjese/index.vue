@@ -560,7 +560,7 @@ import Cookies from 'js-cookie';
 import { parse } from '~/node_modules/cookieparser/js/cookieparser';
 export default {
     async asyncData(){
-        const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Pjese Kompjuterash").orderBy("details.likes").startAt(0).limit(6).get();
+        const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Pjese Kompjuterash").get();
         const page = pageData.docs.map(doc => doc.data());
         const last = page[page.length-1];
         return {
@@ -584,6 +584,7 @@ export default {
         return{
             fab: false,
             page: 1,
+            overload: false,
             range: [100, 30000],
             range1: [100, 30000],
             snackbar: false,
@@ -624,13 +625,23 @@ export default {
     methods: {
         loadMore: async function(){
             const pageData2 = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Pjese Kompjuterash").orderBy("details.likes").startAt(this.last).limit(6).get();
-            const last = this.last + 5;
-            this.last = last;
-            const newStuff = pageData2.docs.map(doc => doc.data());
+            const newProds = this.all.slice(this.last, this.last+6);
+            if(this.overload == true){
+                return;
+            }
+            if(this.last+6>this.all.length){
+                this.overload = true;
+            }
+            const newProds2 = this.prods.concat(newProds);
+            this.prods = newProds2;
 
-            const newProds = this.prods.concat(newStuff);
-            this.prods = newProds;
-            this.applyPrice();
+            if(this.renditja == "Cmimit: Lire - Shtrenjt"){
+                this.filterPrice();
+            } else if(this.renditja == "Cmimi: Shtrenjt - Lire"){
+                this.filterPriceDes();
+            } else if(this.renditja == "Sipas vleresimit") {
+                this.filterReviews();
+            }  
         },
         onScroll (e) {
             if (typeof window === 'undefined') return
