@@ -478,9 +478,10 @@
                                     half-increments
                                     readonly
                                     :value="prod.details.likes/prod.details.likers"
-                                    class="mb-3"
+                                    class="mx-0"
                                     small
                                 ></v-rating>
+                                <p class="qs secondary--text mb-3">{{'(' + prod.details.likers + ')'}}</p>
                                 <p class="qs primary--text pricey" v-if="prod.details.priceLow">{{prod.details.priceLow}} ALL <span class="miniature gray--text text-decoration-line-through" v-if="prod.details.priceLow != null">{{prod.details.price}} ALL</span></p>
                                 <p class="qs primary--text pricey" v-if="prod.details.priceLow == null">{{prod.details.price}} ALL</p>
                                 
@@ -492,6 +493,8 @@
                            <p class="qs secondary--text">Asnje produkt i lidhur me kerkimin.</p>
                        </v-row>
                    </div>
+                   <v-spacer></v-spacer>
+                   <v-btn text color="secondary" class="qs secondary--text mt-10" v-if="prods.length > 0" @click="loadMore">Trego me shume</v-btn>
                </div>
            </div>
         </div>
@@ -549,6 +552,19 @@
             </v-btn>
         </template>
         </v-snackbar>
+        <v-btn
+            v-scroll="onScroll"
+            v-show="fab"
+            fab
+            dark
+            fixed
+            bottom
+            right
+            color="primary"
+            @click="toTop"
+          >
+            <v-icon color="white">mdi-arrow-up</v-icon>
+          </v-btn>
     </div>
 </template>
 
@@ -561,15 +577,18 @@ import {numeric} from 'vuelidate/lib/validators'
 export default {
     mixins: [validationMixin],
     async asyncData(){
-        const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Aksesore").limit(5).get();
+        const pageData = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Aksesore").orderBy("details.likes").startAt(1).limit(3).get();
         const page = pageData.docs.map(doc => doc.data());
+
+        const last = page[page.length-1];
         return {
-            prods: page
+            prods: page,
+            last: last
         }
     },
     head(){
         return{
-            title: 'Kompjuterike | hustle',
+            title: 'Kompjuterike',
             meta: [
                 {
                     hid: 'description',
@@ -581,6 +600,8 @@ export default {
     },
     data(){
         return{
+            fab: false,
+            page: 1,
             range: [100, 30000],
             range1: [100, 30000],
             snackbar: false,
@@ -643,6 +664,24 @@ export default {
         },
     },
     methods: {
+        onScroll (e) {
+            if (typeof window === 'undefined') return
+            const top = window.pageYOffset ||   e.target.scrollTop || 0
+            this.fab = top > 20
+        },
+        toTop () {
+            this.$vuetify.goTo(0)
+        },
+        loadMore: async function(){
+            const pageData2 = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Aksesore").orderBy("details.likes").startAt(this.last).limit(3).get();
+            const last = this.last + 2;
+            this.last = last;
+            const newStuff = pageData2.docs.map(doc => doc.data());
+
+            const newProds = this.prods.concat(newStuff);
+            this.prods = newProds;
+            this.applyPrice();
+        },
         addToCart: async function(emri, seller, price, times, desc){
             var currentCartJSON = Cookies.get("cart_hustle");
             
@@ -681,29 +720,36 @@ export default {
         },
         filterPrice: function(){
             this.prods.sort((doc1, doc2) => {
-                return doc1.details.price - doc2.details.price
+                if(doc1.details.priceLow && doc2.details.priceLow){
+                    return doc1.details.priceLow - doc2.details.priceLow;
+                } else if (doc1.details.priceLow && !doc2.details.priceLow){
+                    return doc1.details.priceLow - doc2.details.price;
+                } else if (!doc1.details.priceLow && doc2.details.priceLow){
+                    return doc1.details.price - doc2.details.priceLow;
+                } else {
+                    return doc1.details.price - doc2.details.price;
+                }
             })
         },
         filterPriceDes: function(){
             this.prods.sort((doc1, doc2) => {
-                return doc2.details.price - doc1.details.price
+                if(doc2.details.priceLow && doc1.details.priceLow){
+                    return doc2.details.priceLow - doc1.details.priceLow;
+                } else if (doc2.details.priceLow && !doc1.details.priceLow){
+                    return doc2.details.priceLow - doc1.details.price;
+                } else if (!doc2.details.priceLow && doc1.details.priceLow){
+                    return doc2.details.price - doc1.details.priceLow;
+                } else {
+                    return doc2.details.price - doc1.details.price;
+                }
             })
-        },
-        compareFunction: function (f, s){
-            if(f > s){
-                return 1;
-            } else if(f < s) {
-                return -1;
-            } else {
-                return 0;
-            }
         },
         filterReviews: function(){
             this.prods.sort((doc1, doc2) => {
-                if((doc2.details.likes)/(doc2.details.likers+1) > (doc1.details.likes)/(doc1.details.likers)){
+                if((doc2.details.likes)/(doc2.details.likers) > (doc1.details.likes)/(doc1.details.likers)){
                     console.log("case 1");
                     return 1;
-                } else if((doc2.details.likes)/(doc2.details.likers+1) < (doc1.details.likes)/(doc1.details.likers)){
+                } else if((doc2.details.likes)/(doc2.details.likers) < (doc1.details.likes)/(doc1.details.likers)){
                     console.log("case 2");
                     return -1;
                 } else {

@@ -23,7 +23,9 @@
                     background-color="secondary"
                     color="secondary"
                     small
-                  ></v-rating>
+                  >
+                  </v-rating>
+                  <p class="qs secondary--text">{{'(' + product.details.likers + ')'}}</p>
                   <p class="price-prod" v-if="product.details.priceLow">{{product.details.priceLow}} <span class="mini-span">ALL</span> <span class="text-decoration-line-through qs s14 primary--text">{{product.details.price}}</span> <span class="mini-span primary--text">ALL</span></p>
                   <p class="price-prod" v-if="product.details.priceLow == null">{{product.details.price}} <span class="mini-span">ALL</span></p>
                   <div class="rowting">

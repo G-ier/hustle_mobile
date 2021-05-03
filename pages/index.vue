@@ -127,7 +127,7 @@
         <div class="dealsod-2 mb-5">
           <div class="deals-header">
             <div class="deals-header-1-cash">
-              <h3 class="qs font-weight-regular main-side-title white--text" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">DEALS </span>of the day</h3>
+              <h3 class="qs font-weight-regular main-side-title white--text" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">Oferta </span>te nxehta</h3>
               <div class="packting">
                 <v-btn class="qs primary--text" small text to="/ofertat">
                   Me shume
@@ -163,7 +163,7 @@
             <v-btn class="qs" icon width="20" height="20" @click="gotoprev1">
               <v-icon color="white" size="15">mdi-arrow-left-drop-circle</v-icon>
             </v-btn>
-            <p class="qs pa-0 ma-0">Oferta te nxehta</p>
+            <p class="qs pa-0 ma-0">Deals of the day</p>
             <v-btn class="qs" icon width="20" height="20" @click="gotonext1">
               <v-icon color="white" size="15">mdi-arrow-right-drop-circle</v-icon>
             </v-btn>
@@ -174,7 +174,7 @@
                 <div class="deals-image-2">
                   <v-img :aspect-ratio="16/9" max-width="500" src="https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></v-img>
                 </div>
-                <div class="deals-desc">
+                <div class="deals-desc-1">
                   <h4 class="qs d-t">25798445 JBL Headphones</h4>
                   <v-rating
                     v-model="ratings"
@@ -193,22 +193,6 @@
                     </no-ssr>
                     <nuxt-link to="/kategorite/elektronike/tv-dhe-video" class="secondary--text btn-c-o">Show More</nuxt-link>
                   </div>
-                </div>
-              </div>
-              <div class="deals-body-2">
-                <div class="deals-image-2">
-                  <v-img :aspect-ratio="16/9" max-width="500" src="https://images.pexels.com/photos/3945667/pexels-photo-3945667.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"></v-img>
-                </div>
-                <div class="deals-desc">
-                  <h4 class="qs d-t">25798445 JBL Headphones</h4>
-                  <v-rating
-                    v-model="ratings"
-                    background-color="yellow darken-2"
-                    color="yellow"
-                    small
-                    readonly
-                  ></v-rating>
-                  <p class="qs d-p">2800 ALL <span class="qs text-decoration-line-through"> 3200 ALL</span></p>
                 </div>
               </div>
             </agile>
@@ -241,9 +225,9 @@
         </div>
         <div class="products-main-2">
           <div class="product-main" v-for="item in neue" :key="item.id">
-            <img class="product-main-image" v-if="item" :src="item.details.photos[0].src" :alt="item.details.name">
+            <v-img class="product-main-image" :aspect-ratio="1" v-if="item" :src="item.details.photos[0].src" :alt="item.details.name"></v-img>
             <div class="product-main-desc">
-              <nuxt-link class="qs secondary--text" :to="item.details.kategorita + '/' + item.spot">{{item.details.name}}</nuxt-link>
+              <nuxt-link class="qs secondary--text" :to="'/kategorite' + item.details.kategorita + '/' + item.spot">{{item.details.name}}</nuxt-link>
               <v-rating 
               :value="item.details.likes/item.details.likers"
               background-color="yellow darken-2"
@@ -313,7 +297,7 @@
         </div>
         <div class="products-main">
           <div class="product-main" v-for="item in prodis.slice(0,4)" :key="item.id">
-            <img class="product-main-image-2" v-if="item" :src="item.details.photos[0].src" alt="iphone">
+            <v-img class="product-main-image-2" v-if="item" :src="item.details.photos[0].src" alt="iphone"></v-img>
             <div class="product-main-desc">
               <h3 class="qs secondary--text"><nuxt-link class="qs btn-c-o" :to="'/kategorite/elektronike/tv-dhe-video/' + item.spot">{{item.details.name}}</nuxt-link></h3>
               <v-rating 
@@ -351,7 +335,7 @@
                   readonly
                   class="pa-0 ma-0"
                 ></v-rating>
-                <p class="qs primary--text" v-if="item.details.price">{{item.details.price}} ALL</p>
+                <p class="qs primary--text" v-if="item.details.priceLow == null">{{item.details.price}} ALL</p>
                 <p class="qs primary--text" v-if="item.details.priceLow">{{item.details.priceLow}} ALL</p>
               </div>
             </div>
@@ -856,6 +840,16 @@ export default {
   align-items: flex-start;
   width: 90%;
 }
+.deals-desc-1{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+}
+.deals-desc-1 h4{
+  word-break: break-all;
+}
 .d-t{
   font-weight: 400;
   font-size: 18px;
@@ -1242,10 +1236,10 @@ export default {
 .products-main-2{
   width: 100%;
   display: grid;
-  grid-template-columns: 45% 45%;
+  grid-template-columns: 25% 25%;
   grid-template-rows: 49% 49%;
   grid-column-gap: 10%;
-  grid-row-gap: 2%;
+  grid-row-gap: 25%;
 }
 .product-main{
   display: grid;
@@ -1659,6 +1653,13 @@ export default {
   align-items: flex-start;
   width: 70%;
 }
+.deals-desc-1{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+}
 .d-t{
   font-weight: 400;
   font-size: 18px;
@@ -2047,10 +2048,10 @@ export default {
 .products-main-2{
   width: 100%;
   display: grid;
-  grid-template-columns: 45% 45%;
+  grid-template-columns: 25% 25%;
   grid-template-rows: 49% 49%;
-  grid-column-gap: 10%;
   grid-row-gap: 2%;
+  justify-content: center;
 }
 .product-main{
   display: flex;

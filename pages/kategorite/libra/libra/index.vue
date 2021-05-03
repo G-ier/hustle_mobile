@@ -453,6 +453,8 @@
                            <p class="qs secondary--text">Asnje produkt i lidhur me kerkimin.</p>
                        </v-row>
                    </div>
+                   <v-spacer></v-spacer>
+                   <v-btn text color="secondary" class="qs secondary--text mt-10" v-if="prods.length > 0" @click="loadMore">Trego me shume</v-btn>
                </div>
            </div>
         </div>
@@ -578,6 +580,15 @@ export default {
         }
     },
     methods: {
+        loadMore: async function(){
+            const pageData2 = await firebase.firestore().collection('elektronike').where("details.kategoria", "==", "Aksesore").orderBy("details.likes").startAt(this.last).limit(3).get();
+            const last = this.last + 2;
+            this.last = last;
+            const newStuff = pageData2.docs.map(doc => doc.data());
+
+            const newProds = this.prods.concat(newStuff);
+            this.prods = newProds;
+        },
         addToCart: async function(emri, seller, price, times, desc){
             var currentCartJSON = Cookies.get("cart_hustle");
             
@@ -616,12 +627,28 @@ export default {
         },
         filterPrice: function(){
             this.prods.sort((doc1, doc2) => {
-                return doc1.details.price - doc2.details.price
+                if(doc1.details.priceLow && doc2.details.priceLow){
+                    return doc1.details.priceLow - doc2.details.priceLow;
+                } else if (doc1.details.priceLow && !doc2.details.priceLow){
+                    return doc1.details.priceLow - doc2.details.price;
+                } else if (!doc1.details.priceLow && doc2.details.priceLow){
+                    return doc1.details.price - doc2.details.priceLow;
+                } else {
+                    return doc1.details.price - doc2.details.price;
+                }
             })
         },
         filterPriceDes: function(){
             this.prods.sort((doc1, doc2) => {
-                return doc2.details.price - doc1.details.price
+                if(doc2.details.priceLow && doc1.details.priceLow){
+                    return doc2.details.priceLow - doc1.details.priceLow;
+                } else if (doc2.details.priceLow && !doc1.details.priceLow){
+                    return doc2.details.priceLow - doc1.details.price;
+                } else if (!doc2.details.priceLow && doc1.details.priceLow){
+                    return doc2.details.price - doc1.details.priceLow;
+                } else {
+                    return doc2.details.price - doc1.details.price;
+                }
             })
         },
         filterReviews: function(){
