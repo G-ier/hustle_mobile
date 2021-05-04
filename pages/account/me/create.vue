@@ -912,7 +912,7 @@ export default {
             const cook = JSON.parse(cookie);
 
             if(this.kategorita == "aksesore"){
-                await firebase.firestore().collection('aksesore').doc(this.namey).set({
+                await firebase.firestore().collection('elektronike').doc(this.namey).set({
                     details: {
                         name: this.namey,
                         price: this.pricey,
