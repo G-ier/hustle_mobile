@@ -1,65 +1,67 @@
 <template>
   <div class="aplikimi-container-cu-2">
-      <v-sheet elevation="12" class="mx-auto py-4 custom-stepper rounded-lg" color="secondary">
-          <h1 class="classy text-center qs v-fsm mb-7">Register Now</h1>
-          <v-tabs
-            v-model="tab"
-            background-color="secondary"
-            centered
-            dark
-            
-            >
-            <v-tabs-slider></v-tabs-slider>
+      <div class="site-register">
+          <v-sheet elevation="12" class=" py-4 custom-stepper rounded-lg" color="secondary">
+            <h1 class="classy text-center qs v-fsm mb-7">Register Now</h1>
+            <v-tabs
+                v-model="tab"
+                background-color="secondary"
+                centered
+                dark
+                
+                >
+                <v-tabs-slider></v-tabs-slider>
 
-            <v-tab href="#tab-1" @click="setRoleToSeller">
-                Behu shites
-            </v-tab>
+                <v-tab href="#tab-1" @click="setRoleToSeller">
+                    Behu shites
+                </v-tab>
 
-            <v-tab href="#tab-2" @click="setRoleToBuyer">
-                Behu bleres
-            </v-tab>
-            </v-tabs>
-            <v-tabs-items v-model="tab">
-                <v-tab-item value="tab-1" class="secondary">
-                    <div class="form-body pb-2">
-                        <v-form class="pb-7">  
-                            <div class="form-holder-1 pb-1">
-                                <v-text-field label="Emri" outlined class="white--text fully" color="white" v-model="account.emri" :error-messages="emriErrors" required @input="$v.account.emri.$touch()"></v-text-field>
-                                <v-text-field label="Email" outlined class="white--text fully" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
-                                <v-select :items="items" label="Qyteti" class="fully white--text" color="white" dark outlined v-model="account.qyteti" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-select>
-                                <v-text-field label="Rruga" outlined  class="white--text fully" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
-                                <v-text-field label="Numri" outlined class="white--text fully" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
-                                <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully" v-model="account.password" :error-messages="passErrors" required @input="$v.account.password.$touch()"></v-text-field>
-                                <v-text-field label="Perserit Password" type="password" color="white" outlined class="white--text fully" v-model="account.passwordR" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
+                <v-tab href="#tab-2" @click="setRoleToBuyer">
+                    Behu bleres
+                </v-tab>
+                </v-tabs>
+                <v-tabs-items v-model="tab">
+                    <v-tab-item value="tab-1" class="secondary">
+                        <div class="form-body pb-2">
+                            <v-form class="pb-7">  
+                                <div class="form-holder-1 pb-1">
+                                    <v-text-field label="Emri" outlined class="white--text fully" color="white" v-model="account.emri" :error-messages="emriErrors" required @input="$v.account.emri.$touch()"></v-text-field>
+                                    <v-text-field label="Email" outlined class="white--text fully" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
+                                    <v-select :items="items" label="Qyteti" class="fully white--text" color="white" dark outlined v-model="account.qyteti" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-select>
+                                    <v-text-field label="Rruga" outlined  class="white--text fully" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
+                                    <v-text-field label="Numri" outlined class="white--text fully" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
+                                    <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully" v-model="account.password" :error-messages="passErrors" required @input="$v.account.password.$touch()"></v-text-field>
+                                    <v-text-field label="Perserit Password" type="password" color="white" outlined class="white--text fully" v-model="account.passwordR" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
+                                </div>
+                            </v-form>
+                            <div class="button-side">
+                                <v-btn rounded color="white" class="secondary--text qs btn-c v-fsm" to="/account/me">Login</v-btn>
+                                <v-btn rounded color="white" class="secondary--text btn-c v-fsm" @click="register"><span class="qs secondary--text" v-if = "loading == false">Register</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
                             </div>
-                        </v-form>
-                        <div class="button-side">
-                            <v-btn rounded color="white" class="secondary--text qs btn-c v-fsm" to="/account/me">Login</v-btn>
-                            <v-btn rounded color="white" class="secondary--text btn-c v-fsm" @click="register"><span class="qs secondary--text" v-if = "loading == false">Register</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
                         </div>
-                    </div>
-                </v-tab-item>
-                <v-tab-item value="tab-2" class="secondary">
-                    <div class="form-body pb-2">
-                        <v-form class="pb-7">  
-                            <div class="form-holder-1 pb-1">
-                                <v-text-field label="Emri" outlined class="white--text fully" color="white" v-model="account.emri" :error-messages="emriErrors" required @input="$v.account.emri.$touch()"></v-text-field>
-                                <v-text-field label="Email" outlined class="white--text fully" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
-                                <v-select :items="items" color="white" class="fully white--text" label="Qyteti" dark outlined v-model="account.qyteti" :error-messages="adresaErrors" required @input="$v.account.qyteti.$touch()"></v-select>
-                                <v-text-field label="Adresa" outlined class="white--text fully" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
-                                <v-text-field label="Numri" outlined class="white--text fully" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
-                                <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully" v-model="account.password" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
-                                <v-text-field label="Perserit Password" type="password" color="white" outlined class="white--text fully" v-model="account.passwordR" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
+                    </v-tab-item>
+                    <v-tab-item value="tab-2" class="secondary">
+                        <div class="form-body pb-2">
+                            <v-form class="pb-7">  
+                                <div class="form-holder-1 pb-1">
+                                    <v-text-field label="Emri" outlined class="white--text fully" color="white" v-model="account.emri" :error-messages="emriErrors" required @input="$v.account.emri.$touch()"></v-text-field>
+                                    <v-text-field label="Email" outlined class="white--text fully" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
+                                    <v-select :items="items" color="white" class="fully white--text" label="Qyteti" dark outlined v-model="account.qyteti" :error-messages="adresaErrors" required @input="$v.account.qyteti.$touch()"></v-select>
+                                    <v-text-field label="Adresa" outlined class="white--text fully" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
+                                    <v-text-field label="Numri" outlined class="white--text fully" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
+                                    <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully" v-model="account.password" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
+                                    <v-text-field label="Perserit Password" type="password" color="white" outlined class="white--text fully" v-model="account.passwordR" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
+                                </div>
+                            </v-form>
+                            <div class="button-side">
+                                <v-btn rounded color="white" class="secondary--text qs btn-c v-fsm" to="/account/me">Login</v-btn>
+                                <v-btn rounded color="white" class="secondary--text btn-c v-fsm" @click="register"><span class="qs secondary--text" v-if = "loading == false">Register</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
                             </div>
-                        </v-form>
-                        <div class="button-side">
-                            <v-btn rounded color="white" class="secondary--text qs btn-c v-fsm" to="/account/me">Login</v-btn>
-                            <v-btn rounded color="white" class="secondary--text btn-c v-fsm" @click="register"><span class="qs secondary--text" v-if = "loading == false">Register</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
                         </div>
-                    </div>
-                </v-tab-item>
-            </v-tabs-items>
-      </v-sheet> 
+                    </v-tab-item>
+                </v-tabs-items>
+        </v-sheet> 
+      </div>
       <v-dialog v-model="dialog" max-width="240">
             <v-card color="secondary">
                 <v-card-title class="qs headline">Disa hapa me shume!</v-card-title>
@@ -314,6 +316,20 @@ export default {
 </script>
 
 <style>
+.site-register{
+    width: 90%;
+    min-height: 90%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end; 
+    background-image: url('../../assets/img/login.png');
+    background-size: cover;
+    background-position-y: center;
+    background-position-x: center;  
+
+}
 .v-text-field input{
     color:  white;
 }
@@ -324,10 +340,7 @@ export default {
     font-size: 22px;
 }
 .aplikimi-container-cu-2{
-    background-size: cover;
-    background-position-y: center;
-    background-position-x: center;
-    width: 100%;
+    width: 100vw;
     min-height: 81vh;
     background-color: white;
     display: flex;
@@ -398,8 +411,18 @@ export default {
 }
 @media only screen and (max-width: 650px){
     .classy{
-    font-size: 22px;
-}
+        font-size: 22px;
+    }
+    .site-register{
+        width: 90%;
+        min-height: 71vh;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end;
+        
+    }
     .aplikimi-container{
         height: 100vh;
     }

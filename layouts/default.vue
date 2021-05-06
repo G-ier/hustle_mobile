@@ -1,8 +1,9 @@
 <template>
-  <v-app dark class="bg-white">
-    <div>
-      <Header />
-    </div>
+  <v-app light class="bg-white">
+
+    <Header class="site-header" v-if="phone"/>
+    <ModernHeader class="site-header-modern" v-if="!phone"/>
+
     <div id="wholeBody">
       <v-main>
         <v-layout>
@@ -18,17 +19,20 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PreHeader from '../components/PreHeader';
+import ModernHeader from '../components/ModernHeader';
 export default {
   components: {
     Header,
     Footer,
-    PreHeader
+    PreHeader,
+    ModernHeader
   },
   data () {
     return {
       clipped: false,
       drawer: false,
       fixed: false,
+      phone: false,
       items: [
         {
           icon: 'mdi-apps',
@@ -46,6 +50,13 @@ export default {
       rightDrawer: false,
       title: 'Vuetify.js'
     }
+  },
+  mounted(){
+    if(document.body.clientWidth <= 850){
+        this.phone = true;
+    } else {
+      this.phone = false;
+    }
   }
 }
 </script>
@@ -54,5 +65,18 @@ export default {
 .fluid-layout{
   width: 100%;
 }
-
+.site-header{
+  display: none;
+}
+.site-header-modern{
+  display: flex;
+}
+@media only screen and (max-width: 850px){
+.site-header{
+  display: block;
+}
+.site-header-modern{
+  display: none;
+}
+}
 </style>

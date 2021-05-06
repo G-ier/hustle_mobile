@@ -341,23 +341,20 @@
       app
       dark
       color="primary"
-      :height="height ? height : 150"
+      height="70"
       elevation="0"
-      class="index-upper header-height"
+      
     >
       
       <div class="embed">
-        <div class="elem-row">
-          <PreHeader :cart.sync="cart" :cartD.sync="cartD" :drawer.sync="drawer" />
-        </div>
-        <div class="main-row mt-3">
-          <div class="burger-div">
             <div class="inner-burger-2">
-              <v-btn icon class="btn-c-o menu-btn" @click.stop="drawer = !drawer" height="30" width="30">
-                <v-icon color="white" size="28">mdi-menu</v-icon>
-              </v-btn>
+                <v-btn icon class="btn-c-o menu-btn" @click.stop="drawer = !drawer" height="30" width="30">
+                    <v-icon color="white" size="28">mdi-menu</v-icon>
+                </v-btn>
             </div>
-          </div>
+            <v-toolbar-title>
+                <nuxt-link to="/" class="btn-c-o"><span class="ersteSpan white--text qs">LOGO</span></nuxt-link>
+            </v-toolbar-title>
           <v-spacer class="spacer-1"></v-spacer>
           <div class="good-row">
             <div class="searchy">
@@ -384,39 +381,71 @@
           <v-spacer class="spacer-2"></v-spacer>
           <div class="burger-div-2">
             <div class="inner-burger">
+                <v-btn class="qs" icon to="/favorites" width="10" height="10">
+                <v-icon color="white">
+                  mdi-star-circle-outline
+                </v-icon>
+              </v-btn>
               <v-btn class="qs" icon @click.stop="cartush" width="10" height="10">
                 <v-icon color="white">
                   mdi-cart
                 </v-icon>
               </v-btn>
+              <b-dropdown
+                            v-model="navigation"
+                            position="is-bottom-left"
+                            append-to-body
+                            aria-role="menu">
+                            <template #trigger>
+                                <v-btn class="qs" icon width="12" height="12">
+                                    <v-icon color="white" size="27">
+                                    mdi-account
+                                    </v-icon>
+                                </v-btn>
+                            </template>
+
+
+                            <b-dropdown-item custom aria-role="menuitem">
+                                Status: <b>{{user}}</b>
+                            </b-dropdown-item>
+                            <hr class="dropdown-divider">
+                            <b-dropdown-item value="home" aria-role="menuitem" @click="gotoPage('/')">
+                                <b-icon icon="home"></b-icon>
+                                Homepage
+                            </b-dropdown-item>
+                            <b-dropdown-item value="product" aria-role="menuitem" @click="gotoPageWithParam('account-me-create')" v-if="role == 'seller'">
+                                <b-icon icon="plus"></b-icon>
+                                Krijo produkt
+                            </b-dropdown-item>
+                            <b-dropdown-item value="products" aria-role="menuitem" @click="gotoPageWithParam('account-me-edit')" v-if="role == 'seller'">
+                                <b-icon icon="pen"></b-icon>
+                                Edito produkte
+                            </b-dropdown-item>
+                            <b-dropdown-item value="bought" aria-role="menuitem" @click="gotoPageWithParam('account-me')" v-if="role == 'seller' || role == 'buyer'">
+                                <b-icon icon="book-open"></b-icon>
+                                Blerjet tuaja
+                            </b-dropdown-item>
+                            <b-dropdown-item value="blog" disabled aria-role="menuitem" v-if="role == null">
+                                <b-icon icon="book-open"></b-icon>
+                                Blerjet tuaja
+                            </b-dropdown-item>
+                            <hr class="dropdown-divider" aria-role="menuitem">
+                            <b-dropdown-item value="settings" v-if="user != 'Not logged in.'" @click="gotoPage('/account/me/settings')">
+                                <b-icon icon="mdi-settings"></b-icon>
+                                Settings
+                            </b-dropdown-item>
+                            <b-dropdown-item value="logout" aria-role="menuitem" @click="gotoPage('/account')" v-if="user == 'Not logged in.'">
+                                <v-icon color="secondary" size="25">mdi-login</v-icon>
+                                Login
+                            </b-dropdown-item>
+                            <b-dropdown-item value="logout" aria-role="menuitem" @click="gotoPage('/account')" v-if="user != 'Not logged in.'">
+                                <b-icon icon="logout"></b-icon>
+                                Logout
+                            </b-dropdown-item>
+              </b-dropdown>
             </div>
           </div>
         </div>
-        <!--
-        <div class="final-row">
-          <div class="good-row">
-            <div class="searchy">
-              <div class="qs custom-searchy">
-                <v-text-field placeholder="Kerko per produkte" class="custom-text-field" color="black" v-model="searchQ" clearable solo dense light rounded height="38" @click:clear="() => {answer = false; searchQ = '';}" @input="changeType" @blur="antiBlur"></v-text-field>
-              </div>
-              <button class="btn-c-o qs searchy-btn" @click="searchGo"><v-icon color="white">mdi-magnify</v-icon></button>
-            </div>
-            <div class="results" v-if="answer == true" ref="karuci" @mouseenter="itsover = true" @mouseleave="itsover = false" @mouseout="mouseOut">
-              <div class="listings" v-if="sToShow.length > 0">
-                <div class="tile" v-for="ting in sToShow.slice(0, 4)" :key="ting.id">
-                  <v-btn class="qs secondary--text btn-c-o" text nuxt :to="ting.red + '/' + ting.emri" @click="itsover = false; answer = false">{{ting.emri}}</v-btn>
-                </div>
-              </div>
-              <div class="listings" v-else>
-                <div class="tile">
-                  <p class="qs btn-c-o secondary--text">No result.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        -->
-      </div>
     </v-app-bar>
     <v-navigation-drawer
       v-model="cartD"
@@ -476,16 +505,15 @@
 <script>
 import Gradient from '../assets/img/tilda-gradient.png'
 import menuLogo from '../assets/img/HBC.png'
-import PreHeader from './PreHeader';
 import Cookies from 'js-cookie';
+import Cookie from 'js-cookie';
 import * as firebase from 'firebase/app';
+import 'firebase/auth';
 import 'firebase/firestore';
 export default {
-    components: {
-      PreHeader,
-    },
     data(){
         return{
+            navigation: false,
             searchQ: '',
             searchOn: false,
             height: null,
@@ -531,7 +559,9 @@ export default {
             sToShow: [],
             cart: this.$store.state.users.cart,
             cartD: false,
-            itsover: false
+            itsover: false,
+            user: this.$store.state.users.user ? this.$store.state.users.user.email : "Not logged in.",
+            role: this.$store.state.users.role ? this.$store.state.users.role : null
         }
     },
     methods: {
@@ -539,6 +569,15 @@ export default {
         this.cart = this.$store.state.users.cart;
         
         this.cartD = true;
+      },
+      gotoPage: function(pageSlug){
+          console.log("stuff");
+          this.$router.push({path: pageSlug});
+      },
+      gotoPageWithParam: function(pageName){
+          const cookie = Cookie.get("user");
+          const cook = JSON.parse(cookie);
+          this.$router.push({name: pageName, query: {name: cook.username.toLowerCase()}});
       },
       searchOnCheck: function(){
         if(this.searchOn == false){
@@ -565,6 +604,12 @@ export default {
         this.answer = true;
         console.log(this.answer);
         console.log(this.sToShow);
+      },
+      logout: async function(){
+        await firebase.auth().signOut();
+        await Cookie.remove('access_token');
+        await Cookie.remove('role_token');
+        await Cookie.remove('user');
       },
       updateCart: async function(cartEmri, cartTimes){
 
@@ -635,352 +680,7 @@ export default {
 </script>
 
 <style scoped>
-.header-height{
-  padding: 15px 0 15px 0;
-}
-.results{
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-  border-radius: 15px;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 95%;
-  min-height: 250px;
-  transition: 0.3s;
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
-  scrollbar-width: none;  /* Firefox */
-}
-.results::-webkit-scrollbar{
-  display: none;
-}
-.search-p-result{
-  cursor: pointer;
-}
-.listings{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 95%;
-  height: 90%;
-  overflow: hidden;
-}
-.tile{
-  font-size: 13px;
-  color: black;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 3px;
-  margin-top: 10px;
-  background-color: white;
-  transition: 0.3s;
-  height: 50px;
-}
-.tile p{
-  text-align: center;
-  padding: 5px 0 5px 10px;
-  margin: 0;
-}
 
-.dontchange{
-  font-size: 13px;
-  color: black;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 10px;
-  margin-top: 6px;
-  background-color: white;
-  transition: 0.3s;
-  
-}
-.embed{
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-}
-.elem-row{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 23%;
-}
-.main-row{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 95vw;
-  height: 32%;
-}
-.burger-div{
-  display: none;
-  justify-content: center;
-  align-items: center;
-  width: 10%;
-  height: 100%;
-}
-.burger-div-2{
-  display: none;
-  justify-content: center;
-  align-items: flex-start;
-  width: 10%;
-  height: 100%;
-}
-.inner-burger{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50%;
-  height: 50%;
-}
-.inner-burger-2{
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 50%;
-  height: 50%;
-}
-.final-row{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 45%;
-  width: 95vw;
-}
-.searchy{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 95%;
-}
-.custom-searchy{
-  border-bottom-left-radius: 15px;
-  border-top-left-radius: 15px;
-  padding: 7px 15px 7px 16px;
-  background-color: white;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  height: 38px;
-}
-.custom-searchy:focus{
-  outline: none;
-  text-decoration: none;
-}
-.good-row{
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  height: 45px;
-  margin: 10px 0 0 0;
-}
-.custom-text-field.v-text-field.v-text-field--enclosed .v-input__control {
-  height: 38px;
-}
-.custom-text-field.v-text-field.v-text-field--enclosed .v-input__control input{
-  font-size: 17px;
-  padding: 0 0 1px 0;
-}
-.custom-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot {
-  box-shadow: none;
-  padding: 0;
-  margin: 0;
-  width: 67vw;
-}
-.searchy-btn{
-  border-bottom-right-radius: 15px;
-  border-top-right-radius: 15px;
-  background-color: #363f4e;
-  padding: 7px 16px 7px 15px;
-}
-.toolbar-s{
-  position: absolute;
-  z-index: -10;
-  top: 100%;
-  left: 0;
-  width: 0%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: 0.5s;
-}
-.toolbar-show{
-  width: 100%;
-  z-index: 10;
-}
-.dropdown{
-  position: absolute;
-  width: 100%;
-  height: 0vh;
-  background-color: rgba(30, 101, 184, 0.9);
-  left: 0;
-  top: 7.9vh;
-  display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
-  align-items: center;
-  transition: 0.5s;
-  padding: 0 0 0 0;
-}
-.dropshow{
-  height: 70vh;
-  padding: 10px 0 10px 0;
-}
-.dropoff{
-  height: 0px;
-}
-.dropshow-2{
-  height: 50vh;
-  padding: 10px 0 10px 0;
-}
-.s1{
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: 0.5s;
-}
-.s2{
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: 0.5s;
-}
-.ON{
- display: flex;
- animation: menuIntro 0.5s;
-}
-.OFF{
-  animation: menuOutro 0.5s;
-}
-.OFF-2{
-  display: none;
-}
-.center-spaz-1{
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.center-spaz-2{
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.content-block{
-  padding: 10px 0 10px 0;
-
-}
-.cb-title{
-  font-family: 'fr';
-  color: white;
-  font-size:25px;
-  margin-bottom: 15px;
-}
-.cb-links{
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  width: 100%;
-}
-.v-application ul {
-  padding-left: 0;
-}
-.cb-link{
-  text-decoration: none;
-  color: white;
-  font-family: 'fr';
-  font-size: 18px;
-}
-.linkus{
-  color: white;
-}
-.linkus:hover{
-  color: #f1f1f1;
-}
-.ersteSpan{
-    color: white;
-    font-size: 1.6em;
-}
-.zweiteSpan{
-    color: #2cc9cb;
-    font-size: 1.4em;
-}
-.link-holder{
-  width: 45vw;
-}
-.links{
-  display: flex;
-  position: relative;
-  left: 4%;
-  justify-content: space-between;
-  align-items: center;
-  width: 90%;
-}
-.spacer-1{
-  display: none;
-}
-.link{
-  margin-top: 5px;
-  font-size: 18px;
-  color: black;
-  text-decoration: none;
-  text-align: center;
-}
-.link:hover{
-  color: #2cc9cb;
-}
-.link:active{
-  color: #2cc9cb;
-}
-.search-input{
-  padding-bottom: 3px;
-  padding-right: 30px;
-  font-family: 'bl';
-  outline: none;
-  text-align: center;
-  width: 0vw;
-}
-.search{
-  height: 90%;
-  width: 0vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.menu-btn{
-  display: block;
-}
-.link-holder{
-  display: block;
-}
-.search-btn{
-  display: none;
-}
-.spacer-1{
-  display: block;
-}
-.spacer-2{
-  display: none;
-}
 @media only screen and (min-width: 850px){
   .header-height{
     padding: 15px 0 15px 0;
@@ -1082,12 +782,11 @@ export default {
   }
   .embed{
     display: flex;
-    flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     height: 100%;
     width: 100%;
-    padding: 0 0 10px 0;
+    
   }
   .elem-row{
     display: flex;
@@ -1098,10 +797,9 @@ export default {
   }
   .main-row{
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
-    width: 750px;
-    height: 45px;
+    
   }
   .burger-div{
     display: flex;
@@ -1116,20 +814,21 @@ export default {
     align-items: center;
     padding: 0 5px 0 0 ;
     height: 100%;
+    width: 150px;
   }
   .inner-burger{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-evenly;
     align-items: center;
-    width: 0;
+    width: 100%;
     height: 50%;
   }
   .inner-burger-2{
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    width: 50%;
-    height: 50%;
+    width: 36px;
+    height: 36px;
   }
   .final-row{
     display: flex;
@@ -1143,7 +842,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 95%;
+    width: 450px;
     height: 44px;
   }
   .custom-searchy{
@@ -1167,7 +866,7 @@ export default {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    width: 100%;
+    width: 450px;
     height: 44px;
   }
   .custom-text-field.v-text-field.v-text-field--enclosed .v-input__control {

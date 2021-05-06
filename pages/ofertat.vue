@@ -436,7 +436,7 @@
                            <div class="fullscreen-img">
                                <v-img :aspect-ratio="1/1" :src="prod.details.photos[0].src" @click="sendToProduct(prod.details.kategorita, prod.spot)">
                                <v-chip
-                                    v-if="item.creationTime + 172800000 >= Date.now()"
+                                    v-if="prod.creationTime + 172800000 >= Date.now()"
                                     class="ma-2"
                                     color="green"
                                     label

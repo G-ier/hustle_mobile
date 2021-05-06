@@ -2,56 +2,23 @@
   <div class="aplikimi-container-cu-1">
       <div class="login-modern">
           <v-sheet elevation="15" class="py-4 custom-stepper" color="secondary">
-            <h1 class="classy text-center qs v-fsm mb-7">Log in</h1>
+            <h1 class="classy text-center qs v-fsm mb-7">Settings</h1>
             <div class="form-body pb-2">
-                <v-form class="pb-7">  
-                    <div class="form-holder-1 pb-1">
-                        <v-text-field label="Email" outlined class="white--text" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
-                        <v-text-field label="Password" type="password"  color="white" outlined class="white--text" v-model="account.password"></v-text-field>
-                        <v-btn @click="forgotten = true" color="lightgray" text class="qs onHover mb-5">Forgot password</v-btn>
-                    </div>
-                </v-form>
-                <div class="button-side">
-                    <v-btn rounded color="white" class="qs secondary--text btn-c v-fsm" nuxt to="/account/register">Register</v-btn>
-                    <v-btn rounded color="white" class="btn-c v-fsm" @click="login"><span class="qs secondary--text" v-if = "loading == false">Log In</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
+                <b-field label="Display Name" custom-class="white--text" v-model="account.displayName" expanded>
+                    <b-input></b-input>
+                </b-field>
+                <b-field label="Email" custom-class="white--text"  v-model="account.email" expanded>
+                    <b-input></b-input>
+                </b-field>
+                <div class="button-side mt-7">
+                    <v-btn rounded color="white" text class="qs white--text btn-c v-fsm" nuxt >Change password</v-btn>
+                    <v-btn rounded color="white" class="btn-c v-fsm" @click="changeU"><span class="qs secondary--text" v-if = "loading == false">Change</span><v-progress-circular indeterminate :size="19" color="amber" v-else></v-progress-circular></v-btn>
                 </div>
             </div>
         </v-sheet>
       </div>
-      <v-dialog v-model="dialog" max-width="240">
-            <v-card color="secondary">
-                <v-card-title class="qs headline">Unsuccessful!</v-card-title>
-                <v-card-text class="qs">Login failed!</v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn class="qs" @click="dialog = false" text >Ok.</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog> 
-      <v-dialog
-        transition="dialog-top-transition"
-        max-width="500"
-        v-model="forgotten"
-      >
-          <v-card color="secondary">
-            <v-toolbar
-              color="secondary"
-              dark
-              elevation="0"
-            >Emaili ne te cilin konfirmimi i riperseritjes do te cohet.</v-toolbar>
-            <v-card-text>
-                <v-text-field label="Enter email" outlined v-model="Fmail" color="white" dense class="mt-10" clearable></v-text-field>
-            </v-card-text>
-            <v-card-actions class="justify-end">
-              <v-btn
-                text
-                @click="sendConfirm"
-              >Send</v-btn>
-            </v-card-actions>
-          </v-card>
-      </v-dialog>
       <v-snackbar v-model="feed">
-        Email sent successfully!
+        Te ndryshuara me sukses!
           <template v-slot:action="{ attrs }">
             <v-btn
             color="yellow"
@@ -72,12 +39,24 @@ import {required, email} from 'vuelidate/lib/validators'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 export default {
+    async asyncData({store}){
+        const email = store.state.users.user.email;
+
+        const user = await firebase.firestore().collection('users').where("email", "==", email).get();
+        const userParsed = user.docs.map(doc => doc.data());
+
+        return{
+            user: userParsed[0],
+            fumail: userParsed[0].email.split('@'),
+        }
+    },
     mixins: [validationMixin],
     data(){
         return{
             steps: 4,
             currentStep: 1,
             account: {
+                dispalyName:'',
                 email: '',
                 password: '',
             },
@@ -85,8 +64,7 @@ export default {
             loading: false,
             dialog: false,
             forgotten: false,
-            feed: false,
-            Fmail: "",
+            feed: false
         }
     },
     validations: {
@@ -110,21 +88,41 @@ export default {
         },
     },
     methods: {
-        login: async function(){
+        changeU: async function(){
+
             this.loading = true;
-            this.$v.account.email.$touch();
-            await this.$store.dispatch("users/login", this.account).catch((err) => {
-                this.error = err.code;   
-            });
-            if(this.$store.state.users.role == "admin"){
-                console.log(this.$store.state.users.role);
-                location.href = "/account/drejtuesi";
-            } else if (this.$store.state.users.role == "buyer" || this.$store.state.users.role == "seller") {
-                location.href = "/account/me";
-            } else {
-                this.dialog = true;
-                this.loading = false;
+
+            if(this.account.displayName == "" && this.account.email == ""){
+                return;
             }
+            else if(this.account.displayName == "" && this.account.email != ""){
+                await firebase.firestore().collection('users').doc(this.fumail[0]).update({
+                    username: this.user.username,
+                    email: this.account.email,
+                    location: this.user.location,
+                    numri: this.user.numri,
+                    password: this.user.password,
+                    photo: this.user.photo,
+                    qyteti: this.user.qyteti,
+                    role: this.user.role
+                    
+                });
+            }
+            else if(this.account.displayName != "" && this.account.email == ""){
+                await firebase.firestore().collection('users').doc(this.fumail[0]).update({
+                    username: this.user.username,
+                    email: this.user.email,
+                    location: this.user.location,
+                    numri: this.user.numri,
+                    password: this.user.password,
+                    photo: this.user.photo,
+                    qyteti: this.user.qyteti,
+                    role: this.user.role
+                    
+                });
+            }
+
+            this.loading = false;
         },
         sendConfirm: function(){
             this.forgotten = false;
@@ -179,7 +177,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
-    background-image: url('../../assets/img/login.png');
+    background-image: url('../../../assets/img/tingting.png');
     background-size: cover;
     background-position-y: center;
     background-position-x: center; 
