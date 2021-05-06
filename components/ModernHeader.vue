@@ -427,7 +427,7 @@
                                 <b-icon icon="login" size="25"></b-icon>
                                 Login
                             </b-dropdown-item>
-                            <b-dropdown-item value="logout" aria-role="menuitem" @click="gotoPage('/account')" v-if="user != 'Not logged in.'">
+                            <b-dropdown-item value="logout" aria-role="menuitem" @click="logout" v-if="user != 'Not logged in.'">
                                 <b-icon icon="logout"></b-icon>
                                 Logout
                             </b-dropdown-item>
