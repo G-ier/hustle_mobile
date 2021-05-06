@@ -23,15 +23,27 @@
                 <v-tabs-items v-model="tab">
                     <v-tab-item value="tab-1" class="secondary">
                         <div class="form-body pb-2">
-                            <v-form class="pb-7">  
+                            <v-form class="pb-7 width-full" >  
                                 <div class="form-holder-1 pb-1">
-                                    <v-text-field label="Emri" outlined class="white--text fully" color="white" v-model="account.emri" :error-messages="emriErrors" required @input="$v.account.emri.$touch()"></v-text-field>
-                                    <v-text-field label="Email" outlined class="white--text fully" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
-                                    <v-select :items="items" label="Qyteti" class="fully white--text" color="white" dark outlined v-model="account.qyteti" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-select>
-                                    <v-text-field label="Rruga" outlined  class="white--text fully" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
-                                    <v-text-field label="Numri" outlined class="white--text fully" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
-                                    <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully" v-model="account.password" :error-messages="passErrors" required @input="$v.account.password.$touch()"></v-text-field>
-                                    <v-text-field label="Perserit Password" type="password" color="white" outlined class="white--text fully" v-model="account.passwordR" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
+                                    <v-text-field label="Emri" outlined class="white--text fully ungrouped-shit" color="white" v-model="account.emri" :error-messages="emriErrors" required @input="$v.account.emri.$touch()"></v-text-field>
+                                    <v-text-field label="Email" outlined class="white--text fully ungrouped-shit" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
+                                    <b-field grouped class="grouped-shit">
+                                        <v-text-field label="Emri" outlined class="white--text fully mr-1" color="white" v-model="account.emri" :error-messages="emriErrors" required @input="$v.account.emri.$touch()"></v-text-field>
+                                        <v-text-field label="Email" outlined class="white--text fully ml-1" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
+                                    </b-field>
+                                    <v-select :items="items" label="Qyteti" class="fully white--text width-440" color="white" dark outlined v-model="account.qyteti" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-select>
+                                    <v-text-field label="Rruga" outlined  class="white--text fully ungrouped-shit" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
+                                    <v-text-field label="Numri" outlined class="white--text fully ungrouped-shit" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
+                                    <b-field grouped class="grouped-shit">
+                                        <v-text-field label="Rruga" outlined  class="white--text fully mr-1" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
+                                        <v-text-field label="Numri" outlined class="white--text fully ml-1" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
+                                    </b-field>
+                                    <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully ungrouped-shit" v-model="account.password" :error-messages="passErrors" required @input="$v.account.password.$touch()"></v-text-field>
+                                    <v-text-field label="Perserit Password" type="password" color="white" outlined class="white--text fully ungrouped-shit" v-model="account.passwordR" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
+                                    <b-field grouped class="grouped-shit">
+                                        <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully mr-1" v-model="account.password" :error-messages="passErrors" required @input="$v.account.password.$touch()"></v-text-field>
+                                        <v-text-field label="Perserit Password" type="password" color="white" outlined class="white--text fully ml-1" v-model="account.passwordR" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
+                                    </b-field>
                                 </div>
                             </v-form>
                             <div class="button-side">
@@ -44,13 +56,25 @@
                         <div class="form-body pb-2">
                             <v-form class="pb-7">  
                                 <div class="form-holder-1 pb-1">
-                                    <v-text-field label="Emri" outlined class="white--text fully" color="white" v-model="account.emri" :error-messages="emriErrors" required @input="$v.account.emri.$touch()"></v-text-field>
-                                    <v-text-field label="Email" outlined class="white--text fully" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
-                                    <v-select :items="items" color="white" class="fully white--text" label="Qyteti" dark outlined v-model="account.qyteti" :error-messages="adresaErrors" required @input="$v.account.qyteti.$touch()"></v-select>
-                                    <v-text-field label="Adresa" outlined class="white--text fully" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
-                                    <v-text-field label="Numri" outlined class="white--text fully" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
-                                    <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully" v-model="account.password" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
-                                    <v-text-field label="Perserit Password" type="password" color="white" outlined class="white--text fully" v-model="account.passwordR" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
+                                    <v-text-field label="Emri" outlined class="white--text fully ungrouped-shit" color="white" v-model="account.emri" :error-messages="emriErrors" required @input="$v.account.emri.$touch()"></v-text-field>
+                                    <v-text-field label="Email" outlined class="white--text fully ungrouped-shit" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
+                                    <b-field grouped class="grouped-shit">
+                                        <v-text-field label="Emri" outlined class="white--text fully mr-1" color="white" v-model="account.emri" :error-messages="emriErrors" required @input="$v.account.emri.$touch()"></v-text-field>
+                                        <v-text-field label="Email" outlined class="white--text fully ml-1" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
+                                    </b-field>
+                                    <v-select :items="items" label="Qyteti" class="fully white--text width-440" color="white" dark outlined v-model="account.qyteti" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-select>
+                                    <v-text-field label="Rruga" outlined  class="white--text fully ungrouped-shit" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
+                                    <v-text-field label="Numri" outlined class="white--text fully ungrouped-shit" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
+                                    <b-field grouped class="grouped-shit">
+                                        <v-text-field label="Rruga" outlined  class="white--text fully mr-1" color="white" v-model="account.adresa" :error-messages="adresaErrors" required @input="$v.account.adresa.$touch()"></v-text-field>
+                                        <v-text-field label="Numri" outlined class="white--text fully ml-1" color="white" v-model="account.numri" :error-messages="numErrors" required @input="$v.account.numri.$touch()"></v-text-field>
+                                    </b-field>
+                                    <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully ungrouped-shit" v-model="account.password" :error-messages="passErrors" required @input="$v.account.password.$touch()"></v-text-field>
+                                    <v-text-field label="Perserit Password" type="password" color="white" outlined class="white--text fully ungrouped-shit" v-model="account.passwordR" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
+                                    <b-field grouped class="grouped-shit">
+                                        <v-text-field label="Vendos Password" type="password" color="white" outlined class="white--text fully mr-1" v-model="account.password" :error-messages="passErrors" required @input="$v.account.password.$touch()"></v-text-field>
+                                        <v-text-field label="Perserit Password" type="password" color="white" outlined class="white--text fully ml-1" v-model="account.passwordR" :error-messages="passErrors" required @input="$v.account.password.$touch()" ></v-text-field>
+                                    </b-field>
                                 </div>
                             </v-form>
                             <div class="button-side">
@@ -328,7 +352,6 @@ export default {
     background-size: cover;
     background-position-y: center;
     background-position-x: center;  
-
 }
 .v-text-field input{
     color:  white;
@@ -352,7 +375,7 @@ export default {
 }
 .custom-stepper{
     background-color: white;
-    width: 600px;
+    width: 500px;
 }
 .stepper-header{
     width: 80%;
@@ -410,6 +433,12 @@ export default {
     outline: none;
 }
 @media only screen and (max-width: 650px){
+    .ungrouped-shit{
+        display: block;
+    }
+    .grouped-shit{
+        display: none;
+    }
     .classy{
         font-size: 22px;
     }
@@ -420,7 +449,8 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: flex-end;
+        align-items: center;
+        background-image: none;
         
     }
     .aplikimi-container{
@@ -442,12 +472,166 @@ export default {
         width: 70vw;
     }
 }
-@media screen and (min-width: 850px) {
-    .fully{
-        width: 220px;
+@media only screen and (min-width: 650px) and (max-width: 900px){
+    .ungrouped-shit{
+        display: none;
+    }
+    .grouped-shit{
+        display: block;
+    }
+    .width-440{
+        width: 448px;
+    }
+    .width-full{
+        width: 100%;
     }
     .classy{
-    font-size: 22px;
+        font-size: 22px;
+    }
+    .site-register{
+        width: 90%;
+        min-height: 71vh;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-image: none;   
+    }
+    .aplikimi-container{
+        height: 100vh;
+    }
+    .custom-stepper{
+        width: 95vw;
+    }
+    .form-holder-1{
+        width: 100%;
+    }
+    .form-holder-2{
+        width: 70vw;
+    }
+    .form-holder-3{
+        width: 70vw;
+    }
+    .form-holder-4{
+        width: 70vw;
+    }
+    
 }
+@media screen and (min-width: 900px) and (max-width: 1100px){
+    
+    .classy{
+        font-size: 22px;
+    }
+    .ungrouped-shit{
+        display: none;
+    }
+    .grouped-shit{
+        display: block;
+    }
+    .width-440{
+        width: 448px;
+    }
+    .width-full{
+        width: 448px;
+    }
+    .form-holder-1{
+        margin-top: 40px;
+        width: 100%;
+        animation: changer 0.4s;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .site-register{
+        width: 90%;
+        min-height: 90%;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end; 
+        background-image: url('../../assets/img/login.png');
+        background-size: cover;
+        background-position-y: center;
+        background-position-x: center;  
+    }
+    .v-text-field input{
+        color:  white;
+    }
+    
+    .classy{
+        font-size: 22px;
+    }
+    .aplikimi-container-cu-2{
+        width: 100vw;
+        min-height: 81vh;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 0 15px 0;
+        
+    }
+}
+@media screen and (min-width: 1100px) {
+    
+    .classy{
+        font-size: 22px;
+    }
+    .ungrouped-shit{
+        display: none;
+    }
+    .grouped-shit{
+        display: block;
+    }
+    .width-440{
+        width: 448px;
+    }
+    .width-full{
+        width: 448px;
+    }
+    .form-holder-1{
+        margin-top: 40px;
+        width: 100%;
+        animation: changer 0.4s;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .site-register{
+        width: 80%;
+        min-height: 90%;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end; 
+        background-image: url('../../assets/img/login.png');
+        background-size: cover;
+        background-position-y: center;
+        background-position-x: center;  
+    }
+    .v-text-field input{
+        color:  white;
+    }
+    
+    .classy{
+        font-size: 22px;
+    }
+    .aplikimi-container-cu-2{
+        width: 100vw;
+        min-height: 81vh;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 0 15px 0;
+        
+    }
 }
 </style>

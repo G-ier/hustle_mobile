@@ -48,13 +48,57 @@
             </v-toolbar-title>
             <v-spacer class="spacer-duo"></v-spacer>
             <div class="rightside mr-3">
-                <div class="rightside-mini">
-                    <v-btn icon height="23" width="23" nuxt to="/favorites">
-                        <v-icon size="23" color="white">
-                            mdi-star-circle-outline
-                        </v-icon>
-                    </v-btn>
-                </div>
+                <b-dropdown
+                            v-model="navigation"
+                            position="is-bottom-left"
+                            append-to-body
+                            :mobile-modal="false"
+                            aria-role="menu"
+                            class="mt-1"
+                          >
+                            <template #trigger>
+                                <v-btn class="qs" icon width="10" height="10">
+                                    <v-icon color="white">
+                                    mdi-account
+                                    </v-icon>
+                                </v-btn>
+                            </template>
+
+
+                            <b-dropdown-item custom aria-role="menuitem">
+                                Status: <b>{{user}}</b>
+                            </b-dropdown-item>
+                            <hr class="dropdown-divider">
+                            <b-dropdown-item value="home" aria-role="menuitem" @click="gotoPage('/favorites')">
+                                <b-icon icon="heart"></b-icon>
+                                Lista e deshirave
+                            </b-dropdown-item>
+                            <b-dropdown-item value="product" aria-role="menuitem" @click="gotoPageWithParam('account-me-create')" v-if="role == 'seller'">
+                                <b-icon icon="plus"></b-icon>
+                                Krijo produkt
+                            </b-dropdown-item>
+                            <b-dropdown-item value="products" aria-role="menuitem" @click="gotoPageWithParam('account-me-edit')" v-if="role == 'seller'">
+                                <b-icon icon="pen"></b-icon>
+                                Edito produkte
+                            </b-dropdown-item>
+                            <b-dropdown-item value="bought" aria-role="menuitem" @click="gotoPageWithParam('account-me')" v-if="role == 'seller' || role == 'buyer'">
+                                <b-icon icon="book-open"></b-icon>
+                                Blerjet tuaja
+                            </b-dropdown-item>
+                            <hr class="dropdown-divider" aria-role="menuitem">
+                            <b-dropdown-item value="settings" v-if="user != 'Not logged in.'" @click="gotoPage('/account/me/settings')">
+                                <b-icon icon="mdi-settings"></b-icon>
+                                Settings
+                            </b-dropdown-item>
+                            <b-dropdown-item value="logout" aria-role="menuitem" @click="gotoPage('/account')" v-if="user == 'Not logged in.'">
+                                <b-icon icon="login" size="25"></b-icon>
+                                Login
+                            </b-dropdown-item>
+                            <b-dropdown-item value="logout" aria-role="menuitem" @click="gotoPage('/account')" v-if="user != 'Not logged in.'">
+                                <b-icon icon="logout"></b-icon>
+                                Logout
+                            </b-dropdown-item>
+              </b-dropdown>
             </div>
             <div class="burger-div-2 kivi-duo">
             <div class="inner-burger">
@@ -80,7 +124,10 @@ export default {
                 { title: 'English', flag: uklogo},
                 { title: 'Shqip', flag: allogo},
             ],
-            langLogo: uklogo
+            langLogo: uklogo,
+            navigation: false,
+            user: this.$store.state.users.user ? this.$store.state.users.user.email : "Not logged in.",
+            role: this.$store.state.users.role ? this.$store.state.users.role : null
         }
     },
     methods: {
@@ -90,7 +137,16 @@ export default {
         },
         emitDrawer: function(){
             this.$emit('update:drawer', true);
-        }
+        },
+        gotoPage: function(pageSlug){
+          console.log("stuff");
+          this.$router.push({path: pageSlug});
+        },
+        gotoPageWithParam: function(pageName){
+            const cookie = Cookie.get("user");
+            const cook = JSON.parse(cookie);
+            this.$router.push({name: pageName, query: {name: cook.username.toLowerCase()}});
+        },
     }
 }
 </script>
@@ -271,6 +327,13 @@ export default {
   width: 10%;
   height: 24px;
 }
+.inner-burger{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+}
 @media screen and (min-width: 850px) {
     .searchy{
         display: flex;
@@ -449,11 +512,13 @@ export default {
     }
     .burger-div-2{
         display: none;
-        justify-content: flex-end;
+        justify-content: space-between;
         align-items: center;
         padding: 0 5px 0 0 ;
         height: 100%;
+
     }
+    
 }
 
 </style>
