@@ -20,6 +20,7 @@
               <p class="qs secondary--text">Cmimi: {{item.amount}}</p>
             </div>
           </div>
+          <v-btn nuxt to="/account/me/orders" color="primary" class="white--text">Tek lista e blerjeve</v-btn>
         </div>
       </div>
       <h1 class="qs primary--text mb-4" v-if="loading == true">Prisni per procesimin e pageses</h1>

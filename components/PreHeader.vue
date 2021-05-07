@@ -52,13 +52,12 @@
                             v-model="navigation"
                             position="is-bottom-left"
                             append-to-body
-                            :mobile-modal="false"
                             aria-role="menu"
-                            class="mt-1"
+                            :mobile-modal="false"
                           >
                             <template #trigger>
                                 <v-btn class="qs" icon width="10" height="10">
-                                    <v-icon color="white">
+                                    <v-icon color="white" size="25">
                                     mdi-account
                                     </v-icon>
                                 </v-btn>
@@ -81,7 +80,7 @@
                                 <b-icon icon="pen"></b-icon>
                                 Edito produkte
                             </b-dropdown-item>
-                            <b-dropdown-item value="bought" aria-role="menuitem" @click="gotoPageWithParam('account-me')" v-if="role == 'seller' || role == 'buyer'">
+                            <b-dropdown-item value="bought" aria-role="menuitem" @click="gotoPageWithParam('account-me-orders')" v-if="role == 'seller' || role == 'buyer'">
                                 <b-icon icon="book-open"></b-icon>
                                 Blerjet tuaja
                             </b-dropdown-item>
@@ -94,7 +93,7 @@
                                 <b-icon icon="login" size="25"></b-icon>
                                 Login
                             </b-dropdown-item>
-                            <b-dropdown-item value="logout" aria-role="menuitem" @click="gotoPage('/account')" v-if="user != 'Not logged in.'">
+                            <b-dropdown-item value="logout" aria-role="menuitem" @click="logout" v-if="user != 'Not logged in.'">
                                 <b-icon icon="logout"></b-icon>
                                 Logout
                             </b-dropdown-item>
@@ -117,6 +116,7 @@
 <script>
 import uklogo from '../assets/img/united-kingdom.png';
 import allogo from '../assets/img/albania.png';
+import Cookie from 'js-cookie';
 export default {
     data(){
         return{
@@ -147,6 +147,14 @@ export default {
             const cook = JSON.parse(cookie);
             this.$router.push({name: pageName, query: {name: cook.username.toLowerCase()}});
         },
+        logout: async function(){
+        await this.$store.dispatch("users/logout");
+        
+        this.user = this.$store.state.users.user ? this.$store.state.users.user.email : "Not logged in.";
+        this.role = this.$store.state.users.role ? this.$store.state.users.role : null;
+
+        this.$router.push({path: '/'});
+      },
     }
 }
 </script>

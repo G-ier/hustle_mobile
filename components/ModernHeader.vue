@@ -367,10 +367,10 @@
             <div class="results" v-if="answer == true" ref="karuci" @mouseenter="itsover = true" @mouseleave="itsover = false" @mouseout="mouseOut">
               <div class="listings" v-if="sToShow.length > 0">
                 <div class="tile" v-for="ting in sToShow.slice(0, 4)" :key="ting.id">
-                  <v-btn class="qs secondary--text btn-c-o" text nuxt :to="ting.red + '/' + ting.emri" @click="itsover = false; answer = false">{{ting.emri}}</v-btn>
+                  <v-btn class="qs secondary--text btn-c-o" text nuxt @click="itsover = false; answer = false; itemPressed(ting.red, ting.emri)">{{ting.emri}}</v-btn>
                 </div>
               </div>
-              <div class="listings" v-else>
+              <div class="listings" v-if="sToShow.length == 0 || sToShow == null">
                 <div class="tile">
                   <p class="qs btn-c-o secondary--text">No result.</p>
                 </div>
@@ -414,7 +414,7 @@
                                 <b-icon icon="pen"></b-icon>
                                 Edito produkte
                             </b-dropdown-item>
-                            <b-dropdown-item value="bought" aria-role="menuitem" @click="gotoPageWithParam('account-me')" v-if="role == 'seller' || role == 'buyer'">
+                            <b-dropdown-item value="bought" aria-role="menuitem" @click="gotoPageWithParam('account-me-orders')" v-if="role == 'seller' || role == 'buyer'">
                                 <b-icon icon="book-open"></b-icon>
                                 Blerjet tuaja
                             </b-dropdown-item>
@@ -584,8 +584,11 @@ export default {
       searchGo: function(){
 
         const redItem = this.sToShow[0];
-        this.$router.push({ path: redItem.red });
+        this.$router.push({ path: "/search", query: {search: redItem.emri} });
 
+      },
+      itemPressed: function(red, emri){
+        this.$router.push({ path: "/search", query: {search: emri} });
       },
       sendToMore: function(){
         this.answer = false;
@@ -593,7 +596,7 @@ export default {
         this.$router.push({ path: '/search', query: { search: this.searchQ } });
       },
       changeType: async function (){
-        await this.$store.dispatch("users/change", this.searchQ);
+        await this.$store.dispatch("users/change", this.searchQ ? this.searchQ : "");
 
         this.sToShow = this.$store.state.users.result;
         this.answer = true;
@@ -601,10 +604,12 @@ export default {
         console.log(this.sToShow);
       },
       logout: async function(){
-        await firebase.auth().signOut();
-        await Cookie.remove('access_token');
-        await Cookie.remove('role_token');
-        await Cookie.remove('user');
+        await this.$store.dispatch("users/logout");
+        
+        this.user = this.$store.state.users.user ? this.$store.state.users.user.email : "Not logged in.";
+        this.role = this.$store.state.users.role ? this.$store.state.users.role : null;
+
+        this.$router.push({path: '/'});
       },
       updateCart: async function(cartEmri, cartTimes){
 

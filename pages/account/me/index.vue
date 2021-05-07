@@ -1,9 +1,5 @@
 <template>
     <div class="admin-base-1">
-      <div class="logout-row-1">
-          <v-btn class="qs white--text rounded-lg" color="primary" text @click="editProfile">Edit profile</v-btn>
-          <v-btn class="qs white--text rounded-lg" @click="logout" color="primary">Logout</v-btn>
-      </div>
       
       <div class="admin-starter" v-if="role == 'seller'">
           <div class="container-stuff">
@@ -43,138 +39,7 @@
           </div>
       </div>
 
-      <div class="admin-starter">
-          <div class="container-stuff">
-              <h1 class="starter-title qs">Pagesat tuaja</h1>
-              <div class="starter-row-1">
-                <div class="simple-listing">
-                    <div class="simple-tile">
-                        <p class="qs secondary--text simple-m ma-0 pa-0">{{bought.length}} <span class="qs side-m">Blerje</span>  </p>
-                    </div>
-                </div>
-              </div>
-                <div class="starter-row">
-                    <v-btn class="qs white--text" small text nuxt @click="boughting = true">Cdo pagese</v-btn>
-                </div>
-          </div>
-      </div>
-
-      <v-dialog
-        v-model="boughting"
-        scrollable
-        max-width="300px"
         
-        >
-        <v-card color="secondary"> 
-            <v-card-title>Cdo blerje</v-card-title>
-            <v-divider></v-divider>
-            <v-card-text style="height: 300px;">
-            <div class="lister">
-                <div class="lister-item" v-for="pur in bought" :key="pur.id">
-                    <p class="qs white--text">Produkti: {{pur.orders.item}}</p>
-                    <p class="qs white--text">Totali: {{pur.orders.price}}</p>
-                    <p class="qs white--text">Cope: {{pur.orders.quantity}}</p>
-                </div>
-            </div>
-            </v-card-text>
-            <v-divider></v-divider>
-            <v-card-actions>
-            <v-btn
-                color="white"
-                class="qs"
-                text
-                @click="boughting = false"
-            >
-                Mbyll
-            </v-btn>
-            </v-card-actions>
-        </v-card>
-        </v-dialog>
-
-        <v-dialog
-            v-model="editP"
-            fullscreen
-            style="z-index: 34235456;"
-            transition="dialog-bottom-transition"
-            class="r"
-            >
-            
-            <v-card>
-                <v-toolbar
-                dark
-                color="primary"
-                >
-                <v-btn
-                    icon
-                    dark
-                    @click="closeE"
-                >
-                    <v-icon>mdi-close</v-icon>
-                </v-btn>
-                <v-toolbar-title>Perpuno detajet</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-toolbar-items>
-                    <v-btn
-                    dark
-                    text
-                    @click="realSend"  
-                    >
-                    Ruaj
-                    </v-btn>
-                </v-toolbar-items>
-                </v-toolbar>
-                <v-list
-                three-line
-                subheader
-                >
-                <v-subheader>Detajet tuaja</v-subheader>
-                <v-list-item>
-                    <v-list-item-content>
-                        <div class="vert">
-                            <v-text-field v-model="emri" class="w-100" placeholder="New name" outlined dense color="white" dark clearable></v-text-field>
-                            <p class="qs">Fotoja e profilit</p>
-                            <input
-                                ref="imageFile"
-                                placeholder="Profile photo"
-                                accept="image/png, image/jpeg"
-                                class="inputFile"
-                                type="file"
-                                name="file" 
-                                @change.prevent="uploadImageFile($event.target.files)"
-                            >
-                        </div>
-                    </v-list-item-content>
-                </v-list-item>
-                </v-list>
-                
-            </v-card>   
-        </v-dialog>
-        <v-dialog
-        v-model="dialogE"
-        max-width="240"
-        >
-        <v-card color="secondary">
-            <v-card-title class="headline qs">
-            Sukses!
-            </v-card-title>
-
-            <v-card-text class="qs">
-            Perpunimi ishte i sukseshem. Nje rifreskim i browser mund te jete i nevojshem per te shfaqur te dhenat.
-            </v-card-text>
-
-            <v-card-actions>
-            <v-spacer></v-spacer>
-
-            <v-btn
-                color="white"
-                text
-                @click="dialogE = false"
-            >
-                Mbyll
-            </v-btn>
-            </v-card-actions>
-        </v-card>
-        </v-dialog>
       
   </div>
 </template>
@@ -193,9 +58,6 @@ export default {
         const datush = await firebase.firestore().collection('users').doc(realting).get();
         const datush2 = datush.data();
 
-        const data = await firebase.firestore().collection('orders').where("payee_email", "==", datush2.email).get();
-        const data2 = data.docs.map(doc => doc.data());
-
         var data4 = [];
         if(store.state.users.role == "seller"){
             const data3 = await firebase.firestore().collection('elektronike').where("owner", "==", datush2.username.toLowerCase()).get();
@@ -203,7 +65,6 @@ export default {
         }
 
         return{
-            bought: data2.length > 0 ? data2 : [],
             prods: data4.length > 0 ? data4 : []
         }
     },

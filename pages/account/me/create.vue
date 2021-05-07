@@ -1127,9 +1127,12 @@ export default {
 }
 @media only screen and (min-width: 850px){
 .miniature{
-  font-size: 13px;
-  color: darkgray;
-}
+        font-size: 13px;
+        color: darkgray;
+    }
+    .full-width{
+        width: 100%;
+    }
     .pc-small{
         width: 400px;
     }

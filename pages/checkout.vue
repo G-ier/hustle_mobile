@@ -380,7 +380,7 @@ export default {
         this.$store.dispatch("users/removeCart");
         Cookies.remove("cart_hustle");
 
-        this.$router.push({name: "account-me"});
+        this.$router.push({name: "account-me-orders"});
 
     }
   },
@@ -614,9 +614,12 @@ export default {
 }
 @media only screen and (min-width: 850px){
 .miniature{
-  font-size: 13px;
-  color: darkgray;
-}
+        font-size: 13px;
+        color: darkgray;
+    }
+    .full-width{
+        width: 100%;
+    }
     .display-off{
         display: none;
     }

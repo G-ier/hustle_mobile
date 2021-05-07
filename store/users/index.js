@@ -70,6 +70,26 @@ export const actions = {
         }
 
     },
+    async logout({commit}){
+
+        try {
+
+            await firebase.auth().signOut();
+            await Cookie.remove('access_token');
+            await Cookie.remove('role_token');
+            await Cookie.remove('user');
+
+            // Set role
+            commit("SET_ROLE", null);
+
+            // Set user locally
+            commit("SET_USER", null);
+
+        } catch(error){
+            throw error;
+        }
+
+    },
     async register ({commit}, account){
         try{
 

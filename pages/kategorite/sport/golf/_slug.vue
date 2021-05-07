@@ -125,7 +125,7 @@
                 class="mb-3"
                 ></v-rating>
                 <p class="qs primary--text" v-if="error2Yje">Vleresimi minimal eshte 0.5 yje</p>
-                <v-textarea outlined color="secondary" dense clearable v-model="reviewText" label="Write your review" light full-width :error-messages="stuffErrors" @input="$v.reviewText.$touch()"></v-textarea>
+                <v-textarea outlined class="full-width" color="secondary" dense clearable v-model="reviewText" label="Write your review" light full-width :error-messages="stuffErrors" @input="$v.reviewText.$touch()"></v-textarea>
                 <v-btn class="rounded-lg qs white--text" color="primary" @click="send">Send</v-btn>
             </div>
             <div class="review-write" v-else>
@@ -555,11 +555,17 @@ export default {
     align-items: flex-start;
     width: 100%;
 }
+.full-width{
+    width: 100%;
+}
 @media only screen and (min-width: 850px){
 .miniature{
-  font-size: 13px;
-  color: darkgray;
-}
+        font-size: 13px;
+        color: darkgray;
+    }
+    .full-width{
+        width: 100%;
+    }
     .qualifier{
         width: 100%;
         display: flex;
