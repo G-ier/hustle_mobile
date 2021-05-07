@@ -564,7 +564,7 @@ export default {
         const page = pageData.docs.map(doc => doc.data());
 
         const prodsProc = page.filter((doc)=>{
-            return doc.details.name.includes(route.query.search);
+            return doc.details.name.includes(route.query.search.toLowerCase());
         });
 
         const prods = prodsProc.slice(0, 6);

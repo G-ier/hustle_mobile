@@ -418,7 +418,7 @@ export default {
 }
 @media only screen and (max-width: 650px){
     .aplikimi-container-cu-1{
-        min-height: 110vh;
+        min-height: 120vh;
         display: flex;
         padding: 15px 0 15px 0;
     }

@@ -99,7 +99,7 @@
                             </b-dropdown-item>
               </b-dropdown>
             </div>
-            <div class="burger-div-2 kivi-duo">
+            <div class="burger-div-2">
             <div class="inner-burger">
               <v-btn class="qs" icon @click.stop="cartushPhone" width="23" height="23">
                 <v-icon size="23" color="white">
@@ -332,12 +332,12 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 10%;
+  width: 24px;
   height: 24px;
 }
 .inner-burger{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     width: 100%;
     height: 50%;
