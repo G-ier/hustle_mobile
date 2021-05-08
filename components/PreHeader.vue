@@ -49,54 +49,58 @@
             <v-spacer class="spacer-duo"></v-spacer>
             <div class="rightside mr-3">
                 <b-dropdown
-                            v-model="navigation"
-                            position="is-bottom-left"
-                            append-to-body
-                            aria-role="menu"
-                            :mobile-modal="false"
-                          >
-                            <template #trigger>
-                                <v-btn class="qs" icon width="10" height="10">
-                                    <v-icon color="white" size="25">
-                                    mdi-account
-                                    </v-icon>
-                                </v-btn>
-                            </template>
+                    v-model="navigation"
+                    position="is-bottom-left"
+                    append-to-body
+                    aria-role="menu"
+                    :mobile-modal="false"
+                    >
+                    <template #trigger>
+                        <v-btn class="qs" icon width="10" height="10">
+                            <v-icon color="white" size="25">
+                            mdi-account
+                            </v-icon>
+                        </v-btn>
+                    </template>
 
 
-                            <b-dropdown-item custom aria-role="menuitem">
-                                Status: <b>{{user}}</b>
-                            </b-dropdown-item>
-                            <hr class="dropdown-divider">
-                            <b-dropdown-item value="home" aria-role="menuitem" @click="gotoPage('/favorites')">
-                                <b-icon icon="heart"></b-icon>
-                                Lista e deshirave
-                            </b-dropdown-item>
-                            <b-dropdown-item value="product" aria-role="menuitem" @click="gotoPageWithParam('account-me-create')" v-if="role == 'seller'">
-                                <b-icon icon="plus"></b-icon>
-                                Krijo produkt
-                            </b-dropdown-item>
-                            <b-dropdown-item value="products" aria-role="menuitem" @click="gotoPageWithParam('account-me-edit')" v-if="role == 'seller'">
-                                <b-icon icon="pen"></b-icon>
-                                Edito produkte
-                            </b-dropdown-item>
-                            <b-dropdown-item value="bought" aria-role="menuitem" @click="gotoPageWithParam('account-me-orders')" v-if="role == 'seller' || role == 'buyer'">
-                                <b-icon icon="book-open"></b-icon>
-                                Blerjet tuaja
-                            </b-dropdown-item>
-                            <hr class="dropdown-divider" aria-role="menuitem">
-                            <b-dropdown-item value="settings" v-if="user != 'Not logged in.'" @click="gotoPage('/account/me/settings')">
-                                <b-icon icon="mdi-settings"></b-icon>
-                                Settings
-                            </b-dropdown-item>
-                            <b-dropdown-item value="logout" aria-role="menuitem" @click="gotoPage('/account')" v-if="user == 'Not logged in.'">
-                                <b-icon icon="login" size="25"></b-icon>
-                                Login
-                            </b-dropdown-item>
-                            <b-dropdown-item value="logout" aria-role="menuitem" @click="logout" v-if="user != 'Not logged in.'">
-                                <b-icon icon="logout"></b-icon>
-                                Logout
-                            </b-dropdown-item>
+                    <b-dropdown-item custom aria-role="menuitem">
+                        Status: <b>{{user}}</b>
+                    </b-dropdown-item>
+                    <hr class="dropdown-divider">
+                    <b-dropdown-item value="home" aria-role="menuitem" @click="gotoPage('/account')">
+                        <b-icon icon="faqja"></b-icon>
+                        Faqja juaj
+                    </b-dropdown-item>
+                    <b-dropdown-item value="favs" aria-role="menuitem" @click="gotoPage('/favorites')">
+                        <b-icon icon="heart"></b-icon>
+                        Lista e deshirave
+                    </b-dropdown-item>
+                    <b-dropdown-item value="product" aria-role="menuitem" @click="gotoPageWithParam('account-me-create')" v-if="role == 'seller'">
+                        <b-icon icon="plus"></b-icon>
+                        Krijo produkt
+                    </b-dropdown-item>
+                    <b-dropdown-item value="products" aria-role="menuitem" @click="gotoPageWithParam('account-me-edit')" v-if="role == 'seller'">
+                        <b-icon icon="pen"></b-icon>
+                        Edito produkte
+                    </b-dropdown-item>
+                    <b-dropdown-item value="bought" aria-role="menuitem" @click="gotoPageWithParam('account-me-orders')" v-if="role == 'seller' || role == 'buyer'">
+                        <b-icon icon="book-open"></b-icon>
+                        Blerjet tuaja
+                    </b-dropdown-item>
+                    <hr class="dropdown-divider" aria-role="menuitem">
+                    <b-dropdown-item value="settings" v-if="user != 'Not logged in.'" @click="gotoPage('/account/me/settings')">
+                        <b-icon icon="mdi-settings"></b-icon>
+                        Settings
+                    </b-dropdown-item>
+                    <b-dropdown-item value="logout" aria-role="menuitem" @click="gotoPage('/account')" v-if="user == 'Not logged in.'">
+                        <b-icon icon="login" size="25"></b-icon>
+                        Login
+                    </b-dropdown-item>
+                    <b-dropdown-item value="logout" aria-role="menuitem" @click="logout" v-if="user != 'Not logged in.'">
+                        <b-icon icon="logout"></b-icon>
+                        Logout
+                    </b-dropdown-item>
               </b-dropdown>
             </div>
             <div class="burger-div-2">
@@ -132,10 +136,12 @@ export default {
     },
     methods: {
         cartushPhone: function(){
+            this.navigation = false;
             this.$emit('update:cart', this.$store.state.users.cart);
             this.$emit('update:cartD', true);
         },
         emitDrawer: function(){
+            this.navigation = false;
             this.$emit('update:drawer', true);
         },
         gotoPage: function(pageSlug){

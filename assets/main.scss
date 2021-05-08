@@ -2,6 +2,9 @@
 @import "~bulma/sass/utilities/_all";
 
 // Set your colors
+$light: #edf2f7;
+$light-light: #f7fafc;
+$light-invert: findLightColor($primary);
 $primary: #bf081d;
 $primary-light: findLightColor($primary);
 $primary-dark: findDarkColor($primary);
@@ -27,6 +30,7 @@ $colors: mergeColorMaps(
         "light": (
             $light,
             $light-invert,
+            $light-light
         ),
         "dark": (
             $dark,

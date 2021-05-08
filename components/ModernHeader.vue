@@ -342,7 +342,7 @@
       dark
       color="primary"
       height="70"
-      elevation="0"
+      elevation="6"
       class="app-bar-rose"
       
     >
@@ -359,10 +359,13 @@
           <v-spacer class="spacer-1"></v-spacer>
           <div class="good-row">
             <div class="searchy">
-              <div class="qs custom-searchy">
-                <v-text-field placeholder="Kerko per produkte" class="custom-text-field" color="black" v-model="searchQ" clearable solo dense light rounded height="38" @click:clear="() => {answer = false; searchQ = '';}" @input="changeType" @blur="antiBlur"></v-text-field>
-              </div>
-              <button class="btn-c-o qs searchy-btn" @click="searchGo"><v-icon color="white">mdi-magnify</v-icon></button>
+              <b-field position="is-centered">
+                  <div class="searchable" id="kerkimi">
+                    <v-icon color="secondary" class="pt-1">mdi-magnify</v-icon>
+                    <input type="search" id="kerkimi-1" v-model="searchQ" class="searchable-1 btn-c-o" placeholder="Kerkoni produkte..." @focus="changeBorder" @input="changeType" @blur="antiBlur">
+                  </div>
+                  <button class="buttonable btn-c-o" id="butoni" @click="searchGo">Kerko</button>
+              </b-field>
             </div>
             <div class="results" v-if="answer == true" ref="karuci" @mouseenter="itsover = true" @mouseleave="itsover = false" @mouseout="mouseOut">
               <div class="listings" v-if="sToShow.length > 0">
@@ -402,7 +405,11 @@
                                 Status: <b>{{user}}</b>
                             </b-dropdown-item>
                             <hr class="dropdown-divider">
-                            <b-dropdown-item value="home" aria-role="menuitem" @click="gotoPage('/favorites')">
+                            <b-dropdown-item value="faqja" aria-role="menuitem" @click="gotoPage('/account')">
+                                <b-icon icon="home"></b-icon>
+                                Faqja juaj
+                            </b-dropdown-item>
+                            <b-dropdown-item value="favs" aria-role="menuitem" @click="gotoPage('/favorites')">
                                 <b-icon icon="heart"></b-icon>
                                 Lista e deshirave
                             </b-dropdown-item>
@@ -508,6 +515,7 @@ import 'firebase/firestore';
 export default {
     data(){
         return{
+            borderChanged: false,
             navigation: false,
             searchQ: '',
             searchOn: false,
@@ -646,6 +654,13 @@ export default {
           this.answer = false;
           this.searchQ = "";
         }
+          var x = document.getElementById('kerkimi');
+          var z = document.getElementById('kerkimi-1');
+          var y = document.getElementById('butoni');
+          
+          x.style.backgroundColor = "#f2f2f2";
+          z.style.backgroundColor = "#f2f2f2";
+          
       },
       mouseOut: function (){
         const wholeBody = document.getElementById("wholeBody");
@@ -653,6 +668,15 @@ export default {
           this.answer = false;
           this.itsover = false;
         });
+      },
+      changeBorder: function (){
+        var x = document.getElementById('kerkimi');
+        var z = document.getElementById('kerkimi-1');
+          var y = document.getElementById('butoni');
+          
+          x.style.backgroundColor = "white";
+          z.style.backgroundColor = "white";
+          
       }
     },
     computed: {
@@ -682,6 +706,46 @@ export default {
 <style scoped>
 
 @media only screen and (min-width: 850px){
+  .searchable{
+    border-radius: 5px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    background-color: #f2f2f2;
+    border: 1px solid #edf2f7;
+    padding: 4px 6px 4px 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+  }
+  .searchable-1{
+    background-color: #f2f2f2;
+    border: none;
+    padding: 0px 96px 0px 10px;
+    transition: 0.4s;
+  }
+  .searchable-1:focus + .searchable {
+    background-color: #f2f2f2;
+
+    border-radius: 5px;
+    padding: 0px 96px 0px 5 px;
+  }
+  .buttonable{
+    border-radius: 7px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    padding: 8px 16px 8px 16px;
+    background-color: #363f4e;
+    transition: 0.4s;
+
+  }
+  .buttonable:hover{
+    border-radius: 5px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    padding: 8px 16px 8px 16px;
+    background-color: #73839e;
+  }
   .app-bar-rose{
     display: flex;
     justify-content: center;
@@ -723,8 +787,10 @@ export default {
   .results{
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    border-radius: 15px;
+    border-radius: 5px;
     background-color: white;
+    position: absolute;
+    top: 70px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -940,8 +1006,10 @@ export default {
   .results{
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    border-radius: 15px;
+    border-radius: 5px;
     background-color: white;
+    position: absolute;
+    top: 70px;
     display: flex;
     flex-direction: column;
     justify-content: center;

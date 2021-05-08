@@ -2,7 +2,7 @@
   <footer
     class="footer1"
   >
-    <div class="socialite">
+    <div class="socialite pb-5">
       <div class="content-block-s">
         <h4 class="cb-title-s">Na ndiqni ne rrjetet sociale</h4>
         <div class="socials">
@@ -12,6 +12,7 @@
         </div>
       </div>
     </div>
+    <!--
     <div class="part1">
       <div class="c1">
         <div class="center-spaz-1">
@@ -30,6 +31,7 @@
         </div>
         </div>
       </div>
+  
       <div class="c2">
         <div class="center-spaz-2">
 
@@ -51,10 +53,16 @@
         </div>
         </div>
       </div>
+
     </div>
+    -->
     
     <div class="last secondary--text">
       <span>hustle <span style="font-family: Arial">&copy;</span> {{ new Date().getFullYear() }} | All rights reserved.</span>
+      <div class="laster">
+        <nuxt-link class="btn-c-o secondary--text mr-1" to="/account">Faqja juaj</nuxt-link>
+        <nuxt-link class="btn-c-o secondary--text ml-1" to="/account/register">Regjistrohuni tani</nuxt-link>
+      </div>
     </div>
 
   </footer>
@@ -70,14 +78,17 @@ export default {
 .footer1{
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
   background-color: white;
 }
 .part1{
   width: 100%;
-  min-height: 65vh;
-  display: grid;
-  grid-template-columns: 50% 50%;
+  min-height: 0vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background: #363f4e;  
   padding-top: 30px;
   padding-bottom: 30px;
@@ -174,11 +185,17 @@ export default {
 }
 .last{
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: 8px 20px 8px 20px;
   font-family: 'fr';
   font-size: 18px;
+  width: 90%;
+}
+.laster{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 @media screen and (max-width: 360px) {
   .cb-title{

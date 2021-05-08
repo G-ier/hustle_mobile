@@ -564,7 +564,7 @@ export default {
         const page = pageData.docs.map(doc => doc.data());
 
         const prodsProc = page.filter((doc)=>{
-            return doc.details.name.includes(route.query.search.toLowerCase());
+            return doc.details.name.toLowerCase().includes(route.query.search.toLowerCase());
         });
 
         const prods = prodsProc.slice(0, 6);
@@ -628,6 +628,20 @@ export default {
             masaList: [],
             colorCopy: []
         }
+    },
+    computed: {
+        routeWatcher(){
+            return
+        }
+    },
+    created () {
+        // fetch the data when the view is created and the data is
+        // already being observed
+        this.fetchData();
+    },
+    watch: {
+        // call again the method if the route changes
+        '$route': 'fetchData'
     },
     methods: {
         loadMore: async function(){
@@ -1265,6 +1279,23 @@ export default {
             pavs.push(product);
             localStorage.setItem("products", JSON.stringify(pavs));
             this.itemFaved = true;
+        },
+        fetchData: async function () {
+            const fetchedId = this.$route.query.search;
+            // replace `getPost` with your data fetching util / API wrapper
+            const pageData = await firebase.firestore().collection('elektronike').get();
+            const page = pageData.docs.map(doc => doc.data());
+
+            const prodsProc = page.filter((doc)=>{
+                return doc.details.name.toLowerCase().includes(fetchedId.toLowerCase());
+            });
+
+            const prods = prodsProc.slice(0, 6);
+
+            this.all = prodsProc;
+            this.prods = prods;
+            this.last= 6;
+            this.route = fetchedId;
         }
     }
     

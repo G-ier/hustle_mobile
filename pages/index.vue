@@ -1,5 +1,6 @@
 <template>
   <div class="homepage">
+    <!--
     <div class="mini-links">
       <div class="mini-actual-links">
         <div class="al-ting">
@@ -26,6 +27,47 @@
             </v-slide-item>
           </v-slide-group>
         </div>
+      </div>
+    </div>
+    -->
+
+    <div class="card-holder pt-4">
+      <div class="card-holder-2">
+        <v-sheet rounded elevation="0" class="lite rounded-lg px-6 py-0">
+          <v-list-item to="/account">
+            <v-list-item-avatar color="primary" size="30" class="rounded-pill"><v-icon size="18" class="mr-0">mdi-fire</v-icon></v-list-item-avatar>
+            <div class="gji">
+              <h4 class="qs pa-0 ma-0 secondary--text">Oferta te nxehta</h4>
+            </div>
+          </v-list-item>
+        </v-sheet>
+
+        <v-sheet rounded elevation="0" class="lite rounded-lg px-6 py-0">
+          <v-list-item to="/account">
+            <v-list-item-avatar color="primary" size="30" class="rounded-pill"><v-icon size="18" class="mr-0">mdi-new-box</v-icon></v-list-item-avatar>
+            <div class="gji">
+              <h4 class="qs pa-0 ma-0 secondary--text">Produkte te reja</h4>
+            </div>
+          </v-list-item>
+        </v-sheet>
+
+        <v-sheet rounded elevation="0" class="lite rounded-lg px-6 py-0">
+          <v-list-item to="/account">
+            <v-list-item-avatar color="primary" size="30" class="rounded-pill"><v-icon size="18" class="mr-0">mdi-star</v-icon></v-list-item-avatar>
+            <div class="gji">
+              <h4 class="qs pa-0 ma-0 secondary--text">Me te vleresuarat</h4>
+            </div>
+          </v-list-item>
+        </v-sheet>
+
+        <v-sheet rounded elevation="0" class="lite rounded-lg px-6 py-0">
+          <v-list-item to="/account">
+            <v-list-item-avatar color="primary" size="30" class="rounded-pill"><v-icon size="18" class="mr-0">mdi-account-arrow-right</v-icon></v-list-item-avatar>
+            <div class="gji">
+              <h4 class="qs pa-0 ma-0 secondary--text">Faqja juaj</h4>
+            </div>
+          </v-list-item>
+        </v-sheet>
       </div>
     </div>
 
@@ -688,6 +730,12 @@ export default {
 </script>
 
 <style scoped>
+.lite{
+  background-color: #f2f2f2;
+}
+.card-holder{
+  display: none;
+}
 .swiper-slide {
   text-align: center;
 
@@ -1178,6 +1226,30 @@ export default {
   display: block;
 }
 @media only screen and (min-width: 850px){
+.card-holder{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+}
+.card-holder-2{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 750px;
+  background-color: white;
+}
+.v-shit{
+  display: flex;
+  align-items: center;
+}
+.gji{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
 .miniature{
         font-size: 13px;
         color: darkgray;
@@ -1332,7 +1404,7 @@ export default {
 .burst{
   min-height: 79vh;
   width: 100%;
-  background-color: #f2f2f2;
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2011,6 +2083,20 @@ export default {
 }
 }
 @media only screen and (min-width: 1250px){
+  .card-holder{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+}
+.card-holder-2{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1200px;
+  background-color: white;
+}
 .fucked{
   width: 100%;
   display: flex;
@@ -2146,7 +2232,7 @@ export default {
 .burst{
   min-height: 65vh;
   width: 100%;
-  background-color: #f2f2f2;
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
