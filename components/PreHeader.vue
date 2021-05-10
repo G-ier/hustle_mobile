@@ -39,7 +39,7 @@
                             <v-list-item-title>{{ item.title }}</v-list-item-title>
                         </v-list-item>
                         </v-list>
-                    </v-menu>
+                </v-menu>
 
             </div>
             <v-spacer class="spacer-uno"></v-spacer>

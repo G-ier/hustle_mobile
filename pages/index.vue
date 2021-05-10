@@ -34,7 +34,7 @@
     <div class="card-holder pt-4">
       <div class="card-holder-2">
         <v-sheet rounded elevation="0" class="lite rounded-lg px-6 py-0">
-          <v-list-item to="/account">
+          <v-list-item to="/ofertat">
             <v-list-item-avatar color="primary" size="30" class="rounded-pill"><v-icon size="18" class="mr-0">mdi-fire</v-icon></v-list-item-avatar>
             <div class="gji">
               <h4 class="qs pa-0 ma-0 secondary--text">Oferta te nxehta</h4>
@@ -43,7 +43,7 @@
         </v-sheet>
 
         <v-sheet rounded elevation="0" class="lite rounded-lg px-6 py-0">
-          <v-list-item to="/account">
+          <v-list-item to="/new">
             <v-list-item-avatar color="primary" size="30" class="rounded-pill"><v-icon size="18" class="mr-0">mdi-new-box</v-icon></v-list-item-avatar>
             <div class="gji">
               <h4 class="qs pa-0 ma-0 secondary--text">Produkte te reja</h4>
@@ -52,7 +52,7 @@
         </v-sheet>
 
         <v-sheet rounded elevation="0" class="lite rounded-lg px-6 py-0">
-          <v-list-item to="/account">
+          <v-list-item to="/worthit">
             <v-list-item-avatar color="primary" size="30" class="rounded-pill"><v-icon size="18" class="mr-0">mdi-star</v-icon></v-list-item-avatar>
             <div class="gji">
               <h4 class="qs pa-0 ma-0 secondary--text">Me te vleresuarat</h4>
@@ -61,7 +61,7 @@
         </v-sheet>
 
         <v-sheet rounded elevation="0" class="lite rounded-lg px-6 py-0">
-          <v-list-item to="/account">
+          <v-list-item to="/account/me">
             <v-list-item-avatar color="primary" size="30" class="rounded-pill"><v-icon size="18" class="mr-0">mdi-account-arrow-right</v-icon></v-list-item-avatar>
             <div class="gji">
               <h4 class="qs pa-0 ma-0 secondary--text">Faqja juaj</h4>

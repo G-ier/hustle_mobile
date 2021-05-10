@@ -1,7 +1,7 @@
 <template>
   <nav>
       <v-navigation-drawer
-      v-model="drawer"
+      :v-model="false"
       :mini-variant="miniVariant"
       :clipped="clipped"
       fixed
@@ -348,14 +348,180 @@
     >
       
       <div class="embed">
-            <div class="inner-burger-2">
-                <v-btn icon class="btn-c-o menu-btn" @click.stop="drawer = !drawer" height="30" width="30">
-                    <v-icon color="white" size="28">mdi-menu</v-icon>
-                </v-btn>
-            </div>
             <v-toolbar-title>
                 <nuxt-link to="/" class="btn-c-o"><span class="ersteSpan white--text qs">LOGO</span></nuxt-link>
             </v-toolbar-title>
+            <div class="inner-burger-2">
+                <v-btn text class="btn-c-o menu-btn qs ml-2" @click.stop="drawer = !drawer" >
+                    <p class="qs pa-0 ma-0">Shop</p>
+                    <v-icon>mdi-chevron-down</v-icon>
+                </v-btn>
+            </div>
+            <v-menu
+              v-model="drawer"
+              :close-on-content-click="false"
+              nudge-bottom="70"
+              offset-y
+              light
+              class="rounded-0"
+              :min-width="maxwidth"
+              :max-height="maxheight"
+            >
+
+              <div class="induldge">
+                <div class="centered">
+                  <div class="guldge">
+                    <v-btn text class="secondary--text btn-c-o" @click="openElektronike">
+                      <p class="qs pa-0 ma-0">Elektronike</p>
+                      <v-icon size="20">mdi-chevron-right</v-icon>
+                    </v-btn>
+                    <v-btn text class="secondary--text btn-c-o" @click="openKancelari">
+                      <p class="qs pa-0 ma-0">Kancelari</p>
+                      <v-icon size="20">mdi-chevron-right</v-icon>
+                    </v-btn>
+                    <v-btn text class="secondary--text btn-c-o" @click="openLibra">
+                      <p class="qs pa-0 ma-0">Libra</p>
+                      <v-icon size="20">mdi-chevron-right</v-icon>
+                    </v-btn>
+                    <v-btn text class="secondary--text btn-c-o" @click="openKompjutera">
+                      <p class="qs pa-0 ma-0">Kompjutera/Teknologji</p>
+                      <v-icon size="20">mdi-chevron-right</v-icon>
+                    </v-btn>
+                    <v-btn text class="secondary--text btn-c-o" @click="openKozmetike">
+                      <p class="qs pa-0 ma-0">Kozmetike</p>
+                      <v-icon size="20">mdi-chevron-right</v-icon>
+                    </v-btn>
+                    <v-btn text class="secondary--text btn-c-o" @click="openLodra">
+                      <p class="qs pa-0 ma-0">Lodra/Femije</p>
+                      <v-icon size="20">mdi-chevron-right</v-icon>
+                    </v-btn>
+                    <v-btn text class="secondary--text btn-c-o" @click="openSport">
+                      <p class="qs pa-0 ma-0">Sport</p>
+                      <v-icon size="20">mdi-chevron-right</v-icon>
+                    </v-btn>
+                    <v-btn text class="secondary--text btn-c-o" @click="openMobilje">
+                      <p class="qs pa-0 ma-0">Mobilje/Garden</p>
+                      <v-icon size="20">mdi-chevron-right</v-icon>
+                    </v-btn>
+                    <v-btn text class="secondary--text btn-c-o" @click="openFashion">
+                      <p class="qs pa-0 ma-0">Rroba dhe fashion</p>
+                      <v-icon size="20">mdi-chevron-right</v-icon>
+                    </v-btn>
+                  </div>
+                  <div class="klav">
+                    <div class="riot" v-if="burner == 'Elektronike'">
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/elektronike/tv-dhe-video" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">TV dhe Video</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/elektronike/audio-shtepiake" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Audio Shtepiake</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/elektronike/kamera" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Kamera dhe Foto</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/elektronike/telefon" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Telefona</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/elektronike/video-lojra" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Video Lojra</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/elektronike/makina" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Elektronike makinash</p>
+                      </v-btn>
+                    </div>
+                    <div class="riot" v-if="burner == 'Kancelari'">
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/kancelari/zyra" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Produkte zyrash</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/kancelari/shkollore" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Produkte shkollore</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/kancelari/printer" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Printer</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/kancelari/projektor" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Projektor</p>
+                      </v-btn>
+                    </div>
+                    <div class="riot" v-if="burner == 'Libra'">
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/libra/libra" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Libra</p>
+                      </v-btn>
+                    </div>
+                    <div class="riot" v-if="burner == 'Kompjutera'">
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/computers/computers" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Kompjutera dhe tableta</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/computers/monitor" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Monitora</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/computers/pjese" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Pjese kompjuterash</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/computers/aksesore" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Aksesore</p>
+                      </v-btn>
+                    </div>
+                    <div class="riot" v-if="burner == 'Kozmetike'">
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/kozmetike/kozmetike" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Kozmetike</p>
+                      </v-btn>
+                    </div>
+                    <div class="riot" v-if="burner == 'Lodra'">
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/lodra/lodra" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Lodra</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/lodra/bebe" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Bebe</p>
+                      </v-btn>
+                    </div>
+                    <div class="riot" v-if="burner == 'Sport'">
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/sport/palester" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Palester & Fitness</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/sport/gjueti" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Gjueti/Peshkim</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/sport/atletike" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Rroba atletike</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/sport/golf" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Golf</p>
+                      </v-btn>
+                    </div>
+                    <div class="riot" v-if="burner == 'Mobilje'">
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/mobilje/shtepiake" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Shtepiake</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/mobilje/kuzhina" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Kuzhina</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/mobilje/dyshek" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Dyshek & Banje</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/mobilje/outdoor" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Kopsht & Outdoor</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/mobilje/kafshesh" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Produkte kafshesh</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/mobilje/vegla" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Vegla pune</p>
+                      </v-btn>
+                    </div>
+                    <div class="riot" v-if="burner == 'Fashion'">
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/fashion/femra" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Femra</p>
+                      </v-btn>
+                      <v-btn text class="secondary--text btn-c-o" to="/kategorite/fashion/meshkuj" @click="drawer = false">
+                        <p class="qs pa-0 ma-0">Meshkuj</p>
+                      </v-btn>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </v-menu>
+            
           <v-spacer class="spacer-1"></v-spacer>
           <div class="good-row">
             <div class="searchy">
@@ -385,7 +551,39 @@
           <v-spacer class="spacer-2"></v-spacer>
           <div class="burger-div-2">
             <div class="inner-burger">
-              
+              <v-menu
+                  bottom
+                  left
+                  light
+                  class="index-upper-2"
+              >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                        dark
+                        icon
+                        v-bind="attrs"
+                        v-on="on"
+                        width="0"
+                        height="0"
+                        class="nofx px-0 btn-c-o qs"
+                    >
+                        <img :src="langLogo" alt="english version" width="18" height="18">
+                        <v-icon size="12" color="white" class="pr-2">mdi-chevron-down</v-icon>
+                    </v-btn>
+                  </template>
+
+                  <v-list >
+                  <v-list-item
+                      v-for="(item, i) in items1"
+                      :key="i"
+                      @click="() => {
+                          langLogo = item.flag;
+                      }"
+                  >
+                      <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
               <b-dropdown
                             v-model="navigation"
                             position="is-bottom-left"
@@ -505,6 +703,8 @@
 </template>
 
 <script>
+import uklogo from '../assets/img/united-kingdom.png';
+import allogo from '../assets/img/albania.png';
 import Gradient from '../assets/img/tilda-gradient.png'
 import menuLogo from '../assets/img/HBC.png'
 import Cookies from 'js-cookie';
@@ -515,6 +715,11 @@ import 'firebase/firestore';
 export default {
     data(){
         return{
+            items1: [
+                { title: 'English', flag: uklogo},
+                { title: 'Shqip', flag: allogo},
+            ],
+            langLogo: uklogo,
             borderChanged: false,
             navigation: false,
             searchQ: '',
@@ -548,6 +753,7 @@ export default {
                 to: '/inspire'
                 }
             ],
+            maxwidth: 0,
             miniVariant: false,
             right: true,
             cart: false,
@@ -564,7 +770,8 @@ export default {
             cartD: false,
             itsover: false,
             user: this.$store.state.users.user ? this.$store.state.users.user.email : "Not logged in.",
-            role: this.$store.state.users.role ? this.$store.state.users.role : null
+            role: this.$store.state.users.role ? this.$store.state.users.role : null,
+            burner: "Elektronike"
         }
     },
     methods: {
@@ -677,7 +884,43 @@ export default {
           x.style.backgroundColor = "white";
           z.style.backgroundColor = "white";
           
-      }
+      },
+      openElektronike: function(){
+        this.burner = "Elektronike";
+        this.navigation = false;
+      },
+      openKancelari: function(){
+        this.burner = "Kancelari";
+        this.navigation = false;
+      },
+      openLibra: function(){
+        this.burner = "Libra";
+        this.navigation = false;
+      },
+      openKompjutera: function(){
+        this.burner = "Kompjutera";
+        this.navigation = false;
+      },
+      openKozmetike: function(){
+        this.burner = "Kozmetike";
+        this.navigation = false;
+      },
+      openLodra: function(){
+        this.burner = "Lodra";
+        this.navigation = false;
+      },
+      openSport: function(){
+        this.burner = "Sport";
+        this.navigation = false;
+      },
+      openMobilje: function(){
+        this.burner = "Mobilje";
+        this.navigation = false;
+      },
+      openFashion: function(){
+        this.burner = "Fashion";
+        this.navigation = false;
+      },
     },
     computed: {
       checkoutAval(){
@@ -699,6 +942,8 @@ export default {
     },
     mounted(){
       this.height = window.innerHeight * 0.14;
+      this.maxwidth = window.innerWidth - 16;
+      this.maxheight = window.innerHeight - 70;
     }
 }
 </script>
@@ -706,6 +951,45 @@ export default {
 <style scoped>
 
 @media only screen and (min-width: 850px){
+  .induldge{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+  }
+  .centered{
+    height: 90%;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 15px 0 15px 0;
+  }
+  .guldge{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border-right: 1px solid #f2f2f2;
+  }
+  .klav{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  .riot{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   .searchable{
     border-radius: 5px;
     border-bottom-right-radius: 0px;
@@ -885,7 +1169,7 @@ export default {
     align-items: center;
     padding: 0 5px 0 0 ;
     height: 100%;
-    width: 65px;
+    width: 105px;
   }
   .inner-burger{
     display: flex;
@@ -1104,7 +1388,7 @@ export default {
     align-items: center;
     padding: 0 5px 0 0 ;
     height: 100%;
-    width: 65px;
+    width: 105px;
   }
   .inner-burger{
     display: flex;

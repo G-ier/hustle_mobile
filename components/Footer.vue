@@ -61,7 +61,7 @@
       <span>hustle <span style="font-family: Arial">&copy;</span> {{ new Date().getFullYear() }} | All rights reserved.</span>
       <div class="laster">
         <nuxt-link class="btn-c-o secondary--text mr-1" to="/account">Faqja juaj</nuxt-link>
-        <nuxt-link class="btn-c-o secondary--text ml-1" to="/account/register">Regjistrohuni tani</nuxt-link>
+        <nuxt-link class="btn-c-o secondary--text ml-2" to="/account/register">Regjistrohuni tani</nuxt-link>
       </div>
     </div>
 
@@ -216,14 +216,16 @@ export default {
   }
   .last{
     display: flex;
+    flex-direction: column-reverse;
     justify-content: center;
     align-items: center;
     padding: 8px 20px 8px 20px;
     font-family: 'fr';
     font-size: 16px;
   }
+  
 }
-@media screen and (min-width: 360px) {
+@media screen and (min-width: 360px) and (max-width: 650px){
   .cb-title{
     font-family: 'fr';
     color: white;
@@ -241,6 +243,16 @@ export default {
   }
   .cb-link{
     font-size: 14px;
+  }
+  .last{
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px 8px 20px;
+    font-family: 'fr';
+    font-size: 18px;
+    width: 90%;
   }
 }
 @media screen and (min-width: 650px) {

@@ -174,7 +174,7 @@ export const actions = {
     },
     async change({commit}, kerkimi){
         try{
-            commit("SET_RESULT", null);
+            
             const docu = await firebase.firestore().collection('search').get();
             const docData = docu.docs.map(doc => doc.data());
             var emrat = [];
