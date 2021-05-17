@@ -1,6 +1,6 @@
 <template>
   <nav>
-      <v-navigation-drawer
+    <v-navigation-drawer
       :v-model="false"
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -12,14 +12,6 @@
       <v-img :aspect-ratio="16/9" class="bg-secondary">
 
       </v-img>
-      <v-list-item to="/" router exact active-class="white--text">
-        <v-list-item-action>
-            <v-icon>mdi-circle</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-            <v-list-item-title class="v-fsm">Faqja kryesore</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
       <v-list-group prepend-icon="mdi-page-previous-outline" :value="false" color="white">
         <template v-slot:activator>
             <v-list-item-title class="v-fsm">Kategorite</v-list-item-title>
@@ -310,22 +302,6 @@
           </v-list-item>
         </v-list-group>
       </v-list-group>
-      <v-list-item to="/account/me" router exact active-class="white--text">
-        <v-list-item-action>
-            <v-icon>mdi-login</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-            <v-list-item-title class="v-fsm">Faqja e klientit</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item to="/account/register" router exact active-class="white--text">
-        <v-list-item-action>
-            <v-icon>mdi-account-plus</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-            <v-list-item-title class="v-fsm">Behu shites</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
       <v-list-item to="/rreth-nesh" router exact active-class="white--text">
         <v-list-item-action>
             <v-icon>mdi-information-outline</v-icon>

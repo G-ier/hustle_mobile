@@ -37,7 +37,7 @@
                     <v-btn
                     dark
                     text
-                    @click="upload"
+                    @click="uploadV2"
                     >
                     Ruaj
                     </v-btn>
@@ -147,11 +147,13 @@
                 <v-subheader class="white--text">Detajet - opsionale</v-subheader>
                 <v-list-item>
                     <v-list-item-content >
-                    <div class="fab-holder">
+                    <div class="fab-holder" v-if="responseData != null">
                         <v-select
-                            v-model="masa"
-                            :items = masat
-                            placeholder="Masa"
+                            v-for="item in responseData.filtrat"
+                            :key="item.id"
+                            v-model="responseData.filtrat[responseData.filtrat.indexOf(item)].value"
+                            :items="responseData.filtrat[responseData.filtrat.indexOf(item)].values"
+                            :placeholder="responseData.filtrat[responseData.filtrat.indexOf(item)].emri"
                             outlined
                             clearable
                             dense
@@ -160,52 +162,6 @@
                             class="pc-small"
                             item-color="white"
                         ></v-select>
-                        <v-text-field
-                            v-model="sizey"
-                            label="Dimensionet(psh.: 40x60cm)"
-                            outlined
-                            clearable
-                            dense
-                            dark
-                            color="white"
-                            class="pc-small"
-                        ></v-text-field>
-                        <v-text-field
-                            v-model="pesha"
-                            label="Pesha(psh.: 200g)"
-                            outlined
-                            clearable
-                            dense
-                            dark
-                            color="white"
-                            class="pc-small"
-                        ></v-text-field>
-                        <v-select
-                            v-model="ngjyra"
-                            placeholder="Ngjyra"
-                            :items="ngjyrat"
-                            chips
-                            item-color="white"
-                            outlined
-                            clearable
-                            dense
-                            dark
-                            color="white"
-                            class="pc-small"
-                        >
-                            <template #selection="{ item }">
-                                <v-chip color="#f2f2f2" text-color="#f2f2f2" v-if="item == 'E bardhe'">-|</v-chip>
-                                <p class="qs white--text pa-0 ma-0 secondary--text" v-if="item == 'E bardhe'">E bardhe</p>
-                                <v-chip color="primary" text-color="primary" v-if="item == 'E kuqe'">-|</v-chip>
-                                <p class="qs pa-0 white--text ma-0 secondary--text" v-if="item == 'E kuqe'">E kuqe</p>
-                                <v-chip color="blue darken-4" text-color="blue darken-4" v-if="item == 'Blu'">-|</v-chip>
-                                <p class="qs pa-0 white--text ma-0 secondary--text" v-if="item == 'Blu'">Blu</p>
-                                <v-chip color="yellow darken-3" text-color="yellow darken-3" v-if="item == 'E verdhe'">-|</v-chip>
-                                <p class="qs pa-0 white--text ma-0 secondary--text" v-if="item == 'E verdhe'">E verdhe</p>
-                                <v-chip color="green darken-2" text-color="green darken-2" v-if="item == 'Jeshile'">-|</v-chip>
-                                <p class="qs pa-0 white--text ma-0 secondary--text" v-if="item == 'Jeshile'">Jeshile</p>
-                            </template>
-                        </v-select>
                     </div>
                     </v-list-item-content>
                 </v-list-item>
@@ -778,21 +734,18 @@ export default {
 
             bodyFormData.append('category', this.kategorita);
 
-            this.$axios({
+
+            var obj = await this.$axios({
                 method: "post",
                 url: "http://34.65.32.131/categories",
                 data: bodyFormData,
                 headers: { "Content-Type": "multipart/form-data" },
             })
-            .then(function (response) {
-                //handle success
-                this.responseData = response.data;
-                console.log(this.responseData);
-            })
-            .catch(function (response) {
-                //handle error
-                console.log(response.data);
-            });
+            
+
+            this.responseData = obj.data;
+
+            console.log(this.responseData);
         },
         edit: function (prod, spot){
             this.detailsToEdit = prod;
@@ -1195,6 +1148,96 @@ export default {
                 cilesia: "/kategorite" + this.kategoritaPrefix + this.kategorita,
                 emri: this.namey,
                 kat: this.kategorita
+            });
+            
+            
+            this.postings = [];
+            this.toShow = [];
+            this.toDet = [];
+            this.namey = "";
+            this.pricey = "";
+            this.detailsy = "";
+            this.kategorita = "";
+            this.postings = [];
+            this.toShow = [];
+            this.descy = "";
+            this.spot = null;
+
+            this.dialog = false;
+            this.dialog2 = true;
+
+            this.prodPhoto = null;
+        },
+        uploadV2: async function(){
+            
+            this.$v.namey.$touch();
+            this.$v.pricey.$touch();
+            this.$v.kategorita.$touch();
+
+
+            if(this.$v.namey.$invalid || this.$v.pricey.$invalid || this.$v.kategorita.$invalid){
+                return;
+            } else {
+                console.log("hack me fam");
+            }
+            
+            if(this.postings.length < 1){
+                this.photoProb = true;
+                console.log("hack me error");
+                return;
+            }
+            console.log("hack me fam2");
+            // When the upload ends, set the value of the blog image URL
+            // and signal that uploading is done.
+
+            const currentDate = new Date();
+            const timestamp = currentDate.getTime();
+
+            const cookie = Cookie.get("user");
+            const cook = JSON.parse(cookie);
+
+            var toReturn = this.responseData.filtrat.map((doc) => {
+                return {
+                    emri: doc.emri,
+                    value: doc.value
+                }
+            });
+
+            var bodyFormData = new FormData();
+
+            bodyFormData.append('product_data', JSON.stringify({
+                
+                    details: {
+                        name: this.namey,
+                        price: this.pricey,
+                        priceLow: this.priceyLow ? this.priceyLow : null,
+                        desc: this.descy,
+                        seller: this.nameOfS,
+                        sellerPhoto: this.photo,
+                        
+                        kategoria: this.kategorita,
+                        photos: this.postings,
+                        likes: 0,
+                        likers: 0
+                    },
+                    responseData: toReturn,
+                    owner: cook.username.toLowerCase(),
+                    spot: this.namey,
+                    creationTime: timestamp
+                
+                }));
+
+            await this.$axios({
+                method: "post",
+                url: "http://34.65.32.131/create_products",
+                data: bodyFormData,
+                headers: { "Content-Type": "multipart/form-data" },
+            })
+            console.log("hack me fam3");
+            await firebase.firestore().collection('search').doc(this.namey).set({
+                cilesia: "/kategorite/" + this.kategorita,
+                emri: this.namey,
+                kat: "/kategorite/" + this.kategorita
             });
             
             
