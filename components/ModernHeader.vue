@@ -365,7 +365,6 @@
               light
               class="rounded-0"
               :min-width="maxwidth"
-              :max-height="maxheight"
             >
 
               <div class="induldge">
@@ -942,14 +941,12 @@ export default {
     },
     mounted(){
       this.height = window.innerHeight * 0.14;
-      this.maxwidth = window.innerWidth - 16;
-      this.maxheight = window.innerHeight - 70;
+      this.maxwidth = window.innerWidth;
     }
 }
 </script>
 
 <style scoped>
-
 @media only screen and (min-width: 850px){
   .induldge{
     height: 100%;
