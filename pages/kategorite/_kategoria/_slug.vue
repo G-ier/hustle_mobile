@@ -226,22 +226,24 @@ export default {
     mixins: [validationMixin],
     async asyncData({params, route, $axios}){
         
-        const spot = route.query.name;
+        const spot = params.name;
         var obj = await $axios({
             method: "post",
             url: "http://34.65.32.131/products",
             params: {
                 "product_name": spot
             },
-            headers: { "Content-Type": "x-www-form-urlencoded" },
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
         })
+
+
 
         const data2 = await firebase.firestore().collection('users').doc(obj.data.owner).get();
         const dataParsed2 = data2.data();
 
         const reviews = await firebase.firestore().collection('reviews').where("post", "==", obj.data.spot).limit(5).get();
         const reviewsParsed = reviews.docs.map(doc => doc.data());
-        console.log(params.slug)
+        console.log(obj.data)
 
 
         return{

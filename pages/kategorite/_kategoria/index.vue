@@ -251,18 +251,26 @@
                        <p class="qs s15 secondary--text">{{filter.emri}}</p>
                         <div class="repeatable">
                             
-                                <v-checkbox
-                                    v-for="sta in filter.values"
-                                    :key="sta.id"
-                                    v-model="sta.checked"
-                                    light
-                                    :label="sta.emri"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @change="checkBox(sta.emri, filter.emri, sta.checked)"
-                                    
-                                ></v-checkbox>
+                                <b-collapse :open="false" aria-id="contentIdForA11y1">
+                                    <template #trigger>
+                                        <b-button
+                                            label="Trego"
+                                            type="is-primary"
+                                            aria-controls="contentIdForA11y1" />
+                                    </template>
+                                    <v-checkbox
+                                        v-for="sta in filter.values"
+                                        :key="sta.id"
+                                        v-model="sta.checked"
+                                        light
+                                        :label="sta.emri"
+                                        class="ma-0"
+                                        style="margin: 0 0 0 0;"
+                                        color="secondary"
+                                        @change="checkBox(sta.emri, filter.emri, sta.checked)"
+                                        
+                                    ></v-checkbox>
+                                </b-collapse>
                         </div>
                    </div>
                    
@@ -512,6 +520,7 @@ export default {
     },
     data(){
         return{
+            priceTing: null,
             selected: [],
             links: [
               {'kategoria': 'Sezonale', 'nenkategorite': [{'emri': 'Dekorime për Krishtlindje', 'link': 'sezonale-dekorime-për-krishtlindje'}, {'emri': 'Artikuj Plazhi', 'link': 'sezonale-artikuj-plazhi'}, {'emri': 'Embëlsira dhe biskota', 'link': 'sezonale-embëlsira-dhe-biskota'}]},
@@ -641,6 +650,8 @@ export default {
             var priceChecker = this.selected.filter((doc)=>{
                 return doc.kategoria == "price";
             })
+            
+            console.log(priceChecker.length);
 
             if(priceChecker.length == 0){
                 this.selected.push({
@@ -648,6 +659,13 @@ export default {
                     min_value: this.range[0],
                     max_value: this.range[1]
                 });
+            } else {
+                this.selected.forEach((el)=>{
+                    if(el.kategoria == "price"){
+                        el.min_value = this.priceTing.min_value;
+                        el.max_value = this.priceTing.max_value;
+                    }
+                })
             }
 
             var bodyFormData = new FormData();
@@ -1207,32 +1225,12 @@ export default {
             }
         },
         pricer: function(){
-            try{
-                this.selected.push({
-                    kategoria: "price",
-                    min_value: this.range[0],
-                    max_value: this.range[1]
-                })
-                this.priceList = [];
-
-
-
-                const needed = this.prods.filter((doc)=>{
-                    return parseInt(doc.details.price) >= parseInt(this.range[0]) && parseInt(doc.details.price) <= parseInt(this.range[1]);
-                });
-
-
-                const newPriceList = this.priceList.concat(needed);
-
-
-
-                this.priceList = newPriceList;
-                
-            } catch(e){
-                console.log(e);
-            }
-
-
+            var priceList = {
+                kategoria: "price",
+                min_value: this.range[0],
+                max_value: this.range[1]
+            };
+            this.priceTing = priceList;
         },
         favorite: function(product){
             if(process.browser){

@@ -379,7 +379,13 @@
             <div class="results" v-if="answer == true" ref="karuci" @mouseenter="itsover = true" @mouseleave="itsover = false" @mouseout="mouseOut">
               <div class="listings" v-if="sToShow.length > 0">
                 <div class="tile" v-for="ting in sToShow.slice(0, 4)" :key="ting.id">
-                  <v-btn class="qs secondary--text btn-c-o" text nuxt @click="itsover = false; answer = false; itemPressed(ting.red, ting.emri)">{{ting.emri}}</v-btn>
+                  <v-avatar size="40" tile color="primary">
+                    <v-img :src="ting.photos.src"></v-img>
+                  </v-avatar>
+                  <v-col>
+                    <p class="qs secondary--text btn-c-o pa-0 ma-0" style="cursor: pointer;" text nuxt @click="itsover = false; answer = false; itemPressed(ting.kategoria, ting.spot)">{{ting.name}}</p>
+                    <p class="qs secondary--text btn-c-o pa-0 ma-0">{{ting.price}}</p>
+                  </v-col>
                 </div>
               </div>
               <div class="listings" v-if="sToShow.length == 0 || sToShow == null">
@@ -696,8 +702,8 @@ export default {
         this.$router.push({ path: "/search", query: {search: redItem.emri} });
 
       },
-      itemPressed: function(red, emri){
-        this.$router.push({ path: "/search", query: {search: emri} });
+      itemPressed: function(kategoria, emri){
+        this.$router.push({ path: "/kategorite/" + kategoria + "/" + emri.toLowerCase(), query: {name: emri} });
       },
       sendToMore: function(){
         this.answer = false;
@@ -705,6 +711,24 @@ export default {
         this.$router.push({ path: '/search', query: { search: this.searchQ } });
       },
       changeType: async function (){
+        
+        var bodyFormData = new FormData();
+
+        bodyFormData.append('query_text', this.searchQ);
+
+        var obj = await this.$axios({
+            method: "post",
+            url: "http://34.65.32.131/search",
+            data: bodyFormData,
+            headers: { "Content-Type": "multipart/form-data" },
+        })
+
+        console.log(JSON.stringify(obj.data));
+        this.sToShow = obj.data;
+        this.answer = true;
+
+      },
+      changeType2: async function (){
         await this.$store.dispatch("users/change", this.searchQ ? this.searchQ : "");
 
         this.sToShow = this.$store.state.users.result;
