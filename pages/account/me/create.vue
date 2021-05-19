@@ -267,13 +267,6 @@
                 >
                     Cancel
                 </v-btn>
-                <v-btn
-                    color="white"
-                    text
-                    @click="addNew"
-                >
-                    Shto
-                </v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -315,25 +308,13 @@
             </v-card-title>
 
             <v-card-text class="qs">
-            <v-row justify="center" class="mt-3">
+            <v-row justify="center" class="mt-3 pb-5">
                 <v-progress-circular
                 indeterminate
                 color="primary"
                 ></v-progress-circular>
             </v-row>
             </v-card-text>
-
-            <v-card-actions>
-            <v-spacer></v-spacer>
-
-            <v-btn
-                color="white"
-                text
-                @click="dialog2 = false"
-            >
-                Close
-            </v-btn>
-            </v-card-actions>
         </v-card>
         </v-dialog>
         <!-- Loading dialog ends-->
@@ -854,6 +835,8 @@ export default {
             const storage = firebase.storage()
             const imageRef = storage.ref(`images/${file.name}`)
 
+            this.loading = true;
+
             imageRef.put(file, metadata1).then((snapshot) => {
                 // Once the image is uploaded, obtain the download URL, which
                 // is the publicly accessible URL of the image.
@@ -867,6 +850,8 @@ export default {
                     emri: file.name
                 });
                 this.postings = posts;
+                this.loading = false;
+                this.newP = false;
                 
             })
 
@@ -1214,7 +1199,6 @@ export default {
                         desc: this.descy,
                         seller: this.nameOfS,
                         sellerPhoto: this.photo,
-                        
                         kategoria: this.kategorita,
                         photos: this.postings,
                         likes: 0,
