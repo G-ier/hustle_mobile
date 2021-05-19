@@ -446,7 +446,7 @@
                                 Status: <b>{{user}}</b>
                             </b-dropdown-item>
                             <hr class="dropdown-divider">
-                            <b-dropdown-item value="faqja" aria-role="menuitem" @click="gotoPage('/account')">
+                            <b-dropdown-item value="faqja" aria-role="menuitem" @click="gotoPage('/account/me')">
                                 <b-icon icon="home"></b-icon>
                                 Faqja juaj
                             </b-dropdown-item>

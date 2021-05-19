@@ -232,8 +232,8 @@
                <div class="sidebar-links mb-4">
                    <h4 class="qs secondary--text ma-0 pa-0">{{nameting}}</h4>
                    <div class="sideline"></div>
-                   <div v-for="link in links" :key="link.id">
-                       <div v-if="link.kategoria == catting">
+                   <div v-for="link in links" :key="link.id" style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                       <div v-if="link.kategoria == catting" style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                             <div class="sidebar-link" v-for="ting in link.nenkategorite" :key="ting.id">
                                 <p class="qs secondary--text btn-c-o ma-0 pa-0" style="cursor: pointer;" @click="sender(ting.link, ting.emri)">{{ting.emri}}</p>
                                 <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
@@ -247,19 +247,20 @@
                         <v-btn small class="white--text mb-4" color="secondary" @click="resetFilter">Reset</v-btn>
                         <p class="qs secondary--text">Zgjidh filtrat dhe aplikoji</p>
                     </v-col>
-                   <div class="sidebar-valuator" v-for="filter in filters" :key="filter.id">
-                       <p class="qs s15 secondary--text">Masat</p>
+                   <div class="sidebar-valuator" v-for="filter in dumb" :key="filter.id">
+                       <p class="qs s15 secondary--text">{{filter.emri}}</p>
                         <div class="repeatable">
+                            
                                 <v-checkbox
                                     v-for="sta in filter.values"
                                     :key="sta.id"
-                                    v-model="filter.checked"
+                                    v-model="sta.checked"
                                     light
-                                    :label="sta"
+                                    :label="sta.emri"
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
-                                    @change="checkBox(filter.value, filter.emri, filter.checked)"
+                                    @change="checkBox(sta.emri, filter.emri, sta.checked)"
                                     
                                 ></v-checkbox>
                         </div>
@@ -326,7 +327,7 @@
                    <div class="marketplace-item" v-if="prods.length > 0">
                        <div class="marketplace-vendor" v-for="prod in prods" :key="prod.id">
                            <div class="fullscreen-img">
-                               <v-img :aspect-ratio="1/1" :src="prod.details.photos[0].src" @click="sendToProduct(prod.details.kategorita, prod.spot)">
+                               <v-img :aspect-ratio="1/1" :src="prod.details.photos[0].src" @click="product(prod.spot)">
                                 <v-chip
                                     v-if="prod.creationTime + 172800000 >= Date.now()"
                                     class="ma-2"
@@ -472,13 +473,29 @@ export default {
         const prods = data.data.produktet.slice(0, 9);
         const filters = data.data.filtrat; 
 
+        console.log(JSON.stringify(filters));
+
+        var dumb = [];
+
+        filters.forEach((el) => {
+            dumb.push({
+                emri: el.emri,
+                value: el.value,
+                values: el.values
+            });
+        });
+
+        console.log("Skr:" + JSON.stringify(dumb));
+        
+
         return {
             all: data.data.produktet,
             prods: prods,
             filters: filters,
             last: 9,
             nameting: data.data.kategoria,
-            catting: categ
+            catting: categ,
+            dumb: dumb
         }
     },
     head(){
@@ -615,15 +632,31 @@ export default {
             
             
         //},
+        async product(spot){
+            const currRoute = this.$route.path;
+            this.$router.push({path: currRoute + "/" + spot.toLowerCase(), query:{name: spot}});
+        },
         async applyFilters(){
+            this.selected = [];
+            var priceChecker = this.selected.filter((doc)=>{
+                return doc.kategoria == "price";
+            })
+
+            if(priceChecker.length == 0){
+                this.selected.push({
+                    kategoria: "price",
+                    min_value: this.range[0],
+                    max_value: this.range[1]
+                });
+            }
+
             var bodyFormData = new FormData();
 
-            bodyFormData.append('category', JSON.stringify({
+            bodyFormData.append('filter_data', JSON.stringify({
                 filters: this.selected,
                 category: this.nameting,
                 last: this.last
             }));
-
 
             var obj = await this.$axios({
                 method: "post",
@@ -632,7 +665,9 @@ export default {
                 headers: { "Content-Type": "multipart/form-data" },
             })
 
-            console.log(JSON.stringify(obj.data));
+            this.prods = obj.data.produktet;
+
+            console.log("skr2: "+ JSON.stringify(obj.data.produktet));
         },
         sender(link, emri){
             this.$router.push({path: "/kategorite/"+link, query:{name: emri, kategoria: this.kategoria}});
@@ -678,7 +713,7 @@ export default {
             this.fab = top > 20
         },
         toTop () {
-            this.$vuetify.goTo(0)
+            this.$vuetify.goTo(0);
         },
         addToCart: async function(emri, seller, price, times, desc){
             var currentCartJSON = Cookies.get("cart_hustle");
@@ -765,117 +800,14 @@ export default {
                 }
             });
         },
-        applyPrice: function(){
-            
-            if(this.firstTime == true){
-                this.firstTime = false;
-                this.prodsCopy = this.prods;
-                
-                var joint2 = []
-
-                var listsAlgo = [];
-                
-                if(this.masaList.length > 0){
-                    listsAlgo.push(this.masaList);
-                } 
-
-                if(this.colorList.length > 0){
-                    listsAlgo.push(this.colorList);
-                } 
-
-                if(this.priceList.length > 0){
-                    listsAlgo.push(this.priceList);
-                } 
-
-                console.log(listsAlgo.length);
-
-                if(listsAlgo.length == 0){
-                    joint2 = this.prods;
-                } else if(listsAlgo.length == 1){
-                    joint2 = listsAlgo[0];
-                } else if(listsAlgo.length == 2){
-                    joint2 = listsAlgo[0].filter((doc)=>{
-                        return listsAlgo[1].includes(doc);
-                    });
-                } else {
-                    const joint1 = listsAlgo[0].filter((doc)=>{
-                        return listsAlgo[1].includes(doc);
-                    });
-
-                    joint2 = joint1.filter((item)=>{
-                        return listsAlgo[2].includes(item);
-                    });
-                }
-
-                this.prods = joint2;
-
-                this.colorList = [];
-                this.priceList = [];
-                this.masaList = [];
-
-            } else {
-
-                var joint2 = []
-
-                var listsAlgo = [];
-                
-                if(this.masaList.length > 0){
-                    listsAlgo.push(this.masaList);
-                } 
-
-                if(this.colorList.length > 0){
-                    listsAlgo.push(this.colorList);
-                    console.log("perfect")
-                } 
-
-                if(this.priceList.length > 0){
-                    listsAlgo.push(this.priceList);
-                } 
-
-                console.log(listsAlgo.length);
-
-                if(listsAlgo.length == 0){
-                    joint2 = this.prods;
-                } else if(listsAlgo.length == 1){
-                    joint2 = listsAlgo[0];
-                } else if(listsAlgo.length == 2){
-                    joint2 = listsAlgo[0].filter((doc)=>{
-                        return listsAlgo[1].includes(doc);
-                    });
-                } else {
-                    const joint1 = listsAlgo[0].filter((doc)=>{
-                        return listsAlgo[1].includes(doc);
-                    });
-
-                    joint2 = joint1.filter((item)=>{
-                        return listsAlgo[2].includes(item);
-                    });
-                }
-
-                this.prods = joint2;
-
-                this.colorList = [];
-                this.priceList = [];
-                this.masaList = [];
-            }
-            
-        },
         resetFilter(){
-            this.checkbox1 = false;
-            this.checkbox2 = false;
-            this.checkbox3 = false;
-            this.checkbox4 = false;
-            this.checkbox5 = false;
-            this.checkbox6 = false;
-            this.checkbox7 = false;
-            this.white = false;
-            this.jeshile = false;
-            this.blue = false;
-            this.red = false;
-            this.yellow = false;
-            this.range[0]=100;
-            this.range[1]=30000;
-            this.prods = this.prodsCopy;
+            this.dumb.forEach((el) => {
+                el.values.forEach(doc => {
+                    doc.checked = false;
+                })
+            });
+            this.selected = [];
+            this.prods = this.all;
         },
         greenColor1: function(){
             try{
@@ -1276,21 +1208,23 @@ export default {
         },
         pricer: function(){
             try{
+                this.selected.push({
+                    kategoria: "price",
+                    min_value: this.range[0],
+                    max_value: this.range[1]
+                })
                 this.priceList = [];
-
-                console.log(JSON.stringify(this.priceList));
 
 
 
                 const needed = this.prods.filter((doc)=>{
                     return parseInt(doc.details.price) >= parseInt(this.range[0]) && parseInt(doc.details.price) <= parseInt(this.range[1]);
                 });
-            
-                console.log(JSON.stringify(needed));
+
 
                 const newPriceList = this.priceList.concat(needed);
 
-                console.log(JSON.stringify(newPriceList));
+
 
                 this.priceList = newPriceList;
                 

@@ -1194,8 +1194,8 @@ export default {
                 
                     details: {
                         name: this.namey,
-                        price: this.pricey,
-                        priceLow: this.priceyLow ? this.priceyLow : null,
+                        price: parseInt(this.pricey),
+                        priceLow: this.priceyLow ? parseInt(this.priceyLow) : null,
                         desc: this.descy,
                         seller: this.nameOfS,
                         sellerPhoto: this.photo,
