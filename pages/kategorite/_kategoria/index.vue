@@ -637,7 +637,7 @@ export default {
             this.$router.push({path: currRoute + "/" + spot.toLowerCase(), query:{name: spot}});
         },
         async applyFilters(){
-            this.selected = [];
+            
             var priceChecker = this.selected.filter((doc)=>{
                 return doc.kategoria == "price";
             })
@@ -991,8 +991,8 @@ export default {
                     value: value
                 });
             } else {
-                this.selected.filter((doc)=>{
-                    return doc.emri != emri;
+                this.selected = this.selected.filter((doc)=>{
+                    return doc.value != value;
                 });
             }
         },
