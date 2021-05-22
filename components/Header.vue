@@ -16,11 +16,11 @@
         <template v-slot:activator>
             <v-list-item-title class="v-fsm">Kategorite</v-list-item-title>
         </template>
-        <v-list-group sub-group color="white" v-for="department in links" :key="department.id">
+        <v-list-group sub-group color="white" v-for="department in links" :key="department.id" @click="kategoriaSetter(department.kategoria)">
           <template v-slot:activator>
               <v-list-item-title class="v-fsm">{{department.kategoria}}</v-list-item-title>
           </template>
-          <v-list-item v-for="kategori in department.nenkategorite" :key="kategori.id" :to="'/kategorite/' + kategori.link" router exact active-class="white--text">
+          <v-list-item v-for="kategori in department.nenkategorite" :key="kategori.id" @click="sender(kategori.link, kategori.emri)" router exact active-class="white--text">
             <v-list-item-action>
                 <v-icon>mdi-information-variant</v-icon>
             </v-list-item-action>
@@ -67,14 +67,20 @@
           <div class="good-row">
             <div class="searchy">
               <div class="qs custom-searchy">
-                <v-text-field placeholder="Kerko per produkte" class="custom-text-field" color="black" v-model="searchQ" clearable solo dense light rounded height="38" @click:clear="() => {answer = false; searchQ = '';}" @input="changeType" @blur="antiBlur"></v-text-field>
+                <v-text-field placeholder="Kerko per produkte" class="custom-text-field" color="black" v-model="searchQ" clearable solo dense light rounded height="38" @click:clear="() => {answer = false; searchQ = '';}" @keydown.enter="searchGo" @input="changeType" @blur="antiBlur"></v-text-field>
               </div>
-              <button class="btn-c-o qs searchy-btn" @click="searchGo"><v-icon color="white">mdi-magnify</v-icon></button>
+              <button class="btn-c-o qs searchy-btn" @click="search22"><v-icon color="white">mdi-magnify</v-icon></button>
             </div>
             <div class="results" v-if="answer == true" ref="karuci" @mouseenter="itsover = true" @mouseleave="itsover = false" @mouseout="mouseOut">
               <div class="listings" v-if="sToShow.length > 0">
                 <div class="tile" v-for="ting in sToShow.slice(0, 4)" :key="ting.id">
-                  <v-btn class="qs secondary--text btn-c-o" text nuxt @click="itsover = false; answer = false; itemPressed(ting.red,ting.emri)">{{ting.emri}}</v-btn>
+                  <v-avatar size="40" tile class="rounded-lg" color="primary">
+                    <v-img :src="ting.photos.src"></v-img>
+                  </v-avatar>
+                  <v-col cols="6" class="justify-left">
+                    <p class="qs white--text btn-c-o pa-0 ma-0" style="cursor: pointer;" @click="itsover = false; answer = false; itemPressed(ting.kategoria, ting.spot)">{{ting.name}}</p>
+                    <p class="qs white--text btn-c-o pa-0 ma-0">Cmimi: {{ting.price}} ALL</p>
+                  </v-col>
                 </div>
               </div>
               <div class="listings" v-if="sToShow.length == 0 || sToShow == null">
@@ -224,9 +230,69 @@ export default {
               {'kategoria': 'Tv Video & Audio', 'nenkategorite': [{'emri': 'Televizor', 'link': 'tv-video-&-audio-televizor'}, {'emri': 'Video Projektor', 'link': 'tv-video-&-audio-video-projektor'}, {'emri': 'Audio', 'link': 'tv-video-&-audio-audio'}, {'emri': 'DEKODER & TV BOX', 'link': 'tv-video-&-audio-dekoder-&-tv-box'}, {'emri': 'Aksesore per TV', 'link': 'tv-video-&-audio-aksesore-per-tv'}]},
               {'kategoria': 'Dron - Kamera - Gimbal', 'nenkategorite': [{'emri': 'Produkte DJI', 'link': 'dron---kamera---gimbal-produkte-dji'}, {'emri': 'Produkte Feiytech', 'link': 'dron---kamera---gimbal-produkte-feiytech'}, {'emri': 'Produkte Zhiyun', 'link': 'dron---kamera---gimbal-produkte-zhiyun'}, {'emri': 'Produkte Xiaomi', 'link': 'dron---kamera---gimbal-produkte-xiaomi'}, {'emri': 'Camera', 'link': 'dron---kamera---gimbal-camera'}, {'emri': 'Aksesore te ndryshem', 'link': 'dron---kamera---gimbal-aksesore-te-ndryshem'}]},
               {'kategoria': 'Lojera & Argetim', 'nenkategorite': [{'emri': 'Konsola', 'link': 'lojera-&-argetim-konsola'}, {'emri': 'Lojera', 'link': 'lojera-&-argetim-lojera'}, {'emri': 'Controllers', 'link': 'lojera-&-argetim-controllers'}, {'emri': 'Smart Balance', 'link': 'lojera-&-argetim-smart-balance'}, {'emri': 'Scooters', 'link': 'lojera-&-argetim-scooters'}]},
-              {'kategoria': 'Elektroshtepiake', 'nenkategorite': [{'emri': 'Kondicioner', 'link': 'elektroshtepiake-kondicioner'}, {'emri': 'Produkte Smart', 'link': 'elektroshtepiake-produkte-smart'}]}
+              {'kategoria': 'Elektroshtepiake', 'nenkategorite': [{'emri': 'Kondicioner', 'link': 'elektroshtepiake-kondicioner'}, {'emri': 'Produkte Smart', 'link': 'elektroshtepiake-produkte-smart'}]},
+              {
+                  "kategoria": "VESHJE FEMRASH",
+                  "nenkategorite": [
+                      {
+                          "emri": "Veshje",
+                          "link": "veshje-femrash-veshje"
+                      },
+                      {
+                          "emri": "Intimo",
+                          "link": "veshje-femrash-intimo"
+                      },
+                      {
+                          "emri": "K\u00ebpuc\u00eb",
+                          "link": "veshje-femrash-k\u00ebpuc\u00eb"
+                      },
+                      {
+                          "emri": "Aksesor\u00eb",
+                          "link": "veshje-femrash-aksesor\u00eb"
+                      },
+                      {
+                          "emri": "Plazh",
+                          "link": "veshje-femrash-plazh"
+                      }
+                  ]
+              },
+              {
+                  "kategoria": "VESHJE MESHKUJSH",
+                  "nenkategorite": [
+                      {
+                          "emri": "Veshje",
+                          "link": "veshje-meshkujsh-veshje"
+                      },
+                      {
+                          "emri": "Intimo",
+                          "link": "veshje-meshkujsh-intimo"
+                      },
+                      {
+                          "emri": "K\u00ebpuc\u00eb",
+                          "link": "veshje-meshkujsh-k\u00ebpuc\u00eb"
+                      },
+                      {
+                          "emri": "Aksesor\u00eb",
+                          "link": "veshje-meshkujsh-aksesor\u00eb"
+                      }
+                  ]
+              },
+              {
+                  "kategoria": "VESHJE F\u00cbMIJ\u00cbSH",
+                  "nenkategorite": [
+                      {
+                          "emri": "Vajz\u00eb",
+                          "link": "veshje-f\u00ebmij\u00ebsh-vajz\u00eb"
+                      },
+                      {
+                          "emri": "Djal\u00eb",
+                          "link": "veshje-f\u00ebmij\u00ebsh-djal\u00eb"
+                      }
+                  ]
+              }
             ],
             searchQ: '',
+            search2: '',
             searchOn: false,
             height: null,
             background: Gradient,
@@ -271,10 +337,21 @@ export default {
             sToShow: [],
             cart: this.$store.state.users.cart,
             cartD: false,
-            itsover: false
+            itsover: false,
+            kategoria: null
         }
     },
     methods: {
+      kategoriaSetter(kat){
+        this.kategoria = kat;
+      },
+      itemPressed: function(kategoria, emri){
+        console.log("fdsajgfkudsajhbf")
+        this.$router.push({ path: "/kategorite/" + kategoria + "/" + emri.toLowerCase(), query: {name: emri} });
+      },
+      sender(link, emri){
+        this.$router.push({path: "/kategorite/"+link, query:{name: emri, kategoria: this.kategoria}});
+      },
       cartush: function(){
         this.cart = this.$store.state.users.cart;
         
@@ -289,12 +366,25 @@ export default {
       },
       searchGo: function(){
 
-        const redItem = this.sToShow[0];
-        this.$router.push({ path: "/search", query: {search: redItem.emri} });
+        if(this.searchQ == "" || this.searchQ == " "){
+          return;
+        }
+
+        this.$router.push({ path: "/search", query: {search: this.searchQ} });
+
+        this.answer = false;
 
       },
-      itemPressed: function(red, emri){
-        this.$router.push({ path: "/search", query: {search: emri} });
+      search22: function(){
+
+        if(this.search2 == "" || this.search2 == " "){
+          return;
+        }
+
+        this.$router.push({ path: "/search", query: {search: this.search2} });
+
+        this.answer = false;
+
       },
       sendToMore: function(){
         this.answer = false;
@@ -302,12 +392,28 @@ export default {
         this.$router.push({ path: '/search', query: { search: this.searchQ } });
       },
       changeType: async function (){
-        await this.$store.dispatch("users/change", this.searchQ ? this.searchQ : "");
 
-        this.sToShow = this.$store.state.users.result;
+        if(this.searchQ == "" || this.searchQ == " "){
+          return;
+        }
+
+        this.search2 = this.searchQ;
+
+        var bodyFormData = new FormData();
+
+        bodyFormData.append('query_text', this.searchQ);
+        bodyFormData.append('query_products', 5);
+
+        var obj = await this.$axios({
+            method: "post",
+            url: "http://34.65.32.131/search",
+            data: bodyFormData,
+            headers: { "Content-Type": "multipart/form-data" },
+        })
+
+        console.log(JSON.stringify(obj.data));
+        this.sToShow = obj.data;
         this.answer = true;
-        console.log(this.answer);
-        console.log(this.sToShow);
       },
       updateCart: async function(cartEmri, cartTimes){
 
@@ -378,6 +484,12 @@ export default {
 </script>
 
 <style scoped>
+.justify-left{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
 .header-height{
   padding: 15px 0 15px 0;
 }
@@ -385,7 +497,7 @@ export default {
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
   border-radius: 15px;
-  background-color: white;
+  background-color: #363f4e;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -416,11 +528,11 @@ export default {
   color: black;
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   margin-bottom: 3px;
   margin-top: 10px;
-  background-color: white;
+  background-color: #363f4e;
   transition: 0.3s;
   height: 50px;
 }
@@ -762,7 +874,7 @@ export default {
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     border-radius: 15px;
-    background-color: white;
+    background-color: #363f4e;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -801,7 +913,7 @@ export default {
     align-items: center;
     margin-bottom: 3px;
     margin-top: 10px;
-    background-color: white;
+    background-color: #363f4e;
     transition: 0.3s;
     height: 50px;
   }

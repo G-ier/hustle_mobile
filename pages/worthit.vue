@@ -11,7 +11,7 @@
             <div class="drawer-container remove-scroll-wheel" >
             <div class="sidebar sidebar-side">
                <div class="sidebar-links mb-4 mt-1">
-                   <h4 class="qs secondary--text ma-0 pa-0">Worth it</h4>
+                   <h4 class="qs secondary--text ma-0 pa-0">{{route}}</h4>
                    <div class="sideline"></div>
                    <div class="sidebar-link">
                        <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/new">Me te rejat</nuxt-link>
@@ -21,165 +21,51 @@
                        <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/ofertat">Ofeta te nxehta</nuxt-link>
                        <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
                    </div>
+                   <div class="sidebar-link">
+                       <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/worthit">Me te mirat</nuxt-link>
+                       <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
+                   </div>
                </div>
                <div class="sidebar-links mb-4">
-                   <v-col class="my-4">
-                        <v-btn small class="white--text mb-4" color="secondary" @click="applyPrice">Apliko filtrin</v-btn>
-                        <v-btn small class="white--text mb-4" color="secondary" @click="resetFilter">Reset</v-btn>
-                        <p class="qs secondary--text">Zgjidh filtrat dhe aplikoji</p>
-                    </v-col>
-                   <div class="sidebar-valuator">
-                       <p class="qs s15 secondary--text">Masat</p>
-                        <div class="repeatable">
+                   
+                   <div class="sidebar-valuator mt-6" v-for="filter in dumb" :key="filter.id">
+                       <p class="qs s15 secondary--text">{{filter.emri}}</p>
+                            
+                        <b-collapse :open="false" v-model="open" aria-id="contentIdForA11y1">
+                            <template #trigger>
+                                <b-field>
+                                    <b-switch
+                                        true-value="Trego"
+                                        false-value="Fshi"
+                                        aria-controls="contentIdForA11y1">
+                                    </b-switch>
+                                </b-field>
+                            </template>
+                            <div class="repeatable mt-3">
                                 <v-checkbox
-                                    v-model="checkbox1"
+                                    v-for="sta in filter.values"
+                                    :key="sta.id"
+                                    v-model="sta.checked"
                                     light
-                                    label="xs"
+                                    :label="sta.emri"
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
-                                    @click="checkBox1"
+                                    @change="checkBox(sta.emri, filter.emri, sta.checked)"
+                                    
                                 ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox2"
-                                    light
-                                    label="s"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox2"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox3"
-                                    light
-                                    label="m"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox3"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox4"
-                                    light
-                                    label="l"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox4"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox5"
-                                    light
-                                    label="xl"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox5"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox6"
-                                    light
-                                    label="xxl"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox6"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox7"
-                                    light
-                                    label="xxxl"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox7"
-                                ></v-checkbox>
-                        </div>
+                            </div>
+                        </b-collapse>
+                        <v-row class="mt-5 ml-4" justify="center" v-if="open == false">
+                            <b-field>
+                                <b-checkbox disabled>{{filter.values[0].emri}}</b-checkbox>
+                            </b-field>
+                            <b-field>
+                                <b-checkbox disabled>{{filter.values[1].emri}}</b-checkbox>
+                            </b-field>
+                        </v-row>
                    </div>
-                   <div class="sidebar-valuator">
-                       <p class="qs s15 secondary--text">Ngjyrat</p>
-                        <div class="repeatable">
-                                <v-checkbox
-                                    v-model="white"
-                                    light
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    :value="white"
-                                    @click="whiteColor"
-                                >
-                                    <template v-slot:label>
-                                        <div style="border: 1px solid #a1a1a1; backgroun-color: white;">
-                                            <v-avatar size="20" rounded color="white"></v-avatar>
-                                        </div>
-                                    </template>
-                                </v-checkbox>
-                                <v-checkbox
-                                    v-model="yellow"
-                                    light
-                                    label="E verdhe"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    :value="yellow"
-                                    @click="yellowColor"
-                                >
-                                    <template v-slot:label>
-                                        <div style="background-color: #e8d820;">
-                                            <v-avatar size="20" rounded color="#e8d820"></v-avatar>
-                                        </div>
-                                    </template>
-                                </v-checkbox>
-                                <v-checkbox
-                                    v-model="red"
-                                    light
-                                    label="E kuqe"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    :value="red"
-                                    @click="redColor"
-                                >
-                                    <template v-slot:label>
-                                        <div style="background-color: #d61114;">
-                                            <v-avatar size="20" rounded color="#d61114"></v-avatar>
-                                        </div>
-                                    </template>
-                                </v-checkbox>
-                                <v-checkbox
-                                    v-model="blue"
-                                    light
-                                    label="Blu"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    :value="blue"
-                                    @click="blueColor"
-                                >
-                                    <template v-slot:label>
-                                        <div style="background-color: #240ac9;">
-                                            <v-avatar size="20" rounded color="#240ac9"></v-avatar>
-                                        </div>
-                                    </template>
-                                </v-checkbox>
-                                <v-checkbox
-                                    v-model="jeshile"
-                                    light
-                                    label="Jeshile"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    :value="jeshile"
-                                    @click="greenColor1"
-                                >
-                                    <template v-slot:label>
-                                        <div style="background-color: #119e22;">
-                                            <v-avatar size="20" rounded color="#119e22"></v-avatar>
-                                        </div>
-                                    </template>
-                                </v-checkbox>
-                        </div>
-                   </div>
+                   
                    <div class="sidebar-valuator-2">
                        <p class="qs s15 secondary--text">Cmimi</p>
                         <v-col class="px-4">
@@ -198,13 +84,13 @@
         <div class="tracks">
             <div class="tracky">
                 <nuxt-link to="/" class="secondary--text qs btn-c-o">Faqja kryesore <v-icon color="secondary" size="18">mdi-arrow-right-drop-circle</v-icon> </nuxt-link>
-                <p class="qs s12 secondary--text pa-0 ma-0 ml-1"> te rekomanduara</p>
+                <p class="qs s12 secondary--text pa-0 ma-0 ml-1">Me te rejat</p>
             </div>
         </div>
         <div class="market-new mb-3">
            <div class="sidebar">
                <div class="sidebar-links mb-4">
-                   <h4 class="qs secondary--text ma-0 pa-0">Worth it</h4>
+                   <h4 class="qs secondary--text ma-0 pa-0">Te rekomanduara</h4>
                    <div class="sideline"></div>
                    <div class="sidebar-link">
                        <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/new">Me te rejat</nuxt-link>
@@ -214,166 +100,58 @@
                        <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/ofertat">Ofeta te nxehta</nuxt-link>
                        <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
                    </div>
+                   <div class="sidebar-link">
+                       <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/worthit">Me te mirat</nuxt-link>
+                       <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
+                   </div>
                </div>
                <div class="sidebar-links mb-4">
-                   <v-col class="my-4">
-                        <v-btn small class="white--text mb-4" color="secondary" @click="applyPrice">Apliko filtrin</v-btn>
-                        <v-btn small class="white--text mb-4" color="secondary" @click="resetFilter">Reset</v-btn>
-                        <p class="qs secondary--text">Zgjidh filtrat dhe aplikoji</p>
-                    </v-col>
-                   <div class="sidebar-valuator">
-                       <p class="qs s15 secondary--text">Masat</p>
-                        <div class="repeatable">
+                   <div class="sidebar-valuator mt-6" v-for="filter in dumb" :key="filter.id">
+                       <p class="qs s15 secondary--text">{{filter.emri}}</p>
+                            
+                        <b-collapse :open="false" v-model="filter.checker" aria-id="contentIdForA11y1">
+                            <template #trigger>
+                                <b-field>
+                                    <b-switch
+                                        true-value="Trego"
+                                        false-value="Fshi"
+                                        aria-controls="contentIdForA11y1">
+                                    </b-switch>
+                                </b-field>
+                            </template>
+                            <div class="repeatable mt-3">
                                 <v-checkbox
-                                    v-model="checkbox1"
+                                    v-for="sta in filter.values"
+                                    :key="sta.id"
+                                    v-model="sta.checked"
                                     light
-                                    label="xs"
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
-                                    @click="checkBox1"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox2"
-                                    light
-                                    label="s"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox2"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox3"
-                                    light
-                                    label="m"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox3"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox4"
-                                    light
-                                    label="l"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox4"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox5"
-                                    light
-                                    label="xl"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox5"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox6"
-                                    light
-                                    label="xxl"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox6"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox7"
-                                    light
-                                    label="xxxl"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox7"
-                                ></v-checkbox>
-                        </div>
+                                    @change="checkBox(sta.emri, filter.emri, sta.checked)"
+                                    
+                                >
+                                    <template slot="label">
+                                        <div v-if="!sta.emri.includes('rgb')">
+                                            {{sta.emri}}
+                                        </div>
+                                        <v-avatar v-if="sta.emri.includes('rgb')" tile class="rounded-lg mr-4" size="26" :style="{'background-color': sta.emri}">
+
+                                        </v-avatar>
+                                    </template>
+                                </v-checkbox>
+                            </div>
+                        </b-collapse>
+                        <v-row class="mt-5 ml-4" justify="center" v-if="filter.checker == false">
+                            <b-field>
+                                <b-checkbox disabled>{{filter.values[0].emri}}</b-checkbox>
+                            </b-field>
+                            <b-field>
+                                <b-checkbox disabled>{{filter.values[1].emri}}</b-checkbox>
+                            </b-field>
+                        </v-row>
                    </div>
-                   <div class="sidebar-valuator">
-                       <p class="qs s15 secondary--text">Ngjyrat</p>
-                        <div class="repeatable">
-                                <v-checkbox
-                                    v-model="white"
-                                    light
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    :value="white"
-                                    @click="whiteColor"
-                                >
-                                    <template v-slot:label>
-                                        <div style="border: 1px solid #a1a1a1; backgroun-color: white;">
-                                            <v-avatar size="20" rounded color="white"></v-avatar>
-                                        </div>
-                                    </template>
-                                </v-checkbox>
-                                <v-checkbox
-                                    v-model="yellow"
-                                    light
-                                    label="E verdhe"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    :value="yellow"
-                                    @click="yellowColor"
-                                >
-                                    <template v-slot:label>
-                                        <div style="background-color: #e8d820;">
-                                            <v-avatar size="20" rounded color="#e8d820"></v-avatar>
-                                        </div>
-                                    </template>
-                                </v-checkbox>
-                                <v-checkbox
-                                    v-model="red"
-                                    light
-                                    label="E kuqe"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    :value="red"
-                                    @click="redColor"
-                                >
-                                    <template v-slot:label>
-                                        <div style="background-color: #d61114;">
-                                            <v-avatar size="20" rounded color="#d61114"></v-avatar>
-                                        </div>
-                                    </template>
-                                </v-checkbox>
-                                <v-checkbox
-                                    v-model="blue"
-                                    light
-                                    label="Blu"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    :value="blue"
-                                    @click="blueColor"
-                                >
-                                    <template v-slot:label>
-                                        <div style="background-color: #240ac9;">
-                                            <v-avatar size="20" rounded color="#240ac9"></v-avatar>
-                                        </div>
-                                    </template>
-                                </v-checkbox>
-                                <v-checkbox
-                                    v-model="jeshile"
-                                    light
-                                    label="Jeshile"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    :value="jeshile"
-                                    @click="greenColor1"
-                                >
-                                    <template v-slot:label>
-                                        <div style="background-color: #119e22;">
-                                            <v-avatar size="20" rounded color="#119e22"></v-avatar>
-                                        </div>
-                                    </template>
-                                </v-checkbox>
-                        </div>
-                   </div>
-                   <div class="sidebar-valuator-2">
+                   <div class="sidebar-valuator-2 mt-3">
                        <p class="qs s15 secondary--text">Cmimi</p>
                         <v-col class="px-4">
                             <b-field>
@@ -434,7 +212,7 @@
                    <div class="marketplace-item" v-if="prods.length > 0">
                        <div class="marketplace-vendor" v-for="prod in prods" :key="prod.id">
                            <div class="fullscreen-img">
-                               <v-img :aspect-ratio="1/1" :src="prod.details.photos[0].src" @click="sendToProduct(prod.details.kategorita, prod.spot)">
+                               <v-img :aspect-ratio="1/1" :src="prod.details.photos[0].src" @click="product(prod.spot)">
                                 <v-chip
                                     v-if="prod.creationTime + 172800000 >= Date.now()"
                                     class="ma-2"
@@ -460,7 +238,7 @@
                                     class="mb-3"
                                     small
                                 ></v-rating>
-                                <p class="qs primary--text pricey" v-if="prod.details.priceLow">{{prod.details.priceLow}} ALL <span class="miniature gray--text text-decoration-line-through" v-if="prod.details.priceLow != null">{{prod.details.price}} ALL</span></p>
+                                <p class="qs primary--text pricey" v-if="prod.details.priceLow">{{prod.details.priceLow}} ALL <span class="miniature grey--text text-decoration-line-through" v-if="prod.details.priceLow != null">{{prod.details.price}} ALL</span></p>
                                 <p class="qs primary--text pricey" v-if="prod.details.priceLow == null">{{prod.details.price}} ALL</p>
                            </div>
                        </div>
@@ -551,20 +329,48 @@ import 'firebase/firestore';
 import Cookies from 'js-cookie';
 import { parse } from '~/node_modules/cookieparser/js/cookieparser';
 export default {
-    async asyncData(){
-        const pageData = await firebase.firestore().collection('elektronike').orderBy("details.price").get();
-        const page = pageData.docs.map(doc => doc.data());
+    async asyncData({route, $axios}){
+        
+        var categ = route.query.search;
 
-        const prods = page.slice(0, 6);
+        var obj = await $axios({
+            method: "post",
+            url: "http://34.65.32.131/highest_evaluation",
+            params: {
+                query_product: 9
+            },
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        })
+
+        const filters = obj.data.filtrat; 
+
+        var dumb = [];
+
+        filters.forEach((el) => {
+            dumb.push({
+                emri: el.emri,
+                value: el.value,
+                values: el.values,
+                checker: false
+            });
+        });
+
+        console.log(JSON.stringify(obj.data.filtrat))
+
         return {
-            all: page,
-            prods: prods,
-            last: 6
+            all: obj.data.produktet,
+            prods: obj.data.produktet,
+            filters: filters,
+            last: 9,
+            route: route.query.search,
+            nameting: obj.data.kategoria,
+            catting: categ,
+            dumb: dumb
         }
     },
     head(){
         return{
-            title: 'Kompjuterike | hustle',
+            title: 'Kompjuterike',
             meta: [
                 {
                     hid: 'description',
@@ -576,9 +382,49 @@ export default {
     },
     data(){
         return{
-            fab: false,
-            page: 1,
+            isSwitchedCustom: "No",
+            priceTing: null,
+            selected: [],
+            open: false,
+            links: [
+              {'kategoria': 'Sezonale', 'nenkategorite': [{'emri': 'Dekorime për Krishtlindje', 'link': 'sezonale-dekorime-për-krishtlindje'}, {'emri': 'Artikuj Plazhi', 'link': 'sezonale-artikuj-plazhi'}, {'emri': 'Embëlsira dhe biskota', 'link': 'sezonale-embëlsira-dhe-biskota'}]},
+              {'kategoria': 'Banjo', 'nenkategorite': [{'emri': 'Pajisje Sanitare', 'link': 'banjo-pajisje-sanitare'}, {'emri': 'Aksesorë bashkues dhe kaseta', 'link': 'banjo-aksesorë-bashkues-dhe-kaseta'}, {'emri': 'Mobilje për banjo', 'link': 'banjo-mobilje-për-banjo'}, {'emri': 'Aksesorë për banjo', 'link': 'banjo-aksesorë-për-banjo'}, {'emri': 'Produkte për Njerëz me Aftësi të Kufizuar', 'link': 'banjo-produkte-për-njerëz-me-aftësi-të-kufizuar'}, {'emri': 'Sauna', 'link': 'banjo-sauna'}, {'emri': 'Përkujdesje Personale', 'link': 'banjo-përkujdesje-personale'}, {'emri': 'Tapetë për tualet', 'link': 'banjo-tapetë-për-tualet'}, {'emri': 'Higjenë', 'link': 'banjo-higjenë'}, {'emri': 'Pastrim', 'link': 'banjo-pastrim'}, {'emri': 'Pastrim Profesional', 'link': 'banjo-pastrim-profesional'}, {'emri': 'Higjenë profesional', 'link': 'banjo-higjenë-profesional'}, {'emri': 'Higjenë', 'link': 'banjo-higjenë'}]},
+              {'kategoria': 'Materiale Ndërtimi', 'nenkategorite': [{'emri': 'Tuba dhe rakorderi', 'link': 'materiale-ndërtimi-tuba-dhe-rakorderi'}, {'emri': 'Aksesorë metali', 'link': 'materiale-ndërtimi-aksesorë-metali'}, {'emri': 'Vegla Ndërtimi', 'link': 'materiale-ndërtimi-vegla-ndërtimi'}, {'emri': 'Silikon', 'link': 'materiale-ndërtimi-silikon'}, {'emri': 'Shkarkimi i ujrave të përdorura', 'link': 'materiale-ndërtimi-shkarkimi-i-ujrave-të-përdorura'}, {'emri': 'Sistemi  i thatë', 'link': 'materiale-ndërtimi-sistemi--i-thatë'}, {'emri': 'Izolimi termo-akustik', 'link': 'materiale-ndërtimi-izolimi-termo-akustik'}, {'emri': 'Inerte dhe aditive', 'link': 'materiale-ndërtimi-inerte-dhe-aditive'}, {'emri': 'Hidroizolim dhe mbrojtje', 'link': 'materiale-ndërtimi-hidroizolim-dhe-mbrojtje'}, {'emri': 'Elemente ndërtimtarie bazë', 'link': 'materiale-ndërtimi-elemente-ndërtimtarie-bazë'}, {'emri': 'Druri', 'link': 'materiale-ndërtimi-druri'}, {'emri': 'Streha dhe mbulesa', 'link': 'materiale-ndërtimi-streha-dhe-mbulesa'}, {'emri': 'Shkarkime të përgjithshme', 'link': 'materiale-ndërtimi-shkarkime-të-përgjithshme'}, {'emri': 'Sisteme ajrimi dhe oxhaqesh', 'link': 'materiale-ndërtimi-sisteme-ajrimi-dhe-oxhaqesh'}, {'emri': 'Dyshemetë e jashtme', 'link': 'materiale-ndërtimi-dyshemetë-e-jashtme'}, {'emri': 'Hekur dhe profile', 'link': 'materiale-ndërtimi-hekur-dhe-profile'}, {'emri': 'Depozita', 'link': 'materiale-ndërtimi-depozita'}, {'emri': 'Sinjalistika', 'link': 'materiale-ndërtimi-sinjalistika'}, {'emri': 'Skela', 'link': 'materiale-ndërtimi-skela'}, {'emri': 'Makineri ndërtimi', 'link': 'materiale-ndërtimi-makineri-ndërtimi'}]},
+              {'kategoria': 'Ngrohje - Ftohje', 'nenkategorite': [{'emri': 'Elektrike', 'link': 'ngrohje---ftohje-elektrike'}, {'emri': 'Karburant', 'link': 'ngrohje---ftohje-karburant'}, {'emri': 'Dru dhe Pelet', 'link': 'ngrohje---ftohje-dru-dhe-pelet'}, {'emri': 'Alternative', 'link': 'ngrohje---ftohje-alternative'}]},
+              {'kategoria': 'Mobilje', 'nenkategorite': [{'emri': 'Ambjent Dite', 'link': 'mobilje-ambjent-dite'}, {'emri': 'Ambjent Nate', 'link': 'mobilje-ambjent-nate'}, {'emri': 'Ambient studimi dhe zyrë', 'link': 'mobilje-ambient-studimi-dhe-zyrë'}, {'emri': 'Dekorime', 'link': 'mobilje-dekorime'}, {'emri': 'Magazinim dhe organizim', 'link': 'mobilje-magazinim-dhe-organizim'}, {'emri': 'Produkte për bebe', 'link': 'mobilje-produkte-për-bebe'}, {'emri': 'Ambjent i jashtëm', 'link': 'mobilje-ambjent-i-jashtëm'}, {'emri': 'Ambient Kuzhine', 'link': 'mobilje-ambient-kuzhine'}]},
+              {'kategoria': 'Shtrimi', 'nenkategorite': [{'emri': 'Parket', 'link': 'shtrimi-parket'}, {'emri': 'Pllaka', 'link': 'shtrimi-pllaka'}, {'emri': 'Mokete dhe linoleume', 'link': 'shtrimi-mokete-dhe-linoleume'}]},
+              {'kategoria': 'Elektrike', 'nenkategorite': [{'emri': 'Pajisje për Instalime Elektrike', 'link': 'elektrike-pajisje-për-instalime-elektrike'}, {'emri': 'Sisteme Sigurie', 'link': 'elektrike-sisteme-sigurie'}, {'emri': 'Kabëll dhe Aksesorë', 'link': 'elektrike-kabëll-dhe-aksesorë'}, {'emri': 'Pajisje Elektrike', 'link': 'elektrike-pajisje-elektrike'}, {'emri': 'Elektrike të Tjera', 'link': 'elektrike-elektrike-të-tjera'}, {'emri': 'Pajisje Industriale dhe Profesionale', 'link': 'elektrike-pajisje-industriale-dhe-profesionale'}]},
+              {'kategoria': 'Ndriçimi', 'nenkategorite': [{'emri': 'Ndriçues të brendshem', 'link': 'ndriçimi-ndriçues-të-brendshem'}, {'emri': 'Ndricues Kopshti', 'link': 'ndriçimi-ndricues-kopshti'}, {'emri': 'Llamba', 'link': 'ndriçimi-llamba'}]},
+              {'kategoria': 'Kuzhina', 'nenkategorite': [{'emri': 'Lavapjata', 'link': 'kuzhina-lavapjata'}, {'emri': 'Enë kuzhine', 'link': 'kuzhina-enë-kuzhine'}, {'emri': 'Aksesorë për kuzhina', 'link': 'kuzhina-aksesorë-për-kuzhina'}, {'emri': 'Pastrues', 'link': 'kuzhina-pastrues'}, {'emri': 'Pastrim Profesional', 'link': 'kuzhina-pastrim-profesional'}, {'emri': 'Uniforma Pune', 'link': 'kuzhina-uniforma-pune'}, {'emri': 'Higjenë', 'link': 'kuzhina-higjenë'}, {'emri': 'Higjenë Profesional', 'link': 'kuzhina-higjenë-profesional'}, {'emri': 'Bisktota -caj', 'link': 'kuzhina-bisktota--caj'}]},
+              {'kategoria': 'Druri', 'nenkategorite': [{'emri': 'Binare dhe Ristela', 'link': 'druri-binare-dhe-ristela'}, {'emri': 'Lëndë Zdrukthtarie', 'link': 'druri-lëndë-zdrukthtarie'}, {'emri': 'Shkallë', 'link': 'druri-shkallë'}, {'emri': 'Brava/Doreza dhe aksesorë', 'link': 'druri-brava/doreza-dhe-aksesorë'}, {'emri': 'Dritare', 'link': 'druri-dritare'}, {'emri': 'Dyer të brendshme', 'link': 'druri-dyer-të-brendshme'}, {'emri': 'Dyer të jashtme', 'link': 'druri-dyer-të-jashtme'}]},
+              {'kategoria': 'Kopshtari', 'nenkategorite': [{'emri': 'Dekorime', 'link': 'kopshtari-dekorime'}, {'emri': 'Arredim i jashtëm', 'link': 'kopshtari-arredim-i-jashtëm'}, {'emri': 'Lule dhe bimë', 'link': 'kopshtari-lule-dhe-bimë'}, {'emri': 'Vegla kopshti elektrike', 'link': 'kopshtari-vegla-kopshti-elektrike'}, {'emri': 'Vegla kopshti me bateri', 'link': 'kopshtari-vegla-kopshti-me-bateri'}, {'emri': 'Vegla kopshti me karburant', 'link': 'kopshtari-vegla-kopshti-me-karburant'}, {'emri': 'Vegla kopshti manuale', 'link': 'kopshtari-vegla-kopshti-manuale'}, {'emri': 'Sisteme dhe pajisje për vaditje', 'link': 'kopshtari-sisteme-dhe-pajisje-për-vaditje'}, {'emri': 'Barbekju', 'link': 'kopshtari-barbekju'}, {'emri': 'Pajisje kantine', 'link': 'kopshtari-pajisje-kantine'}, {'emri': 'Aksesorë', 'link': 'kopshtari-aksesorë'}, {'emri': 'Insekticide', 'link': 'kopshtari-insekticide'}, {'emri': 'Tuba & Rakorderi', 'link': 'kopshtari-tuba-&-rakorderi'}, {'emri': 'Aksesorë për vegla kopshti', 'link': 'kopshtari-aksesorë-për-vegla-kopshti'}, {'emri': 'Artikuj Plazhi', 'link': 'kopshtari-artikuj-plazhi'}, {'emri': 'Pllaka', 'link': 'kopshtari-pllaka'}, {'emri': 'Artikuj Plazhi', 'link': 'kopshtari-artikuj-plazhi'}, {'emri': 'Pastrim', 'link': 'kopshtari-pastrim'}]},
+              {'kategoria': 'Bojra', 'nenkategorite': [{'emri': 'Bojra per Jashte', 'link': 'bojra-bojra-per-jashte'}, {'emri': 'Bojra per Brenda', 'link': 'bojra-bojra-per-brenda'}, {'emri': 'Bojra Dekorative', 'link': 'bojra-bojra-dekorative'}, {'emri': 'Bojra Druri', 'link': 'bojra-bojra-druri'}, {'emri': 'Bojra Metali', 'link': 'bojra-bojra-metali'}, {'emri': 'Letra Muri', 'link': 'bojra-letra-muri'}, {'emri': 'Tretes', 'link': 'bojra-tretes'}, {'emri': 'Sprai', 'link': 'bojra-sprai'}, {'emri': 'Ngjites', 'link': 'bojra-ngjites'}, {'emri': 'Vegla Lyerje', 'link': 'bojra-vegla-lyerje'}, {'emri': 'Silikon', 'link': 'bojra-silikon'}, {'emri': 'Vegla ndërtimi', 'link': 'bojra-vegla-ndërtimi'}]},
+              {'kategoria': 'Art', 'nenkategorite': [{'emri': 'Bojera per Piktor', 'link': 'art-bojera-per-piktor'}, {'emri': 'Penela', 'link': 'art-penela'}, {'emri': 'Korniza Fotosh dhe  Pikturash', 'link': 'art-korniza-fotosh-dhe--pikturash'}, {'emri': 'Piktura', 'link': 'art-piktura'}, {'emri': 'Të Tjera', 'link': 'art-të-tjera'}]},
+              {'kategoria': 'Hidraulike', 'nenkategorite': [{'emri': 'Sisteme Zjarrfikse', 'link': 'hidraulike-sisteme-zjarrfikse'}, {'emri': 'Profesionale/Industriale', 'link': 'hidraulike-profesionale/industriale'}, {'emri': 'Tuba dhe Rakorderi', 'link': 'hidraulike-tuba-dhe-rakorderi'}]},
+              {'kategoria': 'Vegla dhe Aksesorë', 'nenkategorite': [{'emri': 'Hardware', 'link': 'vegla-dhe-aksesorë-hardware'}, {'emri': 'Vegla Ndërtimi', 'link': 'vegla-dhe-aksesorë-vegla-ndërtimi'}, {'emri': 'Veshje Pune Sigurie', 'link': 'vegla-dhe-aksesorë-veshje-pune-sigurie'}, {'emri': 'Vegla Elektrike', 'link': 'vegla-dhe-aksesorë-vegla-elektrike'}, {'emri': 'Vegla Elektrike me Bateri', 'link': 'vegla-dhe-aksesorë-vegla-elektrike-me-bateri'}, {'emri': 'Aksesorë për Vegla Elektrike', 'link': 'vegla-dhe-aksesorë-aksesorë-për-vegla-elektrike'}, {'emri': 'Vegla Mekanike', 'link': 'vegla-dhe-aksesorë-vegla-mekanike'}, {'emri': 'Vegla Matëse', 'link': 'vegla-dhe-aksesorë-vegla-matëse'}, {'emri': 'Vegla makine dhe Aksesore', 'link': 'vegla-dhe-aksesorë-vegla-makine-dhe-aksesore'}, {'emri': 'Produkte sigurie', 'link': 'vegla-dhe-aksesorë-produkte-sigurie'}]},
+              {'kategoria': 'Zyrë dhe Shkollë', 'nenkategorite': [{'emri': 'Materiale Arkivimi', 'link': 'zyrë-dhe-shkollë-materiale-arkivimi'}, {'emri': 'Instrumenta shkrimi', 'link': 'zyrë-dhe-shkollë-instrumenta-shkrimi'}, {'emri': 'Organizues tavoline', 'link': 'zyrë-dhe-shkollë-organizues-tavoline'}, {'emri': 'Pajisje lidhëse', 'link': 'zyrë-dhe-shkollë-pajisje-lidhëse'}, {'emri': 'Kartoleri dhe Letër', 'link': 'zyrë-dhe-shkollë-kartoleri-dhe-letër'}, {'emri': 'Krijimtari për fëmijë', 'link': 'zyrë-dhe-shkollë-krijimtari-për-fëmijë'}, {'emri': 'Tempera, bojëra dhe lapostila', 'link': 'zyrë-dhe-shkollë-tempera,-bojëra-dhe-lapostila'}, {'emri': 'Memorje e jashtme', 'link': 'zyrë-dhe-shkollë-memorje-e-jashtme'}, {'emri': 'Të Tjera', 'link': 'zyrë-dhe-shkollë-të-tjera'}, {'emri': 'Aksesorë zyre', 'link': 'zyrë-dhe-shkollë-aksesorë-zyre'}, {'emri': 'Tabela', 'link': 'zyrë-dhe-shkollë-tabela'}, {'emri': 'Makina llogaritëse', 'link': 'zyrë-dhe-shkollë-makina-llogaritëse'}, {'emri': 'Audio dhe Video', 'link': 'zyrë-dhe-shkollë-audio-dhe-video'}, {'emri': 'IT', 'link': 'zyrë-dhe-shkollë-it'}, {'emri': 'Kabëll', 'link': 'zyrë-dhe-shkollë-kabëll'}, {'emri': 'Çanta', 'link': 'zyrë-dhe-shkollë-çanta'}, {'emri': 'Pastrues', 'link': 'zyrë-dhe-shkollë-pastrues'}]},
+              {'kategoria': 'Aksesorë makinash', 'nenkategorite': [{'emri': 'Mirëmbajtja', 'link': 'aksesorë-makinash-mirëmbajtja'}, {'emri': 'Solucione dhe aditivë', 'link': 'aksesorë-makinash-solucione-dhe-aditivë'}, {'emri': 'Trajtues sipërfaqesh dhe lustrues', 'link': 'aksesorë-makinash-trajtues-sipërfaqesh-dhe-lustrues'}, {'emri': 'Aksesorë', 'link': 'aksesorë-makinash-aksesorë'}, {'emri': 'Llamba Makine', 'link': 'aksesorë-makinash-llamba-makine'}, {'emri': 'Aksesore udhetimi te montueshem', 'link': 'aksesorë-makinash-aksesore-udhetimi-te-montueshem'}]},
+              {'kategoria': 'Sport dhe hobi', 'nenkategorite': [{'emri': 'Mjete peshkimi', 'link': 'sport-dhe-hobi-mjete-peshkimi'}, {'emri': 'Kamping', 'link': 'sport-dhe-hobi-kamping'}, {'emri': 'Biçikleta', 'link': 'sport-dhe-hobi-biçikleta'}, {'emri': 'Palestra', 'link': 'sport-dhe-hobi-palestra'}, {'emri': 'Artikuj Sportiv', 'link': 'sport-dhe-hobi-artikuj-sportiv'}, {'emri': 'Valixhe dhe çanta udhëtimi', 'link': 'sport-dhe-hobi-valixhe-dhe-çanta-udhëtimi'}, {'emri': 'Kamping', 'link': 'sport-dhe-hobi-kamping'}]},
+              {'kategoria': 'Elektroshtëpiake', 'nenkategorite': [{'emri': 'Frigoriferë', 'link': 'elektroshtëpiake-frigoriferë'}, {'emri': 'Lavatriçe & Tharëse', 'link': 'elektroshtëpiake-lavatriçe-&-tharëse'}, {'emri': 'Pajisje Gatimi', 'link': 'elektroshtëpiake-pajisje-gatimi'}, {'emri': 'Lavastovilie', 'link': 'elektroshtëpiake-lavastovilie'}, {'emri': 'Elektroshtëpiake të vogla', 'link': 'elektroshtëpiake-elektroshtëpiake-të-vogla'}, {'emri': 'Fshesa me vakum', 'link': 'elektroshtëpiake-fshesa-me-vakum'}, {'emri': 'TV dhe Audio', 'link': 'elektroshtëpiake-tv-dhe-audio'}]},
+              {'kategoria': 'Përkujdesje për kafshët', 'nenkategorite': [{'emri': 'Ushqimi', 'link': 'përkujdesje-për-kafshët-ushqimi'}, {'emri': 'Higjena dhe kozmetika', 'link': 'përkujdesje-për-kafshët-higjena-dhe-kozmetika'}, {'emri': 'Shëtitje dhe argëtim', 'link': 'përkujdesje-për-kafshët-shëtitje-dhe-argëtim'}, {'emri': 'Shtëpia', 'link': 'përkujdesje-për-kafshët-shtëpia'}, {'emri': 'Të Tjera', 'link': 'përkujdesje-për-kafshët-të-tjera'}]},
+              {'kategoria': 'Magazinim & Lavanderi', 'nenkategorite': [{'emri': 'Magazinim dhe organizim', 'link': 'magazinim-&-lavanderi-magazinim-dhe-organizim'}, {'emri': 'Lavanderi', 'link': 'magazinim-&-lavanderi-lavanderi'}, {'emri': 'Pastrues', 'link': 'magazinim-&-lavanderi-pastrues'}]},
+              {'kategoria': 'Produkte per bebe', 'nenkategorite': [{'emri': 'Mësim & Lojëra', 'link': 'produkte-per-bebe-mësim-&-lojëra'}, {'emri': 'Higjenë & Përkujdesje', 'link': 'produkte-per-bebe-higjenë-&-përkujdesje'}, {'emri': 'Mobilje', 'link': 'produkte-per-bebe-mobilje'}, {'emri': 'Tekstile Fjetje', 'link': 'produkte-per-bebe-tekstile-fjetje'}, {'emri': 'Karrige Makine & Karroca', 'link': 'produkte-per-bebe-karrige-makine-&-karroca'}, {'emri': 'Ngrënie & Aksesorë', 'link': 'produkte-per-bebe-ngrënie-&-aksesorë'}, {'emri': 'Siguri për bebe', 'link': 'produkte-per-bebe-siguri-për-bebe'}, {'emri': 'Fjongo', 'link': 'produkte-per-bebe-fjongo'}]},
+              {'kategoria': 'Dekor', 'nenkategorite': [{'emri': 'Dekorime muri', 'link': 'dekor-dekorime-muri'}, {'emri': 'Perde dhe metrazhe', 'link': 'dekor-perde-dhe-metrazhe'}, {'emri': 'Korniza dhe shufra për perde', 'link': 'dekor-korniza-dhe-shufra-për-perde'}, {'emri': 'Grila për dritare', 'link': 'dekor-grila-për-dritare'}, {'emri': 'Aksesorë për perde', 'link': 'dekor-aksesorë-për-perde'}, {'emri': 'Qirinj', 'link': 'dekor-qirinj'}, {'emri': 'Tapetë', 'link': 'dekor-tapetë'}, {'emri': 'Mbulesa tavoline', 'link': 'dekor-mbulesa-tavoline'}, {'emri': 'Vazo & Mbajtëse Qiri', 'link': 'dekor-vazo-&-mbajtëse-qiri'}, {'emri': 'Lule & Aromatikë', 'link': 'dekor-lule-&-aromatikë'}, {'emri': 'Kosha & Magazinim', 'link': 'dekor-kosha-&-magazinim'}, {'emri': 'Dhurata & Paketime', 'link': 'dekor-dhurata-&-paketime'}, {'emri': 'Jastekë', 'link': 'dekor-jastekë'}, {'emri': 'Qepje', 'link': 'dekor-qepje'}, {'emri': 'Ditelindje', 'link': 'dekor-ditelindje'}, {'emri': 'Festa', 'link': 'dekor-festa'}]},
+              {'kategoria': 'Tekstile dhe aksesore', 'nenkategorite': [{'emri': 'Tekstile Fjetje', 'link': 'tekstile-dhe-aksesore-tekstile-fjetje'}, {'emri': 'Tekstile Banje', 'link': 'tekstile-dhe-aksesore-tekstile-banje'}]},
+              {'kategoria': 'Bujqësi & Blegtori', 'nenkategorite': [{'emri': 'Pajisje kantine', 'link': 'bujqësi-&-blegtori-pajisje-kantine'}, {'emri': 'Makineri blegtorale', 'link': 'bujqësi-&-blegtori-makineri-blegtorale'}, {'emri': 'Makineri bujqësore', 'link': 'bujqësi-&-blegtori-makineri-bujqësore'}]},
+              {'kategoria': 'Veshje dhe Modë', 'nenkategorite': [{'emri': 'Femra', 'link': 'veshje-dhe-modë-femra'}, {'emri': 'Meshkuj', 'link': 'veshje-dhe-modë-meshkuj'}, {'emri': 'Uniseks', 'link': 'veshje-dhe-modë-uniseks'}, {'emri': 'Fëmijë', 'link': 'veshje-dhe-modë-fëmijë'}]},
+              {'kategoria': 'Ushqime dhe Pije', 'nenkategorite': [{'emri': 'Pije alkolike', 'link': 'ushqime-dhe-pije-pije-alkolike'}, {'emri': 'Pije jo-alkolike', 'link': 'ushqime-dhe-pije-pije-jo-alkolike'}, {'emri': 'Ushqime', 'link': 'ushqime-dhe-pije-ushqime'}]},
+              {'kategoria': 'Informatike', 'nenkategorite': [{'emri': 'Kompjuter', 'link': 'informatike-kompjuter'}, {'emri': 'Laptop', 'link': 'informatike-laptop'}, {'emri': 'Komponente', 'link': 'informatike-komponente'}, {'emri': 'Printer & Scaner', 'link': 'informatike-printer-&-scaner'}, {'emri': 'Adaptor & Kabuj', 'link': 'informatike-adaptor-&-kabuj'}, {'emri': 'Pajisje Rrjeti', 'link': 'informatike-pajisje-rrjeti'}, {'emri': 'Software', 'link': 'informatike-software'}, {'emri': 'Periferike', 'link': 'informatike-periferike'}, {'emri': 'Aksesore', 'link': 'informatike-aksesore'}, {'emri': 'Kancelari', 'link': 'informatike-kancelari'}]},
+              {'kategoria': 'Telefon & Tablet', 'nenkategorite': [{'emri': 'Telefon', 'link': 'telefon-&-tablet-telefon'}, {'emri': 'Tablet', 'link': 'telefon-&-tablet-tablet'}, {'emri': 'Aksesore', 'link': 'telefon-&-tablet-aksesore'}, {'emri': 'Smart Watches', 'link': 'telefon-&-tablet-smart-watches'}, {'emri': 'Kufje', 'link': 'telefon-&-tablet-kufje'}, {'emri': 'Pjese per servis', 'link': 'telefon-&-tablet-pjese-per-servis'}]},
+              {'kategoria': 'Tv Video & Audio', 'nenkategorite': [{'emri': 'Televizor', 'link': 'tv-video-&-audio-televizor'}, {'emri': 'Video Projektor', 'link': 'tv-video-&-audio-video-projektor'}, {'emri': 'Audio', 'link': 'tv-video-&-audio-audio'}, {'emri': 'DEKODER & TV BOX', 'link': 'tv-video-&-audio-dekoder-&-tv-box'}, {'emri': 'Aksesore per TV', 'link': 'tv-video-&-audio-aksesore-per-tv'}]},
+              {'kategoria': 'Dron - Kamera - Gimbal', 'nenkategorite': [{'emri': 'Produkte DJI', 'link': 'dron---kamera---gimbal-produkte-dji'}, {'emri': 'Produkte Feiytech', 'link': 'dron---kamera---gimbal-produkte-feiytech'}, {'emri': 'Produkte Zhiyun', 'link': 'dron---kamera---gimbal-produkte-zhiyun'}, {'emri': 'Produkte Xiaomi', 'link': 'dron---kamera---gimbal-produkte-xiaomi'}, {'emri': 'Camera', 'link': 'dron---kamera---gimbal-camera'}, {'emri': 'Aksesore te ndryshem', 'link': 'dron---kamera---gimbal-aksesore-te-ndryshem'}]},
+              {'kategoria': 'Lojera & Argetim', 'nenkategorite': [{'emri': 'Konsola', 'link': 'lojera-&-argetim-konsola'}, {'emri': 'Lojera', 'link': 'lojera-&-argetim-lojera'}, {'emri': 'Controllers', 'link': 'lojera-&-argetim-controllers'}, {'emri': 'Smart Balance', 'link': 'lojera-&-argetim-smart-balance'}, {'emri': 'Scooters', 'link': 'lojera-&-argetim-scooters'}]},
+              {'kategoria': 'Elektroshtepiake', 'nenkategorite': [{'emri': 'Kondicioner', 'link': 'elektroshtepiake-kondicioner'}, {'emri': 'Produkte Smart', 'link': 'elektroshtepiake-produkte-smart'}]}
+            ],
             overload: false,
+            fab: false,
+            chip4: true,
+            page: 1,
             range: [100, 30000],
             range1: [100, 30000],
             snackbar: false,
@@ -588,7 +434,7 @@ export default {
             drawer2: false, 
             group: false,
             group1: false,
-            renditja: "Default",
+            renditja: "Pa renditje",
             checkbox1: false,
             checkbox2: false,
             checkbox3: false,
@@ -596,7 +442,7 @@ export default {
             checkbox5: false,
             checkbox6: false,
             checkbox7: false,
-            white: false,
+            white: false,   
             jeshile: false,
             blue: false,
             red: false,
@@ -616,7 +462,70 @@ export default {
             colorCopy: []
         }
     },
+    created () {
+        // fetch the data when the view is created and the data is
+        // already being observed
+        this.fetchData();
+    },
+    watch: {
+        // call again the method if the route changes
+        '$route': 'fetchData'
+    },
     methods: {
+        async product(spot){
+            const currRoute = this.$route.path;
+            this.$router.push({path: currRoute + "/" + spot.toLowerCase(), query:{name: spot}});
+        },
+        async applyFilters(){
+            
+            var priceChecker = this.selected.filter((doc)=>{
+                return doc.kategoria == "price";
+            })
+            
+            console.log(priceChecker.length);
+
+            if(priceChecker.length == 0){
+                this.selected.push({
+                    kategoria: "price",
+                    min_value: this.range[0],
+                    max_value: this.range[1]
+                });
+            } else {
+                this.selected.forEach((el)=>{
+                    if(el.kategoria == "price"){
+                        el.min_value = this.priceTing.min_value;
+                        el.max_value = this.priceTing.max_value;
+                    }
+                })
+            }
+
+            var bodyFormData = new FormData();
+
+            bodyFormData.append('query_product', JSON.stringify({
+                filters: this.selected,
+                category: this.nameting,
+                last: this.last
+            }));
+
+            const all_Ids = [];
+            this.prods.forEach((doc)=>{
+                all_Ids.push(doc.id);
+            })
+
+            var obj = await this.$axios({
+                method: "post",
+                url: "http://34.65.32.131/filter",
+                data: bodyFormData,
+                headers: { "Content-Type": "multipart/form-data" },
+            })
+
+            this.prods = obj.data.produktet;
+
+            console.log("skr2: "+ JSON.stringify(obj.data.produktet));
+        },
+        sender(link, emri){
+            this.$router.push({path: "/kategorite/"+link, query:{name: emri, kategoria: this.kategoria}});
+        },
         loadMore: async function(){
             const newProds = this.all.slice(this.last, this.last+6);
             if(this.overload == true){
@@ -680,19 +589,6 @@ export default {
         sendToProduct: function (slug1, slug2){
             this.$router.push({path: "/kategorite" + slug1 + "/" + slug2});
         },
-        filterPrice: function(){
-            this.prods.sort((doc1, doc2) => {
-                if(doc1.details.priceLow && doc2.details.priceLow){
-                    return doc1.details.priceLow - doc2.details.priceLow;
-                } else if (doc1.details.priceLow && !doc2.details.priceLow){
-                    return doc1.details.priceLow - doc2.details.price;
-                } else if (!doc1.details.priceLow && doc2.details.priceLow){
-                    return doc1.details.price - doc2.details.priceLow;
-                } else {
-                    return doc1.details.price - doc2.details.price;
-                }
-            })
-        },
         filterPriceDes: function(){
             this.prods.sort((doc1, doc2) => {
                 if(doc2.details.priceLow && doc1.details.priceLow){
@@ -711,526 +607,37 @@ export default {
                 return doc2.details.likes - doc1.details.likes
             })
         },
-        applyPrice: function(){
-            
-            if(this.firstTime == true){
-                this.firstTime = false;
-                this.prodsCopy = this.prods;
-                
-                var joint2 = []
+        async checkBox(value, emri){
 
-                var listsAlgo = [];
-                
-                if(this.masaList.length > 0){
-                    listsAlgo.push(this.masaList);
-                } 
+            var bodyFormData = new FormData();
 
-                if(this.colorList.length > 0){
-                    listsAlgo.push(this.colorList);
-                } 
+            bodyFormData.append("filter_value", value);
+            bodyFormData.append("filter_name", emri);
 
-                if(this.priceList.length > 0){
-                    listsAlgo.push(this.priceList);
-                } 
-
-                console.log(listsAlgo.length);
-
-                if(listsAlgo.length == 0){
-                    joint2 = this.prods;
-                } else if(listsAlgo.length == 1){
-                    joint2 = listsAlgo[0];
-                } else if(listsAlgo.length == 2){
-                    joint2 = listsAlgo[0].filter((doc)=>{
-                        return listsAlgo[1].includes(doc);
-                    });
-                } else {
-                    const joint1 = listsAlgo[0].filter((doc)=>{
-                        return listsAlgo[1].includes(doc);
-                    });
-
-                    joint2 = joint1.filter((item)=>{
-                        return listsAlgo[2].includes(item);
-                    });
+            var obj  = await this.$axios({
+                method: "post",
+                url: "http://34.65.32.131/filter_redirect",
+                data: bodyFormData,
+                headers:{
+                    "Content-Type": "multipart/form-data"
                 }
+            })
 
-                this.prods = joint2;
-
-                this.colorList = [];
-                this.priceList = [];
-                this.masaList = [];
-
-            } else {
-
-                var joint2 = []
-
-                var listsAlgo = [];
-                
-                if(this.masaList.length > 0){
-                    listsAlgo.push(this.masaList);
-                } 
-
-                if(this.colorList.length > 0){
-                    listsAlgo.push(this.colorList);
-                    console.log("perfect")
-                } 
-
-                if(this.priceList.length > 0){
-                    listsAlgo.push(this.priceList);
-                } 
-
-                console.log(listsAlgo.length);
-
-                if(listsAlgo.length == 0){
-                    joint2 = this.prods;
-                } else if(listsAlgo.length == 1){
-                    joint2 = listsAlgo[0];
-                } else if(listsAlgo.length == 2){
-                    joint2 = listsAlgo[0].filter((doc)=>{
-                        return listsAlgo[1].includes(doc);
-                    });
-                } else {
-                    const joint1 = listsAlgo[0].filter((doc)=>{
-                        return listsAlgo[1].includes(doc);
-                    });
-
-                    joint2 = joint1.filter((item)=>{
-                        return listsAlgo[2].includes(item);
-                    });
+            this.$router.push({
+                path: "/kategorite/" + obj.data.linku,
+                query: {
+                    name: obj.data.category_name,
+                    kategoria: obj.data.departament
                 }
-
-                this.prods = joint2;
-
-                this.colorList = [];
-                this.priceList = [];
-                this.masaList = [];
-            }
-            
-        },
-        resetFilter(){
-            this.checkbox1 = false;
-            this.checkbox2 = false;
-            this.checkbox3 = false;
-            this.checkbox4 = false;
-            this.checkbox5 = false;
-            this.checkbox6 = false;
-            this.checkbox7 = false;
-            this.white = false;
-            this.jeshile = false;
-            this.blue = false;
-            this.red = false;
-            this.yellow = false;
-            this.range[0]=100;
-            this.range[1]=30000;
-            this.prods = this.prodsCopy;
-        },
-        greenColor1: function(){
-            try{
-                this.white = false;
-                this.red = false;
-                this.yellow = false;
-                this.blue = false;
-
-                if(this.jeshile == true){
-                    if(this.firstTime == true){
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.ngjyra == "Jeshile";
-                    });
-
-                    var newColorList = this.colorList.concat(needed);
-
-                    newColorList = [...new Set([...this.colorList, ...needed])];
-
-                    console.log(JSON.stringify(newColorList));
-
-                    this.colorList = newColorList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.ngjyra != "Jeshile" || item.details.ngjyra == "Jeshile";
-                    });
-
-                    this.colorList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        yellowColor: function(){
-            try{
-                this.white = false;
-                this.red = false;
-                this.blue = false;
-                this.jeshile = false;
-
-                if(this.yellow == true){
-                    if(this.firstTime == true){
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.ngjyra == "E verdhe";
-                    });
-
-                    var newColorList = this.colorList.concat(needed);
-
-                    newColorList = [...new Set([...this.colorList, ...needed])];
-
-                    console.log(JSON.stringify(newColorList));
-
-                    this.colorList = newColorList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.ngjyra != "E verdhe" || item.details.ngjyra == "E verdhe";
-                    });
-
-                    this.colorList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        blueColor: function(){
-            try{
-                this.white = false;
-                this.red = false;
-                this.yellow = false;
-                this.jeshile = false;
-
-                if(this.blue == true){
-                    if(this.firstTime == true){
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.ngjyra == "Blu";
-                    });
-
-                    var newColorList = this.colorList.concat(needed);
-
-                    newColorList = [...new Set([...this.colorList, ...needed])];
-
-                    console.log(JSON.stringify(newColorList));
-
-                    this.colorList = newColorList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.ngjyra != "Blu" || item.details.ngjyra == "Blu";
-                    });
-
-                    this.colorList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        whiteColor: function(){
-            try{
-                this.blue = false;
-                this.red = false;
-                this.yellow = false;
-                this.jeshile = false;
-
-                if(this.white == true){
-                    if(this.firstTime == true){
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.ngjyra == "E bardhe";
-                    });
-
-                    var newColorList = this.colorList.concat(needed);
-
-                    newColorList = [...new Set([...this.colorList, ...needed])];
-
-                    console.log(JSON.stringify(newColorList));
-
-                    this.colorList = newColorList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.ngjyra != "E bardhe" || item.details.ngjyra == "E bardhe";
-                    });
-
-                    this.colorList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        redColor: function(){
-            try{
-                this.white = false;
-                this.blue = false;
-                this.yellow = false;
-                this.jeshile = false;
-
-                if(this.red == true){
-                    if(this.firstTime == true){
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.ngjyra == "E kuqe";
-                    });
-
-                    var newColorList = this.colorList.concat(needed);
-
-                    newColorList = [...new Set([...this.colorList, ...needed])];
-
-                    console.log(JSON.stringify(newColorList));
-
-                    this.colorList = newColorList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.ngjyra != "E kuqe" || item.details.ngjyra == "E kuqe";
-                    });
-
-                    this.colorList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        checkBox1: function(){
-            try{
-
-                if(this.checkbox1 == true){
-                    if(this.firstTime == true){
-                        this.firstTime = false;
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.masa == "XS";
-                    });
-
-                    var newMasaList = this.masaList.concat(needed);
-
-                    newMasaList = [...new Set([...this.colorList, ...needed])];
-
-                    this.masaList = newMasaList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.masa != "XS" || item.details.masa == "XS";
-                    });
-
-                    this.masaList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        checkBox2: function(){
-            try{
-
-                if(this.checkbox2 == true){
-                    if(this.firstTime == true){
-                        this.firstTime = false;
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.masa == "S";
-                    });
-
-                    var newMasaList = this.masaList.concat(needed);
-
-                    newMasaList = [...new Set([...this.colorList, ...needed])];
-
-                    this.masaList = newMasaList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.masa != "S" || item.details.masa == "S";
-                    });
-
-                    this.masaList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        checkBox3: function(){
-            try{
-
-                if(this.checkbox3 == true){
-                    if(this.firstTime == true){
-                        this.firstTime = false;
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.masa == "M";
-                    });
-
-                    var newMasaList = this.masaList.concat(needed);
-
-                    newMasaList = [...new Set([...this.colorList, ...needed])];
-
-                    this.masaList = newMasaList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.masa != "M" || item.details.masa == "M";
-                    });
-
-                    this.masaList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        checkBox4: function(){
-            try{
-
-                if(this.checkbox4 == true){
-                    if(this.firstTime == true){
-                        this.firstTime = false;
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.masa == "L";
-                    });
-
-                    var newMasaList = this.masaList.concat(needed);
-
-                    newMasaList = [...new Set([...this.colorList, ...needed])];
-
-                    this.masaList = newMasaList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.masa != "L" || item.details.masa == "L";
-                    });
-
-                    this.masaList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        checkBox5: function(){
-            try{
-
-                if(this.checkbox5 == true){
-                    if(this.firstTime == true){
-                        this.firstTime = false;
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.masa == "XL";
-                    });
-
-                    var newMasaList = this.masaList.concat(needed);
-
-                    newMasaList = [...new Set([...this.colorList, ...needed])];
-
-                    this.masaList = newMasaList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.masa != "XL" || item.details.masa == "XL";
-                    });
-
-                    this.masaList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        checkBox6: function(){
-            try{
-
-                if(this.checkbox6 == true){
-                    if(this.firstTime == true){
-                        this.firstTime = false;
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.masa == "2XL";
-                    });
-
-                    var newMasaList = this.masaList.concat(needed);
-
-                    newMasaList = [...new Set([...this.colorList, ...needed])];
-
-                    this.masaList = newMasaList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.masa != "2XL" || item.details.masa == "2XL";
-                    });
-
-                    this.masaList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        checkBox7: function(){
-            try{
-
-                if(this.checkbox7 == true){
-                    if(this.firstTime == true){
-                        this.firstTime = false;
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.masa == "3XL";
-                    });
-
-                    var newMasaList = this.masaList.concat(needed);
-
-                    newMasaList = [...new Set([...this.colorList, ...needed])];
-
-                    this.masaList = newMasaList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.masa != "3XL" || item.details.masa == "3XL";
-                    });
-
-                    this.masaList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
+            });
         },
         pricer: function(){
-            try{
-                this.priceList = [];
-
-                console.log(JSON.stringify(this.priceList));
-
-                const needed = this.prods.filter((doc)=>{
-                    return parseInt(doc.details.price) >= this.range[0] && parseInt(doc.details.price) <= this.range[1];
-                });
-            
-                console.log(JSON.stringify(needed));
-
-                const newPriceList = this.priceList.concat(needed);
-
-                console.log(JSON.stringify(newPriceList));
-
-                this.priceList = newPriceList;
-                
-            } catch(e){
-                console.log(e);
-            }
-
-
+            var priceList = {
+                kategoria: "price",
+                min_value: this.range[0],
+                max_value: this.range[1]
+            };
+            this.priceTing = priceList;
         },
         favorite: function(product){
             if(process.browser){
@@ -1252,6 +659,26 @@ export default {
             pavs.push(product);
             localStorage.setItem("products", JSON.stringify(pavs));
             this.itemFaved = true;
+        },
+        fetchData: async function () {
+            const fetchedId = this.$route.query.search;
+            // replace `getPost` with your data fetching util / API wrapper
+            var obj = await this.$axios({
+                method: "post",
+                url: "http://34.65.32.131/search_click",
+                params: {
+                    query_text: fetchedId,
+                    query_product: 9
+                },
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            })
+
+            console.log(JSON.stringify(obj.data))
+
+            this.all = obj.data.produktet;
+            this.prods = obj.data.produktet;
+            this.last= 9;
+            this.route = fetchedId;
         }
     }
     

@@ -17,7 +17,7 @@
                                 <p class="qs sell-price">{{prod.details.price}} ALL</p>
                                 <div class="func-row">
                                     <v-btn color="secondary" class="rounded-md" small @click="edit(prod, prod.spot)">Perpuno</v-btn>
-                                    <v-btn color="primary" class="rounded-md" small @click="remove(prod, prod.spot)">Hiq</v-btn>
+                                    <v-btn color="primary" class="rounded-md" small @click="remove(prod.id)">Hiq</v-btn>
                                 </div>
                             </div>
                         </div>
@@ -110,15 +110,19 @@
                         dense
                         outlined
                         dark
-                        color="secondary"
+                        color="white"
                         :error-messages="katErrors" 
                         required 
-                        @input="$v.kategorita.$touch()"
+                        @input="$v.kategorita.$touch(); overload()"
                     ></v-select>
                     <div class="vert" v-for="post in postings" :key="post.id">
                         <p class="qs white--text">Fotoja {{postings.indexOf(post)}}</p>
                         <p class="qs white--text pa-0 ma-0">Momentalisht: {{post.emri}}</p>
-                        <v-btn x-small color="white" class="secondary--text mb-5 mt-2" @click="postings.splice(postings.indexOf(post), 1)">Remove</v-btn>
+                        <v-row class="mx-auto">
+                            <v-btn x-small color="white" class="secondary--text mb-5 mt-4 mr-2" v-if="post.type != 'trash'" @click="removeImage(post.photo_uuid)">Remove</v-btn>
+                            <v-btn x-small color="white" class="secondary--text mb-5 mt-4 mr-2" v-if="post.type == 'trash'" @click="removeClass(post.photo_uuid)">Remove</v-btn>
+                            <v-btn x-small color="white" class="secondary--text mb-5 mt-4" @click="changePhoto(postings.indexOf(post), post.photo_uuid)">Change</v-btn>
+                        </v-row>
                     </div>
                     <v-row justify="center full-width mt-6 custom-right">
                         <v-fab-transition>
@@ -145,65 +149,22 @@
                 <v-subheader class="white--text">Detajet - opsionale</v-subheader>
                 <v-list-item>
                     <v-list-item-content >
-                    <div class="fab-holder">
+                    <div class="fab-holder" v-if="responseData != null">
                         <v-select
-                            v-model="masa"
-                            :items = masat
-                            placeholder="Masa"
+                            v-for="item in responseData.filtrat"
+                            :key="item.id"
+                            v-model="responseData.filtrat[responseData.filtrat.indexOf(item)].value"
+                            :items="responseData.filtrat[responseData.filtrat.indexOf(item)].values"
+                            :placeholder="responseData.filtrat[responseData.filtrat.indexOf(item)].emri"
                             outlined
                             clearable
                             dense
                             dark
-                            color="secondary"
+                            color="white"
                             class="pc-small"
                             item-color="white"
+                            @change="likkleting(responseData.filtrat[responseData.filtrat.indexOf(item)].emri, responseData.filtrat[responseData.filtrat.indexOf(item)].value)"
                         ></v-select>
-                        <v-text-field
-                            v-model="sizey"
-                            label="Dimensionet(psh.: 40x60cm)"
-                            outlined
-                            clearable
-                            dense
-                            dark
-                            color="secondary"
-                            class="pc-small"
-                        ></v-text-field>
-                        <v-text-field
-                            v-model="pesha"
-                            label="Pesha(psh.: 200g)"
-                            outlined
-                            clearable
-                            dense
-                            dark
-                            color="secondary"
-                            class="pc-small"
-                        ></v-text-field>
-                        <v-select
-                            v-model="ngjyra"
-                            placeholder="Ngjyra"
-                            :items="ngjyrat"
-                            chips
-                            item-color="white"
-                            outlined
-                            clearable
-                            dense
-                            dark
-                            color="secondary"
-                            class="pc-small"
-                        >
-                            <template #selection="{ item }">
-                                <v-chip color="#f2f2f2" text-color="#f2f2f2" v-if="item == 'E bardhe'">-|</v-chip>
-                                <p class="qs pa-0 ma-0 white--text" v-if="item == 'E bardhe'">E bardhe</p>
-                                <v-chip color="primary" text-color="primary" v-if="item == 'E kuqe'">-|</v-chip>
-                                <p class="qs pa-0 ma-0 white--text" v-if="item == 'E kuqe'">E kuqe</p>
-                                <v-chip color="blue darken-4" text-color="blue darken-4" v-if="item == 'Blu'">-|</v-chip>
-                                <p class="qs pa-0 ma-0 white--text" v-if="item == 'Blu'">Blu</p>
-                                <v-chip color="yellow darken-3" text-color="yellow darken-3" v-if="item == 'E verdhe'">-|</v-chip>
-                                <p class="qs pa-0 ma-0 white--text" v-if="item == 'E verdhe'">E verdhe</p>
-                                <v-chip color="green darken-2" text-color="green darken-2" v-if="item == 'Jeshile'">-|</v-chip>
-                                <p class="qs pa-0 ma-0 white--text" v-if="item == 'Jeshile'">Jeshile</p>
-                            </template>
-                        </v-select>
                     </div>
                     </v-list-item-content>
                 </v-list-item>
@@ -309,17 +270,65 @@
             >
                 Cancel
             </v-btn>
+            </v-card-actions>
+        </v-card>
+        </v-dialog>
+        <v-dialog
+        v-model="changeP"
+        max-width="240"
+        >
+        <v-card color="primary">
+            <v-card-title class="headline qs">
+            Ndrysho foto
+            </v-card-title>
+
+            <v-card-text class="qs">
+                <input
+                    ref="imageFile"
+                    placeholder="Profile photo"
+                    accept="image/png, image/jpeg"
+                    class="inputFileR ml-1"
+                    type="file"
+                    name="file"
+                    @input="uploadImageFile3($event.target.files)"
+                    style="width: 200px;"
+                >
+            </v-card-text>
+
+            <v-card-actions>
+            <v-spacer></v-spacer>
             <v-btn
                 color="white"
                 text
-                @click="addNew"
+                @click="newP = false"
             >
-                Shto
+                Cancel
             </v-btn>
             </v-card-actions>
         </v-card>
         </v-dialog>
         </v-dialog>
+        <!-- Loading dialog -->
+        <v-dialog
+        v-model="loading"
+        max-width="240"
+        >
+        <v-card color="secondary">
+            <v-card-title class="headline qs">
+            Ju lutem prisni...
+            </v-card-title>
+
+            <v-card-text class="qs">
+            <v-row justify="center" class="mt-3 pb-5">
+                <v-progress-circular
+                indeterminate
+                color="primary"
+                ></v-progress-circular>
+            </v-row>
+            </v-card-text>
+        </v-card>
+        </v-dialog>
+        <!-- Loading dialog ends-->
         <v-dialog
         v-model="dialog2"
         max-width="240"
@@ -346,6 +355,25 @@
             </v-card-actions>
         </v-card>
         </v-dialog>
+        <v-dialog
+        v-model="loading2"
+        max-width="240"
+        >
+        <v-card color="secondary">
+            <v-card-title class="headline qs">
+            Ju lutem prisni...
+            </v-card-title>
+
+            <v-card-text class="qs">
+            <v-row justify="center" class="mt-3 pb-5">
+                <v-progress-circular
+                indeterminate
+                color="primary"
+                ></v-progress-circular>
+            </v-row>
+            </v-card-text>
+        </v-card>
+        </v-dialog>
   </div>
 </template>
 
@@ -357,23 +385,36 @@ import {validationMixin} from 'vuelidate'
 import {required, minLength, numeric} from 'vuelidate/lib/validators'
 export default {
     mixins: [validationMixin],
-    async asyncData({route, store}){
+    async asyncData({route, store, $axios}){
         const data = await firebase.firestore().collection('users').where("email", "==", store.state.users.user.email).get();
         const dataF = data.docs.map(doc => doc.data());
 
-        const dataE = await firebase.firestore().collection('elektronike').where("owner", "==", dataF[0].username.toLowerCase()).get();
-        const dataFiltered = dataE.docs.map(doc => doc.data());
+        var obj = await $axios({
+                method: "post",
+                url: "http://34.65.32.131/to_edit_products",
+                params: {
+                    owner: route.query.name
+                },
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            })
 
         var fotoErsatz = dataF.photo ? dataF.photo : null;
+
+        console.log(JSON.stringify(obj.data));
 
         return{
             nameOfS: dataF[0].username,
             photo: fotoErsatz,
-            prods: dataFiltered
+            prods: obj.data,
+
         }
     },
     data(){
         return{
+            loading2: false,
+            shit: [],
+            changeP: false,
+            changeIndex: null,
             masat: [
                 "XS",
                 "S",
@@ -394,22 +435,18 @@ export default {
             dialog: false,
             photoProb: false,
             notifications: false,
-            kategorita: "",
+            kategorita: null,
             sound: true,
             widgets: false,
             detailsToEdit: {
                 details: {
-                    name: "",
-                    price: "",
-                    desc: "",
-                    seller: "",
-                    sellerPhoto: "",
-                    details: [
-                        ""
-                    ]
+                    name: null,
+                    price: null,
+                    photos: null,
+                    desc: null,
+                    priceLow: null,
+                    kategoria: null
                 },
-                spot: ""
-
             },
             spot: null,
             dialog2: false,
@@ -418,42 +455,251 @@ export default {
             tabs: null,
             totalD: 1,
             kateg: [
-                "TV & Vidjo",
-                "Audjo Shtepish",
-                "Kamera, Foto & Vidjo",
-                "Telefon & Aksesore",
-                "Vidjo Lojra",
-                "Elektronike Makine",
-                "Produkte Zyrash",
-                "Produkte Shkollore",
-                "Printer",
-                "Projektore",
-                "Libra",
-                "Kompjutra, Tableta",
-                "Monitor",
-                "Pjese Kompjuterash",
+                "Dekorime për Krishtlindje",
+                "Artikuj Plazhi",
+                "Embëlsira dhe biskota",
+                "Pajisje Sanitare",
+                "Aksesorë bashkues dhe kaseta",
+                "Mobilje për banjo",
+                "Aksesorë për banjo",
+                "Produkte për Njerëz me Aftësi të Kufizuar",
+                "Sauna",
+                "Përkujdesje Personale",
+                "Tapetë për tualet",
+                "Higjenë",
+                "Pastrim",
+                "Pastrim Profesional",
+                "Higjenë profesional",
+                "Higjenë",
+                "Tuba dhe rakorderi",
+                "Aksesorë metali",
+                "Vegla Ndërtimi",
+                "Silikon",
+                "Shkarkimi i ujrave të përdorura",
+                "Sistemi  i thatë",
+                "Izolimi termo-akustik",
+                "Inerte dhe aditive",
+                "Hidroizolim dhe mbrojtje",
+                "Elemente ndërtimtarie bazë",
+                "Druri",
+                "Streha dhe mbulesa",
+                "Shkarkime të përgjithshme",
+                "Sisteme ajrimi dhe oxhaqesh",
+                "Dyshemetë e jashtme",
+                "Hekur dhe profile",
+                "Depozita",
+                "Sinjalistika",
+                "Skela",
+                "Makineri ndërtimi",
+                "Elektrike",
+                "Karburant",
+                "Dru dhe Pelet",
+                "Alternative",
+                "Ambjent Dite",
+                "Ambjent Nate",
+                "Ambient studimi dhe zyrë",
+                "Dekorime",
+                "Magazinim dhe organizim",
+                "Produkte për bebe",
+                "Ambjent i jashtëm",
+                "Ambient Kuzhine",
+                "Parket",
+                "Pllaka",
+                "Mokete dhe linoleume",
+                "Pajisje për Instalime Elektrike",
+                "Sisteme Sigurie",
+                "Kabëll dhe Aksesorë",
+                "Pajisje Elektrike",
+                "Elektrike të Tjera",
+                "Pajisje Industriale dhe Profesionale",
+                "Ndriçues të brendshem",
+                "Ndricues Kopshti",
+                "Llamba",
+                "Lavapjata",
+                "Enë kuzhine",
+                "Aksesorë për kuzhina",
+                "Pastrues",
+                "Pastrim Profesional",
+                "Uniforma Pune",
+                "Higjenë",
+                "Higjenë Profesional",
+                "Bisktota -caj",
+                "Binare dhe Ristela",
+                "Lëndë Zdrukthtarie",
+                "Shkallë",
+                "Brava/Doreza dhe aksesorë",
+                "Dritare",
+                "Dyer të brendshme",
+                "Dyer të jashtme",
+                "Dekorime",
+                "Arredim i jashtëm",
+                "Lule dhe bimë",
+                "Vegla kopshti elektrike",
+                "Vegla kopshti me bateri",
+                "Vegla kopshti me karburant",
+                "Vegla kopshti manuale",
+                "Sisteme dhe pajisje për vaditje",
+                "Barbekju",
+                "Pajisje kantine",
+                "Aksesorë",
+                "Insekticide",
+                "Tuba & Rakorderi",
+                "Aksesorë për vegla kopshti",
+                "Artikuj Plazhi",
+                "Pllaka",
+                "Artikuj Plazhi",
+                "Pastrim",
+                "Bojra per Jashte",
+                "Bojra per Brenda",
+                "Bojra Dekorative",
+                "Bojra Druri",
+                "Bojra Metali",
+                "Letra Muri",
+                "Tretes",
+                "Sprai",
+                "Ngjites",
+                "Vegla Lyerje",
+                "Silikon",
+                "Vegla ndërtimi",
+                "Bojera per Piktor",
+                "Penela",
+                "Korniza Fotosh dhe  Pikturash",
+                "Piktura",
+                "Të Tjera",
+                "Sisteme Zjarrfikse",
+                "Profesionale/Industriale",
+                "Tuba dhe Rakorderi",
+                "Hardware",
+                "Vegla Ndërtimi",
+                "Veshje Pune Sigurie",
+                "Vegla Elektrike",
+                "Vegla Elektrike me Bateri",
+                "Aksesorë për Vegla Elektrike",
+                "Vegla Mekanike",
+                "Vegla Matëse",
+                "Vegla makine dhe Aksesore",
+                "Produkte sigurie",
+                "Materiale Arkivimi",
+                "Instrumenta shkrimi",
+                "Organizues tavoline",
+                "Pajisje lidhëse",
+                "Kartoleri dhe Letër",
+                "Krijimtari për fëmijë",
+                "Tempera, bojëra dhe lapostila",
+                "Memorje e jashtme",
+                "Të Tjera",
+                "Aksesorë zyre",
+                "Tabela",
+                "Makina llogaritëse",
+                "Audio dhe Video",
+                "IT",
+                "Kabëll",
+                "Çanta",
+                "Pastrues",
+                "Mirëmbajtja",
+                "Solucione dhe aditivë",
+                "Trajtues sipërfaqesh dhe lustrues",
+                "Aksesorë",
+                "Llamba Makine",
+                "Aksesore udhetimi te montueshem",
+                "Mjete peshkimi",
+                "Kamping",
+                "Biçikleta",
+                "Palestra",
+                "Artikuj Sportiv",
+                "Valixhe dhe çanta udhëtimi",
+                "Kamping",
+                "Frigoriferë",
+                "Lavatriçe & Tharëse",
+                "Pajisje Gatimi",
+                "Lavastovilie",
+                "Elektroshtëpiake të vogla",
+                "Fshesa me vakum",
+                "TV dhe Audio",
+                "Ushqimi",
+                "Higjena dhe kozmetika",
+                "Shëtitje dhe argëtim",
+                "Shtëpia",
+                "Të Tjera",
+                "Magazinim dhe organizim",
+                "Lavanderi",
+                "Pastrues",
+                "Mësim & Lojëra",
+                "Higjenë & Përkujdesje",
+                "Mobilje",
+                "Tekstile Fjetje",
+                "Karrige Makine & Karroca",
+                "Ngrënie & Aksesorë",
+                "Siguri për bebe",
+                "Fjongo",
+                "Dekorime muri",
+                "Perde dhe metrazhe",
+                "Korniza dhe shufra për perde",
+                "Grila për dritare",
+                "Aksesorë për perde",
+                "Qirinj",
+                "Tapetë",
+                "Mbulesa tavoline",
+                "Vazo & Mbajtëse Qiri",
+                "Lule & Aromatikë",
+                "Kosha & Magazinim",
+                "Dhurata & Paketime",
+                "Jastekë",
+                "Qepje",
+                "Ditelindje",
+                "Festa",
+                "Tekstile Fjetje",
+                "Tekstile Banje",
+                "Pajisje kantine",
+                "Makineri blegtorale",
+                "Makineri bujqësore",
+                "Femra",
+                "Meshkuj",
+                "Uniseks",
+                "Fëmijë",
+                "Pije alkolike",
+                "Pije jo-alkolike",
+                "Ushqime",
+                "Kompjuter",
+                "Laptop",
+                "Komponente",
+                "Printer & Scaner",
+                "Adaptor & Kabuj",
+                "Pajisje Rrjeti",
+                "Software",
+                "Periferike",
                 "Aksesore",
-                "Kozmetike",
-                "Lodra",
-                "Bebe",
-                "Palester & Fitness",
-                "Gjueti & Peshkim",
-                "Rroba Atletike",
-                "Golf",
-                "Moblije Shtepie",
-                "Kuzhina",
-                "Dyshek & Banje",
-                "Kopesht & Outdoor",
-                "Produkte Kafshesh",
-                "Vegla Pune",
-                "Rroba femrash",
-                "Rroba meshkujsh"
+                "Kancelari",
+                "Telefon",
+                "Tablet",
+                "Aksesore",
+                "Smart Watches",
+                "Kufje",
+                "Pjese per servis",
+                "Televizor",
+                "Video Projektor",
+                "Audio",
+                "DEKODER & TV BOX",
+                "Aksesore per TV",
+                "Produkte DJI",
+                "Produkte Feiytech",
+                "Produkte Zhiyun",
+                "Produkte Xiaomi",
+                "Camera",
+                "Aksesore te ndryshem",
+                "Konsola",
+                "Lojera",
+                "Controllers",
+                "Smart Balance",
+                "Scooters",
+                "Kondicioner",
+                "Produkte Smart"
             ],
-            prodPhoto: "",
-            namey: "",
-            pricey: "",
-            descy: "",
-            detailsy: "",
+            prodPhoto: null,
+            namey: null,
+            pricey: null,
+            descy: null,
+            detailsy: null,
             postings: [],
             toShow: [],
             kategoritaPrefix: "",
@@ -462,18 +708,19 @@ export default {
                     detail: ""
                 }
             ],
-            pesha: null,
-            masa: "",
-            sizey: "",
-            ngjyra: "",
             eternalName: "",
             pending: null,
             newP: false,
             priceyLow: null,
             likes: 0,
             likers: 0,
-            creationTime: null
-
+            creationTime: null,
+            loading: false,
+            id: null,
+            instructions: null,
+            responseData: null,
+            operations: [],
+            changeId: null
         }
     },
     validations: {
@@ -492,66 +739,104 @@ export default {
             required
         }
     },
-    computed: {
-        nameyyErrors(){
-            const errors = []
-            if (!this.$v.namey.$dirty) return errors
-            !this.$v.namey.required && errors.push('Emri eshte i detyrueshem')
-            !this.$v.namey.minLength && errors.push('Gjatesia minimale eshte 6 shkronja')
-            return errors
-        },
-        priceyErrors(){
-            const errors = []
-            if (!this.$v.pricey.$dirty) return errors
-            !this.$v.pricey.required && errors.push('Cmimi eshte i detyrueshem')
-            !this.$v.pricey.numeric && errors.push('Vetem numra')
-            return errors
-        },
-        priceyLowErrors(){
-            const errors = []
-            if (!this.$v.priceyLow.$dirty) return errors
-            !this.$v.priceyLow.numeric && errors.push('Vetem numra')
-            return errors
-        },
-        katErrors(){
-            const errors = []
-            if (!this.$v.kategorita.$dirty) return errors
-            !this.$v.kategorita.required && errors.push('Kategoria eshte i detyrueshem')
-            return errors
-        }
-    },
     methods: {
+        async overload(){
+
+            this.operations = this.operations.filter((fi)=>{
+                return fi.identifier != "karllik";
+            })
+
+            var bodyFormData = new FormData();
+
+            bodyFormData.append('category', this.kategorita);
+
+
+            var obj = await this.$axios({
+                method: "post",
+                url: "http://34.65.32.131/categories",
+                data: bodyFormData,
+                headers: { "Content-Type": "multipart/form-data" },
+            })
+            
+
+            this.responseData = obj.data;
+
+            console.log(JSON.stringify(obj.data));
+            
+            this.detailsToEdit = {
+                details: {
+                    name: this.namey,
+                    price: this.pricey,
+                    photos: this.postings,
+                    desc: this.descy,
+                    priceLow: this.priceLow,
+                    kategoria: this.kategorita
+                }
+            }
+
+            console.log(this.responseData);
+        },
+        likkleting(emri, value){
+            var key = emri;
+            this.detailsToEdit.details[key] = value;
+            this.operations.push({
+                "fieldname" : key,
+                "new_value" : value,
+                identifier: "karllik"
+            });
+        },
+        removeImage: function(id){
+            this.operations.push({
+                "fieldname" : "photos",
+                "operation" : "delete",
+                "photo_uuid" : id
+            });
+            this.postings = this.postings.filter((doc)=>{
+                return doc.photo_uuid != id;
+            });
+        },
+        removeClass: function(id){
+            this.operations.filter((el)=>{
+                return el.photo_uuid != id;
+            });
+            this.postings = this.postings.filter((doc)=>{
+                return doc.photo_uuid != id;
+            });
+        },
         edit: function (prod, spot){
-            this.detailsToEdit = prod;
-            this.spot = spot;
-            this.namey = prod.details.name;
-            this.eternalName = spot;
-            this.pricey = prod.details.price;
-            this.priceyLow = prod.details.priceLow;
-            this.descy = prod.details.desc;
-            this.detailsy = prod.details.details;
+
+
+
             this.postings = prod.details.photos;
             this.postings.forEach((doc) => {
-                this.toShow.push(doc.emri);
+                doc.index = this.postings.indexOf(doc);
+                doc.changed = false;
+                doc.type = "refurbished";
             });
-            this.toShow.shift();
-            this.kategorita = prod.details.kategoria;
-            this.pesha = prod.details.pesha;
-            this.ngjyra = prod.details.ngjyra;
-            this.masa = prod.details.masa;
-            this.sizey = prod.details.sizey;
-            this.likes = prod.details.likes;
-            this.likers = prod.details.likers;
-            this.creationTime = prod.creationTime;
+
+            this.id = prod.id;
 
             this.dialog = true;
         },
-        remove: async function (prod, spot){
-            await firebase.firestore().collection('elektronike').doc(prod.details.name).delete();
-            this.prods.filter((doc) => {
-                return doc.details.name != prod.details.name; 
-            });
-            alert("Item removed!")
+        remove: async function (iden){
+            
+            var obj = await this.$axios({
+                method: "post",
+                url: "http://34.65.32.131/delete_products",
+                params: {
+                    product_id: iden
+                },
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            }).then(()=>{
+               this.$buefy.notification.open({
+                    message: 'Produkti u fshi!',
+                    type: 'is-success'
+                })
+            })
+
+            this.prods = this.prods.filter((el)=>{
+                return el.id != iden;
+            })
         },
         close: function(){
             this.namey = "";
@@ -565,6 +850,7 @@ export default {
             this.selectedMeta = null;
             this.prodPhoto = "";
             this.spot = null;
+            this.operations = [];
 
             this.dialog = false;
             return;
@@ -585,94 +871,6 @@ export default {
             this.newP = false;
             console.log(this.lengy);
             setTimeout(()=>{this.loading = false}, 30000);
-        },
-        uploadImageFile (files) {
-            if (!files.length) {
-                return
-            }
-            const filey = files[0]
-
-            if (!filey.type.match('image.*')) {
-                alert('Please upload an image.')
-                return
-            }
-
-            const metadata = {
-                contentType: filey.type
-            }
-            
-            this.selectedMeta = metadata;
-
-            this.selectedFile = filey;
-
-            const file = this.selectedFile;
-            const metadata1 = this.selectedMeta;
-            const storage = firebase.storage()
-            const imageRef = storage.ref(`images/${file.name}`)
-
-            const uploadTask = imageRef.put(file, metadata1).then((snapshot) => {
-                // Once the image is uploaded, obtain the download URL, which
-                // is the publicly accessible URL of the image.
-                return snapshot.ref.getDownloadURL().then((url) => {
-                return url
-                })
-            }).catch((error) => {
-                console.error('Error uploading image', error)
-            })
-
-            // When the upload ends, set the value of the blog image URL
-            // and signal that uploading is done.
-            uploadTask.then( (url) => {
-                this.postings.push({
-                    src: url,
-                    emri: file.name
-                });
-            })
-            
-        },
-        uploadImageFile1 (files) {
-            if (!files.length) {
-                return
-            }
-            const filey = files[0]
-
-            if (!filey.type.match('image.*')) {
-                alert('Please upload an image.')
-                return
-            }
-
-            const metadata = {
-                contentType: filey.type
-            }
-            
-            this.selectedMeta = metadata;
-
-            this.selectedFile = filey;
-
-            const file = this.selectedFile;
-            const metadata1 = this.selectedMeta;
-            const storage = firebase.storage()
-            const imageRef = storage.ref(`images/${file.name}`)
-
-            const uploadTask = imageRef.put(file, metadata1).then((snapshot) => {
-                // Once the image is uploaded, obtain the download URL, which
-                // is the publicly accessible URL of the image.
-                return snapshot.ref.getDownloadURL().then((url) => {
-                return url
-                })
-            }).catch((error) => {
-                console.error('Error uploading image', error)
-            })
-
-            // When the upload ends, set the value of the blog image URL
-            // and signal that uploading is done.
-            uploadTask.then( (url) => {
-                this.postings.push({
-                    src: url,
-                    emri: file.name
-                });
-            })
-            
         },
         uploadImageFile2 (files) {
             if (!files.length) {
@@ -703,6 +901,8 @@ export default {
             const storage = firebase.storage()
             const imageRef = storage.ref(`images/${file.name}`)
 
+            this.loading = true;
+
             const uploadTask = imageRef.put(file, metadata1).then((snapshot) => {
                 // Once the image is uploaded, obtain the download URL, which
                 // is the publicly accessible URL of the image.
@@ -710,12 +910,27 @@ export default {
                 return url
                 })
             }).then( (url) => {
-                var posts = this.postings;
-                posts.push({
+                var ting = [];
+                ting.push({
                     src: url,
-                    emri: file.name
+                    emri: file.name,
+                    photo_uuid: this.uuidv4(),
+                    type: "trash"
                 });
-                this.postings = posts;
+                this.postings = this.postings.concat(ting);
+                this.operations.push({
+                    "fieldname" : "photos",
+                    "operation" : "insert",
+                    "photo_uuid" : this.uuidv4(),
+                    "new_value": {
+                        "src": url,
+                        "emri": file.name,
+                        "photo_uuid": this.uuidv4()
+                    }
+                });
+                this.loading = false;
+                this.newP = false;
+                console.log(this.postings);
             })
 
             // When the upload ends, set the value of the blog image URL
@@ -723,249 +938,170 @@ export default {
             
             
         },
-        upload: async function(){
-            
-            this.$v.namey.$touch();
-            this.$v.pricey.$touch();
-            this.$v.kategorita.$touch();
-            const mainPhoto = document.getElementById("imazh");
+        uploadImageFile3 (files) {
+            if (!files.length) {
+                return
+            }
+            const filey = files[0]
 
+            if (!filey.type.match('image.*')) {
+                alert('Please upload an image.')
+                return
+            }
 
-            if(this.$v.namey.$invalid || this.$v.pricey.$invalid || this.$v.kategorita.$invalid){
+            if(filey.size >= 3072000){
+                alert("Fotoja shume madhe.");
                 return;
-            } else {
-                console.log("hack me fam");
+            }
+
+            const metadata = {
+                contentType: filey.type
             }
             
-            
+            this.selectedMeta = metadata;
+
+            this.selectedFile = filey;
+
+            const file = this.selectedFile;
+            const metadata1 = this.selectedMeta;
+            const storage = firebase.storage()
+            const imageRef = storage.ref(`images/${file.name}`)
+
+            this.loading = true;
+
+            const uploadTask = imageRef.put(file, metadata1).then((snapshot) => {
+                // Once the image is uploaded, obtain the download URL, which
+                // is the publicly accessible URL of the image.
+                return snapshot.ref.getDownloadURL().then((url) => {
+                return url
+                })
+            }).then( (url) => {
+                
+                this.postings[this.changeIndex].emri = file.name;
+                    this.operations.push({
+                        "fieldname" : "photos",
+                        "operation" : "update",
+                        "photo_uuid" : this.changeId,
+                        "new_value": {
+                            "src": url,
+                            "emri": file.name,
+                            "photo_uuid": this.changeId
+                        }
+                    });
+                    this.loading = false;
+                    this.newP = false;
+                    this.changeP = false;
+                    console.log(this.postings);
+            })
 
             // When the upload ends, set the value of the blog image URL
             // and signal that uploading is done.
+            
+            
+        },
+        uuidv4() {
+            return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+        },
+        changePhoto(index, id){
+            this.changeIndex = index;
+            this.changeId = id;
+            this.changeP = true;
+        },
+        upload: async function(){
+            
 
-            switch(this.kategorita) {
-                case "TV & Vidjo":
-                    this.kategoritaPrefix = "/elektronike/";
-                    break;
-                case "Audjo Shtepish":
-                    this.kategoritaPrefix = "/elektronike/";
-                    break;
-                case "Kamera, Foto & Vidjo":
-                    this.kategoritaPrefix = "/elektronike/";
-                    break;
-                case "Telefon & Aksesore":
-                    this.kategoritaPrefix = "/elektronike/";
-                    break;
-                case "Vidjo Lojra":
-                    this.kategoritaPrefix = "/elektronike/";
-                    break;
-                case "Elektronike Makine":
-                    this.kategoritaPrefix = "/elektronike/";
-                    break;                        
-                case "Produkte Zyrash":
-                    this.kategoritaPrefix = "/kancelari/";
-                    break;
-                case "Produkte Shkollore":
-                    this.kategoritaPrefix = "/kancelari/";
-                    break;
-                case "Printer":
-                    this.kategoritaPrefix = "/kancelari/";
-                    break;
-                case "Projektore":
-                    this.kategoritaPrefix = "/kancelari/";
-                    break;            
-                case "Libra":
-                    this.kategoritaPrefix = "/libra/";
-                    break;
-                case "Kompjutra, Tableta":
-                    this.kategoritaPrefix = "/computers/";
-                    break;
-                case "Monitor":
-                    this.kategoritaPrefix = "/computers/";
-                    break;
-                case "Pjese Kompjuterash":
-                    this.kategoritaPrefix = "/computers/";
-                    break;
-                case "Aksesore":
-                    this.kategoritaPrefix = "/computers/";
-                    break;            
-                case "Kozmetike":
-                    this.kategoritaPrefix = "/kozmetike/";
-                    break;
-                case "Lodra":
-                    this.kategoritaPrefix = "/lodra/";
-                    break;
-                case "Bebe":
-                    this.kategoritaPrefix = "/lodra/";
-                    break;    
-                case "Kozmetike":
-                    this.kategoritaPrefix = "/kozmetike/";
-                    break;
-                case "Palester & Fitness":
-                    this.kategoritaPrefix = "/sport/";
-                    break;
-                case "Gjueti & Peshkim":
-                    this.kategoritaPrefix = "/sport/";
-                    break;
-                case "Rroba Atletike":
-                    this.kategoritaPrefix = "/sport/";
-                    break;
-                case "Golf":
-                    this.kategoritaPrefix = "/sport/";
-                    break;            
-                case "Moblije Shtepie":
-                    this.kategoritaPrefix = "/mobilje/";  
-                    break;
-                case "Kuzhina":
-                    this.kategoritaPrefix = "/mobilje/";  
-                    break;
-                case "Dyshek & Banje":
-                    this.kategoritaPrefix = "/mobilje/";  
-                    break;
-                case "Kopesht & Outdoor":
-                    this.kategoritaPrefix = "/mobilje/";  
-                    break;
-                case "Produkte Kafshesh":
-                    this.kategoritaPrefix = "/mobilje/";  
-                    break;
-                case "Vegla Pune":
-                    this.kategoritaPrefix = "/mobilje/";  
-                    break;                    
-                case "Rroba femrash":
-                    this.kategoritaPrefix = "/fashion/";  
-                    break; 
-                case "Rroba meshkujsh":
-                    this.kategoritaPrefix = "/fashion/";  
-                    break;                           
-            } 
+            
+            // When the upload ends, set the value of the blog image URL
+            // and signal that uploading is done.
 
-            const kat = this.kategorita;
-
-            switch(this.kategorita) {
-                case "TV & Vidjo":
-                    this.kategorita = "tv-dhe-video";
-                    break;
-                case "Audjo Shtepish":
-                    this.kategorita = "audio-shtepiake";
-                    break;
-                case "Kamera, Foto & Vidjo":
-                    this.kategorita = "kamera";
-                    break;
-                case "Telefon & Aksesore":
-                    this.kategorita = "aksesore";
-                    break;
-                case "Vidjo Lojra":
-                    this.kategorita = "video-lojra";
-                    break;
-                case "Elektronike Makine":
-                    this.kategorita = "makina";
-                    break;                    
-                case "Produkte Zyrash":
-                    this.kategorita = "zyra";
-                    break;
-                case "Produkte Shkollore":
-                    this.kategorita = "shkollore";
-                    break;
-                case "Printer":
-                    this.kategorita = "printer";
-                    break;
-                case "Projektore":
-                    this.kategorita = "projektor";
-                    break;              
-                case "Libra":
-                    this.kategorita = "libra";
-                    break;
-                case "Kompjutra, Tableta":
-                    this.kategorita = "computers";
-                    break;
-                case "Monitor":
-                    this.kategorita = "monitor";
-                    break;
-                case "Pjese Kompjuterash":
-                    this.kategorita = "pjese";
-                    break;
-                case "Aksesore":
-                    this.kategorita = "aksesore";
-                    break;            
-                case "Kozmetike":
-                    this.kategorita = "kozmetike";
-                    break;
-                case "Lodra":
-                    this.kategorita = "lodra";
-                    break;
-                case "Bebe":
-                    this.kategorita = "bebe";
-                    break;    
-                case "Palester & Fitness":
-                    this.kategorita = "palester";
-                    break;
-                case "Gjueti & Peshkim":
-                    this.kategorita = "gjueti";
-                    break;
-                case "Rroba Atletike":
-                    this.kategorita = "atletike";
-                    break;
-                case "Golf":
-                    this.kategorita = "golf";
-                    break;            
-                case "Moblije Shtepie":
-                    this.kategorita = "shtepiake";  
-                    break;
-                case "Kuzhina":
-                    this.kategorita = "kuzhina";  
-                    break;
-                case "Dyshek & Banje":
-                    this.kategorita = "dyshek";  
-                    break;
-                case "Kopesht & Outdoor":
-                    this.kategorita = "outdoor";  
-                    break;
-                case "Produkte Kafshesh":
-                    this.kategorita = "kafshesh";  
-                    break;
-                case "Vegla Pune":
-                    this.kategorita = "vegla";  
-                    break;                    
-                case "Rroba femrash":
-                    this.kategorita = "femra";  
-                    break;   
-                case "Rroba meshkujsh":
-                    this.kategoritaPrefix = "meshkuj";  
-                    break;                        
+            if(this.namey != null && this.namey != ""){
+                this.detailsToEdit.details.name = this.namey;
+                this.operations.push({
+                    "fieldname": "name",
+                    "new_value" : this.namey
+                });
+            } else {
+                delete this.detailsToEdit.details.name;
             }
 
-            console.log("sasdfeasdd");
-            await firebase.firestore().collection('elektronike').doc(this.eternalName).update({
-                details: {
-                    name: this.namey,
-                    price: this.pricey,
-                    priceLow: this.priceyLow ? this.priceyLow : null, 
-                    desc: this.descy,
-                    seller: this.nameOfS,
-                    sellerPhoto: this.photo,
-                    details: this.toDet,
-                    kategoria: kat,
-                    kategorita: this.kategoritaPrefix + this.kategorita,
-                    photos: this.postings,
-                    pesha: this.pesha != null ? this.pesha : null,
-                    sizey: this.sizey != "" ? this.sizey : null,
-                    masa: this.masa != "" ? this.masa : null,
-                    ngjyra: this.ngjyra != "" ? this.ngjyra : null,
-                    likes: this.likes,
-                    likers: this.likers
-                },
-                creationTime: this.creationTime,
-                owner: this.eternalName,
-                spot: this.namey
-            });
+            if(this.pricey != null && this.pricey != ""){
+                this.detailsToEdit.details.price = this.pricey;
+                this.operations.push({
+                    "fieldname": "price",
+                    "new_value" : this.pricey
+                });
+            } else {
+                delete this.detailsToEdit.details.price;
+            }
 
-            console.log("2nd")
-            await firebase.firestore().collection('search').doc(this.eternalName).set({
-                cilesia: "/kategorite" + this.kategoritaPrefix + this.kategorita,
-                emri: this.namey,
-                kat: this.kategorita
-            });
+            if(this.descy != null && this.descy != ""){
+                this.detailsToEdit.details.desc = this.descy;
+                this.operations.push({
+                    "fieldname": "desc",
+                    "new_value" : this.descy
+                });
+            } else {
+                delete this.detailsToEdit.details.desc;
+            }
+
+            if(this.kategorita != null && this.kategorita != ""){
+                this.detailsToEdit.details.kategoria = this.kategorita;
+                this.operations.push({
+                    "fieldname": "kategoria",
+                    "new_value" : this.kategorita
+                });
+            } else {
+                delete this.detailsToEdit.details.kategoria;
+            }
+
+            if(this.priceyLow != null && this.priceLow != ""){
+                this.detailsToEdit.details.priceLow = this.priceyLow;
+                this.operations.push({
+                    "fieldname": "priceLow",
+                    "new_value" : this.priceyLow
+                });
+            } else {
+                delete this.detailsToEdit.details.priceLow;
+            }
+            
+            //this.detailsToEdit.details.photos = this.postings;
+
+            //this.detailsToEdit.details.photos = this.detailsToEdit.details.photos.filter((doc)=>{
+            //    return doc.changed == true;
+            //});
+
+            //console.log(this.detailsToEdit.details.photos.length)
+
+            //if(this.detailsToEdit.details.photos.length == 0){
+            //    delete this.detailsToEdit.details.photos;
+            //} 
+            //console.log(JSON.stringify(this.detailsToEdit.details))
+            
+
+            //console.log(JSON.stringify(this.detailsToEdit.details))
+
+            var bodyFormData = new FormData();
+
+            bodyFormData.append('to_edit', JSON.stringify({
+                product_id: this.id,
+                operations: this.operations
+            }));
+
+
+            this.loading2 = true;
+
+            var obj = await this.$axios({
+                method: "post",
+                url: "http://34.65.32.131/edit",
+                data: bodyFormData,
+                headers: { "Content-Type": "multipart/form-data" },
+            })
+
             
             
+            this.operations = [];
             this.postings = [];
             this.toShow = [];
             this.toDet = [];
@@ -982,6 +1118,7 @@ export default {
             this.dialog2 = true;
 
             this.prodPhoto = null;
+            this.loading2 = false;
         }
     }
 }

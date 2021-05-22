@@ -27,11 +27,11 @@
 export default {
     head(){
         return{
-            title: 'Rreth nesh | Fertility',
+            title: 'Rreth nesh',
             meta: [
                 {
                     name: 'description',
-                    content: 'Informacione dhe detaje mbi kliniken Fertility'
+                    content: 'Informacione dhe detaje mbi amazon'
                 }
             ]
         }

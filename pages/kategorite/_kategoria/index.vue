@@ -247,34 +247,45 @@
                         <v-btn small class="white--text mb-4" color="secondary" @click="resetFilter">Reset</v-btn>
                         <p class="qs secondary--text">Zgjidh filtrat dhe aplikoji</p>
                     </v-col>
-                   <div class="sidebar-valuator" v-for="filter in dumb" :key="filter.id">
+                   <div class="sidebar-valuator mt-6" v-for="filter in dumb" :key="filter.id">
                        <p class="qs s15 secondary--text">{{filter.emri}}</p>
-                        <div class="repeatable">
                             
-                                <b-collapse :open="false" aria-id="contentIdForA11y1">
-                                    <template #trigger>
-                                        <b-button
-                                            label="Trego"
-                                            type="is-primary"
-                                            aria-controls="contentIdForA11y1" />
+                        <b-collapse :open="false" aria-id="contentIdForA11y1">
+                            <template #trigger>
+                                <b-field>
+                                    <b-switch
+                                        true-value="Trego"
+                                        false-value="Fshi"
+                                        aria-controls="contentIdForA11y1">
+                                    </b-switch>
+                                </b-field>
+                            </template>
+                            <div class="repeatable">
+                                <v-checkbox
+                                    v-for="sta in filter.values"
+                                    :key="sta.id"
+                                    v-model="sta.checked"
+                                    light
+                                    class="ma-0"
+                                    style="margin: 0 0 0 0;"
+                                    color="secondary"
+                                    @change="checkBox(sta.emri, filter.emri, sta.checked)"
+                                    
+                                >
+                                    <template slot="label">
+                                        <div v-if="!sta.emri.includes('rgb')">
+                                            {{sta.emri}}
+                                        </div>
+                                        <v-avatar v-if="sta.emri.includes('rgb')" tile class="rounded-lg mr-4" size="26" :style="{'background-color': sta.emri}">
+
+                                        </v-avatar>
                                     </template>
-                                    <v-checkbox
-                                        v-for="sta in filter.values"
-                                        :key="sta.id"
-                                        v-model="sta.checked"
-                                        light
-                                        :label="sta.emri"
-                                        class="ma-0"
-                                        style="margin: 0 0 0 0;"
-                                        color="secondary"
-                                        @change="checkBox(sta.emri, filter.emri, sta.checked)"
-                                        
-                                    ></v-checkbox>
-                                </b-collapse>
-                        </div>
+                                </v-checkbox>
+                            </div>
+                        </b-collapse>
                    </div>
                    
-                   <div class="sidebar-valuator-2">
+                   <div class="sidebar-valuator-2 mt-6">
                        <p class="qs s15 secondary--text">Cmimi</p>
                         <v-col class="px-4">
                             <b-field>
@@ -520,6 +531,7 @@ export default {
     },
     data(){
         return{
+            isSwitchedCustom: "No",
             priceTing: null,
             selected: [],
             links: [
@@ -555,7 +567,66 @@ export default {
               {'kategoria': 'Tv Video & Audio', 'nenkategorite': [{'emri': 'Televizor', 'link': 'tv-video-&-audio-televizor'}, {'emri': 'Video Projektor', 'link': 'tv-video-&-audio-video-projektor'}, {'emri': 'Audio', 'link': 'tv-video-&-audio-audio'}, {'emri': 'DEKODER & TV BOX', 'link': 'tv-video-&-audio-dekoder-&-tv-box'}, {'emri': 'Aksesore per TV', 'link': 'tv-video-&-audio-aksesore-per-tv'}]},
               {'kategoria': 'Dron - Kamera - Gimbal', 'nenkategorite': [{'emri': 'Produkte DJI', 'link': 'dron---kamera---gimbal-produkte-dji'}, {'emri': 'Produkte Feiytech', 'link': 'dron---kamera---gimbal-produkte-feiytech'}, {'emri': 'Produkte Zhiyun', 'link': 'dron---kamera---gimbal-produkte-zhiyun'}, {'emri': 'Produkte Xiaomi', 'link': 'dron---kamera---gimbal-produkte-xiaomi'}, {'emri': 'Camera', 'link': 'dron---kamera---gimbal-camera'}, {'emri': 'Aksesore te ndryshem', 'link': 'dron---kamera---gimbal-aksesore-te-ndryshem'}]},
               {'kategoria': 'Lojera & Argetim', 'nenkategorite': [{'emri': 'Konsola', 'link': 'lojera-&-argetim-konsola'}, {'emri': 'Lojera', 'link': 'lojera-&-argetim-lojera'}, {'emri': 'Controllers', 'link': 'lojera-&-argetim-controllers'}, {'emri': 'Smart Balance', 'link': 'lojera-&-argetim-smart-balance'}, {'emri': 'Scooters', 'link': 'lojera-&-argetim-scooters'}]},
-              {'kategoria': 'Elektroshtepiake', 'nenkategorite': [{'emri': 'Kondicioner', 'link': 'elektroshtepiake-kondicioner'}, {'emri': 'Produkte Smart', 'link': 'elektroshtepiake-produkte-smart'}]}
+              {'kategoria': 'Elektroshtepiake', 'nenkategorite': [{'emri': 'Kondicioner', 'link': 'elektroshtepiake-kondicioner'}, {'emri': 'Produkte Smart', 'link': 'elektroshtepiake-produkte-smart'}]},
+              {
+                  "kategoria": "VESHJE FEMRASH",
+                  "nenkategorite": [
+                      {
+                          "emri": "Veshje",
+                          "link": "veshje-femrash-veshje"
+                      },
+                      {
+                          "emri": "Intimo",
+                          "link": "veshje-femrash-intimo"
+                      },
+                      {
+                          "emri": "K\u00ebpuc\u00eb",
+                          "link": "veshje-femrash-k\u00ebpuc\u00eb"
+                      },
+                      {
+                          "emri": "Aksesor\u00eb",
+                          "link": "veshje-femrash-aksesor\u00eb"
+                      },
+                      {
+                          "emri": "Plazh",
+                          "link": "veshje-femrash-plazh"
+                      }
+                  ]
+              },
+              {
+                  "kategoria": "VESHJE MESHKUJSH",
+                  "nenkategorite": [
+                      {
+                          "emri": "Veshje",
+                          "link": "veshje-meshkujsh-veshje"
+                      },
+                      {
+                          "emri": "Intimo",
+                          "link": "veshje-meshkujsh-intimo"
+                      },
+                      {
+                          "emri": "K\u00ebpuc\u00eb",
+                          "link": "veshje-meshkujsh-k\u00ebpuc\u00eb"
+                      },
+                      {
+                          "emri": "Aksesor\u00eb",
+                          "link": "veshje-meshkujsh-aksesor\u00eb"
+                      }
+                  ]
+              },
+              {
+                  "kategoria": "VESHJE F\u00cbMIJ\u00cbSH",
+                  "nenkategorite": [
+                      {
+                          "emri": "Vajz\u00eb",
+                          "link": "veshje-f\u00ebmij\u00ebsh-vajz\u00eb"
+                      },
+                      {
+                          "emri": "Djal\u00eb",
+                          "link": "veshje-f\u00ebmij\u00ebsh-djal\u00eb"
+                      }
+                  ]
+              }
             ],
             overload: false,
             fab: false,
@@ -827,181 +898,6 @@ export default {
             this.selected = [];
             this.prods = this.all;
         },
-        greenColor1: function(){
-            try{
-                this.white = false;
-                this.red = false;
-                this.yellow = false;
-                this.blue = false;
-
-                if(this.jeshile == true){
-                    if(this.firstTime == true){
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.ngjyra == "Jeshile";
-                    });
-
-                    var newColorList = this.colorList.concat(needed);
-
-                    newColorList = [...new Set([...this.colorList, ...needed])];
-
-                    console.log(JSON.stringify(newColorList));
-
-                    this.colorList = newColorList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.ngjyra != "Jeshile" || item.details.ngjyra == "Jeshile";
-                    });
-
-                    this.colorList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        yellowColor: function(){
-            try{
-                this.white = false;
-                this.red = false;
-                this.blue = false;
-                this.jeshile = false;
-
-                if(this.yellow == true){
-                    if(this.firstTime == true){
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.ngjyra == "E verdhe";
-                    });
-
-                    var newColorList = this.colorList.concat(needed);
-
-                    newColorList = [...new Set([...this.colorList, ...needed])];
-
-                    console.log(JSON.stringify(newColorList));
-
-                    this.colorList = newColorList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.ngjyra != "E verdhe" || item.details.ngjyra == "E verdhe";
-                    });
-
-                    this.colorList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        blueColor: function(){
-            try{
-                this.white = false;
-                this.red = false;
-                this.yellow = false;
-                this.jeshile = false;
-
-                if(this.blue == true){
-                    if(this.firstTime == true){
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.ngjyra == "Blu";
-                    });
-
-                    var newColorList = this.colorList.concat(needed);
-
-                    newColorList = [...new Set([...this.colorList, ...needed])];
-
-                    console.log(JSON.stringify(newColorList));
-
-                    this.colorList = newColorList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.ngjyra != "Blu" || item.details.ngjyra == "Blu";
-                    });
-
-                    this.colorList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        whiteColor: function(){
-            try{
-                this.blue = false;
-                this.red = false;
-                this.yellow = false;
-                this.jeshile = false;
-
-                if(this.white == true){
-                    if(this.firstTime == true){
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.ngjyra == "E bardhe";
-                    });
-
-                    var newColorList = this.colorList.concat(needed);
-
-                    newColorList = [...new Set([...this.colorList, ...needed])];
-
-                    console.log(JSON.stringify(newColorList));
-
-                    this.colorList = newColorList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.ngjyra != "E bardhe" || item.details.ngjyra == "E bardhe";
-                    });
-
-                    this.colorList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        redColor: function(){
-            try{
-                this.white = false;
-                this.blue = false;
-                this.yellow = false;
-                this.jeshile = false;
-
-                if(this.red == true){
-                    if(this.firstTime == true){
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.ngjyra == "E kuqe";
-                    });
-
-                    var newColorList = this.colorList.concat(needed);
-
-                    newColorList = [...new Set([...this.colorList, ...needed])];
-
-                    console.log(JSON.stringify(newColorList));
-
-                    this.colorList = newColorList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.ngjyra != "E kuqe" || item.details.ngjyra == "E kuqe";
-                    });
-
-                    this.colorList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
         checkBox(value, emri, regulator){
             if(regulator == true){
                 this.selected.push({
@@ -1012,216 +908,6 @@ export default {
                 this.selected = this.selected.filter((doc)=>{
                     return doc.value != value;
                 });
-            }
-        },
-        checkBox1: function(){
-            try{
-
-                if(this.checkbox1 == true){
-                    if(this.firstTime == true){
-                        this.firstTime = false;
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.masa == "XS";
-                    });
-
-                    var newMasaList = this.masaList.concat(needed);
-
-                    newMasaList = [...new Set([...this.colorList, ...needed])];
-
-                    this.masaList = newMasaList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.masa != "XS" || item.details.masa == "XS";
-                    });
-
-                    this.masaList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        checkBox2: function(){
-            try{
-
-                if(this.checkbox2 == true){
-                    if(this.firstTime == true){
-                        this.firstTime = false;
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.masa == "S";
-                    });
-
-                    var newMasaList = this.masaList.concat(needed);
-
-                    newMasaList = [...new Set([...this.colorList, ...needed])];
-
-                    this.masaList = newMasaList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.masa != "S" || item.details.masa == "S";
-                    });
-
-                    this.masaList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        checkBox3: function(){
-            try{
-
-                if(this.checkbox3 == true){
-                    if(this.firstTime == true){
-                        this.firstTime = false;
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.masa == "M";
-                    });
-
-                    var newMasaList = this.masaList.concat(needed);
-
-                    newMasaList = [...new Set([...this.colorList, ...needed])];
-
-                    this.masaList = newMasaList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.masa != "M" || item.details.masa == "M";
-                    });
-
-                    this.masaList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        checkBox4: function(){
-            try{
-
-                if(this.checkbox4 == true){
-                    if(this.firstTime == true){
-                        this.firstTime = false;
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.masa == "L";
-                    });
-
-                    var newMasaList = this.masaList.concat(needed);
-
-                    newMasaList = [...new Set([...this.colorList, ...needed])];
-
-                    this.masaList = newMasaList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.masa != "L" || item.details.masa == "L";
-                    });
-
-                    this.masaList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        checkBox5: function(){
-            try{
-
-                if(this.checkbox5 == true){
-                    if(this.firstTime == true){
-                        this.firstTime = false;
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.masa == "XL";
-                    });
-
-                    var newMasaList = this.masaList.concat(needed);
-
-                    newMasaList = [...new Set([...this.colorList, ...needed])];
-
-                    this.masaList = newMasaList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.masa != "XL" || item.details.masa == "XL";
-                    });
-
-                    this.masaList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        checkBox6: function(){
-            try{
-
-                if(this.checkbox6 == true){
-                    if(this.firstTime == true){
-                        this.firstTime = false;
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.masa == "2XL";
-                    });
-
-                    var newMasaList = this.masaList.concat(needed);
-
-                    newMasaList = [...new Set([...this.colorList, ...needed])];
-
-                    this.masaList = newMasaList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.masa != "2XL" || item.details.masa == "2XL";
-                    });
-
-                    this.masaList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
-            }
-        },
-        checkBox7: function(){
-            try{
-
-                if(this.checkbox7 == true){
-                    if(this.firstTime == true){
-                        this.firstTime = false;
-                        this.prodsCopy = this.prods;
-                    }
-                    const needed = this.prods.filter((item)=>{
-                        return item.details.masa == "3XL";
-                    });
-
-                    var newMasaList = this.masaList.concat(needed);
-
-                    newMasaList = [...new Set([...this.colorList, ...needed])];
-
-                    this.masaList = newMasaList;
-
-                } else {
-                    const needed = this.prodsCopy.filter((item)=>{
-                        return item.details.masa != "3XL" || item.details.masa == "3XL";
-                    });
-
-                    this.masaList = needed;
-                }
-                
-            } catch(e){
-                console.log(e);
             }
         },
         pricer: function(){

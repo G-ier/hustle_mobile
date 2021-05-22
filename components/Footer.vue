@@ -2,66 +2,52 @@
   <footer
     class="footer1"
   >
-    <div class="socialite pb-5">
-      <div class="content-block-s">
-        <h4 class="cb-title-s">Na ndiqni ne rrjetet sociale</h4>
-        <div class="socials">
-          <v-btn icon class="btn-c-o"><a href="https://www.facebook.com/klinikafertility" class="btn-c-o"><v-icon color="white" size="40">mdi-facebook</v-icon></a></v-btn>
-          <v-btn icon class="btn-c-o ml-5"><a href="https://www.instagram.com/klinikafertility/" class="btn-c-o"><v-icon color="white" size="40">mdi-instagram</v-icon></a></v-btn>
-          <v-btn icon class="btn-c-o ml-5"><a href="https://www.twitter.com" class="btn-c-o"><v-icon color="white" size="40">mdi-twitter</v-icon></a></v-btn>
-        </div>
-      </div>
-    </div>
-    <!--
-    <div class="part1">
-      <div class="c1">
-        <div class="center-spaz-1">
-          <div class="content-block">
-          <h4 class="cb-title">Useful links</h4>
-          <ul class="cb-links">
-            <li class="cb-link"><nuxt-link to="/account/me" class="qs btn-c-o"><span class="linkus">Llogaria juaj</span></nuxt-link></li>
-            <li class="cb-link"><nuxt-link to="/account/register" class="qs btn-c-o"><span class="linkus">Rregjistrimi</span></nuxt-link></li>
-          </ul>
-        </div>
-        <div class="content-block">
-          <h4 class="cb-title">Rreth nesh</h4>
-          <ul class="cb-links">
-            <li class="cb-link"><nuxt-link to="/rreth-nesh" class="qs btn-c-o"><span class="linkus">Rreth nesh</span></nuxt-link></li>
-          </ul>
-        </div>
-        </div>
-      </div>
-  
-      <div class="c2">
-        <div class="center-spaz-2">
-
-        <div class="content-block">
-          <h4 class="cb-title">Na kontaktoni</h4>
-          <ul class="cb-links">
-            <li class="cb-link">+355 69 6061000</li>
-            <li class="cb-link too-long">hbc.ndihma@gmail.com</li>
-            <li class="cb-link">fcwscds@gmail.com</li>
-          </ul>
-        </div>
-        <div class="content-block">
-          <h4 class="cb-title">Adresa</h4>
-          <ul class="cb-links">
-            <li class="cb-link">Pallati 298</li>
-            <li class="cb-link">Blvd. "Bajram Curri"</li>
-            <li class="cb-link">Tirana 1004</li>
-          </ul>
-        </div>
-        </div>
-      </div>
-
-    </div>
-    -->
     
-    <div class="last secondary--text">
-      <span>hustle <span style="font-family: Arial">&copy;</span> {{ new Date().getFullYear() }} | All rights reserved.</span>
+    <div class="stina">
+      <div class="dragua">
+        <div class="flatra">
+          <h5 class="qs white--text mb-8">MENU E SHPEJT</h5>
+
+          <nuxt-link class="pa-0 ma-0 white--text" :to="{path:'/kujdesi-ndaj-klienteve', hash: 'termat'}">Termat dhe Kushtet</nuxt-link>
+          <nuxt-link class="pa-0 ma-0 white--text" :to="{path:'/kujdesi-ndaj-klienteve', hash: 'kthimi'}">Politikat e kthimit</nuxt-link>
+          <nuxt-link class="pa-0 ma-0 white--text" :to="{path:'/kujdesi-ndaj-klienteve', hash: 'qa'}">Pyetje & pergjigje të shpeshta</nuxt-link>
+          <nuxt-link class="pa-0 ma-0 white--text" to="/rreth-nesh">Rreth nesh</nuxt-link>
+        </div>
+      </div>
+      <div class="dragua">
+        <div class="flatra">
+          <h5 class="qs white--text mb-8">FOLLOW US</h5>
+
+          <a href="https://www.facebook.com/jari" class="btn-c-o pa-0 ma-0 white--text"><v-icon color="blue darken-3" size="40">mdi-facebook</v-icon> amazon.com</a>
+          <a href="https://www.instagram.com/jari" class="btn-c-o pa-0 ma-0 white--text"><v-icon color="orange darken-3" size="40">mdi-instagram</v-icon> amazon.com</a>
+          <a href="https://www.youtube.com/jari" class="btn-c-o pa-0 ma-0 white--text"><v-icon color="red darken-3" size="40">mdi-youtube</v-icon> amazon.com</a>
+        </div>
+      </div>
+      <div class="dragua">
+        <div class="kontakt">
+          <h5 class="qs white--text mb-8">KONTAKTI</h5>
+
+          <a class="pa-0 ma-0 btn-c-o white--text" href="tel: +7 (982) 536-50-77"><v-icon size="30" color="white">mdi-phone</v-icon> +7 (982) 536-50-77</a>
+          <p class="qs white--text pa-0 ma-0"><v-icon color="white">mdi-email</v-icon> amazon@gmail.com</p>
+        </div>
+        <div class="abonohu mt-10">
+            <h5 class="qs blacwhitek--text mb-8">ABONOHUNI</h5>
+
+            <div class="abonohu-2">
+              <v-text-field label="Email" outlined dense class="white--text" color="white" v-model="abonimi" @input="$v.abonimi.$touch()"></v-text-field>
+              <p class="qs s14 white--text pa-0 ma-0 ml-3 position-delayed" style="cursor: pointer;" @click="abonohu">Abonohu</p>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <v-img :src="cards" class="stina1" contain :aspect-ratio="584/50"></v-img>
+
+    <div class="last white--text">
+      <span class="white--text">hustle <span style="font-family: Arial">&copy;</span> {{ new Date().getFullYear() }} | All rights reserved.</span>
       <div class="laster">
-        <nuxt-link class="btn-c-o secondary--text mr-1" to="/account">Faqja juaj</nuxt-link>
-        <nuxt-link class="btn-c-o secondary--text ml-2" to="/account/register">Regjistrohuni tani</nuxt-link>
+        <nuxt-link class="btn-c-o white--text mr-1" to="/account">Faqja juaj</nuxt-link>
+        <nuxt-link class="btn-c-o white--text ml-2" to="/account/register">Regjistrohuni tani</nuxt-link>
       </div>
     </div>
 
@@ -69,18 +55,107 @@
 </template>
 
 <script>
+import cards from "assets/img/payments_all.png"
 export default {
-
+    props: ['widthy'],
+    data(){
+        return{
+            abonimi: null,
+            cards: cards
+        }
+    },
+    methods: {
+        login: async function(){
+            this.loading = true;
+            this.$v.account.email.$touch();
+            await this.$store.dispatch("users/login", this.account).catch((err) => {
+                this.error = err.code;   
+            });
+            if(this.$store.state.users.role == "admin"){
+                console.log(this.$store.state.users.role);
+                location.href = "/account/drejtuesi";
+            } else if (this.$store.state.users.role == "buyer" || this.$store.state.users.role == "seller") {
+                location.href = "/account/me";
+            } else {
+                this.dialog = true;
+                this.loading = false;
+            }
+        },
+        sendConfirm: function(){
+            this.forgotten = false;
+            this.feed = true;
+            firebase.auth().sendPasswordResetEmail(this.Fmail);
+        }
+    }
 }
 </script>
 
 <style scoped>
+.stina{
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+  justify-content: space-evenly;
+  background-color: #363f4e;
+  width: 850px;
+  padding: 25px 0 25px 0;
+}
+.stina1{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #363f4e;
+  width: 584px;
+  height: 50px;
+  padding: 25px 0 25px 0;
+}
+.photostic{
+  width: 50%;
+  height: 100%;
+}
+.dragua{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 90%;
+}
+.flatra{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 70%;
+}
+.kontakt{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+.abonohu{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+.abonohu-2{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.position-delayed{
+  position: relative;
+  top: -12.5%;
+}
 .footer1{
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  background-color: white;
+  background-color: #363f4e;
 }
 .part1{
   width: 100%;
@@ -198,6 +273,16 @@ export default {
   align-items: center;
 }
 @media screen and (max-width: 360px) {
+
+  .stina1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #363f4e;
+    width: 245px;
+    height: 21px;
+    padding: 25px 0 25px 0;
+  }
   .cb-title{
     font-family: 'fr';
     color: white;
@@ -223,9 +308,108 @@ export default {
     font-family: 'fr';
     font-size: 16px;
   }
+  .stina{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #363f4e;
+    width: 100%;
+    padding: 25px 0 25px 0;
+  }
+  .dragua{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 25px;
+    width: 90%;
+  }
+  .flatra{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 70%;
+  }
+  .kontakt{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
+  .abonohu{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
+  .abonohu-2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
   
 }
 @media screen and (min-width: 360px) and (max-width: 650px){
+  .stina1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #363f4e;
+    width: 350px;
+    height: 30px;
+    padding: 25px 0 25px 0;
+  }
+  .stina{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #363f4e;
+    width: 100%;
+    padding: 25px 0 25px 0;
+  }
+  .dragua{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 25px;
+    width: 90%;
+  }
+  .flatra{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 70%;
+  }
+  .kontakt{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
+  .abonohu{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
+  .abonohu-2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
   .cb-title{
     font-family: 'fr';
     color: white;
@@ -255,7 +439,61 @@ export default {
     width: 90%;
   }
 }
-@media screen and (min-width: 650px) {
+@media screen and (min-width: 650px) and (max-width: 900px) {
+  .stina1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #363f4e;
+    width: 584px;
+    height: 50px;
+    padding: 25px 0 25px 0;
+  }
+  .stina{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #363f4e;
+    width: 100%;
+    padding: 25px 0 25px 0;
+  }
+  .dragua{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 90%;
+    margin-top: 25px;
+  }
+  .flatra{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 70%;
+  }
+  .kontakt{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
+  .abonohu{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
+  .abonohu-2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
   .cb-title{
     font-family: 'fr';
     color: white;

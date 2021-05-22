@@ -152,7 +152,7 @@
                             v-for="item in responseData.filtrat"
                             :key="item.id"
                             v-model="responseData.filtrat[responseData.filtrat.indexOf(item)].value"
-                            :items="responseData.filtrat[responseData.filtrat.indexOf(item)].values"
+                            :items="item.values"
                             :placeholder="responseData.filtrat[responseData.filtrat.indexOf(item)].emri"
                             outlined
                             clearable
@@ -725,6 +725,8 @@ export default {
             
 
             this.responseData = obj.data;
+            console.log(JSON.stringify(obj.data));
+            
 
             console.log(this.responseData);
         },
@@ -844,15 +846,16 @@ export default {
                 return url
                 })
             }).then( (url) => {
-                var posts = this.postings;
-                posts.push({
+                var ting = [];
+                ting.push({
                     src: url,
-                    emri: file.name
+                    emri: file.name,
+                    photo_index: this.postings.length
                 });
-                this.postings = posts;
+                this.postings = this.postings.concat(ting);
                 this.loading = false;
                 this.newP = false;
-                
+                console.log(this.postings);
             })
 
             // When the upload ends, set the value of the blog image URL

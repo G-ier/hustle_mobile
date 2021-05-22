@@ -227,11 +227,12 @@ export default {
     async asyncData({params, route, $axios}){
         
         const spot = params.name;
+        const spot2 = route.query.name;
         var obj = await $axios({
             method: "post",
             url: "http://34.65.32.131/products",
             params: {
-                "product_name": spot
+                "product_name": spot2
             },
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
         })
@@ -469,7 +470,19 @@ export default {
                 this.error2Yje = true;
             }
         }
-    }
+    },
+    head(){
+        return{
+            title: this.product.details.name,
+            meta: [
+                {
+                    hid: 'description',
+                    name: 'description',
+                    content: 'Kamera dhe fotografi'
+                }
+            ]
+        }
+    },
 }
 </script>
 

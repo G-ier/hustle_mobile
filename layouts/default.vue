@@ -11,7 +11,7 @@
         </v-layout>
       </v-main>
     </div>
-    <Footer />
+    <Footer :widthy="width" />
   </v-app>
 </template>
 
@@ -29,7 +29,8 @@ export default {
   },
   data () {
     return {
-      phone: false
+      phone: false,
+      width: null
     }
   },
   mounted(){
@@ -37,6 +38,12 @@ export default {
         this.phone = true;
     } else {
       this.phone = false;
+    }
+
+    if(document.body.clientWidth <= 550){
+      this.width = 240;
+    } else {
+      this.width = 350;
     }
   }
 }

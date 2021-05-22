@@ -371,20 +371,20 @@
               <b-field position="is-centered">
                   <div class="searchable" id="kerkimi">
                     <v-icon color="secondary" class="pt-1">mdi-magnify</v-icon>
-                    <input type="search" id="kerkimi-1" v-model="searchQ" class="searchable-1 btn-c-o" placeholder="Kerkoni produkte..." @focus="changeBorder" @input="changeType" @blur="antiBlur">
+                    <input type="search" id="kerkimi-1" v-model="searchQ" class="searchable-1 btn-c-o" placeholder="Kerkoni produkte..." @focus="changeBorder" @input="changeType" @keydown.enter="searchGo" @blur="antiBlur">
                   </div>
-                  <button class="buttonable btn-c-o" id="butoni" @click="searchGo">Kerko</button>
+                  <button class="buttonable btn-c-o" id="butoni">Kerko</button>
               </b-field>
             </div>
             <div class="results" v-if="answer == true" ref="karuci" @mouseenter="itsover = true" @mouseleave="itsover = false" @mouseout="mouseOut">
               <div class="listings" v-if="sToShow.length > 0">
                 <div class="tile" v-for="ting in sToShow.slice(0, 4)" :key="ting.id">
-                  <v-avatar size="40" tile color="primary">
+                  <v-avatar size="40" tile class="rounded-lg" color="primary">
                     <v-img :src="ting.photos.src"></v-img>
                   </v-avatar>
-                  <v-col>
-                    <p class="qs secondary--text btn-c-o pa-0 ma-0" style="cursor: pointer;" text nuxt @click="itsover = false; answer = false; itemPressed(ting.kategoria, ting.spot)">{{ting.name}}</p>
-                    <p class="qs secondary--text btn-c-o pa-0 ma-0">{{ting.price}}</p>
+                  <v-col cols="6" class="justify-left">
+                    <p class="qs white--text btn-c-o pa-0 ma-0" style="cursor: pointer;" text nuxt @click="itsover = false; answer = false; itemPressed(ting.kategoria, ting.spot)">{{ting.name}}</p>
+                    <p class="qs white--text btn-c-o pa-0 ma-0">Cmimi: {{ting.price}} ALL</p>
                   </v-col>
                 </div>
               </div>
@@ -602,7 +602,66 @@ export default {
               {'kategoria': 'Tv Video & Audio', 'nenkategorite': [{'emri': 'Televizor', 'link': 'tv-video-&-audio-televizor'}, {'emri': 'Video Projektor', 'link': 'tv-video-&-audio-video-projektor'}, {'emri': 'Audio', 'link': 'tv-video-&-audio-audio'}, {'emri': 'DEKODER & TV BOX', 'link': 'tv-video-&-audio-dekoder-&-tv-box'}, {'emri': 'Aksesore per TV', 'link': 'tv-video-&-audio-aksesore-per-tv'}]},
               {'kategoria': 'Dron - Kamera - Gimbal', 'nenkategorite': [{'emri': 'Produkte DJI', 'link': 'dron---kamera---gimbal-produkte-dji'}, {'emri': 'Produkte Feiytech', 'link': 'dron---kamera---gimbal-produkte-feiytech'}, {'emri': 'Produkte Zhiyun', 'link': 'dron---kamera---gimbal-produkte-zhiyun'}, {'emri': 'Produkte Xiaomi', 'link': 'dron---kamera---gimbal-produkte-xiaomi'}, {'emri': 'Camera', 'link': 'dron---kamera---gimbal-camera'}, {'emri': 'Aksesore te ndryshem', 'link': 'dron---kamera---gimbal-aksesore-te-ndryshem'}]},
               {'kategoria': 'Lojera & Argetim', 'nenkategorite': [{'emri': 'Konsola', 'link': 'lojera-&-argetim-konsola'}, {'emri': 'Lojera', 'link': 'lojera-&-argetim-lojera'}, {'emri': 'Controllers', 'link': 'lojera-&-argetim-controllers'}, {'emri': 'Smart Balance', 'link': 'lojera-&-argetim-smart-balance'}, {'emri': 'Scooters', 'link': 'lojera-&-argetim-scooters'}]},
-              {'kategoria': 'Elektroshtepiake', 'nenkategorite': [{'emri': 'Kondicioner', 'link': 'elektroshtepiake-kondicioner'}, {'emri': 'Produkte Smart', 'link': 'elektroshtepiake-produkte-smart'}]}
+              {'kategoria': 'Elektroshtepiake', 'nenkategorite': [{'emri': 'Kondicioner', 'link': 'elektroshtepiake-kondicioner'}, {'emri': 'Produkte Smart', 'link': 'elektroshtepiake-produkte-smart'}]},
+              {
+                  "kategoria": "VESHJE FEMRASH",
+                  "nenkategorite": [
+                      {
+                          "emri": "Veshje",
+                          "link": "veshje-femrash-veshje"
+                      },
+                      {
+                          "emri": "Intimo",
+                          "link": "veshje-femrash-intimo"
+                      },
+                      {
+                          "emri": "K\u00ebpuc\u00eb",
+                          "link": "veshje-femrash-k\u00ebpuc\u00eb"
+                      },
+                      {
+                          "emri": "Aksesor\u00eb",
+                          "link": "veshje-femrash-aksesor\u00eb"
+                      },
+                      {
+                          "emri": "Plazh",
+                          "link": "veshje-femrash-plazh"
+                      }
+                  ]
+              },
+              {
+                  "kategoria": "VESHJE MESHKUJSH",
+                  "nenkategorite": [
+                      {
+                          "emri": "Veshje",
+                          "link": "veshje-meshkujsh-veshje"
+                      },
+                      {
+                          "emri": "Intimo",
+                          "link": "veshje-meshkujsh-intimo"
+                      },
+                      {
+                          "emri": "K\u00ebpuc\u00eb",
+                          "link": "veshje-meshkujsh-k\u00ebpuc\u00eb"
+                      },
+                      {
+                          "emri": "Aksesor\u00eb",
+                          "link": "veshje-meshkujsh-aksesor\u00eb"
+                      }
+                  ]
+              },
+              {
+                  "kategoria": "VESHJE F\u00cbMIJ\u00cbSH",
+                  "nenkategorite": [
+                      {
+                          "emri": "Vajz\u00eb",
+                          "link": "veshje-f\u00ebmij\u00ebsh-vajz\u00eb"
+                      },
+                      {
+                          "emri": "Djal\u00eb",
+                          "link": "veshje-f\u00ebmij\u00ebsh-djal\u00eb"
+                      }
+                  ]
+              }
             ],
             nenkategorite: null,
             kategoria: null,
@@ -610,6 +669,7 @@ export default {
             borderChanged: false,
             navigation: false,
             searchQ: '',
+            search2: null,
             searchOn: false,
             height: null,
             background: Gradient,
@@ -698,23 +758,41 @@ export default {
       },
       searchGo: function(){
 
-        const redItem = this.sToShow[0];
-        this.$router.push({ path: "/search", query: {search: redItem.emri} });
+        if(this.searchQ == "" || this.searchQ == " "){
+          return;
+        }
+
+        this.$router.push({ path: "/search", query: {search: this.searchQ} });
+
+        this.answer = false;
+
+      },
+      search22: function(){
+
+        if(this.search2 == "" || this.search2 == " "){
+          return;
+        }
+
+        this.$router.push({ path: "/search", query: {search: this.search2} });
+
+        this.answer = false;
 
       },
       itemPressed: function(kategoria, emri){
         this.$router.push({ path: "/kategorite/" + kategoria + "/" + emri.toLowerCase(), query: {name: emri} });
       },
-      sendToMore: function(){
-        this.answer = false;
-
-        this.$router.push({ path: '/search', query: { search: this.searchQ } });
-      },
       changeType: async function (){
-        
+
+        this.search2 = this.searchQ;
+
+        if(this.searchQ == "" || this.searchQ == " "){
+          return;
+        }
+
         var bodyFormData = new FormData();
 
         bodyFormData.append('query_text', this.searchQ);
+        bodyFormData.append('query_products', 5);
 
         var obj = await this.$axios({
             method: "post",
@@ -727,14 +805,6 @@ export default {
         this.sToShow = obj.data;
         this.answer = true;
 
-      },
-      changeType2: async function (){
-        await this.$store.dispatch("users/change", this.searchQ ? this.searchQ : "");
-
-        this.sToShow = this.$store.state.users.result;
-        this.answer = true;
-        console.log(this.answer);
-        console.log(this.sToShow);
       },
       logout: async function(){
         await this.$store.dispatch("users/logout");
@@ -803,42 +873,6 @@ export default {
           z.style.backgroundColor = "white";
           
       },
-      openElektronike: function(){
-        this.burner = "Elektronike";
-        this.navigation = false;
-      },
-      openKancelari: function(){
-        this.burner = "Kancelari";
-        this.navigation = false;
-      },
-      openLibra: function(){
-        this.burner = "Libra";
-        this.navigation = false;
-      },
-      openKompjutera: function(){
-        this.burner = "Kompjutera";
-        this.navigation = false;
-      },
-      openKozmetike: function(){
-        this.burner = "Kozmetike";
-        this.navigation = false;
-      },
-      openLodra: function(){
-        this.burner = "Lodra";
-        this.navigation = false;
-      },
-      openSport: function(){
-        this.burner = "Sport";
-        this.navigation = false;
-      },
-      openMobilje: function(){
-        this.burner = "Mobilje";
-        this.navigation = false;
-      },
-      openFashion: function(){
-        this.burner = "Fashion";
-        this.navigation = false;
-      },
     },
     computed: {
       checkoutAval(){
@@ -873,6 +907,12 @@ export default {
 
 <style scoped>
 @media only screen and (min-width: 850px){
+  .justify-left{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
   .induldge{
     height: 100%;
     width: 100%;
@@ -997,8 +1037,8 @@ export default {
   .results{
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    border-radius: 5px;
-    background-color: white;
+    border-radius: 10px;
+    background-color: #363f4e;
     position: absolute;
     top: 70px;
     display: flex;
@@ -1035,11 +1075,11 @@ export default {
     color: black;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     margin-bottom: 3px;
     margin-top: 10px;
-    background-color: white;
+    background-color: #363f4e;
     transition: 0.3s;
     height: 50px;
   }
@@ -1216,8 +1256,8 @@ export default {
   .results{
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    border-radius: 5px;
-    background-color: white;
+    border-radius: 10px;
+    background-color: #363f4e;
     position: absolute;
     top: 70px;
     display: flex;
@@ -1254,11 +1294,11 @@ export default {
     color: black;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     margin-bottom: 3px;
     margin-top: 10px;
-    background-color: white;
+    background-color: #363f4e;
     transition: 0.3s;
     height: 50px;
   }
