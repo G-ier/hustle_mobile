@@ -437,17 +437,6 @@
       </agile>
     </client-only>
     -->
-    <div class="dealsod">
-      <div class="deals-header">
-        <div class="deals-header-1">
-          <h3 class="qs font-weight-regular" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">DEALS </span>of the day</h3>
-          
-        </div>
-        <div class="line1">
-          <div class="smooth" :class="{'line10': objCount == 1, 'line20': objCount == 2, 'line30': objCount == 3, 'line40': objCount == 4, 'line50': objCount == 5, 'line60': objCount == 6, 'line70': objCount == 7, 'line80': objCount == 8, 'line90': objCount == 9, 'line100': objCount == 10, }"></div>
-        </div>
-      </div>
-    </div>
     <div class="mos-i-qr">
       <client-only>
       <swiper
@@ -459,7 +448,7 @@
         <swiper-slide v-for="n in dotd" :key="n.id">
             <div class="deals-body">
                 <div class="deals-image">
-                    <v-img :aspect-ratio="16/9" max-width="500" :src="n.photo"></v-img>
+                    <v-img :aspect-ratio="16/9" max-width="500" src="https://hhstsyoejx.gjirafa.net/gj50/banners/mb_d-1621606815.jpg"></v-img>
                 </div>
                 <!--
                 <div class="deals-desc">
@@ -924,6 +913,7 @@ export default {
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 100%;
 }
 .deals-desc{
   display: flex;
@@ -1234,7 +1224,7 @@ export default {
 .mos-i-qr{
   width: 100%;
   max-height: 350px;
-  margin: 10px 0 10px 0;
+  margin: 0px 0 10px 0;
   display: block;
 }
 @media only screen and (min-width: 850px){

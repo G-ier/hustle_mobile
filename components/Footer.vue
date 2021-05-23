@@ -35,14 +35,14 @@
 
             <div class="abonohu-2">
               <v-text-field label="Email" outlined dense class="white--text" :hide-details="true" color="white" v-model="abonimi" @input="$v.abonimi.$touch()"></v-text-field>
-              <p class="qs s14 white--text pa-0 ma-0 ml-3 position-delayed" style="cursor: pointer;" @click="abonohu">Abonohu</p>
+              <p class="qs s14 white--text pa-0 my-0 position-delayed" style="cursor: pointer;" @click="abonohu">Abonohu</p>
             </div>
         </div>
       </div>
     </div>
 
-    <v-img :src="cards" class="stina1 mt-10 mb-10" contain :aspect-ratio="584/50">
-      <p class="qs white--text position-f">Supported by:</p>
+    <p class="qs white--text position-f mt-10">Supported by:</p>
+    <v-img :src="cards" class="stina1 mb-10" contain :aspect-ratio="584/50">
     </v-img>
 
     <div class="last white--text">
@@ -154,6 +154,7 @@ export default {
 }
 .position-delayed{
   margin-bottom: 35px;
+  margin-left: 10px;
 }
 .abonohu-2 .v-input .v-input__control .v-input__slot .v-text-field__details{
   display: none;
@@ -282,6 +283,10 @@ export default {
 }
 @media screen and (max-width: 360px) {
 
+  .position-delayed{
+    margin-bottom: 35px;
+    margin-left: 0px;
+  }
   .stina1{
     display: flex;
     align-items: center;
@@ -364,6 +369,10 @@ export default {
   
 }
 @media screen and (min-width: 360px) and (max-width: 650px){
+  .position-delayed{
+    margin-bottom: 35px;
+    margin-left: 0px;
+  }
   .stina1{
     display: flex;
     align-items: center;
@@ -448,6 +457,10 @@ export default {
   }
 }
 @media screen and (min-width: 650px) and (max-width: 900px) {
+  .position-delayed{
+    margin-bottom: 35px;
+    margin-left: 0px;
+  }
   .stina1{
     display: flex;
     align-items: center;
@@ -516,6 +529,12 @@ export default {
     padding: 10px 0 10px 0;
     height: 20vh;
     width: 40%;
+  }
+}
+@media screen and (min-width: 901px) {
+  .position-delayed{
+    margin-bottom: 35px;
+    margin-left: 10px;
   }
 }
 
