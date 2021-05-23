@@ -34,7 +34,7 @@
             <h5 class="qs blacwhitek--text mb-8">ABONOHUNI</h5>
 
             <div class="abonohu-2">
-              <v-text-field label="Email" outlined dense class="white--text" color="white" v-model="abonimi" @input="$v.abonimi.$touch()"></v-text-field>
+              <v-text-field label="Email" outlined dense class="white--text" :hide-details="true" color="white" v-model="abonimi" @input="$v.abonimi.$touch()"></v-text-field>
               <p class="qs s14 white--text pa-0 ma-0 ml-3 position-delayed" style="cursor: pointer;" @click="abonohu">Abonohu</p>
             </div>
         </div>
@@ -96,7 +96,7 @@ export default {
   grid-template-columns: 30% 30% 30%;
   justify-content: space-evenly;
   background-color: #363f4e;
-  width: 850px;
+  width: 100%;
   padding: 25px 0 25px 0;
 }
 .stina1{
@@ -106,7 +106,7 @@ export default {
   background-color: #363f4e;
   width: 584px;
   height: 50px;
-  padding: 25px 0 25px 0;
+  padding: 50px 0 50px 0;
 }
 .photostic{
   width: 50%;
@@ -147,8 +147,10 @@ export default {
   width: 100%;
 }
 .position-delayed{
-  position: relative;
-  top: -12.5%;
+  margin-bottom: 35px;
+}
+.abonohu-2 .v-input .v-input__control .v-input__slot .v-text-field__details{
+  display: none;
 }
 .footer1{
   display: flex;

@@ -32,187 +32,52 @@
                         <v-btn small class="white--text mb-4" color="secondary" @click="resetFilter">Reset</v-btn>
                         <p class="qs secondary--text">Zgjidh filtrat dhe aplikoji</p>
                     </v-col>
-                   <div class="sidebar-valuator">
-                       <p class="qs s15 secondary--text">Masat</p>
-                        <div class="repeatable">
+                   
+                   <div class="sidebar-valuator mt-6" v-for="filter in dumb" :key="filter.id">
+                       <p class="qs s15 secondary--text">{{filter.emri}}</p>
+                            
+                        <b-collapse :open="false" aria-id="contentIdForA11y1">
+                            <template #trigger>
+                                <b-field>
+                                    <b-switch
+                                        true-value="Trego"
+                                        false-value="Fshi"
+                                        aria-controls="contentIdForA11y1">
+                                    </b-switch>
+                                </b-field>
+                            </template>
+                            <div class="repeatable">
                                 <v-checkbox
-                                    v-model="checkbox1"
+                                    v-for="sta in filter.values"
+                                    :key="sta.id"
+                                    v-model="sta.checked"
                                     light
-                                    label="xs"
                                     class="ma-0"
                                     style="margin: 0 0 0 0;"
                                     color="secondary"
-                                    @click="checkBox1"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox2"
-                                    light
-                                    label="s"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox2"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox3"
-                                    light
-                                    label="m"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox3"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox4"
-                                    light
-                                    label="l"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox4"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox5"
-                                    light
-                                    label="xl"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox5"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox6"
-                                    light
-                                    label="xxl"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox6"
-                                ></v-checkbox>
-                                <v-checkbox
-                                    v-model="checkbox7"
-                                    light
-                                    label="xxxl"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    @click="checkBox7"
-                                ></v-checkbox>
-                        </div>
+                                    @change="checkBox(sta.emri, filter.emri, sta.checked)"
+                                    
+                                >
+                                    <template slot="label">
+                                        <div v-if="!sta.emri.includes('rgb')">
+                                            {{sta.emri}}
+                                        </div>
+                                        <v-avatar v-if="sta.emri.includes('rgb')" tile class="rounded-lg mr-4" size="26" :style="{'background-color': sta.emri}">
+
+                                        </v-avatar>
+                                    </template>
+                                </v-checkbox>
+                            </div>
+                        </b-collapse>
                    </div>
-                   <div class="sidebar-valuator">
-                       <p class="qs s15 secondary--text">Ngjyrat</p>
-                        <div class="repeatable">
-                                <v-checkbox
-                                    v-model="white"
-                                    light
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    :value="white"
-                                    @click="whiteColor"
-                                >
-                                    <template v-slot:label>
-                                        <div style="border: 1px solid #a1a1a1; backgroun-color: white;">
-                                            <v-avatar size="20" rounded color="white"></v-avatar>
-                                        </div>
-                                    </template>
-                                </v-checkbox>
-                                <v-checkbox
-                                    v-model="yellow"
-                                    light
-                                    label="E verdhe"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    :value="yellow"
-                                    @click="yellowColor"
-                                >
-                                    <template v-slot:label>
-                                        <div style="background-color: #e8d820;">
-                                            <v-avatar size="20" rounded color="#e8d820"></v-avatar>
-                                        </div>
-                                    </template>
-                                </v-checkbox>
-                                <v-checkbox
-                                    v-model="red"
-                                    light
-                                    label="E kuqe"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    :value="red"
-                                    @click="redColor"
-                                >
-                                    <template v-slot:label>
-                                        <div style="background-color: #d61114;">
-                                            <v-avatar size="20" rounded color="#d61114"></v-avatar>
-                                        </div>
-                                    </template>
-                                </v-checkbox>
-                                <v-checkbox
-                                    v-model="blue"
-                                    light
-                                    label="Blu"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    :value="blue"
-                                    @click="blueColor"
-                                >
-                                    <template v-slot:label>
-                                        <div style="background-color: #240ac9;">
-                                            <v-avatar size="20" rounded color="#240ac9"></v-avatar>
-                                        </div>
-                                    </template>
-                                </v-checkbox>
-                                <v-checkbox
-                                    v-model="jeshile"
-                                    light
-                                    label="Jeshile"
-                                    class="ma-0"
-                                    style="margin: 0 0 0 0;"
-                                    color="secondary"
-                                    :value="jeshile"
-                                    @click="greenColor1"
-                                >
-                                    <template v-slot:label>
-                                        <div style="background-color: #119e22;">
-                                            <v-avatar size="20" rounded color="#119e22"></v-avatar>
-                                        </div>
-                                    </template>
-                                </v-checkbox>
-                        </div>
-                   </div>
-                   <div class="sidebar-valuator-2">
+                   
+                   <div class="sidebar-valuator-2 mt-6">
                        <p class="qs s15 secondary--text">Cmimi</p>
                         <v-col class="px-4">
-                            <v-text-field
-                                label="Cmimi minimal"
-                                color="secondary"
-                                light
-                                v-model="range[0]"
-                                @change="pricer"
-                                :error-messages="num1Errors"
-                                @input="$v.num1.$touch()"
-                            >
-                                <template slot="append-outer">
-                                    <p class="qs secondary--text">ALL</p>
-                                </template>
-                            </v-text-field>
-                            <v-text-field
-                                label="Cmimi maksimal"
-                                color="secondary"
-                                light
-                                v-model="range[1]"
-                                @change="pricer"
-                                :error-messages="num2Errors"
-                                @input="$v.num2.$touch()"
-                            >
-                                <template slot="append-outer">
-                                    <p class="qs secondary--text">ALL</p>
-                                </template>
-                            </v-text-field>
+                            <b-field>
+                                <b-slider v-model="range" :min="0" :max="30000" :step="2" @change="pricer">
+                                </b-slider>
+                            </b-field>
                             <p class="qs secondary--text">Min: {{range[0]}} | Max: {{range[1]}}</p>
                         </v-col>
                    </div>
@@ -733,8 +598,8 @@ export default {
             } else {
                 this.selected.forEach((el)=>{
                     if(el.kategoria == "price"){
-                        el.min_value = this.priceTing.min_value;
-                        el.max_value = this.priceTing.max_value;
+                        el.min_value = this.range[0];
+                        el.max_value = this.range[1];
                     }
                 })
             }

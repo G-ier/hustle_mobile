@@ -373,7 +373,7 @@
                     <v-icon color="secondary" class="pt-1">mdi-magnify</v-icon>
                     <input type="search" id="kerkimi-1" v-model="searchQ" class="searchable-1 btn-c-o" placeholder="Kerkoni produkte..." @focus="changeBorder" @input="changeType" @keydown.enter="searchGo" @blur="antiBlur">
                   </div>
-                  <button class="buttonable btn-c-o" id="butoni">Kerko</button>
+                  <button class="buttonable btn-c-o" id="butoni" @click="search22">Kerko</button>
               </b-field>
             </div>
             <div class="results" v-if="answer == true" ref="karuci" @mouseenter="itsover = true" @mouseleave="itsover = false" @mouseout="mouseOut">
@@ -758,7 +758,7 @@ export default {
       },
       searchGo: function(){
 
-        if(this.searchQ == "" || this.searchQ == " "){
+        if(this.searchQ == "" || this.searchQ == " " || this.searchQ == null){
           return;
         }
 
@@ -769,7 +769,7 @@ export default {
       },
       search22: function(){
 
-        if(this.search2 == "" || this.search2 == " "){
+        if(this.search2 == "" || this.search2 == " " || this.search2 == null){
           return;
         }
 
