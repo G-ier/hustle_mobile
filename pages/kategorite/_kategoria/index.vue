@@ -11,7 +11,7 @@
             <div class="drawer-container remove-scroll-wheel" >
             <div class="sidebar sidebar-side">
                <div class="sidebar-links mb-4 mt-1">
-                   <h4 class="qs secondary--text ma-0 pa-0">Kompjutera dhe teknologji</h4>
+                   <h4 class="qs secondary--text ma-0 pa-0">{{nameting}}</h4>
                    <div class="sideline"></div>
                    <div class="sidebar-link">
                        <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/kategorite/computers/computers">Kompjutera dhe tableta</nuxt-link>
@@ -156,6 +156,14 @@
                                 </v-checkbox>
                             </div>
                         </b-collapse>
+                        <v-row class="mt-5 ml-4" justify="center" v-if="filter.checker == false">
+                            <b-field>
+                                <b-checkbox disabled>{{filter.values[0].emri}}</b-checkbox>
+                            </b-field>
+                            <b-field>
+                                <b-checkbox disabled>{{filter.values[1].emri}}</b-checkbox>
+                            </b-field>
+                        </v-row>
                    </div>
                    
                    <div class="sidebar-valuator-2 mt-6">
