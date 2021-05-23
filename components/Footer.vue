@@ -8,27 +8,27 @@
         <div class="flatra">
           <h5 class="qs white--text mb-8">MENU E SHPEJT</h5>
 
-          <nuxt-link class="pa-0 ma-0 white--text" :to="{path:'/kujdesi-ndaj-klienteve', hash: 'termat'}">Termat dhe Kushtet</nuxt-link>
-          <nuxt-link class="pa-0 ma-0 white--text" :to="{path:'/kujdesi-ndaj-klienteve', hash: 'kthimi'}">Politikat e kthimit</nuxt-link>
-          <nuxt-link class="pa-0 ma-0 white--text" :to="{path:'/kujdesi-ndaj-klienteve', hash: 'qa'}">Pyetje & pergjigje të shpeshta</nuxt-link>
-          <nuxt-link class="pa-0 ma-0 white--text" to="/rreth-nesh">Rreth nesh</nuxt-link>
+          <nuxt-link class="pa-0 ma-0 white--text my-2" :to="{path:'/kujdesi-ndaj-klienteve', hash: 'termat'}">Termat dhe Kushtet</nuxt-link>
+          <nuxt-link class="pa-0 ma-0 white--text my-2" :to="{path:'/kujdesi-ndaj-klienteve', hash: 'kthimi'}">Politikat e kthimit</nuxt-link>
+          <nuxt-link class="pa-0 ma-0 white--text my-2" :to="{path:'/kujdesi-ndaj-klienteve', hash: 'qa'}">Pyetje & pergjigje të shpeshta</nuxt-link>
+          <nuxt-link class="pa-0 ma-0 white--text my-2" to="/rreth-nesh">Rreth nesh</nuxt-link>
         </div>
       </div>
       <div class="dragua">
         <div class="flatra">
           <h5 class="qs white--text mb-8">FOLLOW US</h5>
 
-          <a href="https://www.facebook.com/jari" class="btn-c-o pa-0 ma-0 white--text"><v-icon color="blue darken-3" size="40">mdi-facebook</v-icon> amazon.com</a>
-          <a href="https://www.instagram.com/jari" class="btn-c-o pa-0 ma-0 white--text"><v-icon color="orange darken-3" size="40">mdi-instagram</v-icon> amazon.com</a>
-          <a href="https://www.youtube.com/jari" class="btn-c-o pa-0 ma-0 white--text"><v-icon color="red darken-3" size="40">mdi-youtube</v-icon> amazon.com</a>
+          <a href="https://www.facebook.com/jari" class="btn-c-o pa-0 ma-0 white--text my-2"><v-icon color="blue darken-3" size="40">mdi-facebook</v-icon> amazon.com</a>
+          <a href="https://www.instagram.com/jari" class="btn-c-o pa-0 ma-0 white--text my-2"><v-icon color="orange darken-3" size="40">mdi-instagram</v-icon> amazon.com</a>
+          <a href="https://www.youtube.com/jari" class="btn-c-o pa-0 ma-0 white--text my-2"><v-icon color="red darken-3" size="40">mdi-youtube</v-icon> amazon.com</a>
         </div>
       </div>
       <div class="dragua">
         <div class="kontakt">
           <h5 class="qs white--text mb-8">KONTAKTI</h5>
 
-          <a class="pa-0 ma-0 btn-c-o white--text" href="tel: +7 (982) 536-50-77"><v-icon size="30" color="white">mdi-phone</v-icon> +7 (982) 536-50-77</a>
-          <p class="qs white--text pa-0 ma-0"><v-icon color="white">mdi-email</v-icon> amazon@gmail.com</p>
+          <a class="pa-0 ma-0 btn-c-o white--text my-2" href="tel: +7 (982) 536-50-77"><v-icon size="30" color="white">mdi-phone</v-icon> +7 (982) 536-50-77</a>
+          <p class="qs white--text pa-0 ma-0 my-2"><v-icon color="white">mdi-email</v-icon> amazon@gmail.com</p>
         </div>
         <div class="abonohu mt-10">
             <h5 class="qs blacwhitek--text mb-8">ABONOHUNI</h5>
@@ -41,7 +41,9 @@
       </div>
     </div>
 
-    <v-img :src="cards" class="stina1" contain :aspect-ratio="584/50"></v-img>
+    <v-img :src="cards" class="stina1 mt-10 mb-10" contain :aspect-ratio="584/50">
+      <p class="qs white--text position-f">Supported by:</p>
+    </v-img>
 
     <div class="last white--text">
       <span class="white--text">hustle <span style="font-family: Arial">&copy;</span> {{ new Date().getFullYear() }} | All rights reserved.</span>
@@ -91,6 +93,10 @@ export default {
 </script>
 
 <style scoped>
+.position-f{
+  position: relative;
+  top: -25px;
+}
 .stina{
   display: grid;
   grid-template-columns: 30% 30% 30%;

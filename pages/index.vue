@@ -164,7 +164,7 @@
       </div>
     </div>
 
-    <div class="main-body">
+    <div class="main-body-f">
       <div class="main-side">
         <div class="dealsod-2 mb-5">
           <div class="deals-header">
@@ -208,6 +208,7 @@
           </div>          
         </div>
       </div>
+      <!--
       <div class="side-side">
         <div class="side-pord">
           <div class="header-pord">
@@ -253,6 +254,7 @@
           </client-only>
         </div>
       </div>
+      -->
     </div>
 
     <div class="stingy mt-5 mb-6" :style="{'background-image': `url(${basic.ad1.photo})`}">
@@ -278,10 +280,10 @@
           </div>
         </div>
         <div class="products-main-2">
-          <div class="product-main" v-for="item in neue" :key="item.id">
-            <v-img class="product-main-image" :aspect-ratio="1" v-if="item" :src="item.details.photos[0].src" :alt="item.details.name">
+          <div class="product-main" v-for="leaf in neue" :key="leaf.id">
+            <v-img class="product-main-image" :aspect-ratio="1" v-if="leaf" :src="leaf.details.photos[0].src" :alt="leaf.details.name">
               <v-chip
-                  v-if="item.creationTime + 172800000 >= Date.now()"
+                  v-if="leaf.creationTime + 172800000 >= Date.now()"
                   class="ma-2"
                   color="green"
                   label
@@ -290,16 +292,16 @@
               </v-chip>
             </v-img>
             <div class="product-main-desc">
-              <nuxt-link class="qs secondary--text" :to="'/kategorite' + item.details.kategorita + '/' + item.spot">{{item.details.name}}</nuxt-link>
+              <p class="qs secondary--text" @click="reroute(leaf.spot, leaf.details.kategoria)">{{leaf.details.name}}</p>
               <v-rating 
-              :value="item.details.likes/item.details.likers"
+              :value="leaf.details.likes/leaf.details.likers"
               background-color="yellow darken-2"
               color="yellow"
               small
               readonly
               ></v-rating>
-              <p class="qs primary--text pricey" v-if="item.details.priceLow">{{item.details.priceLow}} ALL <span class="miniature gray--text text-decoration-line-through">{{item.details.price}} ALL</span></p>
-              <p class="qs primary--text pricey" v-if="item.details.priceLow == null">{{item.details.price}} ALL</p>
+              <p class="qs primary--text pricey" v-if="leaf.details.priceLow">{{leaf.details.priceLow}} ALL <span class="miniature gray--text text-decoration-line-through">{{leaf.details.price}} ALL</span></p>
+              <p class="qs primary--text pricey" v-if="leaf.details.priceLow == null">{{leaf.details.price}} ALL</p>
             </div>
           </div>
         </div>
@@ -341,7 +343,7 @@
       <v-btn color="white" class="primary--text rounded-lg" :to="basic.ad2.link">Vizito tani</v-btn>
     </div> 
 
-    <div class="main-body">
+    <div class="main-body-f">
       <div class="main-side">
         <div class="dealsod-2 mb-5">
           <div class="deals-header">
@@ -359,7 +361,7 @@
           </div>
         </div>
         <div class="products-main">
-          <div class="product-main" v-for="item in prodis.slice(0,4)" :key="item.id">
+          <div class="product-main" v-for="item in prodis2.slice(0,4)" :key="item.id">
             <v-img class="product-main-image-2" v-if="item" :src="item.details.photos[0].src" alt="iphone">
               <v-chip
                   v-if="item.creationTime + 172800000 >= Date.now()"
@@ -383,36 +385,6 @@
               <p class="qs primary--text pricey" v-if="item.details.priceLow == null">{{item.details.price}} ALL</p>
             </div>
           </div>          
-        </div>
-      </div>
-      <div class="side-side">
-        <div class="side-pord">
-          <div class="header-pord">
-            <p class="qs pa-0 ma-0">Te rekomanduara</p>
-          </div>
-          <div class="fucked">
-            <div class="fucked-1" v-for="item in recom" :key="item.id">
-              <div class="kivi">
-                <v-avatar tile color="white" size="70" class="mb-5">
-                  <v-img class="fucked-image" v-if="item" :src="item.details.photos[0].src" :alt="item.details.name"></v-img>
-                </v-avatar>
-              </div>
-              <div class="fucked-desc">
-                <nuxt-link class="qs btn-c-o secondary--text ma-0 pa-0" :to="'/kategorite' + item.details.kategorita + '/' + item.spot">{{item.details.name}}</nuxt-link>
-                <v-rating 
-                  :value="item.details.likes/item.details.likers" 
-                  background-color="yellow darken-2"
-                  color="yellow"
-                  small
-                  readonly
-                  class="pa-0 ma-0"
-                ></v-rating>
-                <p class="qs primary--text" v-if="item.details.priceLow == null">{{item.details.price}} ALL</p>
-                <p class="qs primary--text" v-if="item.details.priceLow">{{item.details.priceLow}} ALL</p>
-              </div>
-            </div>
-
-          </div>
         </div>
       </div>
     </div>
@@ -572,6 +544,7 @@
         </div>
       </div>
     </div>
+    <!--
     <div class="contact">
       <h1 class="con-title">Tregu per ju!</h1>
       <div class="con-controller">
@@ -595,6 +568,7 @@
         </div>
       </div>
     </div>
+    -->
   </div>
 </template>
 
@@ -604,13 +578,34 @@ import 'firebase/firestore';
 import 'swiper/css/swiper.css'
 
 export default {
-  async asyncData(){
+  async asyncData({$axios, route}){
 
-    const data2 = await firebase.firestore().collection('elektronike').limit(4).get();
-    const datas = data2.docs.map(doc => doc.data());
+    var obj = await $axios({
+        method: "post",
+        url: "http://34.65.32.131/best_deals",
+        params: {
+            query_product: 9
+        },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    })
 
-    const gio = await firebase.firestore().collection('elektronike').orderBy("creationTime").limit(4).get();
-    const gio2 = gio.docs.map(doc => doc.data());
+    var obj1 = await $axios({
+        method: "post",
+        url: "http://34.65.32.131/newest",
+        params: {
+            query_product: 9
+        },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    })
+
+    var obj2 = await $axios({
+        method: "post",
+        url: "http://34.65.32.131/highest_evaluation",
+        params: {
+            query_product: 9
+        },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    })
     
     const fata = await firebase.firestore().collection('basic').get();
     const fata2 = fata.docs.map(doc => doc.data());
@@ -620,10 +615,11 @@ export default {
 
     const timeList = fata2[0].ads.map(doc => doc.from.toDate().getTime() - Date.now());
 
-    console.log(JSON.stringify(timeList))
+    console.log(JSON.stringify(obj1.data.produktet))
 
     return {
-      prodis: datas,
+      prodis: obj.data.produktet.slice(0, 4),
+      prodis2: obj2.data.produktet.slice(0, 4),
       basic: fata2[5],
       main: fata2[1],
       side1: fata2[2],
@@ -632,7 +628,7 @@ export default {
       stangy: fata2[4],
       dotd: fata2[0].ads,
       recom: datas1,
-      neue: gio2,
+      neue: obj1.data.produktet.slice(0, 4),
       times: timeList
     }
   },
@@ -690,42 +686,51 @@ export default {
           }
         ]
       }
-    },
-    methods: {
-      gotonext: function(){
-        this.$refs.carousel.goToNext();
-        if(this.objCount != 10){
-          this.objCount++;
+  },
+  methods: {
+    reroute(emri, kategoria){
+      this.$route({
+        path: '/kategorite/' + kategoria + "/" + emri.toLowerCase(),
+        query: {
+          name: emri,
+          kategoria: kategoria
         }
-      },
-      gotoprev: function(){
-        this.$refs.carousel.goToPrev();
-        if(this.objCount != 1){
-          this.objCount--;
-        }
-      },
-      getCurrSlide: function(event){
-        this.objCount = event.currentSlide + 1;
-      },
-      gotonext1: function(){
-        this.$refs.carousels.goToNext();
-        if(this.objCount != 10){
-          this.objCount++;
-        }
-      },
-      gotoprev1: function(){
-        this.$refs.carousels.goToPrev();
-        if(this.objCount != 1){
-          this.objCount--;
-        }
-      },
-      getCurrSlides: function(event){
-        this.objCount = event.currentSlide + 1;
-      },
-      href: function (){
-        this.$router.push({name: 'account-me'});
+      });
+    }, 
+    gotonext: function(){
+      this.$refs.carousel.goToNext();
+      if(this.objCount != 10){
+        this.objCount++;
       }
+    },
+    gotoprev: function(){
+      this.$refs.carousel.goToPrev();
+      if(this.objCount != 1){
+        this.objCount--;
+      }
+    },
+    getCurrSlide: function(event){
+      this.objCount = event.currentSlide + 1;
+    },
+    gotonext1: function(){
+      this.$refs.carousels.goToNext();
+      if(this.objCount != 10){
+        this.objCount++;
+      }
+    },
+    gotoprev1: function(){
+      this.$refs.carousels.goToPrev();
+      if(this.objCount != 1){
+        this.objCount--;
+      }
+    },
+    getCurrSlides: function(event){
+      this.objCount = event.currentSlide + 1;
+    },
+    href: function (){
+      this.$router.push({name: 'account-me'});
     }
+  }
 }
 </script>
 
@@ -1227,7 +1232,7 @@ export default {
 }
 @media only screen and (min-width: 850px){
 .card-holder{
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -1336,22 +1341,25 @@ export default {
 }
 .products-main{
   width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-.products-main-2{
-  width: 100%;
-  display: grid;
-  grid-template-columns: 25% 25%;
-  grid-template-rows: 49% 49%;
-  grid-column-gap: 10%;
-  grid-row-gap: 25%;
-}
-.product-main{
   display: grid;
   grid-template-columns: 24% 24% 24% 24%;
   grid-column-gap: 1%;
+}
+.products-main-2{
+  min-height: 110%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 49% 49%;
+  grid-template-rows: 49% 49%;
+  grid-row-gap: 2%;
+  grid-column-gap: 2%;
+  justify-content: center;
+}
+.product-main{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   border: 1px solid white;
   border-radius: 10px;
   overflow: hidden;
@@ -1361,6 +1369,7 @@ export default {
   height: 180px;
 }
 .product-main-image-2{
+  
   height: 180px;
 }
 .product-main-desc{
@@ -1375,7 +1384,12 @@ export default {
   display: grid;
   grid-template-columns: 69% 29%;
   grid-column-gap: 2%;
-  width: 850px;
+  width: 800px;
+}
+.main-body-f{
+  display: grid;
+  grid-template-columns: 100%;
+  width: 800px;
 }
 .main-side{
   display: flex;
@@ -2167,6 +2181,7 @@ export default {
   grid-column-gap: 1%;
 }
 .products-main-2{
+  height: 100%;
   width: 100%;
   display: grid;
   grid-template-columns: 25% 25%;
@@ -2203,6 +2218,11 @@ export default {
   display: grid;
   grid-template-columns: 69% 29%;
   grid-column-gap: 2%;
+  width: 1200px;
+}
+.main-body-f{
+  display: grid;
+  grid-template-columns: 100%;
   width: 1200px;
 }
 .main-side{
