@@ -194,7 +194,7 @@
               </v-chip>
             </v-img>
             <div class="product-main-desc">
-              <h3 class="qs secondary--text"><nuxt-link class="qs btn-c-o" :to="'/kategorite/elektronike/tv-dhe-video/' + item.spot">{{item.details.name}}</nuxt-link></h3>
+              <h3 class="qs secondary--text" @click="reroute(item.spot, item.details.kategoria)">{{item.details.name}}</h3>
               <v-rating 
               :value="item.details.likes/item.details.likers"
               background-color="yellow darken-2"
@@ -292,7 +292,7 @@
               </v-chip>
             </v-img>
             <div class="product-main-desc">
-              <p class="qs secondary--text" @click="reroute(leaf.spot, leaf.details.kategoria)">{{leaf.details.name}}</p>
+              <h3 class="qs secondary--text" @click="reroute(leaf.spot, leaf.details.kategoria)">{{leaf.details.name}}</h3>
               <v-rating 
               :value="leaf.details.likes/leaf.details.likers"
               background-color="yellow darken-2"
@@ -373,7 +373,7 @@
               </v-chip>
             </v-img>
             <div class="product-main-desc">
-              <h3 class="qs secondary--text"><nuxt-link class="qs btn-c-o" :to="'/kategorite/elektronike/tv-dhe-video/' + item.spot">{{item.details.name}}</nuxt-link></h3>
+              <h3 class="qs secondary--text" @click="reroute(item.spot, item.details.kategoria)">{{item.details.name}}</h3>
               <v-rating 
               :value="item.details.likes/item.details.likers"
               background-color="yellow darken-2"
@@ -461,6 +461,7 @@
                 <div class="deals-image">
                     <v-img :aspect-ratio="16/9" max-width="500" :src="n.photo"></v-img>
                 </div>
+                <!--
                 <div class="deals-desc">
                     <h4 class="qs d-t">{{n.details.name}}</h4>
                     <v-rating
@@ -482,6 +483,7 @@
                     <nuxt-link to="/ofertat" class="secondary--text btn-c-o">Me shume</nuxt-link>
                     </div>
                 </div>
+                -->
             </div>
         </swiper-slide>
         <div class="swiper-pagination" slot="pagination"></div>
@@ -735,6 +737,11 @@ export default {
 </script>
 
 <style scoped>
+.main-body-f{
+  display: none;
+  grid-template-columns: 100%;
+  width: 800px;
+}
 .lite{
   background-color: #f2f2f2;
 }
@@ -743,7 +750,7 @@ export default {
 }
 .swiper-slide {
   text-align: center;
-
+  height: 300px;
   background-color: #eee;
   display: flex;
   justify-content: center;
@@ -1226,7 +1233,7 @@ export default {
 }
 .mos-i-qr{
   width: 100%;
-  min-height: 400px;
+  max-height: 350px;
   margin: 10px 0 10px 0;
   display: block;
 }
