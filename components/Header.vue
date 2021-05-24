@@ -478,7 +478,11 @@ export default {
       }
     },
     mounted(){
-      this.height = window.innerHeight * 0.15;
+      if(window.innerHeight <= 680){
+        this.height = window.innerHeight * 0.17;
+      } else {
+        this.height = window.innerHeight * 0.14;
+      }
     }
 }
 </script>
