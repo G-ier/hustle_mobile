@@ -478,7 +478,7 @@ export default {
       }
     },
     mounted(){
-      this.height = window.innerHeight * 0.14;
+      this.height = window.innerHeight * 0.15;
     }
 }
 </script>
