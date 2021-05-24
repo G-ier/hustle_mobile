@@ -907,13 +907,13 @@ export default {
   justify-content: flex-start;
   align-items: center;
   width: 100vw;
-  height: 50vh;
+  height: 300px;
   background-color: white;
 }
 .deals-image{
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   height: 100%;
 }
