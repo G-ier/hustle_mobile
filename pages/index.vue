@@ -741,7 +741,7 @@ export default {
 }
 .swiper-slide {
   text-align: center;
-  height: 300px;
+  height: 250px;
   background-color: #eee;
   display: flex;
   justify-content: center;
@@ -907,7 +907,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   width: 100vw;
-  height: 300px;
+  height: 250px;
   background-color: white;
 }
 .deals-image{
