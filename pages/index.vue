@@ -448,7 +448,7 @@
         <swiper-slide v-for="n in dotd" :key="n.id">
             <div class="deals-body">
                 <div class="deals-image">
-                    <v-img :aspect-ratio="16/9" max-width="500" src="https://hhstsyoejx.gjirafa.net/gj50/banners/mb_d-1621606815.jpg"></v-img>
+                    <v-img :aspect-ratio="16/9" max-width="500" :src="banner"></v-img>
                 </div>
                 <!--
                 <div class="deals-desc">
@@ -567,6 +567,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'swiper/css/swiper.css'
+import banner from "../assets/img/adsAmazon.png"
 
 export default {
   async asyncData({$axios, route}){
@@ -625,6 +626,7 @@ export default {
   },
   data(){
     return{
+      banner: banner,
       ratings: 4,
       slickOptions: {
         slidesToShow: 3,

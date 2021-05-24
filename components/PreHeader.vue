@@ -48,7 +48,7 @@
             </v-toolbar-title>
             <v-spacer class="spacer-duo"></v-spacer>
             <div class="rightside mr-3">
-                <b-dropdown
+              <b-dropdown
                     v-model="navigation"
                     position="is-bottom-left"
                     append-to-body
