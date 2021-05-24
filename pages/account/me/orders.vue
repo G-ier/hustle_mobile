@@ -88,7 +88,8 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 65vh;
+    min-height: 65vh;
+    padding: 25px 0 25px 0;
     background-color: white;
 }
 </style>

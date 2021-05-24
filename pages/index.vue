@@ -495,34 +495,34 @@
             <h2 class="qs">Aksesore elektronik</h2>
             <div class="line1"></div>
           </div>
-          <v-btn class="qs rounded-lg secondary--text" nuxt to="/kategorite/computers/aksesore" color="white">Vizito tani</v-btn>
+          <v-btn class="qs rounded-lg secondary--text" nuxt :to="{path: '/kategorite/informatike-aksesore', query: {name: 'Aksesore', kategoria: 'Informatike'} }" color="white">Vizito tani</v-btn>
         </div>
       </div>
       <div class="squarelikkle">
         <div class="squareside">
           <div class="joint-2">
-            <h2 class="qs sq-mini">Produkte</h2>
-            <h2 class="qs sq-title secondary--text">Shkollore</h2>
+            <h2 class="qs sq-mini">Instrumente</h2>
+            <h2 class="qs sq-title secondary--text">Shkrimi</h2>
           </div>
-          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/kancelari/shkollore" color="white">Vizito tani</v-btn>
+          <v-btn class="qs rounded-lg secondary--text" small nuxt :to="{path: '/kategorite/zyrë-dhe-shkollë-instrumenta-shkrimi', query: {name: 'Instrumenta shkrimi', kategoria: 'Zyrë dhe Shkollë'} }" color="white">Vizito tani</v-btn>
         </div>
       </div>
       <div class="squarelikkle-2">
         <div class="squareside-2">
           <div class="joint-3">
-            <h2 class="qs sq-mini">Produkte</h2>
+            <h2 class="qs sq-mini">Aksesore</h2>
             <h2 class="qs sq-title secondary--text">Zyrash</h2>
           </div>
-          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/kancelari/zyra" color="white">Vizito tani</v-btn>
+          <v-btn class="qs rounded-lg secondary--text" small nuxt :to="{path: '/kategorite/zyrë-dhe-shkollë-aksesorë-zyre', query: {name: 'Aksesorë zyre', kategoria: 'Zyrë dhe Shkollë'} }" color="white">Vizito tani</v-btn>
         </div>
       </div>
       <div class="squarelikkle-3">
         <div class="squareside">
           <div class="joint-2">
-            <h2 class="qs sq-mini">Produkte</h2>
-            <h2 class="qs sq-title secondary--text">Kozmetike</h2>
+            <h2 class="qs sq-mini">Aksesore</h2>
+            <h2 class="qs sq-title secondary--text">Femrash</h2>
           </div>
-          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/kozmetike/kozmetike" color="white">Vizito tani</v-btn>
+          <v-btn class="qs rounded-lg secondary--text" small nuxt :to="{path: '/kategorite/veshje-femrash-aksesorë', query: {name: 'Aksesore', kategoria: 'VESHJE FEMRASH'} }" color="white">Vizito tani</v-btn>
         </div>
       </div>
       <div class="squarelikkle-4">
@@ -531,7 +531,7 @@
             <h2 class="qs sq-mini">Clothing</h2>
             <h2 class="qs sq-title secondary--text">per femra</h2>
           </div>
-          <v-btn class="qs rounded-lg secondary--text" small nuxt to="/kategorite/fashion/femra" color="white">Vizito tani</v-btn>
+          <v-btn class="qs rounded-lg secondary--text" small nuxt :to="{path: '/kategorite/veshje-femrash-veshje', query: {name: 'Veshje', kategoria: 'VESHJE FEMRASH'} }" color="white">Vizito tani</v-btn>
         </div>
       </div>
     </div>

@@ -369,6 +369,8 @@ export default {
         send: async function ({params}){
             try{
                 
+                console.log(JSON.stringify (this.product))
+
                 this.$v.reviewText.$touch();
 
                 if(this.$v.reviewText.$invalid){
@@ -381,17 +383,26 @@ export default {
                     this.error2Yje = true;
                     return;
                 }
-                const firerev = await firebase.firestore().collection('reviews').doc(this.$store.state.users.user.email).get();
-                const rev = firerev.data();
+
+                const sker = this.$store.state.users.user.email.split('@');
+
+                const firerev = await firebase.firestore().collection('reviews').where("author", "==", sker[0]).get();
+                const rev = firerev.docs.map(data => data.data());
                 const fireuser = await firebase.firestore().collection('users').where("email", "==", this.$store.state.users.user.email).get();
                 const user = fireuser.docs.map(doc => doc.data());
                 const firedata = await firebase.firestore().collection('orders').where("payee_email", "==", this.$store.state.users.user.email).where("orders.item", "==", this.product.spot).get();
                 const firedate = firedata.docs.map(doc => doc.data());
                 
-                if(rev && rev.post == this.product.spot){
-                    console.log("already")
-                    this.alreadyPosted = true;
-                    return;
+                if(rev.length == 0){
+                    console.log(1);
+                } else {
+                    rev.forEach((doc)=>{
+                        if(doc.author == this.product.spot){
+                            alert(rev.indexOf(doc));
+                            this.alreadyPosted = true;
+                            return;
+                        }
+                    });
                 }
 
                 if(firedate[0].payee_email == this.$store.state.users.user.email){
@@ -404,24 +415,33 @@ export default {
                     
 
 
-                    await firebase.firestore().collection('elektronike').doc(this.product.spot).update({
-                        details: {
-                            name: this.product.details.name,
-                            price: this.product.details.price,
-                            desc: this.product.details.desc,
-                            seller: this.product.details.seller,
-                            sellerPhoto: this.product.details.sellerPhoto,
-                            details: this.product.details.details,
-                            kategoria: this.product.details.kategoria,
-                            kategorita: this.product.details.kategorita,
-                            photos: this.product.details.photos,
-                            pesha: this.product.details.pesha,
-                            sizey: this.product.details.sizey,
-                            masa: this.product.details.masa,
-                            ngjyra: this.product.details.ngjyra,
-                            likes: this.product.details.likes + this.reviewRating,
-                            likers: this.product.details.likers + 1
-                        } 
+                    var operations = [
+                        {
+                            "fieldname": "likers",
+                            "new_value" : this.product.details.likers + 1
+                        },
+                        {
+                            "fieldname": "likes",
+                            "new_value" : this.product.details.likes + this.reviewRating
+                        }
+                    ]
+
+
+                    var bodyFormData = new FormData();
+
+                    bodyFormData.append('to_edit', JSON.stringify({
+                        product_id: this.product.id,
+                        operations: operations
+                    }));
+
+
+                    this.loading2 = true;
+
+                    var obj = await this.$axios({
+                        method: "post",
+                        url: "http://34.65.32.131/edit",
+                        data: bodyFormData,
+                        headers: { "Content-Type": "multipart/form-data" },
                     })
                 } else{
                     this.snack3 = true;
