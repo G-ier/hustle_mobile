@@ -1,6 +1,6 @@
 <template>
   <div class="aplikimi-container-cu-1">
-    <v-sheet elevation="12" class="mx-auto py-4 custom-stepper" color="stripe1">
+    <v-sheet elevation="12" class="mx-auto py-4 custom-stepper" color="stripe1" v-if="inload == false">
         <div class="form-body pb-2">
           <div class="ch-t">
             <h1 class="qs checkoutTitle white--text">Pagesa</h1>
@@ -91,6 +91,16 @@
             </v-card-actions>
             </v-card>
     </v-dialog>
+    <v-progress-circular
+        :rotate="-90"
+        :size="150"
+        :width="3"
+        color="primary"
+        indeterminate
+        v-if="inload == true"
+      >
+        Loading...
+    </v-progress-circular>
   </div>
 </template>
 
@@ -119,6 +129,7 @@ export default {
   },
   data () {
     return {
+      inload: true,
       dun: false,
       itemsy: [
             "Bajram Curri",
@@ -291,7 +302,6 @@ export default {
             this.completedP = true;
             this.dun = true;
         }
-
     },
     /*
     doTheTing: function(details){
@@ -380,7 +390,7 @@ export default {
         this.$store.dispatch("users/removeCart");
         Cookies.remove("cart_hustle");
 
-        this.$router.push({name: "account-me-orders"});
+        this.$router.push({path: "/success"});
 
     }
   },
@@ -486,9 +496,11 @@ export default {
       if (localStorage.getItem('reloaded')) {
         // The page was just reloaded. Clear the value from local storage
         // so that it will reload the next time this page is visited.
+            this.inload = false;
             localStorage.removeItem('reloaded');
         } else {
             // Set a flag so that we know not to reload the page twice.
+            this.inload = true;
             localStorage.setItem('reloaded', '1');
             location.reload();
         }

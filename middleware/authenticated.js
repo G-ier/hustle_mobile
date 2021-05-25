@@ -1,6 +1,8 @@
 export default function ({store, route, redirect}) {
     const user = store.state.users.user;
     const role = store.state.users.role;
+    const cart = store.state.users.cart;
+    const noCart = /^\/checkout\/?$/;
     const blocked = /^\/account\/me\/?$/;
     // const blockedC = /^\/creator\/*$/;
     const blockedAdmin = /^\/account\/drejtuesi\/?$/;
@@ -8,6 +10,10 @@ export default function ({store, route, redirect}) {
     const blockedAfterLogIn = /^\/account\/?|\/account\/register\/?$/;
     const blockedAfterLogIn2 = /^\/account\/register\/?$/;
     // const blockedAfterLogInC = /^\/creator\/login$/;
+
+    if(route.path.match(noCart) && (cart == null || cart.length == 0)){
+        return redirect('/cancel');
+    }
 
     if(!user && route.path.match(blocked)){
         return redirect('/account');

@@ -212,6 +212,32 @@
             </v-card-actions>
         </v-card>
         </v-dialog>
+        <v-dialog
+        v-model="alreadyOut"
+        max-width="240"
+        >
+        <v-card color="primary">
+            <v-card-title class="headline qs">
+            Already there :)
+            </v-card-title>
+
+            <v-card-text class="qs">
+            Produkti ndodhej qe me perpara ne shporte.
+            </v-card-text>
+
+            <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn
+                color="white"
+                text
+                @click="alreadyOut = false"
+            >
+                Close
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+        </v-dialog>
   </div>
 </template>
 
@@ -270,7 +296,8 @@ export default {
             posted: false,
             fakeReview: "",
             fakeRating: 0,
-            fakeAuthor: ""
+            fakeAuthor: "",
+            alreadyOut: false
         }
     },
     validations: {
@@ -337,7 +364,7 @@ export default {
             var currentCartJSON = Cookies.get("cart_hustle");
             
             if(typeof currentCartJSON === 'undefined'){
-                currentCart = [];
+                var currentCart = [];
             } else {
                 var currentCart = JSON.parse(currentCartJSON);
             }
@@ -347,12 +374,15 @@ export default {
                 cartTimes: times,
                 currentCart: currentCart
             }
+            var close = false;
             currentCart.forEach((doc) => {
-                if(doc.prodEmri == emri){
-                    this.$store.dispatch("users/updateCart", cartNewDetails);
-                    return;
+                if(doc.name == emri + " | "){
+                    console.log(emri + " fale " + doc.name)
+                    this.alreadyOut = true;
+                    close = true;
                 }
             })
+            if(close) return;
             await this.$store.dispatch("users/addToCart", {
                 emri: emri,
                 seller: seller,

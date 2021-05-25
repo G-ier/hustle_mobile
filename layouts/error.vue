@@ -45,7 +45,7 @@ export default {
     const title =
       this.error.statusCode === 404 ? this.pageNotFound : this.otherError
     return {
-      titleTemplate: title + " | Klinika Fertility"
+      titleTemplate: title
     }
   }
 }

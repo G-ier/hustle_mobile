@@ -218,10 +218,10 @@ export const actions = {
         try{
             
             var currCart = jsonCart.currentCart;
-            console.log(currCart);
+            console.log(JSON.stringify(currCart));
 
             currCart.forEach((cartItem) => {
-                if(cartItem.prodEmri == jsonCart.emri){
+                if(cartItem.name == jsonCart.emri){
 
                     throw "exit";
                 }
@@ -252,7 +252,7 @@ export const actions = {
         try{
             
             var currCart = newCart.currentCart;
-            console.log(currCart);
+            console.log(JSON.stringify(currCart));
 
             currCart.forEach((cartItem) => {
                 if(cartItem.name == newCart.cartEmri){
