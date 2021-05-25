@@ -10,20 +10,16 @@
         >
             <div class="drawer-container remove-scroll-wheel" >
             <div class="sidebar sidebar-side">
-               <div class="sidebar-links mb-4 mt-1">
+               <div class="sidebar-links mb-4">
                    <h4 class="qs secondary--text ma-0 pa-0">{{nameting}}</h4>
                    <div class="sideline"></div>
-                   <div class="sidebar-link">
-                       <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/kategorite/computers/computers">Kompjutera dhe tableta</nuxt-link>
-                       <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
-                   </div>
-                   <div class="sidebar-link">
-                       <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/kategorite/computers/monitor">Monitora</nuxt-link>
-                       <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
-                   </div>
-                   <div class="sidebar-link">
-                       <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/kategorite/computers/pjese">Pjese kompjuterike</nuxt-link>
-                       <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
+                   <div v-for="link in links" :key="link.id" style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                       <div v-if="link.kategoria == catting" style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <div class="sidebar-link" v-for="ting in link.nenkategorite" :key="ting.id">
+                                <p class="qs secondary--text btn-c-o ma-0 pa-0" style="cursor: pointer;" @click="sender(ting.link, ting.emri)">{{ting.emri}}</p>
+                                <v-icon color="secondary" size="20">mdi-arrow-right-drop-circle</v-icon>
+                            </div>  
+                        </div>
                    </div>
                </div>
                <div class="sidebar-links mb-4">
@@ -71,10 +67,13 @@
                         </b-collapse>
                         <v-row class="mt-5 ml-4" justify="center" v-if="filter.checker == false">
                             <b-field>
-                                <b-checkbox disabled>{{filter.values[0].emri}}</b-checkbox>
+                                <b-checkbox disabled v-if="filter.values >= 1">{{filter.values[0].emri}}</b-checkbox>
                             </b-field>
                             <b-field>
-                                <b-checkbox disabled>{{filter.values[1].emri}}</b-checkbox>
+                                <b-checkbox disabled v-if="filter.values >= 2">{{filter.values[1].emri}}</b-checkbox>
+                            </b-field>
+                            <b-field>
+                                <b-checkbox disabled v-if="filter.values == 0">Asnje opsion</b-checkbox>
                             </b-field>
                         </v-row>
                    </div>
@@ -642,16 +641,20 @@ export default {
         sender(link, emri){
             this.$router.push({path: "/kategorite/"+link, query:{name: emri, kategoria: this.kategoria}});
         },
-        loadMore: function(){
-            const newProds = this.all.slice(this.last, this.last+6);
-            if(this.overload == true){
-                return;
-            }
-            if(this.last+6>this.all.length){
-                this.overload = true;
-            }
-            const newProds2 = this.prods.concat(newProds);
-            this.prods = newProds2;
+        loadMore: async function(){
+            const data = await this.$axios({
+                method: "post",
+                url: "http://34.65.32.131/products_and_filters",
+                params: {
+                    category: this.$route.query.name,
+                    last: this.last + 9
+                },
+                headers: { "Content-Type": "application/x-www-form-urlencoded" }
+            })
+
+            this.all = data.data.produktet;
+            this.prods = data.data.produktet;
+            this.last = this.last + 9;
 
             if(this.renditja == "Cmimit: Lire - Shtrenjt"){
                 this.filterPrice();
@@ -661,13 +664,6 @@ export default {
                 this.filterReviews();
             }  
 
-            if(this.renditja == "Cmimit: Lire - Shtrenjt"){
-                this.filterPrice();
-            } else if(this.renditja == "Cmimi: Shtrenjt - Lire"){
-                this.filterPriceDes();
-            } else if(this.renditja == "Sipas vleresimit") {
-                this.filterReviews();
-            }   
         },
         onScroll (e) {
             if (typeof window === 'undefined') return

@@ -11,7 +11,7 @@
             <div class="drawer-container remove-scroll-wheel" >
             <div class="sidebar sidebar-side">
                <div class="sidebar-links mb-4 mt-1">
-                   <h4 class="qs secondary--text ma-0 pa-0">{{route}}</h4>
+                   <h4 class="qs secondary--text ma-0 pa-0">Faqja e kerkimit</h4>
                    <div class="sideline"></div>
                    <div class="sidebar-link">
                        <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/new">Me te rejat</nuxt-link>
@@ -90,7 +90,7 @@
         <div class="market-new mb-3">
            <div class="sidebar">
                <div class="sidebar-links mb-4">
-                   <h4 class="qs secondary--text ma-0 pa-0">Te rekomanduara</h4>
+                   <h4 class="qs secondary--text ma-0 pa-0">Faqja e kerkimit</h4>
                    <div class="sideline"></div>
                    <div class="sidebar-link">
                        <nuxt-link class="qs secondary--text btn-c-o ma-0 pa-0" to="/new">Me te rejat</nuxt-link>

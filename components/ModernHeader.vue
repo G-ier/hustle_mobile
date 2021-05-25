@@ -762,9 +762,11 @@ export default {
           return;
         }
 
+        this.answer = false;
+
         this.$router.push({ path: "/search", query: {search: this.searchQ} });
 
-        this.answer = false;
+        
 
       },
       search22: function(){
@@ -773,9 +775,9 @@ export default {
           return;
         }
 
-        this.$router.push({ path: "/search", query: {search: this.search2} });
-
         this.answer = false;
+
+        this.$router.push({ path: "/search", query: {search: this.search2} });
 
       },
       itemPressed: function(kategoria, emri){

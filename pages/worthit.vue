@@ -56,7 +56,7 @@
                                 ></v-checkbox>
                             </div>
                         </b-collapse>
-                        <v-row class="mt-5 ml-4" justify="center" v-if="open == false">
+                        <v-row class="mt-5 ml-4" justify="center" v-if="filter.checker == false">
                             <b-field>
                                 <b-checkbox disabled>{{filter.values[0].emri}}</b-checkbox>
                             </b-field>
