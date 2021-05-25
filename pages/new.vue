@@ -58,10 +58,13 @@
                         </b-collapse>
                         <v-row class="mt-5 ml-4" justify="center" v-if="filter.checker == false">
                             <b-field>
-                                <b-checkbox disabled>{{filter.values[0].emri}}</b-checkbox>
+                                <b-checkbox disabled v-if="filter.values.length >= 1">{{filter.values[0].emri}}</b-checkbox>
                             </b-field>
                             <b-field>
-                                <b-checkbox disabled>{{filter.values[1].emri}}</b-checkbox>
+                                <b-checkbox disabled v-if="filter.values.length >= 2">{{filter.values[1].emri}}</b-checkbox>
+                            </b-field>
+                            <b-field>
+                                <b-checkbox disabled v-if="filter.values.length == 0">Asnje opsion</b-checkbox>
                             </b-field>
                         </v-row>
                    </div>
@@ -144,10 +147,13 @@
                         </b-collapse>
                         <v-row class="mt-5 ml-4" justify="center" v-if="filter.checker == false">
                             <b-field>
-                                <b-checkbox disabled>{{filter.values[0].emri}}</b-checkbox>
+                                <b-checkbox disabled v-if="filter.values.length >= 1">{{filter.values[0].emri}}</b-checkbox>
                             </b-field>
                             <b-field>
-                                <b-checkbox disabled>{{filter.values[1].emri}}</b-checkbox>
+                                <b-checkbox disabled v-if="filter.values.length >= 2">{{filter.values[1].emri}}</b-checkbox>
+                            </b-field>
+                            <b-field>
+                                <b-checkbox disabled v-if="filter.values.length == 0">Asnje opsion</b-checkbox>
                             </b-field>
                         </v-row>
                    </div>
@@ -665,7 +671,7 @@ export default {
             // replace `getPost` with your data fetching util / API wrapper
             var obj = await this.$axios({
                 method: "post",
-                url: "http://34.65.32.131/new",
+                url: "http://34.65.32.131/newest",
                 params: {
                     query_product: 9
                 },
