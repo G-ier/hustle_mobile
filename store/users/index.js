@@ -95,7 +95,13 @@ export const actions = {
 
             //Create user
             const toFilter = account.email.split("@");
-            await firebase.auth().createUserWithEmailAndPassword(account.email, account.password);
+            await firebase.auth().createUserWithEmailAndPassword(account.email, account.password).catch(error => {
+                switch (error.code) {
+                   case 'auth/email-already-in-use':
+                     console.log(`Email address ${this.state.email} already in use.`);
+                     break;
+                }
+            });     
             await firebase.firestore().collection('users').doc(toFilter[0]).set({
                 email: account.email.toLowerCase(),
                 username: account.emri.toLowerCase(),
@@ -107,7 +113,7 @@ export const actions = {
                 qyteti: account.qyteti,
                 numri: account.numri,
                 paid: false,
-                timestamp: new Date(today.getFullYear(), today.getMonth(), today.getDate()+7)
+                timestamp: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()+7).getTime()
             })
 
             //Get token from firebase

@@ -1,19 +1,11 @@
 <template>
     <div class="admin-base-1">
 
-      <div class="admin-starter primary" v-if="role == 'seller' && user.paid == true">
+      <div class="admin-starter primary" v-if="role == 'seller' && (user.paid == false || user.timestamp <= today.getTime())">
           <div class="container-stuff">
               <h1 class="starter-title-1 s20 qs">Behu shites</h1>
-              <p class="qs">Periudha free-trial mbaron ne: {{new Date(user.timestamp).toLocaleString()}}</p>
-              <v-btn class="qs primary--text rounded-lg" color="white" small @click="contactSeller = true">Kontakto Amazon</v-btn>
-          </div>
-      </div>
-
-      <div class="admin-starter primary" v-if="role == 'seller' && user.timestamp < new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()+7).getTime()">
-          <div class="container-stuff">
-              <h1 class="starter-title-1 s20 qs">Ribehu shites</h1>
-              <p class="qs">Abonimi juaj mbaron se shpejti.</p>
-              <p class="qs">Periudha free-trial mbaron ne: {{new Date(user.timestamp).toLocaleString()}}</p>
+              <p class="qs">Abonimi juaj mbaron se shpejti: {{new Date(user.timestamp).toLocaleString()}}</p>
+              <p class="qs" v-if="user.paid == false">Periudha free-trial se shpejti...</p>
               <v-btn class="qs primary--text rounded-lg" color="white" small @click="contactSeller = true">Kontakto Amazon</v-btn>
           </div>
       </div>
@@ -104,7 +96,6 @@ export default {
     async asyncData({store}){
         var full = store.state.users.user.email.split("@");
         var realting = full[0];
-        console.log(realting);
 
         const datush = await firebase.firestore().collection('users').doc(realting).get();
         const datush2 = datush.data();
@@ -122,10 +113,13 @@ export default {
             freeTrial.push({freeTrial: false});
         }
 
+        console.log(datush2.timestamp);
+        console.log(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()+7).getTime());
         return{
             prods: data4.length > 0 ? data4 : [],
             freeTrial: freeTrial[0].freeTrial,
-            user: datush2
+            user: datush2,
+            today: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()+7)
         }
     },
     data(){
