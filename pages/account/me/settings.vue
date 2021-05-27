@@ -237,7 +237,9 @@ export default {
                     photo: this.url,
                     qyteti: this.user.qyteti,
                     role: this.user.role,
-                    displaName: this.user.displaName
+                    displaName: this.user.displaName,
+                    paid: this.user.paid,
+                    timestamp: this.user.timestamp
                 });
             }
             else if(this.account.email != "" && this.account.password == ""){
@@ -250,7 +252,9 @@ export default {
                     photo: this.user.photo,
                     qyteti: this.user.qyteti,
                     role: this.user.role,
-                    displaName: this.user.displaName
+                    displaName: this.user.displaName,
+                    paid: this.user.paid,
+                    timestamp: this.user.timestamp
                 });
             }
             else if(this.account.email != "" && this.account.password != ""){
@@ -263,7 +267,9 @@ export default {
                     photo: this.user.photo,
                     qyteti: this.user.qyteti,
                     role: this.user.role,
-                    displaName: this.user.displaName
+                    displaName: this.user.displaName,
+                    paid: this.user.paid,
+                    timestamp: this.user.timestamp
                 });
             }
 

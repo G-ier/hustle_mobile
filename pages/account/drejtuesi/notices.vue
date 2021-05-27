@@ -1,0 +1,186 @@
+<template>
+    <div class="edit">
+        <div class="sets">
+            
+            <h2 class="classy qs secondary--text">Kontaktimet</h2>
+            
+        </div>
+        <div class="double-down mb-4">
+          <div class="desc-row">
+            <v-expansion-panels accordion dark v-if="stuff.length > 0">
+                <v-expansion-panel class="primary white--text rounded-lg mb-2" v-for="panel in stuff" :key="panel">
+                    <v-expansion-panel-header class="qs white--text">
+                        <v-row no-gutters>
+                            <v-col cols="2">
+                                <h2 class="qs white--text">{{panel.request.emri}}</h2>
+                            </v-col>
+                        </v-row>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content class="qs white--text">
+                        <div class="order">
+                            <div class="peace">
+                                <p class="qs">Nga: {{panel.request.emri}}</p>
+                                <p class="qs">Paketa: {{panel.request.paketa}}</p>
+                                <p class="qs" v-if="mesazhi != ''">Mesazhi: {{panel.request.mesazhi}}</p>
+                                <p class="qs" v-if="mesazhi == ''">Pa mesazhe te ngjitur.</p>
+                                <p class="qs">Email: {{panel.request.email}}</p>
+                                <p class="qs">Numri: {{panel.request.numri}}</p>
+                            </div>
+                        </div>
+                        <v-row class="py-2">
+                            <v-spacer></v-spacer>
+                            <v-btn class="rounded-lg primary--text" small color="white" @click="remove(panel.id)">Hiqe</v-btn>
+                        </v-row>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+            <p class="qs secondary--text" v-if="stuff.length == 0">Nuk keni kontaktime.</p>
+        </div>
+      </div>
+      <v-dialog
+        v-model="reassurance"
+        max-width="240"
+        >
+        <v-card color="secondary">
+            <v-card-title class="headline qs">
+            A jeni te sigurt?
+            </v-card-title>
+
+            <v-card-text class="qs">
+            Jeni te sigurte qe dergesa eshte e kryer?
+            </v-card-text>
+
+            <v-card-actions>
+            <v-btn
+                color="white"
+                text
+                @click="reassurance = false"
+            >
+                Jo
+            </v-btn>
+            
+            <v-spacer></v-spacer>
+
+            <v-btn
+                color="white"
+                text
+                @click="kryer"
+            >
+                Po
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+     </v-dialog>
+    </div>
+</template>
+
+<script>
+import * as firebase from 'firebase/app'
+import 'firebase/firestore'
+export default {
+    async asyncData({$axios}){
+
+        var obj = await $axios({
+            method: "post",
+            url: "http://34.65.32.131/fetch_seller_requests"
+        })
+
+        console.log(JSON.stringify(obj.data))
+
+        return{
+            stuff: obj.data
+        }
+    },
+    data(){
+        return{
+            reassurance: false,
+            doc: null,
+            docInfo: null
+        }
+    },
+    methods: {
+        async remove(id){
+            var obj  = await this.$axios({
+                method: "post",
+                url: "http://34.65.32.131/delete_seller_requests",
+                params: {
+                    id: id
+                },
+                headers: {
+                    "Content-Type": "x-www-form-urlencoded"
+                }
+            })
+
+            this.stuff = this.stuff.filter((doc)=>{
+                return doc.id != id;
+            })
+        }
+    }
+}
+</script>
+
+<style>
+.r{
+    z-index: 999999998989898787979867987;
+}
+.edit{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100vw;
+    min-height: 81vh;
+    background-color: white;
+}
+.classy{
+    font-family: 'qs';
+    font-size: 22px;
+}
+.sets{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    padding: 15px 0 8px 0;
+}
+.desc-row{
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.double-down{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.order{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.peace{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+@media screen and (min-width:850px) {
+    .sets{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 70%;
+        padding: 15px 0 8px 0;
+    }
+    .double-down{
+        width: 70%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+</style>

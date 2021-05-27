@@ -105,7 +105,9 @@ export const actions = {
                 photo: null,
                 location: account.adresa,
                 qyteti: account.qyteti,
-                numri: account.numri
+                numri: account.numri,
+                paid: false,
+                timestamp: new Date(today.getFullYear(), today.getMonth(), today.getDate()+7)
             })
 
             //Get token from firebase

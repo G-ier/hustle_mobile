@@ -88,6 +88,22 @@
                         <b-icon icon="book-open"></b-icon>
                         Blerjet tuaja
                     </b-dropdown-item>
+                    <b-dropdown-item value="deals" aria-role="menuitem" @click="gotoPageWithParam('account-drejtuesi-deals')" v-if="role == 'admin'">
+                        <b-icon icon="pen"></b-icon>
+                        Menaxho porosite
+                    </b-dropdown-item>
+                    <b-dropdown-item value="product" aria-role="menuitem" @click="gotoPageWithParam('account-drejtuesi-manage')" v-if="role == 'admin'">
+                        <b-icon icon="pen"></b-icon>
+                        Menaxho reklamat
+                    </b-dropdown-item>
+                    <b-dropdown-item value="users" aria-role="menuitem" @click="gotoPageWithParam('account-drejtuesi-users')" v-if="role == 'admin'">
+                        <b-icon icon="pen"></b-icon>
+                        Menaxho perdoruesit
+                    </b-dropdown-item>
+                    <b-dropdown-item value="contacts" aria-role="menuitem" @click="gotoPageWithParam('account-drejtuesi-notices')" v-if="role == 'admin'">
+                        <b-icon icon="book-open"></b-icon>
+                        Shiko kontaktimet
+                    </b-dropdown-item>
                     <hr class="dropdown-divider" aria-role="menuitem">
                     <b-dropdown-item value="settings" v-if="user != 'Not logged in.'" @click="gotoPage('/account/me/settings')">
                         <b-icon icon="mdi-settings"></b-icon>

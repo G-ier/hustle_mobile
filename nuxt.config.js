@@ -63,7 +63,20 @@ export default {
     '@nuxtjs/sitemap',
     '@nuxtjs/auth',
     'js-cookie',
-    'nuxt-buefy'
+    'nuxt-buefy',
+    ['nuxt-mail', {
+      message: {
+        to: 'ergi1000@gmail.com',
+      },
+      smtp: {
+        host: 'smtp.gmail.com',
+        port: 465,
+        auth: {
+          user: 'stinasarah121@gmail.com',
+          pass: '11@235813'
+        },
+      },
+    }]
   ],
   env: {
     STRIPE_PK: process.env.STRIPE_PK,

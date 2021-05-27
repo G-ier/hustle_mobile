@@ -1,9 +1,26 @@
 <template>
     <div class="admin-base-1">
+
+      <div class="admin-starter primary" v-if="role == 'seller' && user.paid == true">
+          <div class="container-stuff">
+              <h1 class="starter-title-1 s20 qs">Behu shites</h1>
+              <p class="qs">Periudha free-trial mbaron ne: {{new Date(user.timestamp).toLocaleString()}}</p>
+              <v-btn class="qs primary--text rounded-lg" color="white" small @click="contactSeller = true">Kontakto Amazon</v-btn>
+          </div>
+      </div>
+
+      <div class="admin-starter primary" v-if="role == 'seller' && user.timestamp < new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()+7).getTime()">
+          <div class="container-stuff">
+              <h1 class="starter-title-1 s20 qs">Ribehu shites</h1>
+              <p class="qs">Abonimi juaj mbaron se shpejti.</p>
+              <p class="qs">Periudha free-trial mbaron ne: {{new Date(user.timestamp).toLocaleString()}}</p>
+              <v-btn class="qs primary--text rounded-lg" color="white" small @click="contactSeller = true">Kontakto Amazon</v-btn>
+          </div>
+      </div>
       
       <div class="admin-starter" v-if="role == 'seller'">
           <div class="container-stuff">
-              <h1 class="starter-title qs">Porosite</h1>
+              <h1 class="starter-title s20 qs">Porosite</h1>
                 <div class="starter-row">
                     <v-btn text small color="white" class="white--text qs" nuxt @click="toFulfilled">Te permbushura</v-btn>
                     <v-btn class="qs white--text" small text nuxt @click="toOrders">Cdo porosi</v-btn>
@@ -11,20 +28,10 @@
           </div>
       </div>
 
-      <!--  
-      <div class="admin-starter" v-if="role == 'seller'">
-          <div class="container-stuff">
-              <h1 class="starter-title qs">Payments</h1>
-                <div class="starter-row">
-                    <v-btn text small color="white" class="white--text qs" nuxt to="/account/drejtuesi/llogaria">Bank details</v-btn>
-                    <v-btn class="qs white--text" small text nuxt to="/account/drejtuesi/payments">All payments</v-btn>
-                </div>
-          </div>
-      </div>
-        -->
+      
       <div class="admin-starter-1" v-if="role == 'seller'">
           <div class="container-stuff-1">
-              <h1 class="starter-title-1 qs">Produktet tuaja</h1>
+              <h1 class="starter-title-1 s20 qs">Produktet tuaja</h1>
               <div class="starter-row-1">
                 <div class="simple-listing">
                     <div class="simple-tile">
@@ -39,8 +46,50 @@
           </div>
       </div>
 
-        
-      
+        <v-dialog
+        transition="dialog-top-transition"
+        max-width="300"
+        v-model="contactSeller"
+        style="z-index: 9898989898987987987987897;"
+        >
+            <v-card color="primary">
+            <v-card-title>
+                <h3 class="qs white--text mb-4">Konfirmo</h3>
+                <v-text-field label="Emri juaj" outlined v-model="sugar" dark dense color="white" class="mt-1" clearable :error-messages="sugarErrors" @input="$v.sugar.$touch()"></v-text-field>
+                <v-select label="Paketa juaj" outlined v-model="paketa" :items="paketat" dark dense color="white" class="mt-1" clearable :error-messages="pakErrors" @input="$v.paketa.$touch()"></v-select>  
+                <v-textarea label="Mesazhe opsional" outlined v-model="hate" dark dense color="white" class="mt-1" clearable></v-textarea>          
+            </v-card-title>
+            <v-card-actions class="justify-end">
+                <v-btn
+                text
+                @click="sendAdmin"
+                >Konfirmo</v-btn>
+            </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+        <v-dialog
+        transition="dialog-top-transition"
+        max-width="300"
+        v-model="ok"
+        style="z-index: 9898989898987987987987897;"
+        >
+            <v-card color="secondary">
+            <v-card-title>
+                <h3 class="qs white--text mb-4">Death to fascists</h3>     
+            </v-card-title>
+            <v-card-text class="qs white--text">
+                All good man.
+            </v-card-text>
+            <v-card-actions class="justify-end">
+                <v-btn
+                text
+                @click="ok = false"
+                >Ne rregulle</v-btn>
+            </v-card-actions>
+            </v-card>
+        </v-dialog>
+
   </div>
 </template>
 
@@ -49,6 +98,8 @@ import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/storage'
 import Cookie from 'js-cookie';
+import {validationMixin} from 'vuelidate'
+import {required} from 'vuelidate/lib/validators'
 export default {
     async asyncData({store}){
         var full = store.state.users.user.email.split("@");
@@ -64,15 +115,32 @@ export default {
             data4 = data3.docs.map(doc => doc.data());
         }
 
+        var freeTrial = [];
+        if(store.state.users.role == "seller" || datush2.paid == true){
+            freeTrial.push({freeTrial: true});
+        } else {
+            freeTrial.push({freeTrial: false});
+        }
+
         return{
-            prods: data4.length > 0 ? data4 : []
+            prods: data4.length > 0 ? data4 : [],
+            freeTrial: freeTrial[0].freeTrial,
+            user: datush2
         }
     },
     data(){
         return{
+            contactSeller: false,
             username: this.$store.state.users.user.email.split('@'),
             data: "asgje",
             editP: false,
+            paketat: [
+                "Nje mujor",
+                "Dy mujor",
+                "Tre mujor",
+                "Gjashte mujor",
+                "Dymbedhjete mujor"
+            ],
             dialogE: false,
             emri: "",
             foto: "",
@@ -85,7 +153,11 @@ export default {
             isDeletingImage: false,
             url: null,
             role: this.$store.state.users.role,
-            boughting: false
+            boughting: false,
+            sugar: null,
+            hate: null,
+            paketa: null,
+            ok: false
         }
     },
     head(){
@@ -197,8 +269,62 @@ export default {
             this.editP = false;
             this.dialogE = true;
 
+        },
+        sendAdmin: async function(){
+
+            if(this.$v.sugar.$invalid || this.$v.paketa.$invalid){
+                return;
+            }
+
+
+            this.contactSeller = false;
+
+            var bodyForm = new FormData();
+
+            bodyForm.append("email_data", JSON.stringify({
+                emri: this.sugar,
+                mesazhi: this.hate,
+                email: this.$store.state.users.user.email,
+                numri: this.user.numri,
+                paketa: this.paketa
+            }))
+
+            var obj = await this.$axios({
+                method: "post",
+                url: "http://34.65.32.131/receive_seller_request",
+                data: bodyForm,
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+
+
+            this.ok = true;
         }
 
+    },
+    mixins: [validationMixin],
+    validations: {
+        sugar: {
+            required
+        },
+        paketa: {
+            required,
+        }
+    },
+    computed: {
+        sugarErrors () {
+            const errors = []
+            if (!this.$v.sugar.$dirty) return errors
+            !this.$v.sugar.required && errors.push('Emri eshte i detyrueshem')
+            return errors
+        },
+        pakErrors () {
+            const errors = []
+            if (!this.$v.paketa.$dirty) return errors
+            !this.$v.paketa.required && errors.push('Zgjidhni paketen')
+            return errors
+        }
     }
 
 }

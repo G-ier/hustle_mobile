@@ -34,6 +34,7 @@
     "jwt-decode": "^3.1.2",
     "nuxt": "^2.15.4",
     "nuxt-buefy": "^0.4.4",
+    "nuxt-mail": "^3.0.3",
     "nuxt-robots-module": "^1.5.1",
     "nuxt-stripe-module": "^3.1.7",
     "stripe": "^8.142.0",

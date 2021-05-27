@@ -6,7 +6,7 @@
       
       <div class="admin-starter">
           <div class="container-stuff">
-              <h1 class="starter-title qs">Porosite e paderguara</h1>
+              <h1 class="starter-title s20 qs">Porosite e paderguara</h1>
                 <div class="starter-row">
                     <v-btn text small color="white" class="white--text qs" nuxt to="/account/drejtuesi/">Bank details</v-btn>
                     <v-btn class="qs white--text" small text nuxt to="/account/drejtuesi/deals">All orders</v-btn>
@@ -16,7 +16,7 @@
 
       <div class="admin-followup">
           <div class="followup-cont">
-                <h1 class="starter-title qs mb-4">Promovimet</h1>
+                <h1 class="starter-title qs s20 mb-4">Promovimet</h1>
                 <div class="simple-row mb-3">
                     <div class="simple-listing">
                         <div class="simple-tile">
@@ -39,7 +39,7 @@
 
       <div class="admin-starter">
           <div class="container-stuff">
-              <h1 class="starter-title qs">Users</h1>
+              <h1 class="starter-title s20 qs">Users</h1>
               <div class="another-ro">
                   <p class="qs">Admin: ergi1000</p>
                   <p class="qs">Creator: ergi1000</p>
@@ -47,6 +47,19 @@
                 <div class="starter-row">
                     <v-spacer></v-spacer>
                     <v-btn text small color="white" class="white--text qs" nuxt to="/account/drejtuesi/users">Show all</v-btn>
+                </div>
+          </div>
+      </div>
+
+      <div class="admin-starter" style="background: rgb(161,5,23); background: linear-gradient(148deg, rgba(161,5,23,1) 39%, rgba(221,131,141,1) 100%);">
+          <div class="container-stuff">
+              <h1 class="starter-title s20 qs">Kontaktime</h1>
+              <div class="another-ro">
+                  <p class="qs">Te gjitha kontaktimet qe ju jane bere</p>
+              </div>
+                <div class="starter-row">
+                    <v-spacer></v-spacer>
+                    <v-btn text small color="white" class="white--text qs" nuxt to="/account/drejtuesi/notices">Trego</v-btn>
                 </div>
           </div>
       </div>
