@@ -35,6 +35,23 @@
                 </v-expansion-panel>
             </v-expansion-panels>
             <p class="qs secondary--text" v-if="stuff.length == 0">Nuk keni kontaktime.</p>
+            <b-pagination
+                :total="total"
+                v-model="current"
+                :range-before="rangeBefore"
+                :range-after="rangeAfter"
+                :order="order"
+                :size="size"
+                :simple="isSimple"
+                :rounded="isRounded"
+                :per-page="perPage"
+                :icon-prev="prevIcon"
+                :icon-next="nextIcon"
+                aria-next-label="Next page"
+                aria-previous-label="Previous page"
+                aria-page-label="Page"
+                aria-current-label="Current page">
+            </b-pagination>
         </div>
       </div>
       <v-dialog
@@ -88,14 +105,25 @@ export default {
         console.log(JSON.stringify(obj.data))
 
         return{
-            stuff: obj.data
+            stuff: obj.data,
+            total: obj.data.length,
         }
     },
     data(){
         return{
             reassurance: false,
             doc: null,
-            docInfo: null
+            docInfo: null,
+            current: 1,
+            perPage: 10,
+            rangeBefore: 3,
+            rangeAfter: 1,
+            order: '',
+            size: '',
+            isSimple: false,
+            isRounded: false,
+            prevIcon: 'chevron-left',
+            nextIcon: 'chevron-right'
         }
     },
     methods: {
@@ -145,12 +173,15 @@ export default {
 }
 .desc-row{
     width: 70%;
+    height: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
 }
 .double-down{
     width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;

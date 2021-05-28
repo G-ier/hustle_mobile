@@ -1,7 +1,7 @@
 <template>
     <div class="admin-base-1">
 
-      <div class="admin-starter primary" v-if="role == 'seller' && (user.paid == false || user.timestamp <= today.getTime())">
+      <div class="admin-starter primary" v-if="role == 'seller' && (user.paid == true || user.timestamp <= today.getTime())">
           <div class="container-stuff">
               <h1 class="starter-title-1 s20 qs">Behu shites</h1>
               <p class="qs">Abonimi juaj mbaron se shpejti: {{new Date(user.timestamp).toLocaleString()}}</p>
@@ -68,10 +68,10 @@
         >
             <v-card color="secondary">
             <v-card-title>
-                <h3 class="qs white--text mb-4">Death to fascists</h3>     
+                <h3 class="qs white--text mb-4">Mesazhi u dergua</h3>     
             </v-card-title>
             <v-card-text class="qs white--text">
-                All good man.
+                Ju lutem prisni amazon per tu lidhur ne kontakt me ju.
             </v-card-text>
             <v-card-actions class="justify-end">
                 <v-btn

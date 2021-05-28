@@ -7,7 +7,7 @@
                 <v-form class="pb-7">  
                     <div class="form-holder-1 pb-1">
                         <v-text-field label="Email" outlined class="white--text" color="white" v-model="account.email" :error-messages="emailErrors" required @input="$v.account.email.$touch()"></v-text-field>
-                        <v-text-field label="Password" type="password"  color="white" outlined class="white--text" v-model="account.password"></v-text-field>
+                        <v-text-field label="Password" type="password"  color="white" outlined class="white--text" v-model="account.password" @keydown.enter="login"></v-text-field>
                         <v-btn @click="forgotten = true" color="lightgray" text class="qs onHover mb-5">Forgot password</v-btn>
                     </div>
                 </v-form>
