@@ -6,7 +6,7 @@
             
         </div>
         <div class="lineM"></div>
-        <div class="market">
+        <div class="market" v-if="unpaid == false">
             <div class="market-inner">
                 <div class="sell-container" v-for="prod in prods" :key="prod.name">
                     <div class="sellable">
@@ -374,6 +374,11 @@
             </v-card-text>
         </v-card>
         </v-dialog>
+        <v-sheet class="pa-10 my-auto rounded-lg primary" v-if="unpaid == true">
+            <h3 class="qs s20">Ju lutem riabonohuni per te aksesuar faqen.</h3>
+            <p class="qs">Abonimi juaj ka mbaruar. Per te aksesuar faqen dhe cdo funksionalitet te sajin ju lutemi te riabonoheni duke kontaktuar shitesin.</p>
+            <v-btn class="primary--text rounded-lg qs" color="white" nuxt to="/account/me">Tek faqja kryesore</v-btn>
+        </v-sheet>
   </div>
 </template>
 
@@ -400,13 +405,20 @@ export default {
 
         var fotoErsatz = dataF.photo ? dataF.photo : null;
 
-        console.log(JSON.stringify(obj.data));
+        var unpaid = {
+            value: false
+        };
+        const tod = new Date();
+
+        if(dataF[0].paid == false && dataF[0].timestamp >= tod.getTime()){
+            unpaid.value = true;
+        }
 
         return{
             nameOfS: dataF[0].username,
             photo: fotoErsatz,
             prods: obj.data,
-
+            unpaid: unpaid.value
         }
     },
     data(){

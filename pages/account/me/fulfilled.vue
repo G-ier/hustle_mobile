@@ -6,7 +6,7 @@
             
         </div>
         <div class="lineM"></div>
-        <div class="double-down mb-4">
+        <div class="double-down mb-4" v-if="unpaid == false">
           <div class="desc-row">
             <v-expansion-panels accordion dark>
                 <v-expansion-panel class="primary white--text mb-2" v-for="panel in stuff" :key="panel">
@@ -25,6 +25,11 @@
             </v-expansion-panels>
         </div>
       </div>
+      <v-sheet class="pa-10 my-auto rounded-lg primary" v-if="unpaid == true">
+            <h3 class="qs s20">Ju lutem riabonohuni per te aksesuar faqen.</h3>
+            <p class="qs">Abonimi juaj ka mbaruar. Per te aksesuar faqen dhe cdo funksionalitet te sajin ju lutemi te riabonoheni duke kontaktuar shitesin.</p>
+            <v-btn class="primary--text rounded-lg qs" color="white" nuxt to="/account/me">Tek faqja kryesore</v-btn>
+        </v-sheet>
     </div>
 </template>
 
@@ -40,8 +45,18 @@ export default {
             return doc.fulfilled == true;
         });
 
+        var unpaid = {
+            value: false
+        };
+        const tod = new Date();
+
+        if(dataF[0].paid == false && dataF[0].timestamp >= tod.getTime()){
+            unpaid.value = true;
+        }
+
         return{
-            stuff: newordeal
+            stuff: newordeal,
+            unpaid: unpaid.value
         }
     }
 }
