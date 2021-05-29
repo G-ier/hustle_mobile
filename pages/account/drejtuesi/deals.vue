@@ -9,11 +9,11 @@
         <div class="double-down mb-4">
           <div class="desc-row">
             <v-expansion-panels accordion dark>
-                <v-expansion-panel class="primary white--text mb-2" v-for="panel in stuff" :key="panel">
+                <v-expansion-panel class="primary white--text mb-2" v-for="panel in stuff" :key="panel.id">
                     <v-expansion-panel-header class="qs white--text">
                         <v-row no-gutters>
                             <v-col cols="2">
-                                <h2 class="qs white--text">{{stuff.indexOf(panel)+1}} | </h2>
+                                <h2 class="qs white--text">{{stuff.indexOf(panel)+1}} </h2>
                             </v-col>
                             <v-col cols="6">
                                 <p class="qs white--text" v-if="panel.fulfilled">I derguar</p>
@@ -48,6 +48,52 @@
             </v-expansion-panels>
         </div>
       </div>
+      <b-pagination
+                :total="total"
+                v-model="current"
+                :range-before="rangeBefore"
+                :range-after="rangeAfter"
+                :order="order"
+                :size="size"
+                :simple="isSimple"
+                :rounded="isRounded"
+                :per-page="perPage"
+                :icon-prev="prevIcon"
+                :icon-next="nextIcon"
+                aria-next-label="Next page"
+                aria-previous-label="Previous page"
+                aria-page-label="Page"
+                aria-current-label="Current page">
+
+                <template #default="props">
+                    <b-button
+                        inverted
+                        type="is-primary"
+                        @click="changePage(props.page.number)"
+                        >
+                        {{props.page.number}}
+                    </b-button>
+                </template>
+
+
+                <template #previous="props">
+                    <b-button
+                        :id = "props.page.number - 1"
+                        @click="prevPage"
+                        >
+                        Previous
+                    </b-button>
+                </template>
+
+                <template #next="props">
+                    <b-button
+                        :id = "props.page.number + 1"
+                        @click="nextPage"
+                        >
+                        Next
+                    </b-button>
+                </template>
+      </b-pagination>
       <v-dialog
         v-model="reassurance"
         max-width="240"
@@ -94,35 +140,79 @@ export default {
         const ordeal = ord.docs.map(doc => doc.data());
 
         return{
-            stuff: ordeal
+            stuff: ordeal.slice(0, 5),
+            all: ordeal,
+            total: ordeal.length,
+            last: 5
         }
     },
     data(){
         return{
             reassurance: false,
             doc: null,
-            docInfo: null
+            docInfos: null,
+            current: 1,
+            perPage: 5,
+            rangeBefore: 3,
+            rangeAfter: 1,
+            order: '',
+            size: '',
+            isSimple: false,
+            isRounded: false,
+            prevIcon: 'chevron-left',
+            nextIcon: 'chevron-right'
         }
     },
     methods: {
         uDergua: function (doc){
-            this.docInfo = doc;
+            this.docInfos = doc;
             this.reassurance = true;
-            console.log(this.docInfo);
         },
         kryer: async function(){
-            await firebase.firestore().collection('orders').doc(this.docInfo.orderID).update({
-                address: this.docInfo.address,
-                from: this.docInfo.from,
-                fulfilled: !this.docInfo.fulfilled,
-                number: this.docInfo.number,
-                onto: this.docInfo.onto,
-                orders: this.docInfo.orders,
-                payee_email: this.docInfo.payee_email,
-                qyteti: this.docInfo.qyteti
+
+            
+
+            await firebase.firestore().collection('orders').doc(this.docInfos.orderID).update({
+                address: this.docInfos.address,
+                from: this.docInfos.from,
+                fulfilled: !this.docInfos.fulfilled,
+                number: this.docInfos.number,
+                onto: this.docInfos.onto,
+                orders: this.docInfos.orders,
+                payee_email: this.docInfos.payee_email,
+                qyteti: this.docInfos.qyteti
             });
 
             this.reassurance = false;
+        },
+        changePage: function(num){
+
+            if(num == 0 || num > ((this.total/5) + (this.total%5))){
+                return;
+            }
+
+            var start = (num-1)*this.last;
+            this.stuff = this.all.slice(start, start + 5);
+        },
+        nextPage: function(){
+
+            if(this.current + 1 > ((this.total/5) + (this.total%5))){
+                return;
+            }
+
+            var start = (this.current)*this.last;
+
+            console.log(start)
+            this.stuff = this.all.slice(start, start + 5);
+        },
+        prevPage: function(){
+
+            if(this.current - 1  < 0){
+                return;
+            }
+
+            var start = (this.current-1)*this.last;
+            this.stuff = this.all.slice(start, start + 5);
         }
     }
 }

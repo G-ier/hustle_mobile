@@ -51,6 +51,33 @@
                 aria-previous-label="Previous page"
                 aria-page-label="Page"
                 aria-current-label="Current page">
+
+                <template #default="props">
+                    <b-button
+                        @click="changePage(props.page.number)"
+                        >
+                        {{props.page.number}}
+                    </b-button>
+                </template>
+
+
+                <template #previous="props">
+                    <b-button
+                        :id = "props.page.number - 1"
+                        @click="prevPage"
+                        >
+                        Previous
+                    </b-button>
+                </template>
+
+                <template #next="props">
+                    <b-button
+                        :id = "props.page.number + 1"
+                        @click="nextPage"
+                        >
+                        Next
+                    </b-button>
+                </template>
             </b-pagination>
         </div>
       </div>
@@ -105,8 +132,10 @@ export default {
         console.log(JSON.stringify(obj.data))
 
         return{
-            stuff: obj.data,
+            stuff: obj.data.slice(0, 5),
+            all: obj.data,
             total: obj.data.length,
+            last: 5
         }
     },
     data(){
@@ -142,6 +171,35 @@ export default {
             this.stuff = this.stuff.filter((doc)=>{
                 return doc.id != id;
             })
+        },
+        changePage: function(num){
+
+            if(num == 0 || num > ((this.total/5) + (this.total%5))){
+                return;
+            }
+
+            var start = (num-1)*this.last;
+            this.stuff = this.all.slice(start, start + 5);
+        },
+        nextPage: function(){
+
+            if(this.current + 1 > ((this.total/5) + (this.total%5))){
+                return;
+            }
+
+            var start = (this.current)*this.last;
+
+            console.log(start)
+            this.stuff = this.all.slice(start, start + 5);
+        },
+        prevPage: function(){
+
+            if(this.current - 1  < 0){
+                return;
+            }
+
+            var start = (this.current-1)*this.last;
+            this.stuff = this.all.slice(start, start + 5);
         }
     }
 }
