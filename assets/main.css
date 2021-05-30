@@ -698,8 +698,21 @@ animation: bounce-out .5s;
     padding-bottom: 0;
   }
   
+  .steps{
+    width: 500px;
+  }
+  .step-items{
+    padding-left: 0;
+  }
+
   @media screen and (max-width: 991px) {
     .section-navbars .navbar-collapse {
       display: none !important;
+    }
+  }
+
+  @media screen and (max-width: 850px) {
+    .steps{
+      width: 200px;
     }
   }

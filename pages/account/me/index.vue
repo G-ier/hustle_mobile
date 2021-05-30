@@ -1,7 +1,7 @@
 <template>
     <div class="admin-base-1">
 
-      <div class="admin-starter primary" v-if="role == 'seller' && (user.paid == true || user.timestamp <= today.getTime())">
+      <div class="admin-starter primary" v-if="role == 'seller' && (user.paid == false || user.timestamp <= today.getTime())">
           <div class="container-stuff">
               <h1 class="starter-title-1 s20 qs">Behu shites</h1>
               <p class="qs">Abonimi juaj mbaron se shpejti: {{new Date(user.timestamp).toLocaleString()}}</p>

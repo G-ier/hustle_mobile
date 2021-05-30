@@ -16,10 +16,10 @@
             fullscreen
             style="z-index: 34235456;"
             transition="dialog-bottom-transition"
-            class="r"
+            hide-overlay
             >
             
-            <v-card >
+            <v-card color="white">
                 <v-toolbar
                 dark
                 color="primary"
@@ -43,129 +43,135 @@
                     </v-btn>
                 </v-toolbar-items>
                 </v-toolbar>
-                <div class="hiddeneye">
-                    <v-text-field
-                            v-model="namey"
-                            label="Emri"
-                            outlined
-                            clearable
-                            dense
-                            dark
-                            color="white"
-                            :error-messages="nameyyErrors" 
-                            required 
-                            @input="$v.namey.$touch()"
-                    ></v-text-field>
-                    <v-text-field
-                        v-model="pricey"
-                        label="Cmimi"
-                        outlined
-                        clearable
-                        dense
-                        dark
-                        color="white"
-                        :error-messages="priceyErrors" 
-                        required 
-                        @input="$v.pricey.$touch()"
-                    ></v-text-field>
-                    <v-text-field
-                        v-model="priceyLow"
-                        label="Cmimi me ulje"
-                        outlined
-                        clearable
-                        dense
-                        dark
-                        color="white"
-                        :error-messages="priceyLowErrors" 
-                        required 
-                        @input="$v.priceyLow.$touch()"
-                    ></v-text-field>
-                    <v-textarea
-                        clearable
-                        clear-icon="mdi-close-circle"
-                        label="Pershkrimi"
-                        v-model="descy"
-                        color="white"
-                        outlined
-                        dark
-                    ></v-textarea>
-                    <v-select
-                        v-model="kategorita"
-                        :items="kateg"
-                        label="Kategoria"
-                        dense
-                        outlined
-                        dark
-                        color="white"
-                        :error-messages="katErrors" 
-                        required 
-                        @input="$v.kategorita.$touch(); overload()"
-                    ></v-select>
-                    <p class="qs white--text">Fotot - e para e detyrueshme</p>
-                    <p class="qs white--text" v-if="postings.length == 0">Kliko tek plusi per te shtuar</p>
-                    <div class="vert" v-for="post in postings" :key="post.id">
-                        <p class="qs white--text">Fotoja {{postings.indexOf(post)+1}}</p>
-                        <p class="qs white--text pa-0 ma-0">Momentalisht: {{post.emri}}</p>
-                        <v-btn x-small color="white" class="secondary--text mb-5 mt-2" @click="postings.splice(postings.indexOf(post), 1)">Remove</v-btn>
-                    </div>
-                    <v-row justify="center full-width mt-6 ml-3 custom-right">
-                        <v-fab-transition>
-                            <v-btn
-                                fab
-                                small
-                                dark
-                                bottom
-                                left
-                                class="v-btn--example"
+                <div class="hiddeneye1">
+                    <b-steps class="hiddeneye2">
+                        <b-step-item label="Details" class="hiddeneye3" step="1" >
+                            <v-text-field
+                                    v-model="namey"
+                                    style="grid-area: a;"
+                                    label="Emri"
+                                    outlined
+                                    clearable
+                                    dense
+                                    light
+                                    color="secondary"
+                                    :error-messages="nameyyErrors" 
+                                    required 
+                                    @input="$v.namey.$touch()"
+                            ></v-text-field>
+                            <v-text-field
+                                v-model="pricey"
+                                label="Cmimi"
+                                style="grid-area: b;"
+                                outlined
+                                clearable
+                                dense
+                                light
                                 color="secondary"
-                                @click="newphoto"
-                            >
-                                <v-icon>mdi-plus</v-icon>
-                            </v-btn>
-                        </v-fab-transition>
-                        <v-fab-transition>
-                            <v-btn
-                                fab
-                                small
-                                dark
-                                bottom
-                                left
-                                class="v-btn--example ml-4"
+                                :error-messages="priceyErrors" 
+                                required 
+                                @input="$v.pricey.$touch()"
+                            ></v-text-field>
+                            <v-text-field
+                                v-model="priceyLow"
+                                label="Cmimi me ulje"
+                                outlined
+                                clearable
+                                style="grid-area: c;"
+                                dense
+                                light
                                 color="secondary"
-                                @click="remphoto"
-                            >
-                                <v-icon>mdi-minus</v-icon>
-                            </v-btn>
-                        </v-fab-transition>
-                    </v-row>
+                                :error-messages="priceyLowErrors" 
+                                required 
+                                @input="$v.priceyLow.$touch()"
+                            ></v-text-field>
+                            <v-textarea
+                                clearable
+                                clear-icon="mdi-close-circle"
+                                style="grid-area: d;"
+                                label="Pershkrimi"
+                                v-model="descy"
+                                color="secondary"
+                                outlined
+                                light
+                            ></v-textarea>
+                        </b-step-item>
+                        <b-step-item label="Fotot" class="openup" step="2">
+                            <v-col class="display-column my-4" style="grid-area: e;">
+                                <p class="qs secondary--text">Fotot - e para e detyrueshme</p>
+                                <p class="qs secondary--text" v-if="postings.length == 0">Kliko tek plusi per te shtuar</p>
+                                <div class="vert" v-for="post in postings" :key="post.id">
+                                    <p class="qs secondary--text">Fotoja {{postings.indexOf(post)+1}}</p>
+                                    <p class="qs secondary--text pa-0 ma-0">Momentalisht: {{post.emri}}</p>
+                                    <v-btn x-small color="white" class="secondary--text mb-5 mt-2" @click="postings.splice(postings.indexOf(post), 1)">Remove</v-btn>
+                                </div>
+                                <v-row justify="center full-width mt-6 ml-3 custom-right">
+                                <v-fab-transition>
+                                    <v-btn
+                                        fab
+                                        small
+                                        dark
+                                        bottom
+                                        left
+                                        class="v-btn--example"
+                                        color="secondary"
+                                        @click="newphoto"
+                                    >
+                                        <v-icon>mdi-plus</v-icon>
+                                    </v-btn>
+                                </v-fab-transition>
+                                <v-fab-transition>
+                                    <v-btn
+                                        fab
+                                        small
+                                        dark
+                                        bottom
+                                        left
+                                        class="v-btn--example ml-4"
+                                        color="secondary"
+                                        @click="remphoto"
+                                    >
+                                        <v-icon>mdi-minus</v-icon>
+                                    </v-btn>
+                                </v-fab-transition>
+                                </v-row>
+                            </v-col>
+                        </b-step-item>
+                        <b-step-item label="Kategoria" class="openup" step="3">
+                            <v-select
+                                v-model="kategorita"
+                                :items="kateg"
+                                label="Kategoria"
+                                class="mt-5"
+                                dense
+                                outlined
+                                light
+                                color="whisecondaryte"
+                                :error-messages="katErrors" 
+                                required 
+                                @input="$v.kategorita.$touch(); overload()"
+                            ></v-select>
+                            <div class="fab-holder mb-5" v-if="responseData != null">
+                                <v-select
+                                    v-for="item in responseData.filtrat"
+                                    :key="item.id"
+                                    v-model="responseData.filtrat[responseData.filtrat.indexOf(item)].value"
+                                    :items="item.values"
+                                    :placeholder="responseData.filtrat[responseData.filtrat.indexOf(item)].emri"
+                                    outlined
+                                    clearable
+                                    dense
+                                    light
+                                    color="secondary"
+                                    class="pc-small"
+                                    item-color="white"
+                                ></v-select>
+                            </div>
+                        </b-step-item>
+                    </b-steps>
+                    
                 </div>
                 <v-divider></v-divider>
-                <v-list
-                three-line
-                subheader
-                >
-                <v-subheader class="white--text">Detajet - opsionale</v-subheader>
-                <v-list-item>
-                    <v-list-item-content >
-                    <div class="fab-holder" v-if="responseData != null">
-                        <v-select
-                            v-for="item in responseData.filtrat"
-                            :key="item.id"
-                            v-model="responseData.filtrat[responseData.filtrat.indexOf(item)].value"
-                            :items="item.values"
-                            :placeholder="responseData.filtrat[responseData.filtrat.indexOf(item)].emri"
-                            outlined
-                            clearable
-                            dense
-                            dark
-                            color="white"
-                            class="pc-small"
-                            item-color="white"
-                        ></v-select>
-                    </div>
-                    </v-list-item-content>
-                </v-list-item>
-                </v-list>
                 <v-divider></v-divider>
                 <!--
                 <v-list
@@ -327,7 +333,7 @@
                 left
                 class="v-btn--example"
                 color="primary"
-                @click="dialog = true"
+                @click="edit"
                 v-if="unpaid == false"
             >
                 <v-icon>mdi-plus</v-icon>
@@ -746,9 +752,7 @@ export default {
 
             console.log(this.responseData);
         },
-        edit: function (prod, spot){
-            this.detailsToEdit = prod;
-            this.spot = spot;
+        edit: function (){
 
             this.dialog = true;
         },
@@ -1265,17 +1269,50 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .r{
     z-index: 999999998989898787979867987;
 }
-.hiddeneye{
+.openup{
+    width: 100%;
     display: flex;
-    
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 25px;
+    justify-content: center;
+    align-items: center;
+}
+.display-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.hiddeneye1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0 0 0;
+    width: 100%;
+    height: 90%;
+}
+.hiddeneye2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0 0 0;
+    width: 100%;
+    height: 90%;
+}
+.hiddeneye3{
+    display: grid;
+    grid-template-areas: 
+    'a b c'
+    'd d d'
+    ;
+    grid-column-gap: 10px;
+    padding: 15px 0 0 0;
+    width: 100%;
+    height: 90%;
 }
 .classy{
     font-family: 'qs';
@@ -1402,6 +1439,47 @@ export default {
     color: rgb(214, 214, 214);
 }
 @media only screen and (min-width: 850px){
+    .openup{
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.display-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.hiddeneye1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0 0 0;
+    width: 100%;
+    height: 90%;
+}
+.hiddeneye2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0 0 0;
+    width: 100%;
+    height: 90%;
+}
+.hiddeneye3{
+    display: grid;
+    grid-template-areas: 
+    'a b c'
+    'd d d'
+    ;
+    grid-column-gap: 10px;
+    padding: 15px 0 0 0;
+    width: 100%;
+    height: 90%;
+}
 .miniature{
         font-size: 13px;
         color: darkgray;
