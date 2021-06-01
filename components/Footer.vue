@@ -8,7 +8,7 @@
         <div class="flatra">
           <h5 class="qs white--text mb-8">MENU E SHPEJT</h5>
 
-          <nuxt-link class="pa-0 ma-0 white--text my-2" :to="{path:'/kujdesi-ndaj-klienteve', hash: 'termat'}">Termat dhe Kushtet</nuxt-link>
+          <nuxt-link class="pa-0 ma-0 white--text my-2" to="/terms">Termat dhe Kushtet</nuxt-link>
           <nuxt-link class="pa-0 ma-0 white--text my-2" :to="{path:'/kujdesi-ndaj-klienteve', hash: 'kthimi'}">Politikat e kthimit</nuxt-link>
           <nuxt-link class="pa-0 ma-0 white--text my-2" :to="{path:'/kujdesi-ndaj-klienteve', hash: 'qa'}">Pyetje & pergjigje të shpeshta</nuxt-link>
           <nuxt-link class="pa-0 ma-0 white--text my-2" to="/rreth-nesh">Rreth nesh</nuxt-link>
