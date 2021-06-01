@@ -75,7 +75,7 @@
       <div class="burst2">
         <div class="burst3">
           <div class="main-foto">
-            <v-img :src="main.photo" class="robshja">
+            <v-img :src="main.photo" class="robshja" position="top">
               <div class="kari">
                 <p class="qs secondary--text">{{main.infos.subheader}}</p>
                 <h1 class="bushtri">{{main.infos.header}}</h1>
@@ -84,7 +84,9 @@
               </div>
             </v-img>
           </div>
+          <!--
           <div class="likkle-div">
+            
             <div class="likkle-1" :style="{'background-image': `url(${side1.photo})`}">
                 <div class="kari-2" >
                   <h1 class="bushtri-1">{{side1.infos.header}}</h1>
@@ -98,7 +100,9 @@
                   <v-btn class="rounded-lg primary--text" color="white" nuxt :to="side2.infos.link">Vizito tani</v-btn>
                 </div>
             </div>
+            
           </div>
+          -->
         </div>
         <div class="burst4">
           <div class="explain">
@@ -267,10 +271,10 @@
         <div class="dealsod-2 mb-5">
           <div class="deals-header">
             <div class="deals-header-1-cash">
-              <h3 class="qs font-weight-regular main-side-title white--text" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">Produkte </span>te reja</h3>
+              <h3 class="qs font-weight-regular main-side-title white--text" style="color: #363f4e; text-alignment: center;"><span class="qs font-weight-black">Oferta </span>te nxehta</h3>
               <div class="packting">
-                <v-btn class="qs primary--text" small text nuxt to="/new">
-                  Me shume 
+                <v-btn class="qs primary--text" small text to="/ofertat">
+                  Me shume
                 </v-btn>
               </div>
             </div>
@@ -279,11 +283,11 @@
             </div>
           </div>
         </div>
-        <div class="products-main-2">
-          <div class="product-main" v-for="leaf in neue" :key="leaf.id">
-            <v-img class="product-main-image" :aspect-ratio="1" v-if="leaf" :src="leaf.details.photos[0].src" :alt="leaf.details.name">
+        <div class="products-main">
+          <div class="product-main" v-for="item in prodis.slice(0,4)" :key="item.id">
+            <v-img class="product-main-image-2" v-if="item" :src="item.details.photos[0].src" alt="iphone">
               <v-chip
-                  v-if="leaf.creationTime + 172800000 >= Date.now()"
+                  v-if="item.creationTime + 172800000 >= Date.now()"
                   class="ma-2"
                   color="green"
                   label
@@ -292,18 +296,18 @@
               </v-chip>
             </v-img>
             <div class="product-main-desc">
-              <h3 class="qs secondary--text" @click="reroute(leaf.spot, leaf.details.kategoria)">{{leaf.details.name}}</h3>
+              <h3 class="qs secondary--text" @click="reroute(item.spot, item.details.kategoria)">{{item.details.name}}</h3>
               <v-rating 
-              :value="leaf.details.likes/leaf.details.likers"
+              :value="item.details.likes/item.details.likers"
               background-color="yellow darken-2"
               color="yellow"
-              small
+              x-small
               readonly
               ></v-rating>
-              <p class="qs primary--text pricey" v-if="leaf.details.priceLow">{{leaf.details.priceLow}} ALL <span class="miniature gray--text text-decoration-line-through">{{leaf.details.price}} ALL</span></p>
-              <p class="qs primary--text pricey" v-if="leaf.details.priceLow == null">{{leaf.details.price}} ALL</p>
+              <p class="qs primary--text pricey" v-if="item.details.priceLow">{{item.details.priceLow}} ALL <span class="miniature gray--text text-decoration-line-through" v-if="item.details.priceLow != null">{{item.details.price}} ALL</span></p>
+              <p class="qs primary--text pricey" v-if="item.details.priceLow == null">{{item.details.price}} ALL</p>
             </div>
-          </div>
+          </div>          
         </div>
       </div>
       <div class="side-side-2">
@@ -1334,7 +1338,8 @@ export default {
   height: 100px;
   background-color: #bf081d;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  padding: 0 20px 0 20px;
   align-items: center;
   background-size: cover;
 }
@@ -1432,8 +1437,8 @@ export default {
 }
 .burst3{
   display: grid;
-  grid-template-columns: 69% 29%;
-  grid-column-gap: 2%;
+  grid-template-columns: 100%;
+  grid-column-gap: 0%;
   width: 100%;
   height: 400px;
 }
@@ -1441,6 +1446,7 @@ export default {
   border-radius: 10px;
   overflow: hidden;
   height: 400px;
+  background-position-y: top;
 }
 .robshja{
   width: 100%;
@@ -2169,7 +2175,8 @@ export default {
   height: 100px;
   background-color: #bf081d;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  padding: 0 20px 0 20px;
   align-items: center;
   background-size: cover;
 }
@@ -2266,8 +2273,8 @@ export default {
 }
 .burst3{
   display: grid;
-  grid-template-columns: 69% 29%;
-  grid-column-gap: 2%;
+  grid-template-columns: 100%;
+  grid-column-gap: 0%;
   width: 100%;
   height: 400px;
 }

@@ -2,21 +2,21 @@
   <div class="about">
       <div class="about-content">
           <div class="writings">
-            <h1 class="a-title">Risi ne teknologji</h1>
-            <p class="a-starter">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus accusamus, natus molestiae eius illo deserunt rem. Quidem saepe nihil vero doloribus quas tenetur veritatis ab facere, hic qui quaerat tempora!</p>
+            <h1 class="a-title">BlejAlb</h1>
+            <p class="a-starter">BlejAlb si faqe lindi në Maj 2021 por si koncept, portali ynë i porosive online ishte diskutuar prej shumë kohesh. Arsyeja kryesore e hapjes së faqes ishte shërbimi sa më i shpejtë ndaj klientit, dhe nje menyre e re se si mund ti sherbehet klientit pa pasur ai nevoje te dale nga shtepia.</p>
           </div>
       </div>
       <div class="beide">
           <div class="quality">
                 <div class="writings">
-                    <h1 class="a-title-2">Persona pergjegjes</h1>
-                    <p class="a-middle">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusantium, impedit nisi laudantium minus harum vitae nemo repudiandae laborum excepturi quas quaerat totam in sunt magnam vel dolorum repellendus consequuntur optio.</p>
+                    <h1 class="a-title-2">Per njerezit</h1>
+                    <p class="a-middle">Tani porosit vetëm me një klikim dhe në vijmë te ju. Thënë këtë, kryem analizat tona të tregut dhe vumë re se në disa qytete e në shumë fshatra të Shqipërisë, nuk kishte dyqane fizike, të cilat mund t’i plotësonin nevojat banorëve atje, prandaj menduam t’ua dërgonim produktet që ata donin pikërisht në shtëpitë e tyre, kudoqofshin ato nëpër Shqipëri.</p>
                 </div>
             </div>
             <div class="end">
                 <div class="writings">
-                    <h1 class="a-title">Deshtimi nuk eshte pjese e planit!</h1>
-                    <p class="a-starter">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cumque, libero eum! Ipsum delectus, reiciendis quisquam laboriosam alias architecto quis provident reprehenderit laudantium in exercitationem excepturi, perspiciatis eos dolorum aut quod labore corporis eius nam facilis.</p>
+                    <h1 class="a-title">Kocepti jone</h1>
+                    <p class="a-starter">Koncepti i platformes se BlejAlb eshte te jete nje pike takimi midis shitesit dhe bleresit nje treg ku te dy palet do gjejne ate cfare kerkojne dhe cfare u ka munguar deri me sot. Shitesit do kene mundesi te kene nje dyqan online ku mund te paraqisin produktet qe ata shesin dhe kane mundesi ta promovojne produktin e tyre nepermjet platformes sone. Nderkohe bleresi ka mundesi te zgjedhe midis shume opsionesh qe shitesit ofrojne. Ne garantojme pagesen e sigurt qofte Cash ose me ane te Credit Cards, transportin, dhe sherbimin ne kohe rekord tek klienti.</p>
                 </div>
             </div>
       </div>
@@ -31,7 +31,7 @@ export default {
             meta: [
                 {
                     name: 'description',
-                    content: 'Informacione dhe detaje mbi amazon'
+                    content: 'Informacione dhe detaje mbi eblej'
                 }
             ]
         }

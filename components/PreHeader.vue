@@ -44,7 +44,7 @@
             </div>
             <v-spacer class="spacer-uno"></v-spacer>
             <v-toolbar-title>
-                <nuxt-link to="/" class="btn-c-o"><span class="ersteSpan white--text qs">LOGO</span></nuxt-link>
+                <nuxt-link to="/" class="btn-c-o"><span class="ersteSpan white--text qs">eblej.al</span></nuxt-link>
             </v-toolbar-title>
             <v-spacer class="spacer-duo"></v-spacer>
             <div class="rightside mr-3">

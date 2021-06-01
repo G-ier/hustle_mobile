@@ -34,8 +34,11 @@
             <h5 class="qs blacwhitek--text mb-8">ABONOHUNI</h5>
 
             <div class="abonohu-2">
-              <v-text-field label="Email" outlined dense class="white--text" :hide-details="true" color="white" v-model="abonimi" @input="$v.abonimi.$touch()"></v-text-field>
-              <p class="qs s14 white--text pa-0 my-0 position-delayed" style="cursor: pointer;" @click="abonohu">Abonohu</p>
+              <v-text-field label="Email" outlined dense class="white--text" :hide-details="true" color="white" v-model="abonimi" @input="$v.abonimi.$touch()">
+                <template slot="append-outer" style="margin: 0;">
+                  <v-btn class="qs secondary--text rounded-lg" style="margin: 0;" color="white" small>Dergo</v-btn>
+                </template>
+              </v-text-field>
             </div>
         </div>
       </div>

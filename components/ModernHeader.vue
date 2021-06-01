@@ -325,7 +325,7 @@
       
       <div class="embed">
             <v-toolbar-title>
-                <nuxt-link to="/" class="btn-c-o"><span class="ersteSpan white--text qs">LOGO</span></nuxt-link>
+                <nuxt-link to="/" class="btn-c-o"><span class="ersteSpan white--text qs">eblej.al</span></nuxt-link>
             </v-toolbar-title>
             <div class="inner-burger-2">
                 <v-btn text class="btn-c-o menu-btn qs ml-2" @click.stop="drawer = !drawer" >
@@ -390,7 +390,7 @@
               </div>
               <div class="listings" v-if="sToShow.length == 0 || sToShow == null">
                 <div class="tile">
-                  <p class="qs btn-c-o secondary--text">No result.</p>
+                  <p class="qs btn-c-o mx-auto white--text">No result.</p>
                 </div>
               </div>
             </div>
@@ -440,7 +440,7 @@
                             aria-role="menu"
                           >
                             <template #trigger>
-                                <v-btn class="qs" icon width="10" height="10">
+                                <v-btn class="qs" id="dropmenuBtn" icon width="10" @click="navigation = !navigation" height="10">
                                     <v-icon color="white">
                                     mdi-account
                                     </v-icon>
@@ -742,8 +742,9 @@ export default {
         this.$router.push({path: "/kategorite/"+link, query:{name: emri, kategoria: this.kategoria}});
       },
       handleScroll () {
-        if(window.scrollY > 0 && this.drawer == true){
+        if(window.scrollY > 0 && (this.drawer == true || this.navigation == true)){
           this.drawer = false;
+          document.getElementById("dropmenuBtn").click();
         }
       },
       open(nenkategorite, kategoria){
