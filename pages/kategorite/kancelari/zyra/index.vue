@@ -554,7 +554,7 @@
 </template>
 
 <script>
-import * as firebase from 'firebase/app';
+import firebase from 'firebase';
 import 'firebase/firestore';
 import Cookies from 'js-cookie';
 import { parse } from '~/node_modules/cookieparser/js/cookieparser';

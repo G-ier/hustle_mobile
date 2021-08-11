@@ -574,7 +574,7 @@ import Gradient from '../assets/img/tilda-gradient.png'
 import menuLogo from '../assets/img/HBC.png'
 import Cookies from 'js-cookie';
 import Cookie from 'js-cookie';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
 export default {

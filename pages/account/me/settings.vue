@@ -114,7 +114,7 @@
 <script>
 import {validationMixin} from 'vuelidate'
 import {required, email} from 'vuelidate/lib/validators'
-import * as firebase from 'firebase/app'
+import firebase from 'firebase'
 import 'firebase/storage'
 import 'firebase/auth'
 export default {

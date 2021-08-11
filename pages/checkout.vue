@@ -107,7 +107,7 @@
 <script>
 import {validationMixin} from 'vuelidate'
 import {required, email, numeric} from 'vuelidate/lib/validators'
-import * as firebase from 'firebase/app'
+import firebase from 'firebase'
 import 'firebase/firestore';
 import Cookies from 'js-cookie';
 import Cookie from 'js-cookie';

@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import * as firebase from 'firebase/app'
+import firebase from 'firebase'
 import 'firebase/firestore'
 import 'firebase/auth'
 import Cookie from 'js-cookie';

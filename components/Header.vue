@@ -189,7 +189,7 @@ import Gradient from '../assets/img/tilda-gradient.png'
 import menuLogo from '../assets/img/HBC.png'
 import PreHeader from './PreHeader';
 import Cookies from 'js-cookie';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase';
 import 'firebase/firestore';
 export default {
     components: {
