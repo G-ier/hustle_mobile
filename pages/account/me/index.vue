@@ -4,9 +4,9 @@
       <div class="admin-starter primary" v-if="role == 'seller' && (user.paid == false || user.timestamp <= today.getTime())">
           <div class="container-stuff">
               <h1 class="starter-title-1 s20 qs">Behu shites</h1>
-              <p class="qs">Abonimi juaj mbaron se shpejti: {{new Date(user.timestamp).toLocaleString()}}</p>
-              <p class="qs" v-if="user.paid == false">Periudha free-trial se shpejti...</p>
-              <v-btn class="qs primary--text rounded-lg" color="white" small @click="contactSeller = true">Kontakto Amazon</v-btn>
+              <p class="qs">Abonimi juaj mbaron ne: {{new Date(user.timestamp).toLocaleString()}}</p>
+              <p class="qs" v-if="user.paid == false">Abonimi ka mbaruar...</p>
+              <v-btn class="qs primary--text rounded-lg" color="white" small @click="contactSeller = true">Zgjat paketen</v-btn>
           </div>
       </div>
       

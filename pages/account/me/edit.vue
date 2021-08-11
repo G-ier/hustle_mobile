@@ -391,7 +391,7 @@ import {validationMixin} from 'vuelidate'
 import {required, minLength, numeric} from 'vuelidate/lib/validators'
 export default {
     mixins: [validationMixin],
-    async asyncData({route, store, $axios}){
+    async asyncData({route, router, store, $axios}){
         const data = await firebase.firestore().collection('users').where("email", "==", store.state.users.user.email).get();
         const dataF = data.docs.map(doc => doc.data());
 
@@ -411,7 +411,7 @@ export default {
         };
         const tod = new Date();
 
-        if(dataF[0].paid == false && dataF[0].timestamp >= tod.getTime()){
+        if(dataF[0].paid == false || dataF[0].timestamp <= tod.getTime()){
             unpaid.value = true;
         }
 

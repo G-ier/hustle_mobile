@@ -367,7 +367,7 @@ export default {
         };
         const tod = new Date();
 
-        if(dataF[0].paid == false && dataF[0].timestamp >= tod.getTime()){
+        if(dataF[0].paid == false || dataF[0].timestamp <= tod.getTime()){
             unpaid.value = true;
         }
 
