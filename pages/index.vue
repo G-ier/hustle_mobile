@@ -686,7 +686,7 @@ export default {
   },
   methods: {
     reroute(emri, kategoria){
-      this.$route({
+      this.$router.push({
         path: '/kategorite/' + kategoria + "/" + emri.toLowerCase(),
         query: {
           name: emri,

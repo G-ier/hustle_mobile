@@ -111,10 +111,10 @@ export default {
             await Cookie.remove('access_token');
             await Cookie.remove('role_token');
 
-            location.href = "/account";
+            this.$router.push({path: "/account"});
         },
         backAdmin: function (){
-            location.href = '/account/drejtuesi';
+            this.$router.push({path: "/account/drejtuesi"});
         },
         changeUser: async function (){
 

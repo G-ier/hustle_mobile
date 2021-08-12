@@ -389,6 +389,11 @@ export default {
         
         this.$store.dispatch("users/removeCart");
         Cookies.remove("cart_hustle");
+        Cookie.set("payment_hand", {
+            qyt: this.qyteti,
+            numri: this.num,
+            adresa: this.num
+        })
 
         this.$router.push({path: "/success"});
 
@@ -504,6 +509,11 @@ export default {
             localStorage.setItem('reloaded', '1');
             location.reload();
         }
+        /*
+        function jimmy() {
+            this.$router.push({path: "/success"});
+        }
+        */
       paypal.Buttons({
             createOrder: function(data, actions) {
                 return actions.order.create({
@@ -514,12 +524,15 @@ export default {
                     }]
                 });
             },
-            onApprove: function(data, actions) {
-            return actions.order.capture().then(function(details) {
-                //alert('Transaction completed by ' + details.payer.name.given_name);
-                Cookie.set("paypal_return", details.payer);
-                location.assign("/success");
-            });
+            onApprove: function jimmy(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    //alert('Transaction completed by ' + details.payer.name.given_name);
+                    Cookies.set("paypal_return", details.payer);
+                    //document.cookie = "paypal_return" + "=" + JSON.stringify(details.payer);
+                    setTimeout(function () {
+                        window.$nuxt.$router.push({path: "/success"});
+                    }, 3000);
+                });
             }
         }).render('#paypal-button-container');
       
@@ -554,7 +567,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 80vw;
+    width: 80vw; 
 }
 .checkoutTitle{
 }

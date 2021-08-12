@@ -170,7 +170,7 @@ export default {
             await firebase.auth().signOut();
             await Cookie.remove('access_token');
 
-            location.href = "/account";
+            this.$router.push({path: "/account"});
         },
         toEdit: function(){
             const cookie = Cookie.get("user");

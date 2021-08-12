@@ -110,7 +110,7 @@ export default {
             await Cookies.remove('access_token');
             await Cookies.remove('role_token');
 
-            location.href = "/account";
+            this.$router.push({path: "/account"});
         },
         toManage: function (){
             this.$router.push({name: "account-drejtuesi-manage"});

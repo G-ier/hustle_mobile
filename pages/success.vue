@@ -1,7 +1,7 @@
 <template>
   <div class="main">
       
-      <div class="done" v-if="paid == true">
+      <div class="done" v-if="paid == true && nicotine == false">
         <h1 class="qs primary--text mb-4">Pagesa u procesua.</h1>
         <div class="fatura header-intro">
           <div class="f-header">
@@ -12,6 +12,27 @@
             <p class="qs secondary--text">Numri: {{identity.numri}}</p>
             <p class="qs secondary--text">Adresa: {{identity.adresa}}</p>
             <p class="qs secondary--text">Qyteti: {{identity.qyt}}</p>
+            <div class="items" v-for="item in toSell" :key="item.id">
+              <p class="qs secondary--text">Produkti {{toSell.indexOf(item)}}</p>
+              <p class="qs secondary--text">Produkti: {{item.name}}</p>
+              <p class="qs secondary--text">Pershkrimi: {{item.description}}</p>
+              <p class="qs secondary--text">Sasia: {{item.quantity}}</p>
+              <p class="qs secondary--text">Cmimi: {{item.amount}}</p>
+            </div>
+          </div>
+          <v-btn nuxt to="/account/me/orders" color="primary" class="white--text">Tek lista e blerjeve tuaja</v-btn>
+        </div>
+      </div>
+      <div class="done" v-if="paid == true && nicotine == true">
+        <h1 class="qs primary--text mb-4">Pagesa u procesua.</h1>
+        <div class="fatura header-intro">
+          <div class="f-header">
+            <p class="qs ma-0 py-1">Fatura</p>
+          </div>
+          <div class="f-contains mt-4">
+            <p class="qs secondary--text">Numri: {{identityHand.numri}}</p>
+            <p class="qs secondary--text">Adresa: {{identityHand.adresa}}</p>
+            <p class="qs secondary--text">Qyteti: {{identityHand.qyt}}</p>
             <div class="items" v-for="item in toSell" :key="item.id">
               <p class="qs secondary--text">Produkti {{toSell.indexOf(item)}}</p>
               <p class="qs secondary--text">Produkti: {{item.name}}</p>
@@ -62,8 +83,11 @@ export default {
             value: 0,
             show: false,
             paid: false,
+            nicotine: false,
             cookie: null,
-            toSell: this.$store.state.users.cart
+            identity: null,
+            toSell: this.$store.state.users.cart,
+            identityHand: null
         }
     },
     beforeDestroy () {
@@ -72,46 +96,56 @@ export default {
     mounted () {
       const cookieNeu = Cookie.get('paypal_return');
       const cookieId = Cookie.get("payment_identity");
+      const cookieHand = Cookie.get("payment_hand");
 
-      if(!cookieId && !cookieNeu){
+      if((!cookieId && !cookieNeu) && !cookieHand){
+        console.log("dsafadsfadsf")
         return;
       }
-      //console.log(cookieNeu);
-      const cookieD = JSON.parse(cookieNeu);
-      const cookieI = JSON.parse(cookieId);
-      //console.log(cookieD);
-      this.cookie = cookieD;
-      this.identity = cookieI;
-      const cookiey = JSON.parse(Cookies.get("user"));
-      this.toSell.forEach(async fell => {
-          var false5 = fell.name.split(" |");
-          var fellDesc = fell.description.split("from ");
-          var author = fellDesc[1];
-          const orderID = Math.random().toString(36).substring(2,30);
-          const docName = false5[0] + orderID;
-          await firebase.firestore().collection('orders').doc(`${docName}`).set({
-              from: cookiey.username,
-              payee_email: this.$store.state.users.user.email,
-              fulfilled: false,
-              onto: author.toLowerCase(),
-              address: cookieI.adresa,
-              qyteti: cookieI.qyt,
-              number: cookieI.numri,
-              orderID: docName,
-              orders: {
-                item: false5[0],
-                paid: true,
-                price: fell.amount * fell.quantity,
-                quantity: fell.quantity,
-                type: "online-payment"
-              }
-          })
-      });
+      if(cookieId && cookieNeu){
+        //console.log(cookieNeu);
+        const cookieD = JSON.parse(cookieNeu);
+        const cookieI = JSON.parse(cookieId);
+        //console.log(cookieD);
+        this.cookie = cookieD;
+        this.identity = cookieI;
+        const cookiey = JSON.parse(Cookies.get("user"));
+        this.toSell.forEach(async fell => {
+            var false5 = fell.name.split(" |");
+            var fellDesc = fell.description.split("from ");
+            var author = fellDesc[1];
+            const orderID = Math.random().toString(36).substring(2,30);
+            const docName = false5[0] + orderID;
+            await firebase.firestore().collection('orders').doc(`${docName}`).set({
+                from: cookiey.username,
+                payee_email: this.$store.state.users.user.email,
+                fulfilled: false,
+                onto: author.toLowerCase(),
+                address: cookieI.adresa,
+                qyteti: cookieI.qyt,
+                number: cookieI.numri,
+                orderID: docName,
+                orders: {
+                  item: false5[0],
+                  paid: true,
+                  price: fell.amount * fell.quantity,
+                  quantity: fell.quantity,
+                  type: "online-payment"
+                }
+            })
+        });
+        Cookie.remove("payment_identity");
+        Cookie.remove("paypal_return");
+      }
+
+      if(cookieHand){
+        this.identityHand = JSON.parse(cookieHand);
+        this.nicotine = true;
+      }
 
       this.$store.dispatch("users/removeCart");
       Cookie.remove("cart_hustle");
-      Cookie.remove("payment_identity");
-      Cookie.remove("paypal_return");
+
 
       this.interval = setInterval(() => {
         if (this.value === 100) {
