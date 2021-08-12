@@ -309,7 +309,7 @@ export default {
             this.loading = false;
         },
         redir: function (){
-            location.href="/account";
+            location.assign("/account");
         },
         setRoleToSeller: function (){
             this.account.role = "seller";

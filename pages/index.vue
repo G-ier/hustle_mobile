@@ -568,7 +568,7 @@
 </template>
 
 <script>
-import firebase from 'firebase/app';
+import firebase from 'firebase';
 import 'firebase/firestore';
 import 'swiper/css/swiper.css'
 import banner from "../assets/img/adsAmazon2.png"

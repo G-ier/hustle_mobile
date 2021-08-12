@@ -518,7 +518,7 @@ export default {
             return actions.order.capture().then(function(details) {
                 //alert('Transaction completed by ' + details.payer.name.given_name);
                 Cookie.set("paypal_return", details.payer);
-                location.href = "/success";
+                location.assign("/success");
             });
             }
         }).render('#paypal-button-container');

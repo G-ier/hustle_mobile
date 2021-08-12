@@ -18,9 +18,9 @@
         <div class="flatra">
           <h5 class="qs white--text mb-8">FOLLOW US</h5>
 
-          <a href="https://www.facebook.com/jari" class="btn-c-o pa-0 ma-0 white--text my-2"><v-icon color="blue darken-3" size="40">mdi-facebook</v-icon> amazon.com</a>
-          <a href="https://www.instagram.com/jari" class="btn-c-o pa-0 ma-0 white--text my-2"><v-icon color="orange darken-3" size="40">mdi-instagram</v-icon> amazon.com</a>
-          <a href="https://www.youtube.com/jari" class="btn-c-o pa-0 ma-0 white--text my-2"><v-icon color="red darken-3" size="40">mdi-youtube</v-icon> amazon.com</a>
+          <a href="https://www.facebook.com/jari" class="btn-c-o pa-0 ma-0 white--text my-2"><v-icon color="white darken-3" size="40">mdi-facebook</v-icon> eblej.al</a>
+          <a href="https://www.instagram.com/jari" class="btn-c-o pa-0 ma-0 white--text my-2"><v-icon color="white darken-3" size="40">mdi-instagram</v-icon> eblej.al</a>
+          <a href="https://www.youtube.com/jari" class="btn-c-o pa-0 ma-0 white--text my-2"><v-icon color="white darken-3" size="40">mdi-youtube</v-icon> eblej.al</a>
         </div>
       </div>
       <div class="dragua">
@@ -31,12 +31,12 @@
           <p class="qs white--text pa-0 ma-0 my-2"><v-icon color="white">mdi-email</v-icon> amazon@gmail.com</p>
         </div>
         <div class="abonohu mt-10">
-            <h5 class="qs blacwhitek--text mb-8">ABONOHUNI</h5>
+            <h5 class="qs blacwhitek--text mb-5">NEWSLETTER</h5>
 
             <div class="abonohu-2">
-              <v-text-field label="Email" outlined dense class="white--text" :hide-details="true" color="white" v-model="abonimi" @input="$v.abonimi.$touch()">
-                <template slot="append-outer" style="margin: 0;">
-                  <v-btn class="qs secondary--text rounded-lg" style="margin: 0;" color="white" small>Dergo</v-btn>
+              <v-text-field label="Email" outlined dense class="white--text rounded-lg" :hide-details="true" color="white" v-model="abonimi" @input="$v.abonimi.$touch()">
+                <template slot="append">
+                  <v-btn class="qs secondary--text rounded-lg mb-2" color="white" small>Dergo</v-btn>
                 </template>
               </v-text-field>
             </div>
