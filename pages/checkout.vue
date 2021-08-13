@@ -507,7 +507,10 @@ export default {
             // Set a flag so that we know not to reload the page twice.
             this.inload = true;
             window.localStorage.setItem('reloaded', '1');
-            location.reload();
+            //location.reload();
+            //window.open("/checkout")
+            this.$forceUpdate();
+            setTimeout(this.$router.push({path:"/checkout-put"}), 3000);
         }
         /*
         function jimmy() {

@@ -20,6 +20,15 @@
           </div>
       </div>
 
+      <div class="admin-starter" v-if="role == 'buyer'">
+          <div class="container-stuff">
+              <h1 class="starter-title s20 qs">Blerjet tuaja</h1>
+                <div class="starter-row">
+                    <v-btn class="qs white--text" small text nuxt @click="toBuys">Cdo blerje</v-btn>
+                </div>
+          </div>
+      </div>
+
       
       <div class="admin-starter-1" v-if="role == 'seller'">
           <div class="container-stuff-1">
@@ -186,6 +195,11 @@ export default {
             const cookie = Cookie.get("user");
             const cook = JSON.parse(cookie);
             this.$router.push({name: "account-me-all-orders", query: {name: cook.username.toLowerCase()}});
+        },
+        toBuys: function (){
+            const cookie = Cookie.get("user");
+            const cook = JSON.parse(cookie);
+            this.$router.push({name: "account-me-orders", query: {name: cook.username.toLowerCase()}});
         },
         toFulfilled: function (){
             const cookie = Cookie.get("user");
