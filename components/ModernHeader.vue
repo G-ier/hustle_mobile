@@ -732,8 +732,6 @@ export default {
             cart: this.$store.state.users.cart,
             cartD: false,
             itsover: false,
-            user: this.$store.state.users.user ? this.$store.state.users.user.email : "Not logged in.",
-            role: this.$store.state.users.role ? this.$store.state.users.role : null,
             burner: "Elektronike"
         }
     },
@@ -894,6 +892,12 @@ export default {
       },
     },
     computed: {
+      user(){
+          return this.$store.state.users.user ? this.$store.state.users.user.email : "Not logged in.";
+      },
+      role(){
+          return this.$store.state.users.role ? this.$store.state.users.role : null;
+      },
       checkoutAval(){
         if((Cookies.get("cart_hustle") == "[]" || !Cookies.get("cart_hustle")) && this.$store.state.users.cart == []){
           return false;

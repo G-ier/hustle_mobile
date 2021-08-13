@@ -85,7 +85,7 @@
               </div>
               <div class="listings" v-if="sToShow.length == 0 || sToShow == null">
                 <div class="tile">
-                  <p class="qs btn-c-o secondary--text">No result.</p>
+                  <p class="qs btn-c-o white--text">No result.</p>
                 </div>
               </div>
             </div>

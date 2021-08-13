@@ -146,8 +146,14 @@ export default {
             ],
             langLogo: uklogo,
             navigation: false,
-            user: this.$store.state.users.user ? this.$store.state.users.user.email : "Not logged in.",
-            role: this.$store.state.users.role ? this.$store.state.users.role : null
+        }
+    },
+    computed: {
+        user(){
+            return this.$store.state.users.user ? this.$store.state.users.user.email : "Not logged in.";
+        },
+        role(){
+            return this.$store.state.users.role ? this.$store.state.users.role : null;
         }
     },
     methods: {

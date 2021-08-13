@@ -1,11 +1,11 @@
 <template>
   <div class="aplikimi-container-cu-1">
-    <v-sheet elevation="12" class="mx-auto py-4 custom-stepper" color="stripe1" v-if="inload == false">
+    <v-sheet elevation="12" class="mx-auto py-4 custom-stepper" color="primary" v-if="inload == false">
         <div class="form-body pb-2">
           <div class="ch-t">
             <h1 class="qs checkoutTitle white--text">Pagesa</h1>
         </div>
-          <div class="paypal-divi mt-3" id="paypal-button-container" :class="{'display-off': dun == false, 'display-on': dun == true}">
+          <div class="paypal-divi mt-3" style="z-index:4;" id="paypal-button-container" :class="{'display-off': dun == false, 'display-on': dun == true}">
               
           </div>
           <div class="paypal-divi display-on mt-3" v-if="dun == false">
@@ -498,15 +498,15 @@ export default {
       }
   },
   mounted(){
-      if (localStorage.getItem('reloaded')) {
+      if (window.localStorage.getItem('reloaded')) {
         // The page was just reloaded. Clear the value from local storage
         // so that it will reload the next time this page is visited.
             this.inload = false;
-            localStorage.removeItem('reloaded');
+            window.localStorage.removeItem('reloaded');
         } else {
             // Set a flag so that we know not to reload the page twice.
             this.inload = true;
-            localStorage.setItem('reloaded', '1');
+            window.localStorage.setItem('reloaded', '1');
             location.reload();
         }
         /*
