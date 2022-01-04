@@ -126,7 +126,7 @@ export default {
 
         var obj = await $axios({
             method: "post",
-            url: "http://34.65.32.131/fetch_seller_requests"
+            url: "http://91.230.254.11/fetch_seller_requests"
         })
 
         console.log(JSON.stringify(obj.data))
@@ -159,7 +159,7 @@ export default {
         async remove(id){
             var obj  = await this.$axios({
                 method: "post",
-                url: "http://34.65.32.131/delete_seller_requests",
+                url: "http://91.230.254.11/delete_seller_requests",
                 params: {
                     id: id
                 },

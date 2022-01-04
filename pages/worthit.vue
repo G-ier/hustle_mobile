@@ -341,7 +341,7 @@ export default {
 
         var obj = await $axios({
             method: "post",
-            url: "http://34.65.32.131/highest_evaluation",
+            url: "http://91.230.254.11/highest_evaluation",
             params: {
                 query_product: 9
             },
@@ -520,7 +520,7 @@ export default {
 
             var obj = await this.$axios({
                 method: "post",
-                url: "http://34.65.32.131/filter",
+                url: "http://91.230.254.11/filter",
                 data: bodyFormData,
                 headers: { "Content-Type": "multipart/form-data" },
             })
@@ -622,7 +622,7 @@ export default {
 
             var obj  = await this.$axios({
                 method: "post",
-                url: "http://34.65.32.131/filter_redirect",
+                url: "http://91.230.254.11/filter_redirect",
                 data: bodyFormData,
                 headers:{
                     "Content-Type": "multipart/form-data"
@@ -671,7 +671,7 @@ export default {
             // replace `getPost` with your data fetching util / API wrapper
             var obj = await this.$axios({
                 method: "post",
-                url: "http://34.65.32.131/search_click",
+                url: "http://91.230.254.11/search_click",
                 params: {
                     query_text: fetchedId,
                     query_product: 9
