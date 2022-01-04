@@ -813,7 +813,7 @@ export default {
 
         var obj = await this.$axios({
             method: "post",
-            url: "http://91.230.254.11/search",
+            url: "http://91.230.254.11:3333/search",
             data: bodyFormData,
             headers: { "Content-Type": "multipart/form-data" },
         })
