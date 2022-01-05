@@ -299,7 +299,7 @@ export default {
 
             var obj = await this.$axios({
                 method: "post",
-                url: "http://91.230.254.11:5000/receive_seller_request",
+                url: "http://127.0.0.1:5000/receive_seller_request",
                 data: bodyForm,
                 headers: {
                     "Content-Type": "multipart/form-data"

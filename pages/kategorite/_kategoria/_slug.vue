@@ -256,7 +256,7 @@ export default {
         const spot2 = route.query.name;
         var obj = await $axios({
             method: "post",
-            url: "http://91.230.254.11:5000/products",
+            url: "http://127.0.0.1:5000/products",
             params: {
                 "product_name": spot2
             },
@@ -469,7 +469,7 @@ export default {
 
                     var obj = await this.$axios({
                         method: "post",
-                        url: "http://91.230.254.11:5000/edit",
+                        url: "http://127.0.0.1:5000/edit",
                         data: bodyFormData,
                         headers: { "Content-Type": "multipart/form-data" },
                     })
