@@ -397,7 +397,7 @@ export default {
 
         var obj = await $axios({
                 method: "post",
-                url: "http://91.230.254.11:3333/to_edit_products",
+                url: "http://91.230.254.11:5000/to_edit_products",
                 params: {
                     owner: route.query.name
                 },
@@ -766,7 +766,7 @@ export default {
 
             var obj = await this.$axios({
                 method: "post",
-                url: "http://91.230.254.11:3333/categories",
+                url: "http://91.230.254.11:5000/categories",
                 data: bodyFormData,
                 headers: { "Content-Type": "multipart/form-data" },
             })
@@ -835,7 +835,7 @@ export default {
             
             var obj = await this.$axios({
                 method: "post",
-                url: "http://91.230.254.11:3333/delete_products",
+                url: "http://91.230.254.11:5000/delete_products",
                 params: {
                     product_id: iden
                 },
@@ -1107,7 +1107,7 @@ export default {
 
             var obj = await this.$axios({
                 method: "post",
-                url: "http://91.230.254.11:3333/edit",
+                url: "http://91.230.254.11:5000/edit",
                 data: bodyFormData,
                 headers: { "Content-Type": "multipart/form-data" },
             })
