@@ -397,7 +397,7 @@ export default {
 
         var obj = await $axios({
                 method: "post",
-                url: "http://127.0.0.1:3333/to_edit_products",
+                url: "/api/to_edit_products",
                 params: {
                     owner: route.query.name
                 },
@@ -766,7 +766,7 @@ export default {
 
             var obj = await this.$axios({
                 method: "post",
-                url: "http://127.0.0.1:3333/categories",
+                url: "/api/categories",
                 data: bodyFormData,
                 headers: { "Content-Type": "multipart/form-data" },
             })
@@ -835,7 +835,7 @@ export default {
             
             var obj = await this.$axios({
                 method: "post",
-                url: "http://127.0.0.1:3333/delete_products",
+                url: "/api/delete_products",
                 params: {
                     product_id: iden
                 },
@@ -1107,7 +1107,7 @@ export default {
 
             var obj = await this.$axios({
                 method: "post",
-                url: "http://127.0.0.1:3333/edit",
+                url: "/api/edit",
                 data: bodyFormData,
                 headers: { "Content-Type": "multipart/form-data" },
             })

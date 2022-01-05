@@ -406,7 +406,7 @@ export default {
 
         var obj = await this.$axios({
             method: "post",
-            url: "http://127.0.0.1:3333/search",
+            url: "/api/search",
             data: bodyFormData,
             headers: { "Content-Type": "multipart/form-data" },
         })

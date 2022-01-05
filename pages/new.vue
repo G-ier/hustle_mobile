@@ -341,7 +341,7 @@ export default {
 
         var obj = await $axios({
             method: "post",
-            url: "http://127.0.0.1:3333/newest",
+            url: "/api/newest",
             params: {
                 query_product: 9
             },
@@ -520,7 +520,7 @@ export default {
 
             var obj = await this.$axios({
                 method: "post",
-                url: "http://127.0.0.1:3333/filter",
+                url: "/api/filter",
                 data: bodyFormData,
                 headers: { "Content-Type": "multipart/form-data" },
             })
@@ -622,7 +622,7 @@ export default {
 
             var obj  = await this.$axios({
                 method: "post",
-                url: "http://127.0.0.1:3333/filter_redirect",
+                url: "/api/filter_redirect",
                 data: bodyFormData,
                 headers:{
                     "Content-Type": "multipart/form-data"
@@ -671,7 +671,7 @@ export default {
             // replace `getPost` with your data fetching util / API wrapper
             var obj = await this.$axios({
                 method: "post",
-                url: "http://127.0.0.1:3333/newest",
+                url: "/api/newest",
                 params: {
                     query_product: 9
                 },

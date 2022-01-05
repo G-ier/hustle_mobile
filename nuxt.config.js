@@ -92,7 +92,16 @@ export default {
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    proxy: true
+  },
+  proxy: {
+    // Simple proxy
+    "/api/": {
+      target: "http://127.0.0.1:3333/",
+      pathRewrite: { "^/api/": "" }
+    }
+  },
 
   // Robots
   robots: {
