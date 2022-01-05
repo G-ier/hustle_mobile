@@ -740,7 +740,7 @@ export default {
 
             var obj = await this.$axios({
                 method: "post",
-                url: "http://127.0.0.1:5000/categories",
+                url: "http://127.0.0.1:3333/categories",
                 data: bodyFormData,
                 headers: { "Content-Type": "multipart/form-data" },
             })
@@ -1236,7 +1236,7 @@ export default {
 
             await this.$axios({
                 method: "post",
-                url: "http://127.0.0.1:5000/create_products",
+                url: "http://127.0.0.1:3333/create_products",
                 data: bodyFormData,
                 headers: { "Content-Type": "multipart/form-data" },
             })

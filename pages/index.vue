@@ -578,7 +578,7 @@ export default {
 
     var obj = await $axios({
         method: "post",
-        url: "http://127.0.0.1:5000/best_deals",
+        url: "http://127.0.0.1:3333/best_deals",
         params: {
             query_product: 9
         },
@@ -587,7 +587,7 @@ export default {
 
     var obj1 = await $axios({
         method: "post",
-        url: "http://127.0.0.1:5000/newest",
+        url: "http://127.0.0.1:3333/newest",
         params: {
             query_product: 9
         },
@@ -596,7 +596,7 @@ export default {
 
     var obj2 = await $axios({
         method: "post",
-        url: "http://127.0.0.1:5000/highest_evaluation",
+        url: "http://127.0.0.1:3333/highest_evaluation",
         params: {
             query_product: 9
         },

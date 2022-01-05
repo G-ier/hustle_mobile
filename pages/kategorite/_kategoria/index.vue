@@ -354,7 +354,7 @@ export default {
         var katrequest = route.query.name;
         var categ = route.query.kategoria;
 
-        //const data = await $axios.post('http://127.0.0.1:5000/products_and_filters', null, {
+        //const data = await $axios.post('http://127.0.0.1:3333/products_and_filters', null, {
         //    params: {
         //        category: katrequest,
         //        last: 9
@@ -364,7 +364,7 @@ export default {
         
         const data = await $axios({
             method: "post",
-            url: "http://127.0.0.1:5000/products_and_filters",
+            url: "http://127.0.0.1:3333/products_and_filters",
             params: {
                 category: katrequest,
                 last: 9
@@ -632,7 +632,7 @@ export default {
 
             var obj = await this.$axios({
                 method: "post",
-                url: "http://127.0.0.1:5000/filter",
+                url: "http://127.0.0.1:3333/filter",
                 data: bodyFormData,
                 headers: { "Content-Type": "multipart/form-data" },
             })
@@ -647,7 +647,7 @@ export default {
         loadMore: async function(){
             const data = await this.$axios({
                 method: "post",
-                url: "http://127.0.0.1:5000/products_and_filters",
+                url: "http://127.0.0.1:3333/products_and_filters",
                 params: {
                     category: this.$route.query.name,
                     last: this.last + 9
