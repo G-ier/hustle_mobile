@@ -843,7 +843,7 @@ export default {
                 return
             }
 
-            if(filey.size >= 33,554,432){
+            if(filey.size >= 33554432){
                 alert("Fotoja shume madhe.");
                 return;
             }
