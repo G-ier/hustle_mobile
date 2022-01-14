@@ -892,12 +892,12 @@ export default {
             const filey = files[0]
 
             if (!filey.type.match('image.*')) {
-                alert('Please upload an image.')
+                alert('Hidhni 1 imazhe ju lutem.')
                 return
             }
 
             if(filey.size >= 33554432){
-                alert("Fotoja shume madhe.");
+                alert("Fotoja shume madhe. Madhesia maksimale eshte 32MB");
                 return;
             }
 
@@ -958,12 +958,12 @@ export default {
             const filey = files[0]
 
             if (!filey.type.match('image.*')) {
-                alert('Please upload an image.')
+                alert('Hidhni 1 imazhe ju lutem.')
                 return
             }
 
             if(filey.size >= 33554432){
-                alert("Fotoja shume madhe.");
+                alert("Fotoja shume madhe. Madhesia maksimale eshte 32MB.");
                 return;
             }
 
